@@ -816,4 +816,5 @@ def orthogonal_polynomial(filename):
     print("--- %s seconds ---" % (time.time() - start_time))
 
 
-orthogonal_polynomial('six_interacting_sites.txt')
+if __name__ == '__main__':
+    orthogonal_polynomial('six_interacting_sites.txt')

@@ -28,7 +28,7 @@ file = open('six_interacting_sites.txt')  # using the star sites from 5' to 3'
 seq = file.readlines()  # reading sequence from file sequences.dat
 
 
-def orthogonal_polynomial(filename):
+def orthogonal_polynomial(filename, sites, dm, N):
     with open(filename) as f:
         seq = f.readlines()
     global i
@@ -817,4 +817,4 @@ def orthogonal_polynomial(filename):
 
 
 if __name__ == '__main__':
-    orthogonal_polynomial('six_interacting_sites.txt')
+    orthogonal_polynomial('six_interacting_sites.txt', sites, dm, N)

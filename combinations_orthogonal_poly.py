@@ -5,6 +5,8 @@ import numpy as np
 import sr
 import sys
 import time
+import os
+import glob
 start_time = time.time()
 
 #N = 99  # Population size (number of samples)
@@ -571,7 +573,8 @@ def orthogonal_polynomial(filename, sites, dm, N):
                             rFon2D[i][j][k][l] = covFw2D[i][j][k][l] / var2D[i][j][k][l]
                         else:
                             rFon2D[i][j][k][l] = 0
-    #np.save("rFon2_star_6sites.npy", rFon2)
+    naming = os.path.basename(f.name)
+    np.save(naming, rFon2)
     #np.save("rFon2D_star_6sites.npy", rFon2D)
     for i in range(sites):
         for j in range(sites):
@@ -653,4 +656,9 @@ def orthogonal_polynomial(filename, sites, dm, N):
 
 
 if __name__ == '__main__':
-    orthogonal_polynomial('site_0-1.csv', 2, 4, 99)
+    #orthogonal_polynomial('/Users/saba.nafees/Desktop/STAR/ortho_seqs/two_combinations_data/site_0-1.csv', 2, 4, 99)
+    folder = '/Users/saba.nafees/Desktop/STAR/ortho_seqs/two_combinations_data/'
+    csvs = glob.glob(os.path.join(folder, "*.csv"))
+    for filename in csvs:
+        orthogonal_polynomial(filename, sites=2, dm=4, N=99)
+

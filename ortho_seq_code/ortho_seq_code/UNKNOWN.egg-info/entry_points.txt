@@ -1,0 +1,4 @@
+
+        [console_scripts]
+        ortho_seq=ortho_seq_code:cli
+    

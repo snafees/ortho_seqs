@@ -1,0 +1,7 @@
+setup.py
+ortho_seq_code.egg-info/PKG-INFO
+ortho_seq_code.egg-info/SOURCES.txt
+ortho_seq_code.egg-info/dependency_links.txt
+ortho_seq_code.egg-info/entry_points.txt
+ortho_seq_code.egg-info/requires.txt
+ortho_seq_code.egg-info/top_level.txt

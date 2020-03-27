@@ -2,18 +2,18 @@
 #1/31/2020
 from numpy import *
 import numpy as np
-import sr
-import sys
+#import sr
 import time
+from inspect import getsourcefile
+import os
 import click
 
-#we will use off data for star analysis also to have the same phenotype projected on both types of sequences (star and target)
-F = genfromtxt('off_data_without28_targetrna.txt')  # file containing trait values that will be mapped to sequence
-Fest = genfromtxt('off_data_without28_targetrna.txt')  # vectors that must be the same size as F
-Fon1 = genfromtxt('off_data_without28_targetrna.txt')
-Fon2i1 = genfromtxt('off_data_without28_targetrna.txt')
-Fon12 = genfromtxt('off_data_without28_targetrna.txt')
+filename = 'off_data_without28_targetrna.txt'
+filepath = os.path.join(
+    os.path.dirname(os.path.abspath(getsourcefile(lambda: 0))), filename)
 
+#we will use off data for star analysis also to have the same phenotype projected on both types of sequences (star and target)
+F = Fest = Fon1 = Fon2i1 = Fon12 = genfromtxt(filepath)  # file containing trait values that will be mapped to sequence
 start_time = time.time()
 
 @click.command(help='program to compute orthogonal polynomials up to 3rd order')
@@ -21,8 +21,9 @@ start_time = time.time()
 @click.option('--dm', default=4, help='dimension of vector, e.g., this is =4 when input is DNA/RNA')
 @click.option('--sites', default=3, help='number of sites in a sequence')
 #@click.option()
-@click.argument('filename')
+@click.argument('filename', type=click.File('rb'))
 def orthogonal_polynomial(filename, sites, dm, N):
+    """Program to compute orthogonal polynomials up to 3rd order"""
     with open(filename) as f:
         seq = f.readlines()
     global i
@@ -35,6 +36,7 @@ def orthogonal_polynomial(filename, sites, dm, N):
     # 3 sites, each a dm dim vector, in N individuals
     # NOTE: For application to Amino Acid sequences, increase
     # the size of the arrays accordingly.
+    import sr
     phi = array([[[0.0 for k in range(dm)] for i in range(N)] for j in range(sites)])  # general enough for all sites
     mean = array([[0.0 for z in range(dm)] for i in range(sites)])
     var = array([[0.0 for z in range(dm)] for i in range(sites)])
@@ -327,11 +329,11 @@ def orthogonal_polynomial(filename, sites, dm, N):
     # # # Variances of second order phenotypes
     # # for i in range(sites):
     # #     for j in range(sites):
-    # # 		if j >> i:
-    # # 			for k in range(N):
-    # # 				for l in range(dm):
-    # # 					for m in range(dm):
-    # # 						var2[i][j][l][m] += (P2[i][j][k][l][m]**2)/N - (P2m[i][j][l][m]**2)/N
+    # #         if j >> i:
+    # #             for k in range(N):
+    # #                 for l in range(dm):
+    # #                     for m in range(dm):
+    # #                         var2[i][j][l][m] += (P2[i][j][k][l][m]**2)/N - (P2m[i][j][l][m]**2)/N
     #
     # # # # regressions of second order phenotypes on one another
     reg2on2 = array([[[[[[[[0.0 for z in range(dm)] for i in range(dm)] for j in range(dm)] for k in range(dm)] for l in
@@ -652,4 +654,3 @@ def orthogonal_polynomial(filename, sites, dm, N):
 
 if __name__ == '__main__':
     orthogonal_polynomial()
-

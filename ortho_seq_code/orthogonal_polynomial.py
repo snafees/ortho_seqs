@@ -10,6 +10,7 @@ import click
 @click.option('--dm', default=4, help='dimension of vector, e.g., this is =4 when input is DNA/RNA') # noqa
 @click.option('--sites', default=3, help='number of sites in a sequence')
 @click.argument('filename', type=click.File('rb'))
+@click.argument('phenotype', type=click.File('rb'))
 def orthogonal_polynomial(filename, phenotype, sites, dm, pop_size):
     """Program to compute orthogonal polynomials up to 3rd order"""
     start_time = time.time()

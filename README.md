@@ -1,3 +1,4 @@
+# ortho_seqs
 converting sequence data to tensor-valued orthogonal polynomials
 
 # to install an environment with dependencies for this package

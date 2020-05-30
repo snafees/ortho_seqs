@@ -471,11 +471,11 @@ def orthogonal_polynomial(filename, phenotype, sites, dm, pop_size, out_dir):
                                             cov2w2i2[j][k][l][m][n][o] += \
                                                 sr.outer_general(
                                                     P2[j][k][i],
-                                                    P2i2[l][m][n][o][i]) / n
+                                                    P2i2[l][m][n][o][i]) / pop_size
                                 for p in range(dm):
                                     for q in range(dm):
                                         var2i2[j][k][l][m][p][q] += (
-                                            P2i2[j][k][l][m][i][p][q] ** 2) / n
+                                            P2i2[j][k][l][m][i][p][q] ** 2) / pop_size
     # # # # regressions corresponding to the above
     reg2on2i2 = np.array(
         [[[[[[[[[[0.0 for z in range(dm)] for i in range(dm)]
@@ -548,7 +548,7 @@ def orthogonal_polynomial(filename, phenotype, sites, dm, pop_size, out_dir):
                 if k != j:
                     for l in range(dm):
                         for m in range(dm):
-                            var2D[j][k][l][m] += (P2D[j][k][i][l][m] ** 2) / n
+                            var2D[j][k][l][m] += (P2D[j][k][i][l][m] ** 2) / pop_size
     # ------------Projecting the trait values into the space of orthogonal ----
     # -------------polynomials ------------------------------------------------
     # initializing arrays
@@ -598,54 +598,54 @@ def orthogonal_polynomial(filename, phenotype, sites, dm, pop_size, out_dir):
     #     [[[0.0 for z in range(dm)] for i in range(dm)] for j in range(dm)])
     # Calculating the mean trait value
     Fm = 0
-    for i in range(0, n):  # individuals
-        Fm += F[i] / n
+    for i in range(0, pop_size):  # individuals
+        Fm += F[i] / pop_size
     # Covariances of the trait with each element of the 1'st order vectors.
     # We can use the 'dot' operator here to get the inner product of a
     # first and a second rank tensor (a vector and a matrix).
-    covFP[0] = np.dot(F, P[0]) / n  # for site 1
-    cov1FP[1] = np.dot(F, P[1]) / n
-    covFP[1] = np.dot(F, P2i1) / n  # for site 2 independent of 1
+    covFP[0] = np.dot(F, P[0]) / pop_size  # for site 1
+    cov1FP[1] = np.dot(F, P[1]) / pop_size
+    covFP[1] = np.dot(F, P2i1) / pop_size  # for site 2 independent of 1
     # print(covFP[0])
     # print(cov1FP[0])
     # print(covFP[1])
     for i in range(pop_size):
         for j in range(sites):
             for k in range(dm):
-                covFw1[j][k] += F[i] * P[j][i][k] / n
-                covFw1D[j][k] += F[i] * P1D[j][i][k] / n
+                covFw1[j][k] += F[i] * P[j][i][k] / pop_size
+                covFw1D[j][k] += F[i] * P1D[j][i][k] / pop_size
             for l in range(sites):
                 if l != j:
                     for m in range(dm):
-                        covFw1i1[j][l][m] += F[i] * P1i1[j][l][i][m] / n
+                        covFw1i1[j][l][m] += F[i] * P1i1[j][l][i][m] / pop_size
     for i in range(pop_size):
         for j in range(sites):
             for k in range(sites):
                 if k != j:
                     for l in range(dm):
                         for m in range(dm):
-                            covFw2[j][k][l][m] += F[i] * P2[j][k][i][l][m] / n
+                            covFw2[j][k][l][m] += F[i] * P2[j][k][i][l][m] / pop_size
                             covFw2D[j][k][l][m] += \
-                                F[i] * P2D[j][k][i][l][m] / n
+                                F[i] * P2D[j][k][i][l][m] / pop_size
             for n in range(sites):
                 for o in range(sites):
                     if n != o:
                         for p in range(dm):
                             for q in range(dm):
                                 covFw2i2[j][k][n][o][p][q] += \
-                                    F[i] * P2i2[j][k][n][o][i][p][q] / n
+                                    F[i] * P2i2[j][k][n][o][i][p][q] / pop_size
     # Need for third degree polynomial
     # for i in range(pop_size):
     #     for j in range(dm):
     #         for k in range(dm):
     #             for l in range(dm):
-    #                 covFw3[j][k][l] += F[i] * P3[i][j][k][l] / n
+    #                 covFw3[j][k][l] += F[i] * P3[i][j][k][l] / pop_size
 
     # Covariance of the trait with each element of the second order phenotype.
     # note: We can nOT use the 'dot' operator here because
     # we do not have a matrix times a vector.
     for i in range(0, n):  # indiv
-        covFPP += (F[i] * PP12[i] / n)
+        covFPP += (F[i] * PP12[i] / pop_size)
 
     # Regressions of the trait on each element of the first order
     # phenotype vectors.
@@ -740,24 +740,24 @@ def orthogonal_polynomial(filename, phenotype, sites, dm, pop_size, out_dir):
     # This is the regression of the trait on site 1 times (inner product)
     # the individual's site 1 vector that has been orthogonalized within
     # the vector.
-    for i in range(0, n):
+    for i in range(pop_size):
         # test_val = sr.inner_general(rFon1[0],Pa[0][i])
         Fon1[i] = sr.inner_general(rFon1[0], Pa[0][i])
 
     # Contribution of site 2 independent of 1 for each individual.
-    for i in range(0, n):
+    for i in range(pop_size):
         Fon2i1[i] = sr.inner_general(rFon1i1[1][0], Pa1i1[1][0][i])
 
     # # Contribution of the second order phenotype for each individual.
-    for i in range(0, n):
+    for i in range(pop_size):
         Fon12[i] = sr.inner_general(rFon2[0][1], P2a[0][1][i])
 
     # contribution of third order phenotype for each individual......
-    # for i in range(0, n):
+    # for i in range(pop_size):
     #     Fon3[i] = sr.inner_general(rFon3[0], P3a)
     # Ignoring very small values that would be due to roundoff error.
     # Change or delete this for a large data set.
-    for i in range(0, n):
+    for i in range(pop_size):
         if np.fabs(Fon1[i]) < 0.0000000000001:
             Fon1[i] = 0
         if np.fabs(Fon2i1[i]) < 0.0000000000001:

@@ -1,7 +1,24 @@
+# ortho_seqs
 converting sequence data to tensor-valued orthogonal polynomials
-# to install 
-python setup.py install
 
+# to install an environment with dependencies for this package
+```
+conda create -n ortho_seqs pip
+pip install -r requirements.txt
+conda activate ortho_seqs
+```
+
+or 
+
+```
+conda env create -f conda_environment.yml
+conda activate ortho_seqs
+```
+
+# then to install the package
+``python setup.py install``
+
+# to run the commandline tool
 To use the code, run the below command::
 
 ```

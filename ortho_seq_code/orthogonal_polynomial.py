@@ -8,12 +8,10 @@ from inspect import getsourcefile
 import os
 import click
 
-filename = 'off_data_without28_targetrna.txt'
-filepath = os.path.join(
-    os.path.dirname(os.path.abspath(getsourcefile(lambda: 0))), filename)
+#filename = 'off_data_without28_targetrna.txt'
+#filepath = os.path.join(os.path.dirname(os.path.abspath(getsourcefile(lambda: 0))), filename)
 
-#we will use off data for star analysis also to have the same phenotype projected on both types of sequences (star and target)
-F = Fest = Fon1 = Fon2i1 = Fon12 = genfromtxt(filepath)  # file containing trait values that will be mapped to sequence
+
 start_time = time.time()
 
 @click.command(help='program to compute orthogonal polynomials up to 3rd order')
@@ -22,16 +20,18 @@ start_time = time.time()
 @click.option('--sites', default=3, help='number of sites in a sequence')
 #@click.option()
 @click.argument('filename', type=click.File('rb'))
-def orthogonal_polynomial(filename, sites, dm, N):
+def orthogonal_polynomial(filename, phenotype, sites, dm, N):
     """Program to compute orthogonal polynomials up to 3rd order"""
     with open(filename) as f:
         seq = f.readlines()
     global i
+    F = Fest = Fon1 = Fon2i1 = Fon12 = genfromtxt(phenotype)  # file containing trait values that will be mapped to sequence, # vectors that must be the same size as F
     for i in range(N):
         Fest[i] = 0
         Fon1[i] = 0
         Fon2i1[i] = 0
         Fon12[i] = 0
+
     # ----Initializing various terms that we will use.--------------
     # 3 sites, each a dm dim vector, in N individuals
     # NOTE: For application to Amino Acid sequences, increase
@@ -66,18 +66,19 @@ def orthogonal_polynomial(filename, sites, dm, N):
     for i in range(0, N):
         for j in range(sites):
             mean[j] += phi[j][i] / N
-    #np.save("mean_star_6sites.npy", mean)
-    print("mean")
+    naming = os.path.basename(f.name)
+    np.save(naming + str('_mean'), mean)
+    print("mean") #to show progress, can do something much more efficient/elegant
+
     for j in range(sites):  # site
         for i in range(0, N):  # indiv
             P[j][i] = phi[j][i] - mean[j]
-    # np.save("P_star_6sites.npy", P)
     # var[site][nucleotide]
     for k in range(sites):
         for i in range(0, dm):  # nucleotide
             for j in range(0, N):  # individual
                 var[k][i] += ((P[k][j][i]) ** 2) / N
-    #np.save("var_star_6sites.npy", var)
+
     # # Covariances between nucleotides at sites i and j
     # # this is a matrix
     # # the cov matrix for the two sites is just the mean, across all individuals, of the outer product of P1 and P2
@@ -86,7 +87,10 @@ def orthogonal_polynomial(filename, sites, dm, N):
         for k in range(sites):
             for i in range(N):
                 cov[j][k] += sr.outer_general(P[j][i], P[k][i]) / N
-    #np.save("cov_star_6sites.npy", cov)
+    print("cov")
+    naming = os.path.basename(f.name)
+    np.save(naming + str('_cov'), cov)
+
     Pa = array([[[0.0 for z in range(dm)] for j in range(N)] for i in range(sites)])
     reg11 = array([[[[0.0 for z in range(dm)] for i in range(dm)] for j in range(sites)] for k in range(sites)])
     # # Regression of site k on site l
@@ -132,8 +136,7 @@ def orthogonal_polynomial(filename, sites, dm, N):
             for k in range(sites):
                 if k != j:
                     varP1i1[j][k] += (P1i1[j][k][i] ** 2) / N
-    #np.save("varP1i1_star_6sites.npy", varP1i1)
-    # varP1i1 = np.load("varP1i1_star.npy")
+
     # # # # cov11i1[j][k][l] = cov between site j and (site k independent of l)
     cov11i1 = array(
         [[[[[0.0 for z in range(dm)] for i in range(dm)] for j in range(sites)] for k in range(sites)] for l in
@@ -143,8 +146,7 @@ def orthogonal_polynomial(filename, sites, dm, N):
             for l in range(sites):
                 for i in range(N):
                     cov11i1[j][k][l] += sr.outer_general(P[j][i], P1i1[k][l][i]) / N
-    #np.save("cov11i1_star_6sites.npy", cov11i1)
-    # cov11i1 = np.load("cov11i1_star.npy")
+
     # # # # # regression of site j on (site k independent of l)
     reg11i1 = array(
         [[[[[0.0 for z in range(dm)] for i in range(dm)] for j in range(sites)] for k in range(sites)] for l in
@@ -158,8 +160,6 @@ def orthogonal_polynomial(filename, sites, dm, N):
                             reg11i1[k][l][m][i][j] = cov11i1[k][l][m][i][j] / varP1i1[l][m][j]
                         else:
                             reg11i1[k][l][m][i][j] = 0
-    #np.save("reg11i1_star_6sites.npy", reg11i1)
-    # reg11i1 = np.load("reg11i1_star.npy")
     # #dump cov11i1 = None
     cov11i1 = None
     # # # # # same as P1i1, except with all elements = 0 except the one present.
@@ -218,8 +218,7 @@ def orthogonal_polynomial(filename, sites, dm, N):
     phi12 = phi2[0][1]
     phi12m = phi2m[0][1]
     # # # # Q12 contains the 2'nd order phenotypes with the means subtracted out.
-    Q2 = array([[[[[0.0 for k in range(dm)] for i in range(dm)] for j in range(N)] for l in range(sites)] for m in
-                range(sites)])
+    Q2 = array([[[[[0.0 for k in range(dm)] for i in range(dm)] for j in range(N)] for l in range(sites)] for m in range(sites)])
     for i in range(N):  # indiv
         for j in range(sites):
             for k in range(sites):
@@ -227,18 +226,17 @@ def orthogonal_polynomial(filename, sites, dm, N):
                     Q2[j][k][i] = phi2[j][k][i] - phi2m[j][k]
         # Q12[i] = phi12[i] - phi12m
     Q12 = Q2[0][1]
-    #np.save("Q2_star_6sites.npy", Q2)
+
     # # # # Covariance between elements of the 2'nd order phenotype matrix and
     # # # # the 1'st order phenotype.
-    cov2w1 = array([[[[[[0.0 for z in range(dm)] for i in range(dm)] for j in range(dm)] for k in range(sites)] for l in
-                     range(sites)] for m in range(sites)])
+    cov2w1 = array([[[[[[0.0 for z in range(dm)] for i in range(dm)] for j in range(dm)] for k in range(sites)] for l in range(sites)] for m in range(sites)])
     for i in range(N):
         for j in range(sites):
             for k in range(sites):
                 if k != j:
                     for l in range(sites):
                         cov2w1[j][k][l] += sr.outer_general(Q2[j][k][i], P[l][i]) / N
-    #np.save("cov2w1_star_6sites.npy", cov2w1)
+
     # # # # Covariance of second order phenotype matrices with first order phenotypes.
     cov2w1a = array([[[[[0.0 for z in range(dm)] for i in range(dm)] for j in range(dm)] for k in range(sites)] for l in range(sites)])
     cov2w1b = array([[[[[0.0 for z in range(dm)] for i in range(dm)] for j in range(dm)] for k in range(sites)] for l in range(sites)])
@@ -250,15 +248,14 @@ def orthogonal_polynomial(filename, sites, dm, N):
                 if k != j:
                     cov2w1a[j][k] += sr.outer_general(Q2[j][k][i], P[0][i]) / N
                     cov2w1b[j][k] += sr.outer_general(Q2[j][k][i], P1i1[1][0][i]) / N
-                    #cov2w1c[j][k] += sr.outer_general(Q2[j][k][i], P1D[2][i]) / N
+                    #cov2w1c[j][k] += sr.outer_general(Q2[j][k][i], P1D[2][i]) / N #will need this when doing third order
     # # #print(cov2w1a[0][1]-cov2w1test[0][0][1])
+
     # # # # regressions of second order phenotype matrices on first order phenotypes.
-    r2on1a = array([[[[[0.0 for z in range(dm)] for i in range(dm)] for j in range(dm)] for k in range(sites)] for l in
-                    range(sites)])
-    r2on1b = array([[[[[0.0 for z in range(dm)] for i in range(dm)] for j in range(dm)] for k in range(sites)] for l in
-                    range(sites)])
-    #r2on1c = array([[[[[0.0 for z in range(dm)] for i in range(dm)] for j in range(dm)] for k in range(sites)] for l in range(sites)])
-    #
+    r2on1a = array([[[[[0.0 for z in range(dm)] for i in range(dm)] for j in range(dm)] for k in range(sites)] for l in range(sites)])
+    r2on1b = array([[[[[0.0 for z in range(dm)] for i in range(dm)] for j in range(dm)] for k in range(sites)] for l in range(sites)])
+    #r2on1c = array([[[[[0.0 for z in range(dm)] for i in range(dm)] for j in range(dm)] for k in range(sites)] for l in range(sites)]) #need this when doing third order
+
     for i in range(sites):
         for j in range(sites):
             if j != i:
@@ -446,8 +443,7 @@ def orthogonal_polynomial(filename, sites, dm, N):
                                                 sr.outer_general(phi2[j][k][i], phi2[j][k][i]), P2D[j][k][i])
     # reg2on2 = None
     # reg2on2i2 = None
-    #np.save("P2D_star_6sites.npy", P2D)
-    #np.save("P2Da_star_6sites.npy", P2Da)
+
     # P2Da = None
     # # # #variance in P2D
     var2D = array([[[[0.0 for z in range(dm)] for i in range(dm)] for j in range(sites)] for k in range(sites)])
@@ -458,7 +454,6 @@ def orthogonal_polynomial(filename, sites, dm, N):
                     for l in range(dm):
                         for m in range(dm):
                             var2D[j][k][l][m] += (P2D[j][k][i][l][m] ** 2) / N
-    # np.save("var2D_star_22.npy", var2D)
     # ------------Projecting the trait values into the space of orthogonal ----
     # -------------polynomials --------------------------------------------------------------------
     # initializing arrays
@@ -555,7 +550,6 @@ def orthogonal_polynomial(filename, sites, dm, N):
                         rFon1i1[i][j][k] = covFw1i1[i][j][k] / varP1i1[i][j][k]
                     else:
                         rFon1i1[i][j][k] = 0
-    #np.save("rFon1i1_star_6sites.npy", rFon1i1)
     # Regressions of the trait on each element of the second order
     # phenotype matrices.
     for i in range(sites):
@@ -571,9 +565,12 @@ def orthogonal_polynomial(filename, sites, dm, N):
                             rFon2D[i][j][k][l] = covFw2D[i][j][k][l] / var2D[i][j][k][l]
                         else:
                             rFon2D[i][j][k][l] = 0
-    naming = os.path.basename(f.name)
-    np.save(naming, rFon2)
-    #np.save("rFon2D_star_6sites.npy", rFon2D)
+    #we need rFon2D when doing up to 3rd order and just rFon2 when doing up to 2nd order
+    np.save(naming + str('_rFon2'), rFon2)  # rFon2D is needed as we're working with 3 sites
+    print("computed rFon2")
+    np.save(naming + str('_rFon2D'), rFon2D)  # rFon2D is needed as we're working with 3 sites
+    print("computed rFon2D")
+
     for i in range(sites):
         for j in range(sites):
             if j != i:
@@ -639,13 +636,14 @@ def orthogonal_polynomial(filename, sites, dm, N):
     # -----------------------Listing the main results------------------
     print('Regression of trait on site 1')
     print(rFon1)
-    print
+    print('Regression on 1st order polynomial - orthogonalized within - rFon1D')
+    print(rFon1D)
     print('Regression of trait on site 2')
     print(rFon2)
-    print
+    print('Regression on 2nd order polynomial - orthogonalized within - rFon2D')
+    print(rFon2D)
     print('Regression of trait on site 2 independent of 1')
     print(rFon2i1)
-    print
     print('Regression on (site 1)x(site 2), independent of first order')
     print(rFon12)
     #print('Regression of trait on site 3')

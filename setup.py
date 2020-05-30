@@ -15,6 +15,6 @@ setup(
     name='ortho_seq_code',
     version='1.0',
     py_modules=['orthogonal_polynomial'],
-    install_requires=['Click', 'sr'],
+    install_requires=['Click', 'sr', 'numpy'],
     entry_points=''' [console_scripts]
     ortho_seq=ortho_seq_code:cli''')

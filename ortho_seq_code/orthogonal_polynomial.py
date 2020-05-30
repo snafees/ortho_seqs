@@ -17,14 +17,14 @@ start_time = time.time()
 @click.option('--n', default=1, help='Population size or number of samples')
 @click.option('--dm', default=4, help='dimension of vector, e.g., this is =4 when input is DNA/RNA')
 @click.option('--sites', default=3, help='number of sites in a sequence')
-#@click.option()
+@click.option('--phenotype', help='phenotype file corresponding to sequence data')
 @click.argument('filename', type=click.File('rb'))
 def orthogonal_polynomial(filename, phenotype, sites, dm, n):
     """Program to compute orthogonal polynomials up to 3rd order"""
     with open(filename) as f:
         seq = f.readlines()
     global i
-    F = Fest = Fon1 = Fon2i1 = Fon12 = genfromtxt(phenotype)  # file containing trait values that will be mapped to sequence, # vectors that must be the same size as F
+    F = Fest = Fon1 = Fon2i1 = Fon12 = genfromtxt(phenotype)  #file containing trait values that will be mapped to sequence, # vectors that must be the same size as F
     for i in range(n):
         Fest[i] = 0
         Fon1[i] = 0
@@ -71,6 +71,7 @@ def orthogonal_polynomial(filename, phenotype, sites, dm, n):
     for j in range(sites):  # site
         for i in range(0, n):  # indiv
             P[j][i] = phi[j][i] - mean[j]
+
     # var[site][nucleotide]
     for k in range(sites):
         for i in range(0, dm):  # nucleotide
@@ -124,7 +125,7 @@ def orthogonal_polynomial(filename, phenotype, sites, dm, n):
             for k in range(sites):
                 if k != j:
                     P1i1[j][k][i] = P[j][i] - sr.inner_general(reg11[j][k], Pa[k][i])
-    # P1i1 = np.load("P1i1_star_22.npy")
+
     P2i1 = P1i1[1][0]
     #np.save("P1i1_star_6sites.npy", P1i1)
     # # # # Variance in P2i1
@@ -136,9 +137,7 @@ def orthogonal_polynomial(filename, phenotype, sites, dm, n):
                     varP1i1[j][k] += (P1i1[j][k][i] ** 2) / n
 
     # # # # cov11i1[j][k][l] = cov between site j and (site k independent of l)
-    cov11i1 = array(
-        [[[[[0.0 for z in range(dm)] for i in range(dm)] for j in range(sites)] for k in range(sites)] for l in
-         range(sites)])
+    cov11i1 = array([[[[[0.0 for z in range(dm)] for i in range(dm)] for j in range(sites)] for k in range(sites)] for l in range(sites)])
     for j in range(sites):
         for k in range(sites):
             for l in range(sites):
@@ -166,8 +165,7 @@ def orthogonal_polynomial(filename, phenotype, sites, dm, n):
             for k in range(sites):
                 if k != j:
                     Pa1i1[j][k][i] = sr.inner_general(sr.outer_general(phi[j][i], phi[j][i]), P1i1[j][k][i])
-    #np.save("Pa1i1_star_6sites.npy", Pa1i1)
-    # Pa1i1 = np.load("Pa1i1_star.npy")
+
     # # # # # P1D[j][i] = first order poly of site j independent of all other sites, for individual i
     P1D = array([[[0.0 for z in range(dm)] for i in range(n)] for j in range(sites)])
     # #

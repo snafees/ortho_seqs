@@ -1,7 +1,7 @@
 import numpy as np
-import sr
 import time
 import os
+import ortho_seq_code.sr as sr
 import click
 
 
@@ -9,10 +9,18 @@ import click
 @click.option('--pop-size', default=1, help='Population size or number of samples') # noqa
 @click.option('--dm', default=4, help='dimension of vector, e.g., this is =4 when input is DNA/RNA') # noqa
 @click.option('--sites', default=3, help='number of sites in a sequence')
-@click.option('--phenotype', help="phenotype text fie corresponding to sequence data", type=click.File('rb')) # noqa
-@click.argument('filename', help="sequence data csv file", type=click.File('rb')) # noqa
-def orthogonal_polynomial(filename, phenotype, sites, dm, pop_size):
+@click.option('--phenotype', help="phenotype text fie corresponding to sequence data", type=str) # noqa
+@click.option('--out-dir', help="directory to save output/debug files to", type=str) # noqa
+@click.argument('filename', type=str) # noqa
+def orthogonal_polynomial(filename, phenotype, sites, dm, pop_size, out_dir):
     """Program to compute orthogonal polynomials up to 3rd order"""
+    if not os.path.exists(out_dir):
+        os.makedirs(out_dir)
+    else:
+        print(
+            "Path {} already exists, might be overwriting data".format(
+                out_dir))
+
     start_time = time.time()
     with open(filename) as f:
         seq = f.readlines()
@@ -69,9 +77,9 @@ def orthogonal_polynomial(filename, phenotype, sites, dm, pop_size):
         for j in range(sites):
             mean[j] += phi[j][i] / pop_size
     naming = os.path.basename(f.name)
-    np.save(naming + str('_mean'), mean)
+    np.save(os.path.join(out_dir, naming + str('_mean')), mean)
     #  to show progress, can do something much more efficient/elegant
-    print("mean")
+    print("Computed mean")
 
     for j in range(sites):  # site
         for i in range(0, pop_size):  # indiv
@@ -91,9 +99,9 @@ def orthogonal_polynomial(filename, phenotype, sites, dm, pop_size):
         for k in range(sites):
             for i in range(pop_size):
                 cov[j][k] += sr.outer_general(P[j][i], P[k][i]) / pop_size
-    print("cov")
+    print("Computed cov")
     naming = os.path.basename(f.name)
-    np.save(naming + str('_cov'), cov)
+    np.save(os.path.join(out_dir, naming + str('_cov')), mean)
 
     Pa = np.array(
         [[[0.0 for z in range(dm)]
@@ -230,7 +238,7 @@ def orthogonal_polynomial(filename, phenotype, sites, dm, pop_size):
         for i in range(sites):
             for j in range(sites):
                 if j != i:
-                    phi2[i][j][k] = sr.outer(phi[i][k], phi[j][k])
+                    phi2[i][j][k] = sr.outer_general(phi[i][k], phi[j][k])
                     phi2m[i][j] += phi2[i][j][k] / pop_size
     # phi12 = phi2[0][1]
     # phi12m = phi2m[0][1]
@@ -652,6 +660,12 @@ def orthogonal_polynomial(filename, phenotype, sites, dm, pop_size):
             else:
                 rFon1D[j][i] = 0
 
+    np.save(os.path.join(out_dir, naming + str('_rFon1')), rFon1)
+    print("computed rFon1")
+    # rFon1D is needed as we're working with 3 sites
+    np.save(os.path.join(out_dir, naming + str('_rFon1D')), rFon1D)
+    print("computed rFon1D")
+
     for i in range(sites):
         for j in range(sites):
             if j != i:
@@ -680,10 +694,10 @@ def orthogonal_polynomial(filename, phenotype, sites, dm, pop_size):
     # we need rFon2D when doing up to 3rd order and just rFon2
     # when doing up to 2nd order
     # rFon2D is needed as we're working with 3 sites
-    np.save(naming + str('_rFon2'), rFon2)
+    np.save(os.path.join(out_dir, naming + str('_rFon2')), rFon2)
     print("computed rFon2")
     # rFon2D is needed as we're working with 3 sites
-    np.save(naming + str('_rFon2D'), rFon2D)
+    np.save(os.path.join(out_dir, naming + str('_rFon2D')), rFon2D)
     print("computed rFon2D")
 
     for i in range(sites):

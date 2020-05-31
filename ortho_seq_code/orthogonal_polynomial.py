@@ -8,7 +8,7 @@ import click
 @click.command(help='program to compute orthogonal polynomials up to 3rd order') # noqa
 @click.option('--pop-size', default=1, help='Population size or number of samples') # noqa
 @click.option('--dm', default=4, help='dimension of vector, e.g., this is =4 when input is DNA/RNA') # noqa
-@click.option('--sites', default=3, help='number of sites in a sequence')
+@click.option('--sites', default=2, help='number of sites in a sequence') #starting off with two sites to run full second order
 @click.option('--phenotype', help="phenotype text fie corresponding to sequence data", type=str) # noqa
 @click.option('--out-dir', help="directory to save output/debug files to", type=str) # noqa
 @click.argument('filename', type=str) # noqa

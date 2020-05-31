@@ -650,7 +650,7 @@ def orthogonal_polynomial(filename, phenotype, sites, dm, pop_size, out_dir):
     # Covariance of the trait with each element of the second order phenotype.
     # note: We can nOT use the 'dot' operator here because
     # we do not have a matrix times a vector.
-    for i in range(0, n):  # indiv
+    for i in range(0, pop_size):  # indiv
         covFPP += (F[i] * PP12[i] / pop_size)
 
     # Regressions of the trait on each element of the first order

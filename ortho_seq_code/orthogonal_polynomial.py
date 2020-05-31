@@ -227,11 +227,8 @@ def orthogonal_polynomial(filename, phenotype, sites, dm, pop_size, out_dir):
                 if k != j:
                     for l in range(sites):
                         if l != k & l != j:
-                            inner_general = \
-                                sr.inner_general(
-                                    reg11i1[j][k][l], Pa1i1[k][l][i]
-                                ) - sr.inner_general(reg11[j][l], Pa[l][i])
-                            P1D[j][i] = P[j][i] - inner_general
+                            P1D[j][i] = P[j][i] - sr.inner_general(reg11i1[j][k][l], Pa1i1[k][l][i]) - \
+                                        sr.inner_general(reg11[j][l], Pa[l][i])
     print("computed P1D")
     naming = os.path.basename(f.name)
     np.save(os.path.join(out_dir, naming + str('_P1D')), P1D)

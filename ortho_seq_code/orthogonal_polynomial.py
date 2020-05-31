@@ -33,7 +33,7 @@ def orthogonal_polynomial(filename, phenotype, sites, dm, pop_size, out_dir):
         Fon1[i] = 0
         Fon2i1[i] = 0
         Fon12[i] = 0
-
+    np.set_printoptions(precision=10)
     # ----Initializing various terms that we will use.--------------
     # 3 sites, each a dm dim vector, in n individuals
     # nOTE: For application to Amino Acid sequences, increase
@@ -101,7 +101,7 @@ def orthogonal_polynomial(filename, phenotype, sites, dm, pop_size, out_dir):
                 cov[j][k] += sr.outer_general(P[j][i], P[k][i]) / pop_size
     print("computed covariance")
     naming = os.path.basename(f.name)
-    np.save(os.path.join(out_dir, naming + str('_cov')), mean)
+    np.save(os.path.join(out_dir, naming + str('_cov')), cov)
 
     Pa = np.array(
         [[[0.0 for z in range(dm)]

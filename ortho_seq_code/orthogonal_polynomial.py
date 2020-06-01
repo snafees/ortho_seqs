@@ -674,15 +674,21 @@ def orthogonal_polynomial(filename, phenotype, sites, dm, pop_size, out_dir):
     Fm = 0
     for i in range(0, pop_size):  # individuals
         Fm += F[i] / pop_size
+    naming = os.path.basename(f.name)
+    np.save(os.path.join(out_dir, naming + str('_Fm')), Fm)
     # Covariances of the trait with each element of the 1'st order vectors.
     # We can use the 'dot' operator here to get the inner product of a
     # first and a second rank tensor (a vector and a matrix).
     covFP[0] = np.dot(F, P[0]) / pop_size  # for site 1
     cov1FP[1] = np.dot(F, P[1]) / pop_size
     covFP[1] = np.dot(F, P2i1) / pop_size  # for site 2 independent of 1
-    # print(covFP[0])
-    # print(cov1FP[0])
-    # print(covFP[1])
+    naming = os.path.basename(f.name)
+    np.save(os.path.join(out_dir, naming + str('_covFP[0]')), covFP[0])
+    naming = os.path.basename(f.name)
+    np.save(os.path.join(out_dir, naming + str('_cov1FP[1]')), cov1FP[1])
+    naming = os.path.basename(f.name)
+    np.save(os.path.join(out_dir, naming + str('_covFP[1]')), covFP[1])
+
     for i in range(pop_size):
         for j in range(sites):
             for k in range(dm):
@@ -692,6 +698,8 @@ def orthogonal_polynomial(filename, phenotype, sites, dm, pop_size, out_dir):
                 if l != j:
                     for m in range(dm):
                         covFw1i1[j][l][m] += F[i] * P1i1[j][l][i][m] / pop_size
+    naming = os.path.basename(f.name)
+    np.save(os.path.join(out_dir, naming + str('_covFw1i1')), covFw1i1)
     for i in range(pop_size):
         for j in range(sites):
             for k in range(sites):
@@ -708,6 +716,13 @@ def orthogonal_polynomial(filename, phenotype, sites, dm, pop_size, out_dir):
                             for q in range(dm):
                                 covFw2i2[j][k][n][o][p][q] += \
                                     F[i] * P2i2[j][k][n][o][i][p][q] / pop_size
+    naming = os.path.basename(f.name)
+    np.save(os.path.join(out_dir, naming + str('_covFw2')), covFw2)
+    naming = os.path.basename(f.name)
+    np.save(os.path.join(out_dir, naming + str('_covFw2D')), covFw2D)
+    naming = os.path.basename(f.name)
+    np.save(os.path.join(out_dir, naming + str('_covFw2i2')), covFw2i2)
+
     # Need for third degree polynomial
     # for i in range(pop_size):
     #     for j in range(dm):

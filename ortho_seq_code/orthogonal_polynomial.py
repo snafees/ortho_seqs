@@ -27,7 +27,11 @@ def orthogonal_polynomial(filename, phenotype, sites, dm, pop_size, out_dir):
     global i
     # file containing trait values that will be mapped to sequence
     # vectors that must be the same size as F
-    F = Fest = Fon1 = Fon2i1 = Fon12 = np.genfromtxt(phenotype)
+    F = np.genfromtxt(phenotype)
+    Fest = np.genfromtxt(phenotype)
+    Fon1 = np.genfromtxt(phenotype)
+    Fon2i1 = np.genfromtxt(phenotype)
+    Fon12 = np.genfromtxt(phenotype)
     for i in range(pop_size):
         Fest[i] = 0
         Fon1[i] = 0
@@ -672,7 +676,7 @@ def orthogonal_polynomial(filename, phenotype, sites, dm, pop_size, out_dir):
     #     [[[0.0 for z in range(dm)] for i in range(dm)] for j in range(dm)])
     # Calculating the mean trait value
     Fm = 0
-    for i in range(0, pop_size):  # individuals
+    for i in range(pop_size):  # individuals
         Fm += F[i] / pop_size
     naming = os.path.basename(f.name)
     np.save(os.path.join(out_dir, naming + str('_Fm')), Fm)

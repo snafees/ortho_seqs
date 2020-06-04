@@ -19,8 +19,8 @@ conda activate ortho_seqs
 ``python setup.py install``
 
 # input files needed
--You'll need a file with sequence data (.txt or .dat or .csv). 
--You'll need a file with corresponding phenotypes (.txt or .dat or .csv) with the same length as the number of sequences.
+1. You'll need a file with sequence data (.txt or .dat or .csv). 
+2. You'll need a file with corresponding phenotypes (.txt or .dat or .csv) with the same length as the number of sequences.
 
 # to run the commandline tool
 To use the code, you can run the sample command below::

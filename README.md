@@ -26,5 +26,5 @@ conda activate ortho_seqs
 To use the code, you can run the sample command below::
 
 ```
-ortho_seq orthogonal-polynomial ./ortho_seq_code/testdata/pho4_r4_s1_site_3-4.csv --phenotype ./ortho_seq_code/testdata/pho4_r4_s1_ddg.txt  --pop-size 1000 --out-dir ../results_ortho_seq_testing
+ortho_seq orthogonal-polynomial ./ortho_seq_code/testdata/pho4_r4_s1_site_3-4.csv --phenotype ./ortho_seq_code/testdata/pho4_r4_s1_ddg.txt  --pop-size 10000 --out-dir ../results_ortho_seq_testing
 ```

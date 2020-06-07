@@ -25,6 +25,8 @@ share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+.DS_Store
+.idea
 MANIFEST
 ortho_seq_code.egg-info
 # PyInstaller

@@ -1,0 +1,8 @@
+name: ortho_seq
+channels:
+  - anaconda
+  - conda-forge
+  - defaults
+dependencies:
+  - numpy
+  - Click

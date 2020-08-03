@@ -14,7 +14,7 @@ import click
 @click.option('--poly_order', default='first', help='can do first and second order so far')
 @click.option('--out-dir', help="directory to save output/debug files to", type=str) # noqa
 @click.argument('filename', type=str) # noqa
-def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, out_dir):
+def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, poly_order, out_dir):
     """Program to compute orthogonal polynomials up to 2nd order"""
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)

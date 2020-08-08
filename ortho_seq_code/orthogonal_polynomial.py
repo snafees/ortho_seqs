@@ -70,8 +70,10 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
 
     if molecule == 'DNA':
         for dna_alphabet_index in range(len(DNA_ALPHABETS)):
-            if seq[i][j] == DNA_ALPHABETS[dna_alphabet_index]:
-                phi[j][i][dna_alphabet_index] = 1.0
+            for i in range(pop_size):
+                for j in range(sites):
+                    if seq[i][j] == DNA_ALPHABETS[dna_alphabet_index]:
+                        phi[j][i][dna_alphabet_index] = 1.0
 
     # if molecule == 'DNA':
     #     for i in range(pop_size):  # individual
@@ -89,8 +91,10 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
 
     if molecule == 'protein':
         for protein_alphabet_index in range(len(PROTEIN_ALPHABETS)):
-            if seq[i][j] == PROTEIN_ALPHABETS[protein_alphabet_index]:
-                phi[j][i][protein_alphabet_index] = 1.0
+            for i in range(pop_size):
+                for j in range(sites):
+                    if seq[i][j] == PROTEIN_ALPHABETS[protein_alphabet_index]:
+                        phi[j][i][protein_alphabet_index] = 1.0
 
 
     # if molecule == 'protein':

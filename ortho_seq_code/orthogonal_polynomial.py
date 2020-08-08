@@ -900,7 +900,13 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
                     rFon12[i][j] = covFPP[i][j] / var12[i][j]
                 else:
                     rFon12[i] = 0
+        # # Contribution of the second order phenotype for each individual.
+        for i in range(pop_size):
+            Fon12[i] = sr.inner_general(rFon2[0][1], P2a[0][1][i])
 
+        for i in range(pop_size):
+            if np.fabs(Fon12[i]) < 0.0000000000001:
+                Fon12[i] = 0
     # print("rFon12"+str(rFon12))
     # Contribution of site 1 for each individual.
     # This is the regression of the trait on site 1 times (inner product)
@@ -914,9 +920,6 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
     for i in range(pop_size):
         Fon2i1[i] = sr.inner_general(rFon1i1[1][0], Pa1i1[1][0][i])
 
-    # # Contribution of the second order phenotype for each individual.
-    for i in range(pop_size):
-        Fon12[i] = sr.inner_general(rFon2[0][1], P2a[0][1][i])
 
     # contribution of third order phenotype for each individual......
     # for i in range(pop_size):
@@ -928,8 +931,7 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
             Fon1[i] = 0
         if np.fabs(Fon2i1[i]) < 0.0000000000001:
             Fon2i1[i] = 0
-        if np.fabs(Fon12[i]) < 0.0000000000001:
-            Fon12[i] = 0
+
     # -----------------------Listing the main results------------------
     print('Regression of trait on site 1')
     print(rFon1)

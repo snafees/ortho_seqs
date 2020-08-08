@@ -66,60 +66,76 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
     # ------------Converting letters to vectors---------------
     # phi[individual][site][state]. phi[i][j] = vector for site j
     # in individual i.
+    DNA_ALPHABETS = ['A', 'C', 'G', 'T']
+
     if molecule == 'DNA':
-        for i in range(pop_size):  # individual
-            for j in range(sites):
-                if seq[i][j] == 'A':
-                    phi[j][i][0] = 1.0
-                if seq[i][j] == 'C':
-                    phi[j][i][1] = 1.0
-                if seq[i][j] == 'G':
-                    phi[j][i][2] = 1.0
-                if seq[i][j] == 'T':
-                    phi[j][i][3] = 1.0
+        for dna_alphabet_index in range(len(DNA_ALPHABETS)):
+            if seq[i][j] == DNA_ALPHABETS[dna_alphabet_index]:
+                phi[j][i][dna_alphabet_index] = 1.0
+
+    # if molecule == 'DNA':
+    #     for i in range(pop_size):  # individual
+    #         for j in range(sites):
+    #             if seq[i][j] == 'A':
+    #                 phi[j][i][0] = 1.0
+    #             if seq[i][j] == 'C':
+    #                 phi[j][i][1] = 1.0
+    #             if seq[i][j] == 'G':
+    #                 phi[j][i][2] = 1.0
+    #             if seq[i][j] == 'T':
+    #                 phi[j][i][3] = 1.0
+    PROTEIN_ALPHABETS = ['A', 'R', 'N', 'D', 'C', 'E', 'Q', 'G','H', 'I',
+    'L', 'K', 'M', 'F', 'P', 'S','T', 'W', 'Y', 'V']
+
     if molecule == 'protein':
-        for i in range(pop_size):  # individual
-            for j in range(sites):
-                if seq[i][j] == 'A': #alanine
-                    phi[j][i][0] = 1.0
-                if seq[i][j] == 'R': #arginine
-                    phi[j][i][1] = 1.0
-                if seq[i][j] == 'N': #asparagine
-                    phi[j][i][2] = 1.0
-                if seq[i][j] == 'D': #aspartic acid
-                    phi[j][i][3] = 1.0
-                if seq[i][j] == 'C': #cysteine
-                    phi[j][i][4] = 1.0
-                if seq[i][j] == 'E': #glutamic acid
-                    phi[j][i][5] = 1.0
-                if seq[i][j] == 'Q': #glutamine
-                    phi[j][i][6] = 1.0
-                if seq[i][j] == 'G': #glycine
-                    phi[j][i][7] = 1.0
-                if seq[i][j] == 'H': #histidine
-                    phi[j][i][8] = 1.0
-                if seq[i][j] == 'I': #isoleucine
-                    phi[j][i][9] = 1.0
-                if seq[i][j] == 'L': #leucine
-                    phi[j][i][10] = 1.0
-                if seq[i][j] == 'K': #lysine
-                    phi[j][i][11] = 1.0
-                if seq[i][j] == 'M': #methionine
-                    phi[j][i][12] = 1.0
-                if seq[i][j] == 'F': #phenylalanine
-                    phi[j][i][13] = 1.0
-                if seq[i][j] == 'P': #proline
-                    phi[j][i][14] = 1.0
-                if seq[i][j] == 'S': #serine
-                    phi[j][i][15] = 1.0
-                if seq[i][j] == 'T': #threonine
-                    phi[j][i][16] = 1.0
-                if seq[i][j] == 'W': #tryptophan
-                    phi[j][i][17] = 1.0
-                if seq[i][j] == 'Y': #tyrosine
-                    phi[j][i][18] = 1.0
-                if seq[i][j] == 'V': #valine
-                    phi[j][i][19] = 1.0
+        for protein_alphabet_index in range(len(PROTEIN_ALPHABETS)):
+            if seq[i][j] == PROTEIN_ALPHABETS[protein_alphabet_index]:
+                phi[j][i][protein_alphabet_index] = 1.0
+
+
+    # if molecule == 'protein':
+    #     for i in range(pop_size):  # individual
+    #         for j in range(sites):
+    #             if seq[i][j] == 'A': #alanine
+    #                 phi[j][i][0] = 1.0
+    #             if seq[i][j] == 'R': #arginine
+    #                 phi[j][i][1] = 1.0
+    #             if seq[i][j] == 'N': #asparagine
+    #                 phi[j][i][2] = 1.0
+    #             if seq[i][j] == 'D': #aspartic acid
+    #                 phi[j][i][3] = 1.0
+    #             if seq[i][j] == 'C': #cysteine
+    #                 phi[j][i][4] = 1.0
+    #             if seq[i][j] == 'E': #glutamic acid
+    #                 phi[j][i][5] = 1.0
+    #             if seq[i][j] == 'Q': #glutamine
+    #                 phi[j][i][6] = 1.0
+    #             if seq[i][j] == 'G': #glycine
+    #                 phi[j][i][7] = 1.0
+    #             if seq[i][j] == 'H': #histidine
+    #                 phi[j][i][8] = 1.0
+    #             if seq[i][j] == 'I': #isoleucine
+    #                 phi[j][i][9] = 1.0
+    #             if seq[i][j] == 'L': #leucine
+    #                 phi[j][i][10] = 1.0
+    #             if seq[i][j] == 'K': #lysine
+    #                 phi[j][i][11] = 1.0
+    #             if seq[i][j] == 'M': #methionine
+    #                 phi[j][i][12] = 1.0
+    #             if seq[i][j] == 'F': #phenylalanine
+    #                 phi[j][i][13] = 1.0
+    #             if seq[i][j] == 'P': #proline
+    #                 phi[j][i][14] = 1.0
+    #             if seq[i][j] == 'S': #serine
+    #                 phi[j][i][15] = 1.0
+    #             if seq[i][j] == 'T': #threonine
+    #                 phi[j][i][16] = 1.0
+    #             if seq[i][j] == 'W': #tryptophan
+    #                 phi[j][i][17] = 1.0
+    #             if seq[i][j] == 'Y': #tyrosine
+    #                 phi[j][i][18] = 1.0
+    #             if seq[i][j] == 'V': #valine
+    #                 phi[j][i][19] = 1.0
     # keep in alpha order
     # ---------------------------------First order terms ----------------------
     if poly_order == 'first':
@@ -872,14 +888,14 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
 
     # print("rFon2i1"+str(rFon2i1))
     #
-    # # Regressions of the trait on each element
-    # of the second order phenotype matrix.
-    for i in range(0, dm):  # nucleotide 1
-        for j in range(0, dm):  # nucleotide 2
-            if var12[i][j] > 0.0000000001:
-                rFon12[i][j] = covFPP[i][j] / var12[i][j]
-            else:
-                rFon12[i] = 0
+        # # Regressions of the trait on each element
+        # of the second order phenotype matrix.
+        for i in range(0, dm):  # nucleotide 1
+            for j in range(0, dm):  # nucleotide 2
+                if var12[i][j] > 0.0000000001:
+                    rFon12[i][j] = covFPP[i][j] / var12[i][j]
+                else:
+                    rFon12[i] = 0
 
     # print("rFon12"+str(rFon12))
     # Contribution of site 1 for each individual.

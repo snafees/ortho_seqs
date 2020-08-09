@@ -330,6 +330,107 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
     # # #
     # # # # Second order phenotypes.
     if poly_order == 'second':
+        #this is also written under first order
+        P1i1 = np.array(
+            [[[[0.0 for z in range(dm)] for i in range(pop_size)]
+                for j in range(sites)]
+                for k in range(sites)])
+        for i in range(0, pop_size):  # Individuals
+            for j in range(sites):
+                for k in range(sites):
+                    if k != j:
+                        P1i1[j][k][i] = P[j][i] - sr.inner_general(
+                            reg11[j][k], Pa[k][i])
+        P2i1 = P1i1[1][0]
+        print("computed P1i1")
+        naming = os.path.basename(f.name)
+        np.save(os.path.join(out_dir, naming + str('_P1i1')), P1i1)
+
+        # # # # Variance in P2i1
+        varP1i1 = np.array(
+            [[[0.0 for z in range(dm)]
+                for i in range(sites)] for j in range(sites)])
+        for i in range(0, pop_size):  # individuals
+            for j in range(sites):
+                for k in range(sites):
+                    if k != j:
+                        varP1i1[j][k] += (P1i1[j][k][i] ** 2) / pop_size
+        print("computed varP1i1")
+        naming = os.path.basename(f.name)
+        np.save(os.path.join(out_dir, naming + str('_varP1i1')), varP1i1)
+        # # # # cov11i1[j][k][l] = cov between site j and (site k independent of l)
+        cov11i1 = np.array(
+            [[[[[0.0 for z in range(dm)] for i in range(dm)]
+                for j in range(sites)] for k in range(sites)] for l in
+             range(sites)])
+        for j in range(sites):
+            for k in range(sites):
+                for l in range(sites):
+                    for i in range(pop_size):
+                        cov11i1[j][k][l] += \
+                            sr.outer_general(P[j][i], P1i1[k][l][i]) / pop_size
+        print("computed cov11i1")
+        naming = os.path.basename(f.name)
+        np.save(os.path.join(out_dir, naming + str('_cov11i1')), cov11i1)
+        # # # # # regression of site j on (site k independent of l)
+        reg11i1 = np.array(
+            [[[[[0.0 for z in range(dm)] for i in range(dm)]
+                for j in range(sites)] for k in range(sites)]
+                for l in range(sites)])
+        for k in range(sites):
+            for l in range(sites):
+                for m in range(sites):
+                    for i in range(0, dm):
+                        for j in range(0, dm):
+                            if varP1i1[l][m][j] > 0.0000000000001:
+                                reg11i1[k][l][m][i][j] = \
+                                    cov11i1[k][l][m][i][j] / varP1i1[l][m][j]
+                            else:
+                                reg11i1[k][l][m][i][j] = 0
+        print("computed reg11i1")
+        naming = os.path.basename(f.name)
+        np.save(os.path.join(out_dir, naming + str('_reg11i1')), reg11i1)
+        # # # # # same as P1i1, except with all elements = 0 except the one present
+        Pa1i1 = np.array(
+            [[[[0.0 for z in range(dm)]
+                for i in range(pop_size)] for j in range(sites)]
+                for k in range(sites)])
+        for i in range(0, pop_size):  # indiv
+            for j in range(sites):
+                for k in range(sites):
+                    if k != j:
+                        Pa1i1[j][k][i] = sr.inner_general(
+                            sr.outer_general(phi[j][i], phi[j][i]), P1i1[j][k][i])
+        print("computed Pa1i1")
+        naming = os.path.basename(f.name)
+        np.save(os.path.join(out_dir, naming + str('_Pa1i1')), Pa1i1)
+        # # # # # P1D[j][i] = first order poly of site j independent of all other
+        # sites, for individual i
+        P1D = np.array(
+            [[[0.0 for z in range(dm)]
+                for i in range(pop_size)] for j in range(sites)])
+        for i in range(pop_size):  # indiv
+            for j in range(sites):
+                for k in range(sites):
+                    if k != j:
+                        for l in range(sites):
+                            if l != k & l != j:
+                                P1D[j][i] = P[j][i] - sr.inner_general(reg11i1[j][k][l], Pa1i1[k][l][i]) - \
+                                            sr.inner_general(reg11[j][l], Pa[l][i])
+        print("computed P1D")
+        naming = os.path.basename(f.name)
+        np.save(os.path.join(out_dir, naming + str('_P1D')), P1D)
+        # # # #variance in P1D
+        varP1D = np.array([[0.0 for z in range(dm)] for i in range(sites)])
+        for k in range(sites):
+            for i in range(0, dm):  # nucleotide
+                for j in range(0, pop_size):  # individual
+                    varP1D[k][i] += ((P1D[k][j][i]) ** 2) / pop_size
+        print("computed varP1D")
+        naming = os.path.basename(f.name)
+        np.save(os.path.join(out_dir, naming + str('_varP1D')), varP1D)
+        ### end of that part from first order
+
         for k in range(pop_size):
             for i in range(sites):
                 for j in range(sites):

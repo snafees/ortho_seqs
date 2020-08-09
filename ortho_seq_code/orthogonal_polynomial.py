@@ -773,6 +773,7 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
                             covFw1i1[j][l][m] += F[i] * P1i1[j][l][i][m] / pop_size
         naming = os.path.basename(f.name)
         np.save(os.path.join(out_dir, naming + str('_covFw1i1')), covFw1i1)
+
     if poly_order == 'second':
         for i in range(pop_size):
             for j in range(sites):
@@ -839,7 +840,19 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
                             rFon1i1[i][j][k] = covFw1i1[i][j][k] / varP1i1[i][j][k]
                         else:
                             rFon1i1[i][j][k] = 0
-        # Regressions of the trait on each element of the second order
+        # Contribution of site 1 for each individual.
+        # This is the regression of the trait on site 1 times (inner product)
+        # the individual's site 1 vector that has been orthogonalized within
+        # the vector.
+        for i in range(pop_size):
+            # test_val = sr.inner_general(rFon1[0],Pa[0][i])
+            Fon1[i] = sr.inner_general(rFon1[0], Pa[0][i])
+
+        # Contribution of site 2 independent of 1 for each individual.
+        for i in range(pop_size):
+            Fon2i1[i] = sr.inner_general(rFon1i1[1][0], Pa1i1[1][0][i])
+
+    # Regressions of the trait on each element of the second order
     # phenotype matrices.
     if poly_order == 'second':
         for i in range(sites):
@@ -907,18 +920,16 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
         for i in range(pop_size):
             if np.fabs(Fon12[i]) < 0.0000000000001:
                 Fon12[i] = 0
-    # print("rFon12"+str(rFon12))
-    # Contribution of site 1 for each individual.
-    # This is the regression of the trait on site 1 times (inner product)
-    # the individual's site 1 vector that has been orthogonalized within
-    # the vector.
-    for i in range(pop_size):
-        # test_val = sr.inner_general(rFon1[0],Pa[0][i])
-        Fon1[i] = sr.inner_general(rFon1[0], Pa[0][i])
 
-    # Contribution of site 2 independent of 1 for each individual.
-    for i in range(pop_size):
-        Fon2i1[i] = sr.inner_general(rFon1i1[1][0], Pa1i1[1][0][i])
+        # ----------Calculating the expected trait value for each individual
+        # ----------given it's phenotype and the regressions calculated
+        # -----------above (to check  whether or not everything works).
+
+        for i in range(pop_size):  # indiv
+    	   Fest[i] = Fm + Fon1[i] + Fon2i1[i] + Fon12[i]
+    	      if fabs(Fest[i]) < 0.0000000000001:  # avoiding roundoff error
+    		        Fest[i] = 0   	           # modify or remove for large datasets
+
 
     # contribution of third order phenotype for each individual......
     # for i in range(pop_size):
@@ -946,16 +957,9 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
     print(rFon2i1)
     print('Regression on (site 1)x(site 2), independent of first order')
     print(rFon12)
+    print('Trait values estimated from regressions')
+    print(Fest)
     print("--- %s seconds ---" % (time.time() - start_time))
-
-    # ----------Calculating the expected trait value for each individual
-    # ----------given it's phenotype and the regressions calculated
-    # -----------above (to check  whether or not everything works).
-
-        for i in range(N):  # indiv
-    	   Fest[i] = Fm + Fon1[i] + Fon2i1[i] + Fon12[i]
-    	      if fabs(Fest[i]) < 0.0000000000001:  # avoiding roundoff error
-    		        Fest[i] = 0   	           # modify or remove for large datasets
 
 
 if __name__ == '__main__':

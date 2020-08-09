@@ -937,6 +937,30 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
         np.save(os.path.join(out_dir, naming + str('_covFw1i1')), covFw1i1)
 
     if poly_order == 'second':
+        #this part is from first order
+        covFP[0] = np.dot(F, P[0]) / pop_size  # for site 1
+        cov1FP[1] = np.dot(F, P[1]) / pop_size
+        covFP[1] = np.dot(F, P2i1) / pop_size  # for site 2 independent of 1
+        naming = os.path.basename(f.name)
+        np.save(os.path.join(out_dir, naming + str('_covFP[0]')), covFP[0])
+        naming = os.path.basename(f.name)
+        np.save(os.path.join(out_dir, naming + str('_cov1FP[1]')), cov1FP[1])
+        naming = os.path.basename(f.name)
+        np.save(os.path.join(out_dir, naming + str('_covFP[1]')), covFP[1])
+
+        for i in range(pop_size):
+            for j in range(sites):
+                for k in range(dm):
+                    covFw1[j][k] += F[i] * P[j][i][k] / pop_size
+                    covFw1D[j][k] += F[i] * P1D[j][i][k] / pop_size
+                for l in range(sites):
+                    if l != j:
+                        for m in range(dm):
+                            covFw1i1[j][l][m] += F[i] * P1i1[j][l][i][m] / pop_size
+        naming = os.path.basename(f.name)
+        np.save(os.path.join(out_dir, naming + str('_covFw1i1')), covFw1i1)
+        #end of that part
+
         for i in range(pop_size):
             for j in range(sites):
                 for k in range(sites):
@@ -1017,6 +1041,45 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
     # Regressions of the trait on each element of the second order
     # phenotype matrices.
     if poly_order == 'second':
+        #this part is from first order
+        for j in range(sites):
+            for i in range(0, dm):  # nucleotides
+                if var[j][i] > 0.0000000001:
+                    rFon1[j][i] = covFw1[j][i] / var[j][i]
+                else:
+                    rFon1[j][i] = 0
+                if varP1D[j][i] > 0.0000000001:
+                    rFon1D[j][i] = covFw1D[j][i] / varP1D[j][i]
+                else:
+                    rFon1D[j][i] = 0
+
+        np.save(os.path.join(out_dir, naming + str('_rFon1')), rFon1)
+        print("computed rFon1")
+        # rFon1D is needed as we're working with 3 sites
+        np.save(os.path.join(out_dir, naming + str('_rFon1D')), rFon1D)
+        print("computed rFon1D")
+
+        for i in range(sites):
+            for j in range(sites):
+                if j != i:
+                    for k in range(dm):
+                        if varP1i1[i][j][k] > 0.00000000001:
+                            rFon1i1[i][j][k] = covFw1i1[i][j][k] / varP1i1[i][j][k]
+                        else:
+                            rFon1i1[i][j][k] = 0
+        # Contribution of site 1 for each individual.
+        # This is the regression of the trait on site 1 times (inner product)
+        # the individual's site 1 vector that has been orthogonalized within
+        # the vector.
+        for i in range(pop_size):
+            # test_val = sr.inner_general(rFon1[0],Pa[0][i])
+            Fon1[i] = sr.inner_general(rFon1[0], Pa[0][i])
+
+        # Contribution of site 2 independent of 1 for each individual.
+        for i in range(pop_size):
+            Fon2i1[i] = sr.inner_general(rFon1i1[1][0], Pa1i1[1][0][i])
+        #end of that section from first order
+
         for i in range(sites):
             for j in range(sites):
                 if j != i:

@@ -920,7 +920,6 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
     for i in range(pop_size):
         Fon2i1[i] = sr.inner_general(rFon1i1[1][0], Pa1i1[1][0][i])
 
-
     # contribution of third order phenotype for each individual......
     # for i in range(pop_size):
     #     Fon3[i] = sr.inner_general(rFon3[0], P3a)
@@ -948,6 +947,15 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
     print('Regression on (site 1)x(site 2), independent of first order')
     print(rFon12)
     print("--- %s seconds ---" % (time.time() - start_time))
+
+    # ----------Calculating the expected trait value for each individual
+    # ----------given it's phenotype and the regressions calculated
+    # -----------above (to check  whether or not everything works).
+
+        for i in range(N):  # indiv
+    	   Fest[i] = Fm + Fon1[i] + Fon2i1[i] + Fon12[i]
+    	      if fabs(Fest[i]) < 0.0000000000001:  # avoiding roundoff error
+    		        Fest[i] = 0   	           # modify or remove for large datasets
 
 
 if __name__ == '__main__':

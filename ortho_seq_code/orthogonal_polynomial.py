@@ -318,19 +318,79 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
     # # # #-------------------------------------------------------------
     # # # # ------------------------Second Order Terms -----------------
     # # # #-------------------------------------------------------------
-    # # # #recursive polynomial builder
-    # # #
-    # # # def recursive_poly_builder(ord_one, ord_two, d):
-    # # #     if ord_one - ord_two == 0:
-    # # #         return 0
-    # # #     else:
-    # # #         return [
-    # # #    recursive_poly_builder(ord_one - 1, ord_two, d) for i in range(d)]
-    # # #         # uses the concept of list comprehension]
-    # # #
+
     # # # # Second order phenotypes.
     if poly_order == 'second':
         #this is also written under first order
+        # calculate mean vectors
+        for i in range(pop_size):
+            for j in range(sites):
+                mean[j] += phi[j][i] / pop_size
+        naming = os.path.basename(f.name)
+        np.save(os.path.join(out_dir, naming + str('_mean')), mean)
+        #  to show progress, can do something much more efficient/elegant
+        print("computed mean")
+
+        for j in range(sites):  # site
+            for i in range(0, pop_size):  # indiv
+                P[j][i] = phi[j][i] - mean[j]
+        naming = os.path.basename(f.name)
+        np.save(os.path.join(out_dir, naming + str('_P')), P)
+
+        # var[site][nucleotide]
+        for k in range(sites):
+            for i in range(0, dm):  # nucleotide
+                for j in range(0, pop_size):  # individual
+                    var[k][i] += ((P[k][j][i]) ** 2) / pop_size
+        print("computed variance")
+        naming = os.path.basename(f.name)
+        np.save(os.path.join(out_dir, naming + str('_var')), var)
+
+        # Covariances between nucleotides at sites i and j
+        # this is a matrix
+        # the cov matrix for the two sites is just the mean,
+        # across all individuals, of the outer product of P1 and P2
+        # #P2 is site 2 with means subtracted out
+        for j in range(sites):
+            for k in range(sites):
+                for i in range(pop_size):
+                    cov[j][k] += sr.outer_general(P[j][i], P[k][i]) / pop_size
+        print("computed covariance")
+        naming = os.path.basename(f.name)
+        np.save(os.path.join(out_dir, naming + str('_cov')), cov)
+
+        Pa = np.array(
+            [[[0.0 for z in range(dm)]
+                for j in range(pop_size)] for i in range(sites)])
+        reg11 = np.array(
+            [[[[0.0 for z in range(dm)] for i in range(dm)]
+                for j in range(sites)] for k in range(sites)])
+        # Regression of site k on site l
+        # reg11[2][1] is a matrix (hence two more indices)
+        # containing the regressions of
+        # each element of the site 2 vector on each element of the site 1 vector
+        for k in range(sites):
+            for l in range(sites):
+                for i in range(0, dm):
+                    for j in range(0, dm):
+                        if var[l][j] > 0.0000000000001:
+                            reg11[k][l][i][j] = cov[k][l][i][j] / var[l][j]
+                        else:
+                            reg11[k][l][i][j] = 0
+        print("computed reg11")
+        naming = os.path.basename(f.name)
+        np.save(os.path.join(out_dir, naming + str('_reg11')), reg11)
+
+        # # # # # First order terms with zeros except for the value that is
+        # # # # # present (i.e. orthogonalized within each vector)
+        for k in range(sites):  # site
+            for i in range(pop_size):  # indiv
+                Pa[k][i] = sr.inner_general(
+                    sr.outer_general(phi[k][i], phi[k][i]), P[k][i])
+        print("computed Pa: first order orthogonalized within each vector")
+        naming = os.path.basename(f.name)
+        np.save(os.path.join(out_dir, naming + str('_Pa')), Pa)
+
         P1i1 = np.array(
             [[[[0.0 for z in range(dm)] for i in range(pop_size)]
                 for j in range(sites)]

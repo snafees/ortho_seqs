@@ -1150,11 +1150,14 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
         # ----------given it's phenotype and the regressions calculated
         # -----------above (to check  whether or not everything works).
 
+        # for i in range(pop_size):  # indiv
+    	#        Fest[i] = Fm + Fon1[i] + Fon2i1[i] + Fon12[i]
+    	#        if abs(Fest[i]) < 0.0000000000001:  # avoiding roundoff error
+    	#              Fest[i] = 0   	           # modify or remove for large datasets
         for i in range(pop_size):  # indiv
-    	       Fest[i] = Fm + Fon1[i] + Fon2i1[i] + Fon12[i]
-    	       if abs(Fest[i]) < 0.0000000000001:  # avoiding roundoff error
-    	             Fest[i] = 0   	           # modify or remove for large datasets
-
+        	Fest[i] = Fm + Fon1[i] + Fon2i1[i] + Fon12[i]
+        	if fabs(Fest[i]) < 0.0000000000001:  # avoiding roundoff error
+        		Fest[i] = 0   	           # modify or remove for large datasets
 
     # contribution of third order phenotype for each individual......
     # for i in range(pop_size):

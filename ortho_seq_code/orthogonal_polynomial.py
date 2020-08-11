@@ -67,7 +67,7 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
     # ------------Converting letters to vectors---------------
     # phi[individual][site][state]. phi[i][j] = vector for site j
     # in individual i.
-    DNA_ALPHABETS = ['A', 'C', 'G', 'T', 'N']
+    DNA_ALPHABETS = ['A', 'C', 'G', 'T', 'n']
 
     if molecule == 'DNA':
         for dna_alphabet_index in range(len(DNA_ALPHABETS)):
@@ -88,7 +88,7 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
     #             if seq[i][j] == 'T':
     #                 phi[j][i][3] = 1.0
     PROTEIN_ALPHABETS = ['A', 'R', 'N', 'D', 'C', 'E', 'Q', 'G','H', 'I',
-    'L', 'K', 'M', 'F', 'P', 'S','T', 'W', 'Y', 'V', 'N']
+    'L', 'K', 'M', 'F', 'P', 'S','T', 'W', 'Y', 'V', 'n']
 
     if molecule == 'protein':
         for protein_alphabet_index in range(len(PROTEIN_ALPHABETS)):

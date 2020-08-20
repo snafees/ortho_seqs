@@ -45,25 +45,25 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
     # 3 sites, each a dm dim vector, in n individuals
     # nOTE: For application to Amino Acid sequences, increase
     # the size of the arrays accordingly.
-    # phi = np.array(
-    #     [[[0.0 for k in range(dm)]
-    #         for i in range(pop_size)] for j in range(sites)])
-    # mean = np.array([[0.0 for z in range(dm)] for i in range(sites)])
-    # var = np.array([[0.0 for z in range(dm)] for i in range(sites)])
-    # phi2 = np.array(
-    #     [[[[[0.0 for k in range(dm)] for i in range(dm)]
-    #         for j in range(pop_size)] for l in range(sites)]
-    #         for m in range(sites)])
-    # phi2m = np.array(
-    #     [[[[0.0 for k in range(dm)] for i in range(dm)]
-    #         for l in range(sites)]
-    #         for m in range(sites)])
-    # P = np.array(
-    #     [[[0.0 for z in range(dm)] for j in range(pop_size)]
-    #         for i in range(sites)])
-    # cov = np.array(
-    #     [[[[0.0 for z in range(dm)] for i in range(dm)]
-    #         for j in range(sites)] for k in range(sites)])
+    phi = np.array(
+        [[[0.0 for k in range(dm)]
+            for i in range(pop_size)] for j in range(sites)])
+    mean = np.array([[0.0 for z in range(dm)] for i in range(sites)])
+    var = np.array([[0.0 for z in range(dm)] for i in range(sites)])
+    phi2 = np.array(
+        [[[[[0.0 for k in range(dm)] for i in range(dm)]
+            for j in range(pop_size)] for l in range(sites)]
+            for m in range(sites)])
+    phi2m = np.array(
+        [[[[0.0 for k in range(dm)] for i in range(dm)]
+            for l in range(sites)]
+            for m in range(sites)])
+    P = np.array(
+        [[[0.0 for z in range(dm)] for j in range(pop_size)]
+            for i in range(sites)])
+    cov = np.array(
+        [[[[0.0 for z in range(dm)] for i in range(dm)]
+            for j in range(sites)] for k in range(sites)])
     # ------------Converting letters to vectors---------------
     # phi[individual][site][state]. phi[i][j] = vector for site j
     # in individual i.
@@ -102,29 +102,6 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
     DNA_ALPHABETS_n = ['A', 'C', 'G', 'T', 'n']
     if dm == 5:
         if molecule == 'DNA':
-            # ----Initializing various terms that we will use.--------------
-            # 3 sites, each a dm dim vector, in n individuals
-            # nOTE: For application to Amino Acid sequences, increase
-            # the size of the arrays accordingly.
-            # phi = np.array(
-            #     [[[0.0 for k in range(dm)]
-            #         for i in range(pop_size)] for j in range(sites)])
-            #mean = np.array([[0.0 for z in range(dm)] for i in range(sites)])
-            #var = np.array([[0.0 for z in range(dm)] for i in range(sites)])
-            phi2 = np.array(
-                [[[[[0.0 for k in range(dm)] for i in range(dm)]
-                    for j in range(pop_size)] for l in range(sites)]
-                    for m in range(sites)])
-            phi2m = np.array(
-                [[[[0.0 for k in range(dm)] for i in range(dm)]
-                    for l in range(sites)]
-                    for m in range(sites)])
-            # P = np.array(
-            #     [[[0.0 for z in range(dm)] for j in range(pop_size)]
-            #         for i in range(sites)])
-            # cov = np.array(
-            #     [[[[0.0 for z in range(dm)] for i in range(dm)]
-            #         for j in range(sites)] for k in range(sites)])
             for dna_alphabet_index in range(len(DNA_ALPHABETS_n)):
                 for i in range(pop_size):
                     for j in range(sites):
@@ -200,11 +177,6 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
     # ---------------------------------First order terms ----------------------
     if poly_order == 'first':
         # calculate mean vectors
-        phi = np.array(
-            [[[0.0 for k in range(dm)]
-                for i in range(pop_size)] for j in range(sites)])
-
-        mean = np.array([[0.0 for z in range(dm)] for i in range(sites)])
         for i in range(pop_size):
             for j in range(sites):
                 mean[j] += phi[j][i] / pop_size
@@ -213,9 +185,6 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
         #  to show progress, can do something much more efficient/elegant
         print("computed mean")
 
-        P = np.array(
-            [[[0.0 for z in range(dm)] for j in range(pop_size)]
-                for i in range(sites)])
         for j in range(sites):  # site
             for i in range(0, pop_size):  # indiv
                 P[j][i] = phi[j][i] - mean[j]
@@ -223,7 +192,6 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
         np.save(os.path.join(out_dir, naming + str('_P')), P)
 
         # var[site][nucleotide]
-        var = np.array([[0.0 for z in range(dm)] for i in range(sites)])
         for k in range(sites):
             for i in range(0, dm):  # nucleotide
                 for j in range(0, pop_size):  # individual
@@ -237,9 +205,6 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
         # the cov matrix for the two sites is just the mean,
         # across all individuals, of the outer product of P1 and P2
         # #P2 is site 2 with means subtracted out
-        cov = np.array(
-            [[[[0.0 for z in range(dm)] for i in range(dm)]
-                for j in range(sites)] for k in range(sites)])
         for j in range(sites):
             for k in range(sites):
                 for i in range(pop_size):

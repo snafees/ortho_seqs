@@ -70,29 +70,6 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
     DNA_ALPHABETS = ['A', 'C', 'G', 'T']
     if dm == 4:
         if molecule == 'DNA':
-            # ----Initializing various terms that we will use.--------------
-            # 3 sites, each a dm dim vector, in n individuals
-            # nOTE: For application to Amino Acid sequences, increase
-            # the size of the arrays accordingly.
-            phi = np.array(
-                [[[0.0 for k in range(dm)]
-                    for i in range(pop_size)] for j in range(sites)])
-            mean = np.array([[0.0 for z in range(dm)] for i in range(sites)])
-            var = np.array([[0.0 for z in range(dm)] for i in range(sites)])
-            phi2 = np.array(
-                [[[[[0.0 for k in range(dm)] for i in range(dm)]
-                    for j in range(pop_size)] for l in range(sites)]
-                    for m in range(sites)])
-            phi2m = np.array(
-                [[[[0.0 for k in range(dm)] for i in range(dm)]
-                    for l in range(sites)]
-                    for m in range(sites)])
-            P = np.array(
-                [[[0.0 for z in range(dm)] for j in range(pop_size)]
-                    for i in range(sites)])
-            cov = np.array(
-                [[[[0.0 for z in range(dm)] for i in range(dm)]
-                    for j in range(sites)] for k in range(sites)])
             for dna_alphabet_index in range(len(DNA_ALPHABETS)):
                 for i in range(pop_size):
                     for j in range(sites):
@@ -120,15 +97,24 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
     #             if seq[i][j] == 'T':
     #                 phi[j][i][3] = 1.0
     PROTEIN_ALPHABETS = ['A', 'R', 'N', 'D', 'C', 'E', 'Q', 'G','H', 'I',
+    'L', 'K', 'M', 'F', 'P', 'S','T', 'W', 'Y', 'V']
+    if dm == 20:
+        if molecule == 'protein':
+            for protein_alphabet_index in range(len(PROTEIN_ALPHABETS)):
+                for i in range(pop_size):
+                    for j in range(sites):
+                        if seq[i][j] == PROTEIN_ALPHABETS[protein_alphabet_index]:
+                            phi[j][i][protein_alphabet_index] = 1.0
+
+    PROTEIN_ALPHABETS_n = ['A', 'R', 'N', 'D', 'C', 'E', 'Q', 'G','H', 'I',
     'L', 'K', 'M', 'F', 'P', 'S','T', 'W', 'Y', 'V', 'n']
-
-    if molecule == 'protein':
-        for protein_alphabet_index in range(len(PROTEIN_ALPHABETS)):
-            for i in range(pop_size):
-                for j in range(sites):
-                    if seq[i][j] == PROTEIN_ALPHABETS[protein_alphabet_index]:
-                        phi[j][i][protein_alphabet_index] = 1.0
-
+    if dm == 21:
+        if molecule == 'protein':
+            for protein_alphabet_index in range(len(PROTEIN_ALPHABETS_n)):
+                for i in range(pop_size):
+                    for j in range(sites):
+                        if seq[i][j] == PROTEIN_ALPHABETS_n[protein_alphabet_index]:
+                            phi[j][i][protein_alphabet_index] = 1.0
 
     # if molecule == 'protein':
     #     for i in range(pop_size):  # individual

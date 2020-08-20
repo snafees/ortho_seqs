@@ -106,9 +106,9 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
             # 3 sites, each a dm dim vector, in n individuals
             # nOTE: For application to Amino Acid sequences, increase
             # the size of the arrays accordingly.
-            phi = np.array(
-                [[[0.0 for k in range(dm)]
-                    for i in range(pop_size)] for j in range(sites)])
+            # phi = np.array(
+            #     [[[0.0 for k in range(dm)]
+            #         for i in range(pop_size)] for j in range(sites)])
             #mean = np.array([[0.0 for z in range(dm)] for i in range(sites)])
             #var = np.array([[0.0 for z in range(dm)] for i in range(sites)])
             phi2 = np.array(
@@ -200,6 +200,10 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
     # ---------------------------------First order terms ----------------------
     if poly_order == 'first':
         # calculate mean vectors
+        phi = np.array(
+            [[[0.0 for k in range(dm)]
+                for i in range(pop_size)] for j in range(sites)])
+
         mean = np.array([[0.0 for z in range(dm)] for i in range(sites)])
         for i in range(pop_size):
             for j in range(sites):

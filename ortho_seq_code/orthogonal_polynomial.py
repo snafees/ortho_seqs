@@ -78,7 +78,7 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
 
     DNA_ALPHABETS_n = ['A', 'C', 'G', 'T', 'n']
     if dm == 5:
-        if molecule == 'DNA':
+        if molecule == 'DNA_n':
             for dna_alphabet_index in range(len(DNA_ALPHABETS_n)):
                 for i in range(pop_size):
                     for j in range(sites):
@@ -109,7 +109,7 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
     PROTEIN_ALPHABETS_n = ['A', 'R', 'N', 'D', 'C', 'E', 'Q', 'G','H', 'I',
     'L', 'K', 'M', 'F', 'P', 'S','T', 'W', 'Y', 'V', 'n']
     if dm == 21:
-        if molecule == 'protein':
+        if molecule == 'protein_n':
             for protein_alphabet_index in range(len(PROTEIN_ALPHABETS_n)):
                 for i in range(pop_size):
                     for j in range(sites):

@@ -116,6 +116,23 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
                         if seq[i][j] == PROTEIN_ALPHABETS_n[protein_alphabet_index]:
                             phi[j][i][protein_alphabet_index] = 1.0
 
+    PROTEIN_ALPHABETS_polar =  ['R', 'N', 'D', 'C', 'E', 'Q','H',
+   'K','S','T', 'Y']
+    PROTEIN_ALPHABETS_nonpolar = ['A', 'G','I', 'L', 'M', 'F', 'P', 'W', 'V']
+    if dm == 3:
+       if molecule == 'protein_pnp':
+           for protein_alphabet_index_polar in range(len(PROTEIN_ALPHABETS_polar):
+               for protein_alphabet_index_nonpolar in range(len(PROTEIN_ALPHABETS_nonpolar):
+                   for i in range(pop_size):
+                       for j in range(sites):
+                           if seq[i][j] == PROTEIN_ALPHABETS_polar[protein_alphabet_index_polar]:
+                               phi[j][i][0] = 1.0
+                           if seq[i][j] == PROTEIN_ALPHABETS_nonpolar[protein_alphabet_index_nonpolar]:
+                               phi[j][i][1] = 1.0
+                           if seq[i][j] == 'n':
+                               phi[j][i][2] = 1.0
+
+
     # if molecule == 'protein':
     #     for i in range(pop_size):  # individual
     #         for j in range(sites):

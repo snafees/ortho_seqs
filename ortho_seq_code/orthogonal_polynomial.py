@@ -121,8 +121,8 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
     PROTEIN_ALPHABETS_nonpolar = ['A', 'G','I', 'L', 'M', 'F', 'P', 'W', 'V']
     if dm == 3:
        if molecule == 'protein_pnp':
-           for protein_alphabet_index_polar in range(len(PROTEIN_ALPHABETS_polar):
-               for protein_alphabet_index_nonpolar in range(len(PROTEIN_ALPHABETS_nonpolar):
+           for protein_alphabet_index_polar in range(len(PROTEIN_ALPHABETS_polar)):
+               for protein_alphabet_index_nonpolar in range(len(PROTEIN_ALPHABETS_nonpolar)):
                    for i in range(pop_size):
                        for j in range(sites):
                            if seq[i][j] == PROTEIN_ALPHABETS_polar[protein_alphabet_index_polar]:

@@ -133,50 +133,50 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
    #                             phi[j][i][2] = 1.0
 
     if molecule == 'protein_pnp':
-    for i in range(pop_size):  # individual
-        for j in range(sites):
-            if seq[i][j] == 'R':
-                phi[j][i][0] = 1.0
-            if seq[i][j] == 'N':
-                phi[j][i][0] = 1.0
-            if seq[i][j] == 'D':
-                phi[j][i][0] = 1.0
-            if seq[i][j] == 'C':
-                phi[j][i][0] = 1.0
-            if seq[i][j] == 'E':
-                phi[j][i][0] = 1.0
-            if seq[i][j] == 'Q':
-                phi[j][i][0] = 1.0
-            if seq[i][j] == 'H':
-                phi[j][i][0] = 1.0
-            if seq[i][j] == 'K':
-                phi[j][i][0] = 1.0
-            if seq[i][j] == 'S':
-                phi[j][i][0] = 1.0
-            if seq[i][j] == 'T':
-                phi[j][i][0] = 1.0
-            if seq[i][j] == 'Y':
-                phi[j][i][0] = 1.0
-            if seq[i][j] == 'A':
-                phi[j][i][1] = 1.0
-            if seq[i][j] == 'G':
-                phi[j][i][1] = 1.0
-            if seq[i][j] == 'I':
-                phi[j][i][1] = 1.0
-            if seq[i][j] == 'L':
-                phi[j][i][1] = 1.0
-            if seq[i][j] == 'M':
-                phi[j][i][1] = 1.0
-            if seq[i][j] == 'F':
-                phi[j][i][1] = 1.0
-            if seq[i][j] == 'P':
-                phi[j][i][1] = 1.0
-            if seq[i][j] == 'W':
-                phi[j][i][1] = 1.0
-            if seq[i][j] == 'V':
-                phi[j][i][1] = 1.0
-            if seq[i][j] == 'n': 
-                  phi[j][i][2] = 1.0
+        for i in range(pop_size):  # individual
+            for j in range(sites):
+                if seq[i][j] == 'R':
+                    phi[j][i][0] = 1.0
+                if seq[i][j] == 'N':
+                    phi[j][i][0] = 1.0
+                if seq[i][j] == 'D':
+                    phi[j][i][0] = 1.0
+                if seq[i][j] == 'C':
+                    phi[j][i][0] = 1.0
+                if seq[i][j] == 'E':
+                    phi[j][i][0] = 1.0
+                if seq[i][j] == 'Q':
+                    phi[j][i][0] = 1.0
+                if seq[i][j] == 'H':
+                    phi[j][i][0] = 1.0
+                if seq[i][j] == 'K':
+                    phi[j][i][0] = 1.0
+                if seq[i][j] == 'S':
+                    phi[j][i][0] = 1.0
+                if seq[i][j] == 'T':
+                    phi[j][i][0] = 1.0
+                if seq[i][j] == 'Y':
+                    phi[j][i][0] = 1.0
+                if seq[i][j] == 'A':
+                    phi[j][i][1] = 1.0
+                if seq[i][j] == 'G':
+                    phi[j][i][1] = 1.0
+                if seq[i][j] == 'I':
+                    phi[j][i][1] = 1.0
+                if seq[i][j] == 'L':
+                    phi[j][i][1] = 1.0
+                if seq[i][j] == 'M':
+                    phi[j][i][1] = 1.0
+                if seq[i][j] == 'F':
+                    phi[j][i][1] = 1.0
+                if seq[i][j] == 'P':
+                    phi[j][i][1] = 1.0
+                if seq[i][j] == 'W':
+                    phi[j][i][1] = 1.0
+                if seq[i][j] == 'V':
+                    phi[j][i][1] = 1.0
+                if seq[i][j] == 'n':
+                      phi[j][i][2] = 1.0
     # if molecule == 'protein':
     #     for i in range(pop_size):  # individual
     #         for j in range(sites):

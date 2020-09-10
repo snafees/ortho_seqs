@@ -131,7 +131,7 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
    #                             phi[j][i][1] = 1.0
    #                         if seq[i][j] == 'n':
    #                             phi[j][i][2] = 1.0
-
+    if dm == 3
     if molecule == 'protein_pnp':
         for i in range(pop_size):  # individual
             for j in range(sites):
@@ -177,49 +177,7 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
                     phi[j][i][1] = 1.0
                 if seq[i][j] == 'n':
                       phi[j][i][2] = 1.0
-    # if molecule == 'protein':
-    #     for i in range(pop_size):  # individual
-    #         for j in range(sites):
-    #             if seq[i][j] == 'A': #alanine
-    #                 phi[j][i][0] = 1.0
-    #             if seq[i][j] == 'R': #arginine
-    #                 phi[j][i][1] = 1.0
-    #             if seq[i][j] == 'N': #asparagine
-    #                 phi[j][i][2] = 1.0
-    #             if seq[i][j] == 'D': #aspartic acid
-    #                 phi[j][i][3] = 1.0
-    #             if seq[i][j] == 'C': #cysteine
-    #                 phi[j][i][4] = 1.0
-    #             if seq[i][j] == 'E': #glutamic acid
-    #                 phi[j][i][5] = 1.0
-    #             if seq[i][j] == 'Q': #glutamine
-    #                 phi[j][i][6] = 1.0
-    #             if seq[i][j] == 'G': #glycine
-    #                 phi[j][i][7] = 1.0
-    #             if seq[i][j] == 'H': #histidine
-    #                 phi[j][i][8] = 1.0
-    #             if seq[i][j] == 'I': #isoleucine
-    #                 phi[j][i][9] = 1.0
-    #             if seq[i][j] == 'L': #leucine
-    #                 phi[j][i][10] = 1.0
-    #             if seq[i][j] == 'K': #lysine
-    #                 phi[j][i][11] = 1.0
-    #             if seq[i][j] == 'M': #methionine
-    #                 phi[j][i][12] = 1.0
-    #             if seq[i][j] == 'F': #phenylalanine
-    #                 phi[j][i][13] = 1.0
-    #             if seq[i][j] == 'P': #proline
-    #                 phi[j][i][14] = 1.0
-    #             if seq[i][j] == 'S': #serine
-    #                 phi[j][i][15] = 1.0
-    #             if seq[i][j] == 'T': #threonine
-    #                 phi[j][i][16] = 1.0
-    #             if seq[i][j] == 'W': #tryptophan
-    #                 phi[j][i][17] = 1.0
-    #             if seq[i][j] == 'Y': #tyrosine
-    #                 phi[j][i][18] = 1.0
-    #             if seq[i][j] == 'V': #valine
-    #                 phi[j][i][19] = 1.0
+
     # keep in alpha order
     # ---------------------------------First order terms ----------------------
     if poly_order == 'first':

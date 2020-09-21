@@ -13,6 +13,7 @@ import click
 @click.option('--molecule', default='DNA', help='can provide DNA or amino acid sequence')
 @click.option('--phenotype', help="phenotype text fie corresponding to sequence data", type=str)
 @click.option('--poly_order', default='first', help='can do first and second order so far')
+@click.option('--precomputed', default='False', help='if true, then saved results are used')
 @click.option('--out-dir', help="directory to save output/debug files to", type=str) # noqa
 @click.argument('filename', type=str) # noqa
 def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, poly_order, out_dir):
@@ -181,14 +182,18 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
     # keep in alpha order
     # ---------------------------------First order terms ----------------------
     if poly_order == 'first':
-        # calculate mean vectors
-        for i in range(pop_size):
-            for j in range(sites):
-                mean[j] += phi[j][i] / pop_size
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_mean')), mean)
-        #  to show progress, can do something much more efficient/elegant
-        print("computed mean")
+        if precomputed == True
+            mean = np.load(os.path.join(out_dir, naming + str('_mean'))
+            print("retreived the means")
+            # calculate mean vectors
+        else:
+            for i in range(pop_size):
+                for j in range(sites):
+                    mean[j] += phi[j][i] / pop_size
+            naming = os.path.basename(f.name)
+            np.save(os.path.join(out_dir, naming + str('_mean')), mean)
+            #  to show progress, can do something much more efficient/elegant
+            print("computed mean")
 
         for j in range(sites):  # site
             for i in range(0, pop_size):  # indiv

@@ -184,7 +184,7 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
     if poly_order == 'first':
         if precomputed == True:
             mean = np.load(os.path.join(out_dir, naming + str('_mean'))
-            print("retreived the means")
+        print("retreived the means")
             # calculate mean vectors
         else:
             for i in range(pop_size):

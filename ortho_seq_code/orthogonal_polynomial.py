@@ -16,7 +16,7 @@ import click
 @click.option('--precomputed', default='False', help='if true, then saved results are used')
 @click.option('--out-dir', help="directory to save output/debug files to", type=str) # noqa
 @click.argument('filename', type=str) # noqa
-def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, poly_order, out_dir):
+def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, poly_order, precomputed, out_dir):
     """Program to compute orthogonal polynomials up to 2nd order"""
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)

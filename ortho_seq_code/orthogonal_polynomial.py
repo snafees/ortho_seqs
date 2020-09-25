@@ -32,11 +32,14 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
     global i
     # file containing trait values that will be mapped to sequence
     # vectors that must be the same size as F
-    F = np.genfromtxt(pheno_file)  # this needs to stay this way!
-    Fest = np.genfromtxt(pheno_file) # this needs to stay this way!
-    Fon1 = np.genfromtxt(pheno_file) # this needs to stay this way!
-    Fon2i1 = np.genfromtxt(pheno_file) # this needs to stay this way!
-    Fon12 = np.genfromtxt(pheno_file) # this needs to stay this way!
+    with open(pheno_file) as ph:
+        phenotype = ph.readlines():
+        
+    F = np.genfromtxt(phenotype)  # this needs to stay this way!
+    Fest = np.genfromtxt(phenotype) # this needs to stay this way!
+    Fon1 = np.genfromtxt(phenotype) # this needs to stay this way!
+    Fon2i1 = np.genfromtxt(phenotype) # this needs to stay this way!
+    Fon12 = np.genfromtxt(phenotype) # this needs to stay this way!
     for i in range(pop_size):
         Fest[i] = 0
         Fon1[i] = 0
@@ -991,7 +994,7 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
     Fm = 0
     for i in range(pop_size):  # individuals
         Fm += F[i] / pop_size
-    naming_phenotype = os.path.basename(pheno_file.name)
+    naming_phenotype = os.path.basename(phenotype.name)
     np.save(os.path.join(out_dir, naming_phenotype + str('_Fm')), Fm)
     # Covariances of the trait with each element of the 1'st order vectors.
     # We can use the 'dot' operator here to get the inner product of a
@@ -1000,11 +1003,11 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
         covFP[0] = np.dot(F, P[0]) / pop_size  # for site 1
         cov1FP[1] = np.dot(F, P[1]) / pop_size
         covFP[1] = np.dot(F, P2i1) / pop_size  # for site 2 independent of 1
-        naming = os.path.basename(pheno_file.name)
+        naming = os.path.basename(phenotype.name)
         np.save(os.path.join(out_dir, naming_phenotype + str('_covFP[0]')), covFP[0])
-        naming = os.path.basename(pheno_file.name)
+        naming = os.path.basename(phenotype.name)
         np.save(os.path.join(out_dir, naming_phenotype + str('_cov1FP[1]')), cov1FP[1])
-        naming = os.path.basename(pheno_file.name)
+        naming = os.path.basename(phenotype.name)
         np.save(os.path.join(out_dir, naming_phenotype + str('_covFP[1]')), covFP[1])
 
         for i in range(pop_size):
@@ -1016,7 +1019,7 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                     if l != j:
                         for m in range(dm):
                             covFw1i1[j][l][m] += F[i] * P1i1[j][l][i][m] / pop_size
-        naming = os.path.basename(pheno_file.name)
+        naming = os.path.basename(phenotype.name)
         np.save(os.path.join(out_dir, naming_phenotype + str('_covFw1i1')), covFw1i1)
 
     if poly_order == 'second':

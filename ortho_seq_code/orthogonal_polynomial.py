@@ -11,7 +11,7 @@ import click
 @click.option('--dm', default=4, help='dimension of vector, e.g., this is =4 when input is DNA/RNA') # noqa
 @click.option('--sites', default=2, help='number of sites in a sequence') #starting off with two sites to run full second order
 @click.option('--molecule', default='DNA', help='can provide DNA or amino acid sequence')
-@click.option('--pheno_file', type=click.File('rb'), help="phenotype text file corresponding to sequence data", type=str)
+@click.option('--pheno_file', type=click.File('rb'), help="phenotype text file corresponding to sequence data")
 @click.option('--poly_order', default='first', help='can do first and second order so far')
 @click.option('--precomputed', default='False', help='if true, then saved results are used')
 @click.option('--out-dir', help="directory to save output/debug files to", type=str) # noqa

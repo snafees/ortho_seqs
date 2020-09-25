@@ -33,8 +33,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
     # file containing trait values that will be mapped to sequence
     # vectors that must be the same size as F
     with open(pheno_file) as ph:
-        phenotype = ph.readlines():
-        
+        phenotype = ph.readlines()
+
     F = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fest = np.genfromtxt(phenotype) # this needs to stay this way!
     Fon1 = np.genfromtxt(phenotype) # this needs to stay this way!

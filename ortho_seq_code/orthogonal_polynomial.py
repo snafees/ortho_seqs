@@ -41,6 +41,7 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
     Fon1 = np.genfromtxt(f2) # this needs to stay this way!
     Fon2i1 = np.genfromtxt(f2) # this needs to stay this way!
     Fon12 = np.genfromtxt(f2) # this needs to stay this way!
+    print(Fest)
     for i in range(pop_size):
         Fest[i] = 0
         Fon1[i] = 0

@@ -11,12 +11,13 @@ import click
 @click.option('--dm', default=4, help='dimension of vector, e.g., this is =4 when input is DNA/RNA') # noqa
 @click.option('--sites', default=2, help='number of sites in a sequence') #starting off with two sites to run full second order
 @click.option('--molecule', default='DNA', help='can provide DNA or amino acid sequence')
-@click.option('--phenotype', help="phenotype text file corresponding to sequence data", type=str)
+#@click.option('--phenotype', help="phenotype text file corresponding to sequence data", type=str)
 @click.option('--poly_order', default='first', help='can do first and second order so far')
 @click.option('--precomputed', default='False', help='if true, then saved results are used')
 @click.option('--out-dir', help="directory to save output/debug files to", type=str) # noqa
 @click.argument('filename', type=str) # noqa
-def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, poly_order, precomputed, out_dir):
+@click.argument('pheno_file', type=str)
+def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, poly_order, precomputed, out_dir):
     """Program to compute orthogonal polynomials up to 2nd order"""
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
@@ -31,11 +32,11 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
     global i
     # file containing trait values that will be mapped to sequence
     # vectors that must be the same size as F
-    F = np.genfromtxt(phenotype)  # this needs to stay this way!
-    Fest = np.genfromtxt(phenotype) # this needs to stay this way!
-    Fon1 = np.genfromtxt(phenotype) # this needs to stay this way!
-    Fon2i1 = np.genfromtxt(phenotype) # this needs to stay this way!
-    Fon12 = np.genfromtxt(phenotype) # this needs to stay this way!
+    F = np.genfromtxt(pheno_file)  # this needs to stay this way!
+    Fest = np.genfromtxt(pheno_file) # this needs to stay this way!
+    Fon1 = np.genfromtxt(pheno_file) # this needs to stay this way!
+    Fon2i1 = np.genfromtxt(pheno_file) # this needs to stay this way!
+    Fon12 = np.genfromtxt(pheno_file) # this needs to stay this way!
     for i in range(pop_size):
         Fest[i] = 0
         Fon1[i] = 0
@@ -990,7 +991,7 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
     Fm = 0
     for i in range(pop_size):  # individuals
         Fm += F[i] / pop_size
-    naming_phenotype = os.path.basename(phenotype.name)
+    naming_phenotype = os.path.basename(pheno_file.name)
     np.save(os.path.join(out_dir, naming_phenotype + str('_Fm')), Fm)
     # Covariances of the trait with each element of the 1'st order vectors.
     # We can use the 'dot' operator here to get the inner product of a
@@ -999,11 +1000,11 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
         covFP[0] = np.dot(F, P[0]) / pop_size  # for site 1
         cov1FP[1] = np.dot(F, P[1]) / pop_size
         covFP[1] = np.dot(F, P2i1) / pop_size  # for site 2 independent of 1
-        naming = os.path.basename(phenotype.name)
+        naming = os.path.basename(pheno_file.name)
         np.save(os.path.join(out_dir, naming_phenotype + str('_covFP[0]')), covFP[0])
-        naming = os.path.basename(phenotype.name)
+        naming = os.path.basename(pheno_file.name)
         np.save(os.path.join(out_dir, naming_phenotype + str('_cov1FP[1]')), cov1FP[1])
-        naming = os.path.basename(phenotype.name)
+        naming = os.path.basename(pheno_file.name)
         np.save(os.path.join(out_dir, naming_phenotype + str('_covFP[1]')), covFP[1])
 
         for i in range(pop_size):
@@ -1015,7 +1016,7 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
                     if l != j:
                         for m in range(dm):
                             covFw1i1[j][l][m] += F[i] * P1i1[j][l][i][m] / pop_size
-        naming = os.path.basename(phenotype.name)
+        naming = os.path.basename(pheno_file.name)
         np.save(os.path.join(out_dir, naming_phenotype + str('_covFw1i1')), covFw1i1)
 
     if poly_order == 'second':
@@ -1258,15 +1259,18 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
     print(
         'Regression on 1st order polynomial - orthogonalized within - rFon1D')
     print(rFon1D)
-    print('Regression of trait on site 2')
-    print(rFon2)
-    print(
-        'Regression on 2nd order polynomial - orthogonalized within - rFon2D')
-    print(rFon2D)
     print('Regression of trait on site 2 independent of 1')
     print(rFon2i1)
-    print('Regression on (site 1)x(site 2), independent of first order')
-    print(rFon12)
+
+    if poly_order == 'second':
+        print('Regression of trait on site 2')
+        print(rFon2)
+        print(
+            'Regression on 2nd order polynomial - orthogonalized within - rFon2D')
+        print(rFon2D)
+        print('Regression on (site 1)x(site 2), independent of first order')
+        print(rFon12)
+
     print('Trait values estimated from regressions')
     print(Fest)
     print("--- %s seconds ---" % (time.time() - start_time))

@@ -185,7 +185,7 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
     naming = os.path.basename(f.name)
     if poly_order == 'first':
         if precomputed == 'True':
-            mean = np.load(os.path.join(out_dir, naming + str('_mean')))
+            mean = np.load(os.path.join(out_dir, naming + str('_mean')).npy)
         else:
             for i in range(pop_size):
                 for j in range(sites):

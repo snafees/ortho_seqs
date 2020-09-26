@@ -996,7 +996,7 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
     Fm = 0
     for i in range(pop_size):  # individuals
         Fm += F[i] / pop_size
-    naming_phenotype = os.path.basename(pheno_file.name)
+    naming_phenotype = os.path.basename(f2.name)
     np.save(os.path.join(out_dir, naming_phenotype + str('_Fm')), Fm)
     # Covariances of the trait with each element of the 1'st order vectors.
     # We can use the 'dot' operator here to get the inner product of a
@@ -1005,11 +1005,11 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
         covFP[0] = np.dot(F, P[0]) / pop_size  # for site 1
         cov1FP[1] = np.dot(F, P[1]) / pop_size
         covFP[1] = np.dot(F, P2i1) / pop_size  # for site 2 independent of 1
-        naming = os.path.basename(pheno_file.name)
+        naming = os.path.basename(f2.name)
         np.save(os.path.join(out_dir, naming_phenotype + str('_covFP[0]')), covFP[0])
-        naming = os.path.basename(pheno_file.name)
+        naming = os.path.basename(f2.name)
         np.save(os.path.join(out_dir, naming_phenotype + str('_cov1FP[1]')), cov1FP[1])
-        naming = os.path.basename(pheno_file.name)
+        naming = os.path.basename(f2.name)
         np.save(os.path.join(out_dir, naming_phenotype + str('_covFP[1]')), covFP[1])
 
         for i in range(pop_size):
@@ -1021,7 +1021,7 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                     if l != j:
                         for m in range(dm):
                             covFw1i1[j][l][m] += F[i] * P1i1[j][l][i][m] / pop_size
-        naming = os.path.basename(pheno_file.name)
+        naming = os.path.basename(f2.name)
         np.save(os.path.join(out_dir, naming_phenotype + str('_covFw1i1')), covFw1i1)
 
     if poly_order == 'second':

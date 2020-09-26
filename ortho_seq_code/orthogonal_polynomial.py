@@ -32,15 +32,15 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
     global i
     # file containing trait values that will be mapped to sequence
     # vectors that must be the same size as F
-    # with open(pheno_file) as f2:
-    #     phenotype = f2.readlines()
-    f2 = open(pheno_file, "rb")
-
-    F = np.genfromtxt(f2)  # this needs to stay this way!
-    Fest = np.genfromtxt(f2) # this needs to stay this way!
-    Fon1 = np.genfromtxt(f2) # this needs to stay this way!
-    Fon2i1 = np.genfromtxt(f2) # this needs to stay this way!
-    Fon12 = np.genfromtxt(f2) # this needs to stay this way!
+    with open(pheno_file) as f2:
+         phenotype = f2.readlines()
+    #f2 = open(pheno_file, "rb")
+    print(phenotype)
+    F = np.genfromtxt(phenotype)  # this needs to stay this way!
+    Fest = np.genfromtxt(phenotype) # this needs to stay this way!
+    Fon1 = np.genfromtxt(phenotype) # this needs to stay this way!
+    Fon2i1 = np.genfromtxt(phenotype) # this needs to stay this way!
+    Fon12 = np.genfromtxt(phenotype) # this needs to stay this way!
     print(Fest)
     for i in range(pop_size):
         Fest[i] = 0

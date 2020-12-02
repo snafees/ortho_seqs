@@ -14,7 +14,7 @@ import click
 @click.option('--pheno_file', type=str, help="phenotype text file corresponding to sequence data")
 @click.option('--poly_order', default='first', help='can do first and second order so far')
 @click.option('--precomputed', default='False', help='if true, then saved results are used')
-@click.option('--out-dir', help="directory to save output/debug files to", type=str) # noqa
+@click.option('--out_dir', help="directory to save output/debug files to", type=str) # noqa
 @click.argument('filename', type=str) # noqa
 #@click.argument('pheno_file', type=click.File('rb'))
 def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, poly_order, precomputed, out_dir):
@@ -92,17 +92,7 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                         if seq[i][j] == DNA_ALPHABETS_n[dna_alphabet_index]:
                             phi[j][i][dna_alphabet_index] = 1.0
 
-    # if molecule == 'DNA':
-    #     for i in range(pop_size):  # individual
-    #         for j in range(sites):
-    #             if seq[i][j] == 'A':
-    #                 phi[j][i][0] = 1.0
-    #             if seq[i][j] == 'C':
-    #                 phi[j][i][1] = 1.0
-    #             if seq[i][j] == 'G':
-    #                 phi[j][i][2] = 1.0
-    #             if seq[i][j] == 'T':
-    #                 phi[j][i][3] = 1.0
+
     PROTEIN_ALPHABETS = ['A', 'R', 'N', 'D', 'C', 'E', 'Q', 'G','H', 'I',
     'L', 'K', 'M', 'F', 'P', 'S','T', 'W', 'Y', 'V']
     if dm == 20:

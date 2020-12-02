@@ -7,15 +7,17 @@ import click
 
 
 @click.command(help='program to compute orthogonal polynomials up to 2nd order') # noqa
-@click.option('--pop-size', default=1, help='Population size or number of sequences') # noqa
+@click.option('--pop_size', default=1, help='Population size or number of sequences') # noqa
 @click.option('--dm', default=4, help='dimension of vector, e.g., this is =4 when input is DNA/RNA') # noqa
 @click.option('--sites', default=2, help='number of sites in a sequence') #starting off with two sites to run full second order
 @click.option('--molecule', default='DNA', help='can provide DNA or amino acid sequence')
-@click.option('--phenotype', help="phenotype text fie corresponding to sequence data", type=str)
+@click.option('--pheno_file', type=str, help="phenotype text file corresponding to sequence data")
 @click.option('--poly_order', default='first', help='can do first and second order so far')
+@click.option('--precomputed', default='False', help='if true, then saved results are used')
 @click.option('--out-dir', help="directory to save output/debug files to", type=str) # noqa
 @click.argument('filename', type=str) # noqa
-def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, poly_order, out_dir):
+#@click.argument('pheno_file', type=click.File('rb'))
+def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, poly_order, precomputed, out_dir):
     """Program to compute orthogonal polynomials up to 2nd order"""
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
@@ -30,11 +32,16 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
     global i
     # file containing trait values that will be mapped to sequence
     # vectors that must be the same size as F
+    with open(pheno_file) as f2:
+         phenotype = f2.readlines()
+    #f2 = open(pheno_file, "rb")
+    print(phenotype)
     F = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fest = np.genfromtxt(phenotype) # this needs to stay this way!
     Fon1 = np.genfromtxt(phenotype) # this needs to stay this way!
     Fon2i1 = np.genfromtxt(phenotype) # this needs to stay this way!
     Fon12 = np.genfromtxt(phenotype) # this needs to stay this way!
+    print(Fest)
     for i in range(pop_size):
         Fest[i] = 0
         Fon1[i] = 0
@@ -180,43 +187,55 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
 
     # keep in alpha order
     # ---------------------------------First order terms ----------------------
+    # calculate mean vectors first
+    naming = os.path.basename(f.name)
     if poly_order == 'first':
-        # calculate mean vectors
-        for i in range(pop_size):
-            for j in range(sites):
-                mean[j] += phi[j][i] / pop_size
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_mean')), mean)
-        #  to show progress, can do something much more efficient/elegant
-        print("computed mean")
+        if precomputed == 'True':
+            mean = np.load(os.path.join(out_dir, naming + str('_mean.npy')))
+        else:
+            for i in range(pop_size):
+                for j in range(sites):
+                    mean[j] += phi[j][i] / pop_size
+            np.save(os.path.join(out_dir, naming + str('_mean')), mean)
+            #  to show progress, can do something much more efficient/elegant
+            print("computed mean")
 
-        for j in range(sites):  # site
-            for i in range(0, pop_size):  # indiv
-                P[j][i] = phi[j][i] - mean[j]
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_P')), P)
+        if precomputed == 'True':
+            P = np.load(os.path.join(out_dir, naming + str('_P.npy')))
+        else:
+            for j in range(sites):  # site
+                for i in range(0, pop_size):  # indiv
+                    P[j][i] = phi[j][i] - mean[j]
+            naming = os.path.basename(f.name)
+            np.save(os.path.join(out_dir, naming + str('_P')), P)
 
         # var[site][nucleotide]
-        for k in range(sites):
-            for i in range(0, dm):  # nucleotide
-                for j in range(0, pop_size):  # individual
-                    var[k][i] += ((P[k][j][i]) ** 2) / pop_size
-        print("computed variance")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_var')), var)
+        if precomputed == 'True':
+            var = np.load(os.path.join(out_dir, naming + str('_var.npy')))
+        else:
+            for k in range(sites):
+                for i in range(0, dm):  # nucleotide
+                    for j in range(0, pop_size):  # individual
+                        var[k][i] += ((P[k][j][i]) ** 2) / pop_size
+            print("computed variance")
+            naming = os.path.basename(f.name)
+            np.save(os.path.join(out_dir, naming + str('_var')), var)
 
         # Covariances between nucleotides at sites i and j
         # this is a matrix
         # the cov matrix for the two sites is just the mean,
         # across all individuals, of the outer product of P1 and P2
         # #P2 is site 2 with means subtracted out
-        for j in range(sites):
-            for k in range(sites):
-                for i in range(pop_size):
-                    cov[j][k] += sr.outer_general(P[j][i], P[k][i]) / pop_size
-        print("computed covariance")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_cov')), cov)
+        if precomputed == 'True':
+            cov = np.load(os.path.join(out_dir, naming + str('_cov.npy')))
+        else:
+            for j in range(sites):
+                for k in range(sites):
+                    for i in range(pop_size):
+                        cov[j][k] += sr.outer_general(P[j][i], P[k][i]) / pop_size
+            print("computed covariance")
+            naming = os.path.basename(f.name)
+            np.save(os.path.join(out_dir, naming + str('_cov')), cov)
 
         Pa = np.array(
             [[[0.0 for z in range(dm)]
@@ -228,128 +247,160 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
         # reg11[2][1] is a matrix (hence two more indices)
         # containing the regressions of
         # each element of the site 2 vector on each element of the site 1 vector
-        for k in range(sites):
-            for l in range(sites):
-                for i in range(0, dm):
-                    for j in range(0, dm):
-                        if var[l][j] > 0.0000000000001:
-                            reg11[k][l][i][j] = cov[k][l][i][j] / var[l][j]
-                        else:
-                            reg11[k][l][i][j] = 0
-        print("computed reg11")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_reg11')), reg11)
+        if precomputed == 'True':
+            reg11 = np.load(os.path.join(out_dir, naming + str('_reg11.npy')))
+        else:
+            for k in range(sites):
+                for l in range(sites):
+                    for i in range(0, dm):
+                        for j in range(0, dm):
+                            if var[l][j] > 0.0000000000001:
+                                reg11[k][l][i][j] = cov[k][l][i][j] / var[l][j]
+                            else:
+                                reg11[k][l][i][j] = 0
+            print("computed reg11")
+            naming = os.path.basename(f.name)
+            np.save(os.path.join(out_dir, naming + str('_reg11')), reg11)
 
         # # # # # First order terms with zeros except for the value that is
         # # # # # present (i.e. orthogonalized within each vector)
-        for k in range(sites):  # site
-            for i in range(pop_size):  # indiv
-                Pa[k][i] = sr.inner_general(
-                    sr.outer_general(phi[k][i], phi[k][i]), P[k][i])
-        print("computed Pa: first order orthogonalized within each vector")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_Pa')), Pa)
+        if precomputed == 'True':
+            Pa = np.load(os.path.join(out_dir, naming + str('_Pa.npy')))
+        else:
+            for k in range(sites):  # site
+                for i in range(pop_size):  # indiv
+                    Pa[k][i] = sr.inner_general(
+                        sr.outer_general(phi[k][i], phi[k][i]), P[k][i])
+            print("computed Pa: first order orthogonalized within each vector")
+            naming = os.path.basename(f.name)
+            np.save(os.path.join(out_dir, naming + str('_Pa')), Pa)
+
+        if precomputed == 'True':
+            P1i1 = np.load(os.path.join(out_dir, naming + str('_P1i1.npy')))
+        else:
         # Site j orthogonalized wrt site k
         # P1i1[j][k][i] =  first order phi of site j independent of
         # site k for individual i
-        P1i1 = np.array(
-            [[[[0.0 for z in range(dm)] for i in range(pop_size)]
-                for j in range(sites)]
-                for k in range(sites)])
-        for i in range(0, pop_size):  # Individuals
-            for j in range(sites):
-                for k in range(sites):
-                    if k != j:
-                        P1i1[j][k][i] = P[j][i] - sr.inner_general(
-                            reg11[j][k], Pa[k][i])
+            P1i1 = np.array(
+                [[[[0.0 for z in range(dm)] for i in range(pop_size)]
+                    for j in range(sites)]
+                    for k in range(sites)])
+            for i in range(0, pop_size):  # Individuals
+                for j in range(sites):
+                    for k in range(sites):
+                        if k != j:
+                            P1i1[j][k][i] = P[j][i] - sr.inner_general(
+                                reg11[j][k], Pa[k][i])
+            print("computed P1i1")
+            naming = os.path.basename(f.name)
+            np.save(os.path.join(out_dir, naming + str('_P1i1')), P1i1)
         P2i1 = P1i1[1][0]
-        print("computed P1i1")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_P1i1')), P1i1)
 
+        if precomputed == 'True':
+            varP1i1 = np.load(os.path.join(out_dir, naming + str('_varP1i1.npy')))
+        else:
         # # # # Variance in P2i1
-        varP1i1 = np.array(
-            [[[0.0 for z in range(dm)]
-                for i in range(sites)] for j in range(sites)])
-        for i in range(0, pop_size):  # individuals
+            varP1i1 = np.array(
+                [[[0.0 for z in range(dm)]
+                    for i in range(sites)] for j in range(sites)])
+            for i in range(0, pop_size):  # individuals
+                for j in range(sites):
+                    for k in range(sites):
+                        if k != j:
+                            varP1i1[j][k] += (P1i1[j][k][i] ** 2) / pop_size
+            print("computed varP1i1")
+            naming = os.path.basename(f.name)
+            np.save(os.path.join(out_dir, naming + str('_varP1i1')), varP1i1)
+
+        # # # # cov11i1[j][k][l] = cov between site j and (site k independent of l)
+        if precomputed == 'True':
+            cov11i1 = np.load(os.path.join(out_dir, naming + str('_cov11i1.npy')))
+        else:
+            cov11i1 = np.array(
+                [[[[[0.0 for z in range(dm)] for i in range(dm)]
+                    for j in range(sites)] for k in range(sites)] for l in
+                 range(sites)])
             for j in range(sites):
                 for k in range(sites):
-                    if k != j:
-                        varP1i1[j][k] += (P1i1[j][k][i] ** 2) / pop_size
-        print("computed varP1i1")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_varP1i1')), varP1i1)
-        # # # # cov11i1[j][k][l] = cov between site j and (site k independent of l)
-        cov11i1 = np.array(
-            [[[[[0.0 for z in range(dm)] for i in range(dm)]
-                for j in range(sites)] for k in range(sites)] for l in
-             range(sites)])
-        for j in range(sites):
+                    for l in range(sites):
+                        for i in range(pop_size):
+                            cov11i1[j][k][l] += \
+                                sr.outer_general(P[j][i], P1i1[k][l][i]) / pop_size
+            print("computed cov11i1")
+            naming = os.path.basename(f.name)
+            np.save(os.path.join(out_dir, naming + str('_cov11i1')), cov11i1)
+
+        if precomputed == 'True':
+            reg11i1 = np.load(os.path.join(out_dir, naming + str('_reg11i1.npy')))
+        else:
+        # # # # # regression of site j on (site k independent of l)
+            reg11i1 = np.array(
+                [[[[[0.0 for z in range(dm)] for i in range(dm)]
+                    for j in range(sites)] for k in range(sites)]
+                    for l in range(sites)])
             for k in range(sites):
                 for l in range(sites):
-                    for i in range(pop_size):
-                        cov11i1[j][k][l] += \
-                            sr.outer_general(P[j][i], P1i1[k][l][i]) / pop_size
-        print("computed cov11i1")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_cov11i1')), cov11i1)
-        # # # # # regression of site j on (site k independent of l)
-        reg11i1 = np.array(
-            [[[[[0.0 for z in range(dm)] for i in range(dm)]
-                for j in range(sites)] for k in range(sites)]
-                for l in range(sites)])
-        for k in range(sites):
-            for l in range(sites):
-                for m in range(sites):
-                    for i in range(0, dm):
-                        for j in range(0, dm):
-                            if varP1i1[l][m][j] > 0.0000000000001:
-                                reg11i1[k][l][m][i][j] = \
-                                    cov11i1[k][l][m][i][j] / varP1i1[l][m][j]
-                            else:
-                                reg11i1[k][l][m][i][j] = 0
-        print("computed reg11i1")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_reg11i1')), reg11i1)
+                    for m in range(sites):
+                        for i in range(0, dm):
+                            for j in range(0, dm):
+                                if varP1i1[l][m][j] > 0.0000000000001:
+                                    reg11i1[k][l][m][i][j] = \
+                                        cov11i1[k][l][m][i][j] / varP1i1[l][m][j]
+                                else:
+                                    reg11i1[k][l][m][i][j] = 0
+            print("computed reg11i1")
+            naming = os.path.basename(f.name)
+            np.save(os.path.join(out_dir, naming + str('_reg11i1')), reg11i1)
+
+        if precomputed == 'True':
+            Pa1i1 = np.load(os.path.join(out_dir, naming + str('_Pa1i1.npy')))
+        else:
         # # # # # same as P1i1, except with all elements = 0 except the one present
-        Pa1i1 = np.array(
-            [[[[0.0 for z in range(dm)]
-                for i in range(pop_size)] for j in range(sites)]
-                for k in range(sites)])
-        for i in range(0, pop_size):  # indiv
-            for j in range(sites):
-                for k in range(sites):
-                    if k != j:
-                        Pa1i1[j][k][i] = sr.inner_general(
-                            sr.outer_general(phi[j][i], phi[j][i]), P1i1[j][k][i])
-        print("computed Pa1i1")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_Pa1i1')), Pa1i1)
+            Pa1i1 = np.array(
+                [[[[0.0 for z in range(dm)]
+                    for i in range(pop_size)] for j in range(sites)]
+                    for k in range(sites)])
+            for i in range(0, pop_size):  # indiv
+                for j in range(sites):
+                    for k in range(sites):
+                        if k != j:
+                            Pa1i1[j][k][i] = sr.inner_general(
+                                sr.outer_general(phi[j][i], phi[j][i]), P1i1[j][k][i])
+            print("computed Pa1i1")
+            naming = os.path.basename(f.name)
+            np.save(os.path.join(out_dir, naming + str('_Pa1i1')), Pa1i1)
         # # # # # P1D[j][i] = first order poly of site j independent of all other
         # sites, for individual i
-        P1D = np.array(
-            [[[0.0 for z in range(dm)]
-                for i in range(pop_size)] for j in range(sites)])
-        for i in range(pop_size):  # indiv
-            for j in range(sites):
-                for k in range(sites):
-                    if k != j:
-                        for l in range(sites):
-                            if l != k & l != j:
-                                P1D[j][i] = P[j][i] - sr.inner_general(reg11i1[j][k][l], Pa1i1[k][l][i]) - \
-                                            sr.inner_general(reg11[j][l], Pa[l][i])
-        print("computed P1D")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_P1D')), P1D)
-        # # # #variance in P1D
-        varP1D = np.array([[0.0 for z in range(dm)] for i in range(sites)])
-        for k in range(sites):
-            for i in range(0, dm):  # nucleotide
-                for j in range(0, pop_size):  # individual
-                    varP1D[k][i] += ((P1D[k][j][i]) ** 2) / pop_size
-        print("computed varP1D")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_varP1D')), varP1D)
+        if precomputed == 'True':
+            P1D = np.load(os.path.join(out_dir, naming + str('_P1D.npy')))
+        else:
+            P1D = np.array(
+                [[[0.0 for z in range(dm)]
+                    for i in range(pop_size)] for j in range(sites)])
+            for i in range(pop_size):  # indiv
+                for j in range(sites):
+                    for k in range(sites):
+                        if k != j:
+                            for l in range(sites):
+                                if l != k & l != j:
+                                    P1D[j][i] = P[j][i] - sr.inner_general(reg11i1[j][k][l], Pa1i1[k][l][i]) - \
+                                                sr.inner_general(reg11[j][l], Pa[l][i])
+            print("computed P1D")
+            naming = os.path.basename(f.name)
+            np.save(os.path.join(out_dir, naming + str('_P1D')), P1D)
+
+        if precomputed == 'True':
+            varP1D = np.load(os.path.join(out_dir, naming + str('_varP1D.npy')))
+        else:
+            # # # #variance in P1D
+            varP1D = np.array([[0.0 for z in range(dm)] for i in range(sites)])
+            for k in range(sites):
+                for i in range(0, dm):  # nucleotide
+                    for j in range(0, pop_size):  # individual
+                        varP1D[k][i] += ((P1D[k][j][i]) ** 2) / pop_size
+            print("computed varP1D")
+            naming = os.path.basename(f.name)
+            np.save(os.path.join(out_dir, naming + str('_varP1D')), varP1D)
     # Pa2i1 = Pa1i1[1][0]
     # varP2i1 = varP1i1[1][0]
     # # # #-------------------------------------------------------------
@@ -945,8 +996,8 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
     Fm = 0
     for i in range(pop_size):  # individuals
         Fm += F[i] / pop_size
-    naming = os.path.basename(f.name)
-    np.save(os.path.join(out_dir, naming + str('_Fm')), Fm)
+    naming_phenotype = os.path.basename(f2.name)
+    np.save(os.path.join(out_dir, naming_phenotype + str('_Fm')), Fm)
     # Covariances of the trait with each element of the 1'st order vectors.
     # We can use the 'dot' operator here to get the inner product of a
     # first and a second rank tensor (a vector and a matrix).
@@ -954,12 +1005,12 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
         covFP[0] = np.dot(F, P[0]) / pop_size  # for site 1
         cov1FP[1] = np.dot(F, P[1]) / pop_size
         covFP[1] = np.dot(F, P2i1) / pop_size  # for site 2 independent of 1
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_covFP[0]')), covFP[0])
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_cov1FP[1]')), cov1FP[1])
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_covFP[1]')), covFP[1])
+        naming = os.path.basename(f2.name)
+        np.save(os.path.join(out_dir, naming_phenotype + str('_covFP[0]')), covFP[0])
+        naming = os.path.basename(f2.name)
+        np.save(os.path.join(out_dir, naming_phenotype + str('_cov1FP[1]')), cov1FP[1])
+        naming = os.path.basename(f2.name)
+        np.save(os.path.join(out_dir, naming_phenotype + str('_covFP[1]')), covFP[1])
 
         for i in range(pop_size):
             for j in range(sites):
@@ -970,8 +1021,8 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
                     if l != j:
                         for m in range(dm):
                             covFw1i1[j][l][m] += F[i] * P1i1[j][l][i][m] / pop_size
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_covFw1i1')), covFw1i1)
+        naming = os.path.basename(f2.name)
+        np.save(os.path.join(out_dir, naming_phenotype + str('_covFw1i1')), covFw1i1)
 
     if poly_order == 'second':
         #this part is from first order
@@ -1049,10 +1100,10 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
                 else:
                     rFon1D[j][i] = 0
 
-        np.save(os.path.join(out_dir, naming + str('_rFon1')), rFon1)
+        np.save(os.path.join(out_dir, naming_phenotype + str('_rFon1')), rFon1)
         print("computed rFon1")
         # rFon1D is needed as we're working with 3 sites
-        np.save(os.path.join(out_dir, naming + str('_rFon1D')), rFon1D)
+        np.save(os.path.join(out_dir, naming_phenotype + str('_rFon1D')), rFon1D)
         print("computed rFon1D")
 
         for i in range(sites):
@@ -1213,15 +1264,18 @@ def orthogonal_polynomial(filename, molecule, phenotype, sites, dm, pop_size, po
     print(
         'Regression on 1st order polynomial - orthogonalized within - rFon1D')
     print(rFon1D)
-    print('Regression of trait on site 2')
-    print(rFon2)
-    print(
-        'Regression on 2nd order polynomial - orthogonalized within - rFon2D')
-    print(rFon2D)
     print('Regression of trait on site 2 independent of 1')
     print(rFon2i1)
-    print('Regression on (site 1)x(site 2), independent of first order')
-    print(rFon12)
+
+    if poly_order == 'second':
+        print('Regression of trait on site 2')
+        print(rFon2)
+        print(
+            'Regression on 2nd order polynomial - orthogonalized within - rFon2D')
+        print(rFon2D)
+        print('Regression on (site 1)x(site 2), independent of first order')
+        print(rFon12)
+
     print('Trait values estimated from regressions')
     print(Fest)
     print("--- %s seconds ---" % (time.time() - start_time))

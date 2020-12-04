@@ -12,7 +12,7 @@ def test_data_dir():
 @pytest.fixture(scope="session")
 def protein_data_dir(test_data_dir):
     return os.path.join(test_data_dir, "protein")
-    
+
 
 @pytest.fixture(scope="session")
 def protein_expected_output_dir(test_data_dir):

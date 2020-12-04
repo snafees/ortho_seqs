@@ -1,7 +1,39 @@
 
 from ortho_seq_code.orthogonal_polynomial import orthogonal_polynomial
+from ortho_seq_code.cli import cli
 import numpy as np
 import os
+
+from click.testing import CliRunner
+
+
+def test_cli(
+        protein_seqs_no_padding,
+        protein_pheno_no_padding
+):
+    molecule = 'protein'
+    sites = 6
+    dm = 20
+    pop_size = 6
+    poly_order = 'first'
+    out_dir = '/tmp'
+
+    runner = CliRunner()
+
+    result = runner.invoke(
+        cli, [
+            protein_seqs_no_padding,
+            "--pheno_file", protein_pheno_no_padding,
+            "--molecule",  molecule,
+            "--sites", sites,
+            "--dm", dm,
+            "--pop_size", pop_size,
+            "--poly_order", poly_order,
+            "--out_dir", out_dir,
+        ]
+    )
+
+    assert result.exit_code == 0
 
 def test_nucleotide_first_order(nucleotide_two_sites_data_dir, nucleotide_expected_output_dir):
     test_data_dir = nucleotide_two_sites_data_dir

@@ -18,37 +18,37 @@ Params = namedtuple(
     ])
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def test_data_dir():
     return os.path.join(Path(__file__).parent, "tests", "data")
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def protein_data_dir(test_data_dir):
     return os.path.join(test_data_dir, "protein")
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def nucleotide_data_dir(test_data_dir):
     return os.path.join(test_data_dir, "nucleotide")
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def nucleotide_two_sites_data_dir(nucleotide_data_dir):
     return os.path.join(nucleotide_data_dir, "two_sites")
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def protein_expected_output_dir(protein_data_dir):
     return os.path.join(protein_data_dir, "expected_outputs")
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def protein_nopad_expected_output_dir(protein_expected_output_dir):
     return os.path.join(protein_expected_output_dir, "protein_seqs_nopad")
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def nucleotide_expected_output_dir(nucleotide_two_sites_data_dir):
     return os.path.join(nucleotide_two_sites_data_dir, "expected_outputs")
 

@@ -8,7 +8,7 @@ from ortho_seq_code.cli import cli
 
 
 def output_file_templates(basename):
-    
+
     return [
         f"{basename}_mean.npy",
         f"{basename}_P.npy",
@@ -24,6 +24,18 @@ def output_file_templates(basename):
         f"{basename}_Pa1i1.npy",
         f"{basename}_P1D.npy",
         f"{basename}_varP1D.npy",
+    ]
+
+def pheno_output_file_templates(basename_pheno):
+
+    return [
+        f"{basename_pheno}_Fm.npy",
+        f"{basename_pheno}_covFP[0].npy",
+        f"{basename_pheno}_cov1FP[1].npy",
+        f"{basename_pheno}_covFP[1].npy",
+        f"{basename_pheno}_covFw1i1.npy",
+        f"{basename_pheno}_rFon1.npy",
+        f"{basename_pheno}_rFon1D.npy",
     ]
 
 
@@ -55,7 +67,7 @@ def test_cli(
 
     assert result.exit_code == 0
 
-    
+
 def test_nucleotide_first_order(
         nucleotide_two_sites_data_dir,
         nucleotide_expected_output_dir,
@@ -67,10 +79,16 @@ def test_nucleotide_first_order(
     )
 
     basename = os.path.basename(nucleotide_params_first_order.seqs_filename)
+    basename_pheno = os.path.basename(nucleotide_params_first_order.pheno_filename)
 
     for t in output_file_templates(basename):
         expected = np.load(os.path.join(nucleotide_expected_output_dir, t))
         actual = np.load(os.path.join(nucleotide_params_first_order.out_dir, t))
+        assert expected.all() == actual.all()
+
+    for s in pheno_output_file_templates(basename_pheno):
+        expected = np.load(os.path.join(nucleotide_expected_output_dir, s))
+        actual = np.load(os.path.join(nucleotide_params_first_order.out_dir, s))
         assert expected.all() == actual.all()
 
 
@@ -83,8 +101,15 @@ def test_protein_first_order(
     orthogonal_polynomial(*protein_params_first_order)
 
     basename = os.path.basename(protein_params_first_order.seqs_filename)
+    basename_pheno = os.path.basename(protein_params_first_order.pheno_filename)
+
 
     for t in output_file_templates(basename):
         expected = np.load(os.path.join(protein_nopad_expected_output_dir, t))
         actual = np.load(os.path.join(protein_params_first_order.out_dir, t))
+        assert expected.all() == actual.all()
+
+    for s in pheno_output_file_templates(basename_pheno):
+        expected = np.load(os.path.join(protein_nopad_expected_output_dir, s))
+        actual = np.load(os.path.join(protein_params_first_order.out_dir, s))
         assert expected.all() == actual.all()

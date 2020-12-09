@@ -6,17 +6,6 @@ import ortho_seq_code.sr as sr
 import click
 
 
-@click.command(help='program to compute orthogonal polynomials up to 2nd order') # noqa
-@click.option('--pop_size', default=1, help='Population size or number of sequences') # noqa
-@click.option('--dm', default=4, help='dimension of vector, e.g., this is =4 when input is DNA/RNA') # noqa
-@click.option('--sites', default=2, help='number of sites in a sequence') #starting off with two sites to run full second order
-@click.option('--molecule', default='DNA', help='can provide DNA or amino acid sequence')
-@click.option('--pheno_file', type=str, help="phenotype text file corresponding to sequence data")
-@click.option('--poly_order', default='first', help='can do first and second order so far')
-@click.option('--precomputed', default='False', help='if true, then saved results are used')
-@click.option('--out_dir', help="directory to save output/debug files to", type=str) # noqa
-@click.argument('filename', type=str) # noqa
-#@click.argument('pheno_file', type=click.File('rb'))
 def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, poly_order, precomputed, out_dir):
     """Program to compute orthogonal polynomials up to 2nd order"""
     if not os.path.exists(out_dir):
@@ -128,52 +117,6 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                                phi[j][i][1] = 1.0
                            if seq[i][j] == 'n':
                                phi[j][i][2] = 1.0
-    # if dm == 3:
-    #     if molecule == 'protein_pnp':
-    #         for i in range(pop_size):  # individual
-    #             for j in range(sites):
-    #                 if seq[i][j] == 'R':
-    #                     phi[j][i][0] = 1.0
-    #                 if seq[i][j] == 'N':
-    #                     phi[j][i][0] = 1.0
-    #                 if seq[i][j] == 'D':
-    #                     phi[j][i][0] = 1.0
-    #                 if seq[i][j] == 'C':
-    #                     phi[j][i][0] = 1.0
-    #                 if seq[i][j] == 'E':
-    #                     phi[j][i][0] = 1.0
-    #                 if seq[i][j] == 'Q':
-    #                     phi[j][i][0] = 1.0
-    #                 if seq[i][j] == 'H':
-    #                     phi[j][i][0] = 1.0
-    #                 if seq[i][j] == 'K':
-    #                     phi[j][i][0] = 1.0
-    #                 if seq[i][j] == 'S':
-    #                     phi[j][i][0] = 1.0
-    #                 if seq[i][j] == 'T':
-    #                     phi[j][i][0] = 1.0
-    #                 if seq[i][j] == 'Y':
-    #                     phi[j][i][0] = 1.0
-    #                 if seq[i][j] == 'A':
-    #                     phi[j][i][1] = 1.0
-    #                 if seq[i][j] == 'G':
-    #                     phi[j][i][1] = 1.0
-    #                 if seq[i][j] == 'I':
-    #                     phi[j][i][1] = 1.0
-    #                 if seq[i][j] == 'L':
-    #                     phi[j][i][1] = 1.0
-    #                 if seq[i][j] == 'M':
-    #                     phi[j][i][1] = 1.0
-    #                 if seq[i][j] == 'F':
-    #                     phi[j][i][1] = 1.0
-    #                 if seq[i][j] == 'P':
-    #                     phi[j][i][1] = 1.0
-    #                 if seq[i][j] == 'W':
-    #                     phi[j][i][1] = 1.0
-    #                 if seq[i][j] == 'V':
-    #                     phi[j][i][1] = 1.0
-    #                 if seq[i][j] == 'n':
-    #                       phi[j][i][2] = 1.0
 
     # keep in alpha order
     # ---------------------------------First order terms ----------------------
@@ -1271,5 +1214,36 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
     print("--- %s seconds ---" % (time.time() - start_time))
 
 
-if __name__ == '__main__':
-    orthogonal_polynomial()
+@click.command(help='program to compute orthogonal polynomials up to 2nd order') # noqa
+@click.argument('filename', type=str) # noqa
+@click.option('--pop_size', default=1, help='Population size or number of sequences') # noqa
+@click.option('--dm', default=4, help='dimension of vector, e.g., this is =4 when input is DNA/RNA') # noqa
+@click.option('--sites', default=2, help='number of sites in a sequence') #starting off with two sites to run full second order
+@click.option('--molecule', default='DNA', help='can provide DNA or amino acid sequence')
+@click.option('--pheno_file', type=str, help="phenotype text file corresponding to sequence data")
+@click.option('--poly_order', default='first', help='can do first and second order so far')
+@click.option('--precomputed', default='False', help='if true, then saved results are used')
+@click.option('--out_dir', help="directory to save output/debug files to", type=str) # noqa
+#@click.argument('pheno_file', type=click.File('rb'))
+def cli(
+        filename,
+        pop_size,
+        dm,
+        sites,
+        molecule,
+        pheno_file,
+        poly_order,
+        precomputed,
+        out_dir
+):
+    orthogonal_polynomial(
+        filename,
+        pheno_file,
+        molecule,
+        sites,
+        dm,
+        pop_size,
+        poly_order,
+        precomputed,
+        out_dir
+    )

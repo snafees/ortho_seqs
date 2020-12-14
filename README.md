@@ -1,5 +1,6 @@
 # ortho_seqs
 Converting sequence data (DNA/RNA/protein) to tensor-valued orthogonal polynomials and projecting phenotypes onto the polynomial space.
+Find out more about the approach in this paper [Analyzing genomic data using tensor-based orthogonal polynomials with application to synthetic RNAs](https://academic.oup.com/nargab/article/2/4/lqaa101/6030984) The paper gives an example of this method as applied to a case of synthetic RNA from a previously published dataset. Another manuscript detailing the use of this method to understand binding affinities of transcription factors (TFs) is currently in progress. The tool can also be used for protein sequence data and functionality to analyze amino acid sequences has been added to the CLI. 
 
 # to install an environment with dependencies for this package
 ```

@@ -6,14 +6,14 @@ Find out more about the approach in this paper [Analyzing genomic data using ten
 ```
 conda create -n ortho_seqs pip
 pip install -r requirements.txt
-conda activate ortho_seqs
+conda activate ortho_seq
 ```
 
 or 
 
 ```
 conda env create -f conda_environment.yml
-conda activate ortho_seqs
+conda activate ortho_seq
 ```
 
 # then to install the package

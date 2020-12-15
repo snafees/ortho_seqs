@@ -8,7 +8,7 @@ CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 def cli():
     pass
 
-cli.add_command(orthogonal_polynomial)
+cli.add_command(orthogonal_polynomial, name="orthogonal-polynomial")
 
 if __name__ == "__main__":
     cli()

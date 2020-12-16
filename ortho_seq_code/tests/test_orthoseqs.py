@@ -68,17 +68,17 @@ def pheno_output_file_templates(basename_pheno):
 
     ]
 
-def pheno_output_file_2ndorder_templates(basename_pheno):
+def pheno_output_file_2ndorder_templates(basename_pheno_2ndorder):
 
     return [
 
-        f"{basename_pheno}_covFw2.npy", #start of projections of phenotypes onto second order
-        f"{basename_pheno}_covFw2D.npy",
-        f"{basename_pheno}_covFw2i2.npy",
-        f"{basename_pheno}_covFPP.npy",
-        f"{basename_pheno}_rFon2.npy",
-        f"{basename_pheno}_rFon2D.npy", #end of projections of phenotypes onto first order
-        f"{basename_pheno}_Fest.npy", #trait values estimated from regressions/projections
+        f"{basename_pheno_2ndorder}_covFw2.npy", #start of projections of phenotypes onto second order
+        f"{basename_pheno_2ndorder}_covFw2D.npy",
+        f"{basename_pheno_2ndorder}_covFw2i2.npy",
+        f"{basename_pheno_2ndorder}_covFPP.npy",
+        f"{basename_pheno_2ndorder}_rFon2.npy",
+        f"{basename_pheno_2ndorder}_rFon2D.npy", #end of projections of phenotypes onto first order
+        f"{basename_pheno_2ndorder}_Fest.npy", #trait values estimated from regressions/projections
     ]
 
 def test_cli(
@@ -144,14 +144,14 @@ def test_nucleotide_second_order(
     )
 
     basename = os.path.basename(nucleotide_params_second_order.seqs_filename)
-    basename_pheno = os.path.basename(nucleotide_params_second_order.pheno_filename)
+    basename_pheno_2ndorder = os.path.basename(nucleotide_params_second_order.pheno_filename)
 
     for t in output_file_2ndorder_templates(basename):
         expected = np.load(os.path.join(nucleotide_second_order_expected_output_dir, t))
         actual = np.load(os.path.join(nucleotide_params_second_order.out_dir, t))
         assert expected.all() == actual.all()
 
-    for s in pheno_output_file_2ndorder_templates(basename_pheno):
+    for s in pheno_output_file_2ndorder_templates(basename_pheno_2ndorder):
         expected = np.load(os.path.join(nucleotide_second_order_expected_output_dir, s))
         actual = np.load(os.path.join(nucleotide_params_second_order.out_dir, s))
         assert expected.all() == actual.all()

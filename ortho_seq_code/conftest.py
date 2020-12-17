@@ -69,9 +69,6 @@ def nucleotide_second_order_data_dir(nucleotide_data_dir):
 def nucleotide_second_order_expected_output_dir(nucleotide_second_order_data_dir):
     return os.path.join(nucleotide_second_order_data_dir, "expected_outputs")
 
-# @pytest.fixture
-# def nucleotide_expected_output_dir(nucleotide_two_sites_data_dir):
-#     return os.path.join(nucleotide_two_sites_data_dir, "expected_outputs")
 
 @pytest.fixture
 def nucleotide_params_first_order(nucleotide_first_order_data_dir):

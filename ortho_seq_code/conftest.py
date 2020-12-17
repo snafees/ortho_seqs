@@ -50,9 +50,6 @@ def protein_nopad_expected_output_dir(protein_expected_output_dir):
 def nucleotide_data_dir(test_data_dir):
     return os.path.join(test_data_dir, "nucleotide")
 
-# @pytest.fixture
-# def nucleotide_two_sites_data_dir(nucleotide_data_dir):
-#     return os.path.join(nucleotide_data_dir, "second_order")
 @pytest.fixture
 def nucleotide_first_order_data_dir(nucleotide_data_dir):
     return os.path.join(nucleotide_data_dir, "first_order")

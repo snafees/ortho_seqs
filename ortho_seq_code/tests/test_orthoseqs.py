@@ -10,20 +10,20 @@ from ortho_seq_code.cli import cli
 def output_file_templates(basename):
 
     return [
-        f"{basename}_mean.npy",
-        f"{basename}_P.npy",
-        f"{basename}_var.npy",
-        f"{basename}_cov.npy",
-        f"{basename}_reg11.npy",
-        f"{basename}_Pa.npy",
-        f"{basename}_P1i1.npy",
-        f"{basename}_varP1i1.npy",
-        f"{basename}_varP1i1.npy",
-        f"{basename}_cov11i1.npy",
-        f"{basename}_reg11i1.npy",
-        f"{basename}_Pa1i1.npy",
-        f"{basename}_P1D.npy",
-        f"{basename}_varP1D.npy", #end of building first order space
+        f"{basename}_mean",
+        f"{basename}_P",
+        f"{basename}_var",
+        f"{basename}_cov",
+        f"{basename}_reg11",
+        f"{basename}_Pa",
+        f"{basename}_P1i1",
+        f"{basename}_varP1i1",
+        f"{basename}_varP1i1",
+        f"{basename}_cov11i1",
+        f"{basename}_reg11i1",
+        f"{basename}_Pa1i1",
+        f"{basename}_P1D",
+        f"{basename}_varP1D", #end of building first order space
 
     ]
 
@@ -31,26 +31,26 @@ def output_file_2ndorder_templates(basename):
 
     return [
 
-        f"{basename}_phi2.npy",
-        f"{basename}_phi2m.npy",
-        f"{basename}_Q2.npy",
-        f"{basename}_cov2w1.npy",
-        f"{basename}_cov2w1a.npy",
-        f"{basename}_cov2w1b.npy",
-        f"{basename}_r2on1a.npy",
-        f"{basename}_r2on1b.npy",
-        f"{basename}_P2.npy",
-        f"{basename}_P2a.npy",
-        f"{basename}_cov2w2.npy",
-        f"{basename}_var2.npy",
-        f"{basename}_reg2on2.npy",
-        f"{basename}_P2i2.npy",
-        f"{basename}_P2i2a.npy",
-        f"{basename}_cov2w2i2.npy",
-        f"{basename}_var2i2.npy",
-        f"{basename}_reg2on2i2.npy",
-        f"{basename}_P2D.npy",
-        f"{basename}_P2Da.npy", #end of building second order space
+        f"{basename}_phi2",
+        f"{basename}_phi2m",
+        f"{basename}_Q2",
+        f"{basename}_cov2w1",
+        f"{basename}_cov2w1a",
+        f"{basename}_cov2w1b",
+        f"{basename}_r2on1a",
+        f"{basename}_r2on1b",
+        f"{basename}_P2",
+        f"{basename}_P2a",
+        f"{basename}_cov2w2",
+        f"{basename}_var2",
+        f"{basename}_reg2on2",
+        f"{basename}_P2i2",
+        f"{basename}_P2i2a",
+        f"{basename}_cov2w2i2",
+        f"{basename}_var2i2",
+        f"{basename}_reg2on2i2",
+        f"{basename}_P2D",
+        f"{basename}_P2Da", #end of building second order space
 
     ]
 
@@ -58,13 +58,13 @@ def pheno_output_file_templates(basename_pheno):
 
     return [
 
-        f"{basename_pheno}_Fm.npy", #mean phenotype value
-        f"{basename_pheno}_covFP[0].npy",
-        f"{basename_pheno}_cov1FP[1].npy",
-        f"{basename_pheno}_covFP[1].npy",
-        f"{basename_pheno}_covFw1i1.npy",
-        f"{basename_pheno}_rFon1.npy",
-        f"{basename_pheno}_rFon1D.npy", #end of projections of phenotypes onto first order
+        f"{basename_pheno}_Fm", #mean phenotype value
+        f"{basename_pheno}_covFP[0]",
+        f"{basename_pheno}_cov1FP[1]",
+        f"{basename_pheno}_covFP[1]",
+        f"{basename_pheno}_covFw1i1",
+        f"{basename_pheno}_rFon1",
+        f"{basename_pheno}_rFon1D", #end of projections of phenotypes onto first order
 
     ]
 
@@ -72,13 +72,13 @@ def pheno_output_file_2ndorder_templates(basename_pheno_2ndorder):
 
     return [
 
-        f"{basename_pheno_2ndorder}_covFw2.npy", #start of projections of phenotypes onto second order
-        f"{basename_pheno_2ndorder}_covFw2D.npy",
-        f"{basename_pheno_2ndorder}_covFw2i2.npy",
-        f"{basename_pheno_2ndorder}_covFPP.npy",
-        f"{basename_pheno_2ndorder}_rFon2.npy",
-        f"{basename_pheno_2ndorder}_rFon2D.npy", #end of projections of phenotypes onto first order
-        f"{basename_pheno_2ndorder}_Fest.npy", #trait values estimated from regressions/projections
+        f"{basename_pheno_2ndorder}_covFw2", #start of projections of phenotypes onto second order
+        f"{basename_pheno_2ndorder}_covFw2D",
+        f"{basename_pheno_2ndorder}_covFw2i2",
+        f"{basename_pheno_2ndorder}_covFPP",
+        f"{basename_pheno_2ndorder}_rFon2",
+        f"{basename_pheno_2ndorder}_rFon2D", #end of projections of phenotypes onto first order
+        f"{basename_pheno_2ndorder}_Fest", #trait values estimated from regressions/projections
     ]
 
 def test_cli(

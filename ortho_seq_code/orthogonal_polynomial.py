@@ -121,6 +121,7 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
     # keep in alpha order
     # ---------------------------------First order terms ----------------------
     # calculate mean vectors first
+    arrays_save = {}
     naming = os.path.basename(f.name)
     if poly_order == 'first':
         if precomputed == 'True':
@@ -129,7 +130,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
             for i in range(pop_size):
                 for j in range(sites):
                     mean[j] += phi[j][i] / pop_size
-            np.save(os.path.join(out_dir, naming + str('_mean')), mean)
+            arrays_save[naming + '_mean'] = mean
+            #np.save(os.path.join(out_dir, naming + str('_mean')), mean)
             #  to show progress, can do something much more efficient/elegant
             print("computed mean")
 
@@ -139,8 +141,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
             for j in range(sites):  # site
                 for i in range(0, pop_size):  # indiv
                     P[j][i] = phi[j][i] - mean[j]
-            naming = os.path.basename(f.name)
-            np.save(os.path.join(out_dir, naming + str('_P')), P)
+            arrays_save[naming + '_P'] = P
+            #np.save(os.path.join(out_dir, naming + str('_P')), P)
 
         # var[site][nucleotide]
         if precomputed == 'True':
@@ -151,8 +153,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                     for j in range(0, pop_size):  # individual
                         var[k][i] += ((P[k][j][i]) ** 2) / pop_size
             print("computed variance")
-            naming = os.path.basename(f.name)
-            np.save(os.path.join(out_dir, naming + str('_var')), var)
+            arrays_save[naming + '_var'] = var
+            #np.save(os.path.join(out_dir, naming + str('_var')), var)
 
         # Covariances between nucleotides at sites i and j
         # this is a matrix
@@ -167,8 +169,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                     for i in range(pop_size):
                         cov[j][k] += sr.outer_general(P[j][i], P[k][i]) / pop_size
             print("computed covariance")
-            naming = os.path.basename(f.name)
-            np.save(os.path.join(out_dir, naming + str('_cov')), cov)
+            arrays_save[naming + '_cov'] = cov
+            #np.save(os.path.join(out_dir, naming + str('_cov')), cov)
 
         Pa = np.array(
             [[[0.0 for z in range(dm)]
@@ -192,8 +194,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                             else:
                                 reg11[k][l][i][j] = 0
             print("computed reg11")
-            naming = os.path.basename(f.name)
-            np.save(os.path.join(out_dir, naming + str('_reg11')), reg11)
+            arrays_save[naming + '_reg11'] = reg11
+            #np.save(os.path.join(out_dir, naming + str('_reg11')), reg11)
 
         # # # # # First order terms with zeros except for the value that is
         # # # # # present (i.e. orthogonalized within each vector)
@@ -205,8 +207,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                     Pa[k][i] = sr.inner_general(
                         sr.outer_general(phi[k][i], phi[k][i]), P[k][i])
             print("computed Pa: first order orthogonalized within each vector")
-            naming = os.path.basename(f.name)
-            np.save(os.path.join(out_dir, naming + str('_Pa')), Pa)
+            arrays_save[naming + '_Pa'] = Pa
+            #np.save(os.path.join(out_dir, naming + str('_Pa')), Pa)
 
         if precomputed == 'True':
             P1i1 = np.load(os.path.join(out_dir, naming + str('_P1i1.npy')))
@@ -225,8 +227,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                             P1i1[j][k][i] = P[j][i] - sr.inner_general(
                                 reg11[j][k], Pa[k][i])
             print("computed P1i1")
-            naming = os.path.basename(f.name)
-            np.save(os.path.join(out_dir, naming + str('_P1i1')), P1i1)
+            arrays_save[naming + '_P1i1'] = P1i1
+            #np.save(os.path.join(out_dir, naming + str('_P1i1')), P1i1)
         P2i1 = P1i1[1][0]
 
         if precomputed == 'True':
@@ -242,8 +244,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                         if k != j:
                             varP1i1[j][k] += (P1i1[j][k][i] ** 2) / pop_size
             print("computed varP1i1")
-            naming = os.path.basename(f.name)
-            np.save(os.path.join(out_dir, naming + str('_varP1i1')), varP1i1)
+            arrays_save[naming + '_varP1i1'] = varP1i1
+            #np.save(os.path.join(out_dir, naming + str('_varP1i1')), varP1i1)
 
         # # # # cov11i1[j][k][l] = cov between site j and (site k independent of l)
         if precomputed == 'True':
@@ -260,8 +262,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                             cov11i1[j][k][l] += \
                                 sr.outer_general(P[j][i], P1i1[k][l][i]) / pop_size
             print("computed cov11i1")
-            naming = os.path.basename(f.name)
-            np.save(os.path.join(out_dir, naming + str('_cov11i1')), cov11i1)
+            arrays_save[naming + '_cov11i1'] = cov11i1
+            #np.save(os.path.join(out_dir, naming + str('_cov11i1')), cov11i1)
 
         if precomputed == 'True':
             reg11i1 = np.load(os.path.join(out_dir, naming + str('_reg11i1.npy')))
@@ -282,8 +284,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                                 else:
                                     reg11i1[k][l][m][i][j] = 0
             print("computed reg11i1")
-            naming = os.path.basename(f.name)
-            np.save(os.path.join(out_dir, naming + str('_reg11i1')), reg11i1)
+            arrays_save[naming + '_reg11i1'] = reg11i1
+            #np.save(os.path.join(out_dir, naming + str('_reg11i1')), reg11i1)
 
         if precomputed == 'True':
             Pa1i1 = np.load(os.path.join(out_dir, naming + str('_Pa1i1.npy')))
@@ -300,8 +302,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                             Pa1i1[j][k][i] = sr.inner_general(
                                 sr.outer_general(phi[j][i], phi[j][i]), P1i1[j][k][i])
             print("computed Pa1i1")
-            naming = os.path.basename(f.name)
-            np.save(os.path.join(out_dir, naming + str('_Pa1i1')), Pa1i1)
+            arrays_save[naming + '_Pa1i1'] = Pa1i1
+            #np.save(os.path.join(out_dir, naming + str('_Pa1i1')), Pa1i1)
         # # # # # P1D[j][i] = first order poly of site j independent of all other
         # sites, for individual i
         if precomputed == 'True':
@@ -319,8 +321,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                                     P1D[j][i] = P[j][i] - sr.inner_general(reg11i1[j][k][l], Pa1i1[k][l][i]) - \
                                                 sr.inner_general(reg11[j][l], Pa[l][i])
             print("computed P1D")
-            naming = os.path.basename(f.name)
-            np.save(os.path.join(out_dir, naming + str('_P1D')), P1D)
+            arrays_save[naming + '_P1D'] = P1D
+            #np.save(os.path.join(out_dir, naming + str('_P1D')), P1D)
 
         if precomputed == 'True':
             varP1D = np.load(os.path.join(out_dir, naming + str('_varP1D.npy')))
@@ -332,8 +334,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                     for j in range(0, pop_size):  # individual
                         varP1D[k][i] += ((P1D[k][j][i]) ** 2) / pop_size
             print("computed varP1D")
-            naming = os.path.basename(f.name)
-            np.save(os.path.join(out_dir, naming + str('_varP1D')), varP1D)
+            arrays_save[naming + '_varP1D'] = varP1D
+            #np.save(os.path.join(out_dir, naming + str('_varP1D')), varP1D)
     # Pa2i1 = Pa1i1[1][0]
     # varP2i1 = varP1i1[1][0]
     # # # #-------------------------------------------------------------
@@ -347,16 +349,16 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
         for i in range(pop_size):
             for j in range(sites):
                 mean[j] += phi[j][i] / pop_size
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_mean')), mean)
+        arrays_save[naming + '_mean'] = mean
+        #np.save(os.path.join(out_dir, naming + str('_mean')), mean)
         #  to show progress, can do something much more efficient/elegant
         print("computed mean")
 
         for j in range(sites):  # site
             for i in range(0, pop_size):  # indiv
                 P[j][i] = phi[j][i] - mean[j]
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_P')), P)
+        arrays_save[naming + '_P'] = P
+        #np.save(os.path.join(out_dir, naming + str('_P')), P)
 
         # var[site][nucleotide]
         for k in range(sites):
@@ -364,8 +366,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                 for j in range(0, pop_size):  # individual
                     var[k][i] += ((P[k][j][i]) ** 2) / pop_size
         print("computed variance")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_var')), var)
+        arrays_save[naming + '_var'] = var
+        #np.save(os.path.join(out_dir, naming + str('_var')), var)
 
         # Covariances between nucleotides at sites i and j
         # this is a matrix
@@ -377,8 +379,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                 for i in range(pop_size):
                     cov[j][k] += sr.outer_general(P[j][i], P[k][i]) / pop_size
         print("computed covariance")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_cov')), cov)
+        arrays_save[naming + '_cov'] = cov
+        #np.save(os.path.join(out_dir, naming + str('_cov')), cov)
 
         Pa = np.array(
             [[[0.0 for z in range(dm)]
@@ -399,8 +401,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                         else:
                             reg11[k][l][i][j] = 0
         print("computed reg11")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_reg11')), reg11)
+        arrays_save[naming + '_reg11'] = reg11
+        #np.save(os.path.join(out_dir, naming + str('_reg11')), reg11)
 
         # # # # # First order terms with zeros except for the value that is
         # # # # # present (i.e. orthogonalized within each vector)
@@ -409,8 +411,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                 Pa[k][i] = sr.inner_general(
                     sr.outer_general(phi[k][i], phi[k][i]), P[k][i])
         print("computed Pa: first order orthogonalized within each vector")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_Pa')), Pa)
+        arrays_save[naming + '_Pa'] = Pa
+        #np.save(os.path.join(out_dir, naming + str('_Pa')), Pa)
 
         P1i1 = np.array(
             [[[[0.0 for z in range(dm)] for i in range(pop_size)]
@@ -424,8 +426,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                             reg11[j][k], Pa[k][i])
         P2i1 = P1i1[1][0]
         print("computed P1i1")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_P1i1')), P1i1)
+        arrays_save[naming + '_P1i1'] = P1i1
+        #np.save(os.path.join(out_dir, naming + str('_P1i1')), P1i1)
 
         # # # # Variance in P2i1
         varP1i1 = np.array(
@@ -437,8 +439,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                     if k != j:
                         varP1i1[j][k] += (P1i1[j][k][i] ** 2) / pop_size
         print("computed varP1i1")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_varP1i1')), varP1i1)
+        arrays_save[naming + '_varP1i1'] = varP1i1
+        #np.save(os.path.join(out_dir, naming + str('_varP1i1')), varP1i1)
         # # # # cov11i1[j][k][l] = cov between site j and (site k independent of l)
         cov11i1 = np.array(
             [[[[[0.0 for z in range(dm)] for i in range(dm)]
@@ -451,8 +453,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                         cov11i1[j][k][l] += \
                             sr.outer_general(P[j][i], P1i1[k][l][i]) / pop_size
         print("computed cov11i1")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_cov11i1')), cov11i1)
+        arrays_save[naming + '_cov11i1'] = cov11i1
+        #np.save(os.path.join(out_dir, naming + str('_cov11i1')), cov11i1)
         # # # # # regression of site j on (site k independent of l)
         reg11i1 = np.array(
             [[[[[0.0 for z in range(dm)] for i in range(dm)]
@@ -469,8 +471,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                             else:
                                 reg11i1[k][l][m][i][j] = 0
         print("computed reg11i1")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_reg11i1')), reg11i1)
+        arrays_save[naming + '_reg11i1'] = reg11i1
+        #np.save(os.path.join(out_dir, naming + str('_reg11i1')), reg11i1)
         # # # # # same as P1i1, except with all elements = 0 except the one present
         Pa1i1 = np.array(
             [[[[0.0 for z in range(dm)]
@@ -483,8 +485,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                         Pa1i1[j][k][i] = sr.inner_general(
                             sr.outer_general(phi[j][i], phi[j][i]), P1i1[j][k][i])
         print("computed Pa1i1")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_Pa1i1')), Pa1i1)
+        arrays_save[naming + '_Pa1i1'] = Pa1i1
+        #np.save(os.path.join(out_dir, naming + str('_Pa1i1')), Pa1i1)
         # # # # # P1D[j][i] = first order poly of site j independent of all other
         # sites, for individual i
         P1D = np.array(
@@ -499,7 +501,7 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                                 P1D[j][i] = P[j][i] - sr.inner_general(reg11i1[j][k][l], Pa1i1[k][l][i]) - \
                                             sr.inner_general(reg11[j][l], Pa[l][i])
         print("computed P1D")
-        naming = os.path.basename(f.name)
+        arrays_save[naming + '_P1D'] = P1D
         np.save(os.path.join(out_dir, naming + str('_P1D')), P1D)
         # # # #variance in P1D
         varP1D = np.array([[0.0 for z in range(dm)] for i in range(sites)])
@@ -508,8 +510,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                 for j in range(0, pop_size):  # individual
                     varP1D[k][i] += ((P1D[k][j][i]) ** 2) / pop_size
         print("computed varP1D")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_varP1D')), varP1D)
+        arrays_save[naming + '_varP1D'] = varP1D
+        #np.save(os.path.join(out_dir, naming + str('_varP1D')), varP1D)
         ### end of that part from first order
 
         for k in range(pop_size):
@@ -521,10 +523,10 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
         # phi12 = phi2[0][1]
         # phi12m = phi2m[0][1]
         print("computed phi2 and phi2m")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_phi2')), phi2)
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_phi2m')), phi2m)
+        arrays_save[naming + '_phi2'] = phi2
+        arrays_save[naming + '_phi2m'] = phi2m
+        # np.save(os.path.join(out_dir, naming + str('_phi2')), phi2)
+        # np.save(os.path.join(out_dir, naming + str('_phi2m')), phi2m)
 
         # Q12 contains the 2'nd order phenotypes with the means subtracted out
         Q2 = np.array(
@@ -539,7 +541,7 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
         # Q12[i] = phi12[i] - phi12m
         # Q12 = Q2[0][1]
         print("computed Q2")
-        naming = os.path.basename(f.name)
+        arrays_save[naming + '_Q2'] = Q2
         np.save(os.path.join(out_dir, naming + str('_Q2')), Q2)
         # # # # Covariance between elements of the 2'nd order phenotype matrix and
         # # # # the 1'st order phenotype.
@@ -555,8 +557,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                             cov2w1[j][k][l] += \
                                 sr.outer_general(Q2[j][k][i], P[l][i]) / pop_size
         print("computed cov2w1")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_cov2w1')), cov2w1)
+        arrays_save[naming + '_cov2w1'] = cov2w1
+        #np.save(os.path.join(out_dir, naming + str('_cov2w1')), cov2w1)
         # # # # Covariance of second order phenotype matrices with first
         # order phenotypes.
         cov2w1a = np.array(
@@ -582,10 +584,10 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                         # cov2w1c[j][k] += sr.outer_general(
                         # Q2[j][k][i], P1D[2][i]) / n
         print("computed cov2w1a,cov2w1b")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_cov2w1a')), cov2w1a)
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_cov2w1b')), cov2w1b)
+        arrays_save[naming + '_cov2w1a'] = cov2w1a
+        arrays_save[naming + '_cov2w1b'] = cov2w1b
+        # np.save(os.path.join(out_dir, naming + str('_cov2w1a')), cov2w1a)
+        # np.save(os.path.join(out_dir, naming + str('_cov2w1b')), cov2w1b)
 
         # regressions of second order phenotype matrices on first order phenotypes.
         r2on1a = np.array(
@@ -621,10 +623,10 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                                 # else:
                                 #     r2on1c[i][j][k][l][m] = 0
         print("computed r2on1a, r2on1b")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_r2on1a')), r2on1a)
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_r2on1b')), r2on1b)
+        arrays_save[naming + '_r2on1a'] = r2on1a
+        arrays_save[naming + '_r2on1b'] = r2on1b
+        # np.save(os.path.join(out_dir, naming + str('_r2on1a')), r2on1a)
+        # np.save(os.path.join(out_dir, naming + str('_r2on1b')), r2on1b)
 
         # # # Second order polynomials
         P2 = np.array(
@@ -646,8 +648,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
         # r12on2i1 = r2on1b[0][1]
         print("computed P2")
         PP12 = P2[0][1]
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_P2')), P2)
+        arrays_save[naming + '_P2'] = P2
+        #np.save(os.path.join(out_dir, naming + str('_P2')), P2)
         # # # Second order terms with zeros except for the value that is
         # # # present (i.e. orthogonalized within each matrix)
         P2a = np.array(
@@ -662,8 +664,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                             sr.outer_general(
                                 phi2[i][j][h], phi2[i][j][h]), P2[i][j][h])
         print("computed P2a")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_P2a')), P2a)
+        arrays_save[naming + '_P2a'] = P2a
+        #np.save(os.path.join(out_dir, naming + str('_P2a')), P2a)
         # PPa12 = P2a[0][1]
         # # # # Covariances between second order phenotypes
         cov2w2 = np.array(
@@ -681,8 +683,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                                     cov2w2[j][k][l][m] += sr.outer_general(
                                         P2[j][k][i], P2[l][m][i]) / pop_size
         print("computed cov2w2")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_cov2w2')), cov2w2)
+        arrays_save[naming + '_cov2w2'] = cov2w2
+        #np.save(os.path.join(out_dir, naming + str('_cov2w2')), cov2w2)
         # # Variances of second order phenotypes
         var2 = np.array(
             [[[[0.0 for z in range(dm)]
@@ -695,8 +697,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                             var2[i][j][k][l] = cov2w2[i][j][i][j][k][l][k][l]
         var12 = var2[0][1]
         print("computed var2")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_var2')), var2)
+        arrays_save[naming + '_var2'] = var2
+        #np.save(os.path.join(out_dir, naming + str('_var2')), var2)
         # #Variances of second order phenotypes (this is another way of computing variances, by using the polynomial itself)
         # # for i in range(sites):
         # #     for j in range(sites):
@@ -732,8 +734,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                                                 else:
                                                     reg2on2[i][j][k][l][m][n][o][p] = 0
         print("computed reg2on2")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_reg2on2')), reg2on2)
+        arrays_save[naming + '_reg2on2'] = reg2on2
+        #np.save(os.path.join(out_dir, naming + str('_reg2on2')), reg2on2)
         # # # # Second order phenotypes independent of one another
         P2i2 = np.array(
             [[[[[[[0.0 for z in range(dm)] for i in range(dm)]
@@ -758,10 +760,10 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                                             phi2[j][k][i],
                                             phi2[j][k][i]), P2i2[j][k][l][m][i])
         print("computed P2i2, P2i2a")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_P2i2')), P2i2)
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_P2i2a')), P2i2a)
+        arrays_save[naming + '_P2i2'] = P2i2
+        arrays_save[naming + '_P2i2a'] = P2i2a
+        # np.save(os.path.join(out_dir, naming + str('_P2i2')), P2i2)
+        # np.save(os.path.join(out_dir, naming + str('_P2i2a')), P2i2a)
         # # # # cov of 2'nd order phi with another independent of the third
         cov2w2i2 = np.array(
             [[[[[[[[[[0.0 for z in range(dm)] for i in range(dm)] for j in range(
@@ -793,10 +795,10 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                                             var2i2[j][k][l][m][p][q] += (
                                                 P2i2[j][k][l][m][i][p][q] ** 2) / pop_size
         print("computed cov2w2i2, var2i2")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_cov2w2i2')), cov2w2i2)
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_var2i2')), var2i2)
+        arrays_save[naming + '_cov2w2i2'] = cov2w2i2
+        arrays_save[naming + '_var2i2'] = var2i2
+        # np.save(os.path.join(out_dir, naming + str('_cov2w2i2')), cov2w2i2)
+        # np.save(os.path.join(out_dir, naming + str('_var2i2')), var2i2)
         # # # # regressions corresponding to the above
         reg2on2i2 = np.array(
             [[[[[[[[[[0.0 for z in range(dm)] for i in range(dm)]
@@ -827,8 +829,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                                                             else:
                                                                 reg2on2i2[i][j][k][l][k1][l1][m][n][o][p] = 0
         print("computed reg2on2i2")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_reg2on2i2')), reg2on2i2)
+        arrays_save[naming + '_reg2on2i2'] = reg2on2i2
+        #np.save(os.path.join(out_dir, naming + str('_reg2on2i2')), reg2on2i2)
         # # # # 2'nd order phi independent of all others
         P2D = np.array(
             [[[[[0.0 for z in range(dm)] for i in range(dm)]
@@ -860,10 +862,10 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                                                         phi2[j][k][i]),
                                                     P2D[j][k][i])
         print("computed P2D, P2Da")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_P2D')), P2D)
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_P2Da')), P2Da)
+        arrays_save[naming + '_P2D'] = P2D
+        arrays_save[naming + '_P2Da'] = P2Da
+        # np.save(os.path.join(out_dir, naming + str('_P2D')), P2D)
+        # np.save(os.path.join(out_dir, naming + str('_P2Da')), P2Da)
         # # # #variance in P2D
         var2D = np.array(
             [[[[0.0 for z in range(dm)] for i in range(dm)]
@@ -876,8 +878,12 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                             for m in range(dm):
                                 var2D[j][k][l][m] += (P2D[j][k][i][l][m] ** 2) / pop_size
         print("computed var2D")
-        naming = os.path.basename(f.name)
-        np.save(os.path.join(out_dir, naming + str('_var2D')), var2D)
+        arrays_save[naming + '_var2D'] = var2D
+        #np.save(os.path.join(out_dir, naming + str('_var2D')), var2D)
+
+    output_npz_file = os.path.join(out_dir, 'naming.npz')
+    np.savez(output_npz_file, *arrays_save)
+
     # ------------Projecting the trait values into the space of orthogonal ----
     # -------------polynomials ------------------------------------------------
     # initializing arrays
@@ -926,11 +932,15 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
     # rFon3 = np.array(
     #     [[[0.0 for z in range(dm)] for i in range(dm)] for j in range(dm)])
     # Calculating the mean trait value
+
     naming_phenotype = os.path.basename(f2.name)
+
     Fm = 0
     for i in range(pop_size):  # individuals
         Fm += F[i] / pop_size
-    np.save(os.path.join(out_dir, naming_phenotype + str('_Fm')), Fm)
+    arrays_save[naming_phenotype + '_Fm'] = Fm
+    #np.save(os.path.join(out_dir, naming_phenotype + str('_Fm')), Fm)
+
     # Covariances of the trait with each element of the 1'st order vectors.
     # We can use the 'dot' operator here to get the inner product of a
     # first and a second rank tensor (a vector and a matrix).
@@ -938,9 +948,12 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
         covFP[0] = np.dot(F, P[0]) / pop_size  # for site 1
         cov1FP[1] = np.dot(F, P[1]) / pop_size
         covFP[1] = np.dot(F, P2i1) / pop_size  # for site 2 independent of 1
-        np.save(os.path.join(out_dir, naming_phenotype + str('_covFP[0]')), covFP[0])
-        np.save(os.path.join(out_dir, naming_phenotype + str('_cov1FP[1]')), cov1FP[1])
-        np.save(os.path.join(out_dir, naming_phenotype + str('_covFP[1]')), covFP[1])
+        arrays_save[naming_phenotype + '_covFP[0]'] = covFP[0]
+        arrays_save[naming_phenotype + '_cov1FP[1]'] = cov1FP[1]
+        arrays_save[naming_phenotype + '_covFP[1]'] = covFP[1]
+        # np.save(os.path.join(out_dir, naming_phenotype + str('_covFP[0]')), covFP[0])
+        # np.save(os.path.join(out_dir, naming_phenotype + str('_cov1FP[1]')), cov1FP[1])
+        # np.save(os.path.join(out_dir, naming_phenotype + str('_covFP[1]')), covFP[1])
 
         for i in range(pop_size):
             for j in range(sites):
@@ -951,16 +964,20 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                     if l != j:
                         for m in range(dm):
                             covFw1i1[j][l][m] += F[i] * P1i1[j][l][i][m] / pop_size
-        np.save(os.path.join(out_dir, naming_phenotype + str('_covFw1i1')), covFw1i1)
+        arrays_save[naming_phenotype + '_covFw1i1'] = covFw1i1
+        #np.save(os.path.join(out_dir, naming_phenotype + str('_covFw1i1')), covFw1i1)
 
     if poly_order == 'second':
         #this part is from first order
         covFP[0] = np.dot(F, P[0]) / pop_size  # for site 1
         cov1FP[1] = np.dot(F, P[1]) / pop_size
         covFP[1] = np.dot(F, P2i1) / pop_size  # for site 2 independent of 1
-        np.save(os.path.join(out_dir, naming_phenotype + str('_covFP[0]')), covFP[0])
-        np.save(os.path.join(out_dir, naming_phenotype + str('_cov1FP[1]')), cov1FP[1])
-        np.save(os.path.join(out_dir, naming_phenotype + str('_covFP[1]')), covFP[1])
+        arrays_save[naming_phenotype + '_covFP[0]'] = covFP[0]
+        arrays_save[naming_phenotype + '_cov1FP[1]'] = cov1FP[1]
+        arrays_save[naming_phenotype + '_covFP[1]'] = covFP[1]
+        # np.save(os.path.join(out_dir, naming_phenotype + str('_covFP[0]')), covFP[0])
+        # np.save(os.path.join(out_dir, naming_phenotype + str('_cov1FP[1]')), cov1FP[1])
+        # np.save(os.path.join(out_dir, naming_phenotype + str('_covFP[1]')), covFP[1])
 
         for i in range(pop_size):
             for j in range(sites):
@@ -971,7 +988,8 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                     if l != j:
                         for m in range(dm):
                             covFw1i1[j][l][m] += F[i] * P1i1[j][l][i][m] / pop_size
-        np.save(os.path.join(out_dir, naming_phenotype + str('_covFw1i1')), covFw1i1)
+        arrays_save[naming_phenotype + '_covFw1i1'] = covFw1i1
+        #np.save(os.path.join(out_dir, naming_phenotype + str('_covFw1i1')), covFw1i1)
         #end of that part
 
         for i in range(pop_size):
@@ -990,9 +1008,12 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                                 for q in range(dm):
                                     covFw2i2[j][k][n][o][p][q] += \
                                         F[i] * P2i2[j][k][n][o][i][p][q] / pop_size
-        np.save(os.path.join(out_dir, naming_phenotype + str('_covFw2')), covFw2)
-        np.save(os.path.join(out_dir, naming_phenotype + str('_covFw2D')), covFw2D)
-        np.save(os.path.join(out_dir, naming_phenotype + str('_covFw2i2')), covFw2i2)
+        arrays_save[naming_phenotype + '_covFw2'] = covFw2
+        arrays_save[naming_phenotype + '_covFw2D'] = covFw2D
+        arrays_save[naming_phenotype + '_covFw2i2'] = covFw2i2
+        # np.save(os.path.join(out_dir, naming_phenotype + str('_covFw2')), covFw2)
+        # np.save(os.path.join(out_dir, naming_phenotype + str('_covFw2D')), covFw2D)
+        # np.save(os.path.join(out_dir, naming_phenotype + str('_covFw2i2')), covFw2i2)
 
     # Need for third degree polynomial
     # for i in range(pop_size):
@@ -1006,7 +1027,9 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
     # we do not have a matrix times a vector.
         for i in range(0, pop_size):  # indiv
             covFPP += (F[i] * PP12[i] / pop_size)
-        np.save(os.path.join(out_dir, naming_phenotype + str('_covFPP')), covFPP)
+        arrays_save[naming_phenotype + '_covFPP'] = covFPP
+        #np.save(os.path.join(out_dir, naming_phenotype + str('_covFPP')), covFPP)
+
     # Regressions of the trait on each element of the first order
     # phenotype vectors.
     if poly_order == 'first':
@@ -1021,10 +1044,12 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                 else:
                     rFon1D[j][i] = 0
 
-        np.save(os.path.join(out_dir, naming_phenotype + str('_rFon1')), rFon1)
+        arrays_save[naming_phenotype + '_rFon1'] = rFon1
+        arrays_save[naming_phenotype + '_rFon1D'] = rFon1D
+        #np.save(os.path.join(out_dir, naming_phenotype + str('_rFon1')), rFon1)
         print("computed rFon1")
         # rFon1D is needed as we're working with 3 sites
-        np.save(os.path.join(out_dir, naming_phenotype + str('_rFon1D')), rFon1D)
+        #np.save(os.path.join(out_dir, naming_phenotype + str('_rFon1D')), rFon1D)
         print("computed rFon1D")
 
         for i in range(sites):
@@ -1062,10 +1087,12 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
                 else:
                     rFon1D[j][i] = 0
 
-        np.save(os.path.join(out_dir, naming_phenotype + str('_rFon1')), rFon1)
+        arrays_save[naming_phenotype + '_rFon1'] = rFon1
+        arrays_save[naming_phenotype + '_rFon1D'] = rFon1D
+        #np.save(os.path.join(out_dir, naming_phenotype + str('_rFon1')), rFon1)
         print("computed rFon1")
         # rFon1D is needed as we're working with 3 sites
-        np.save(os.path.join(out_dir, naming_phenotype + str('_rFon1D')), rFon1D)
+        #np.save(os.path.join(out_dir, naming_phenotype + str('_rFon1D')), rFon1D)
         print("computed rFon1D")
 
         for i in range(sites):
@@ -1107,10 +1134,12 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
         # we need rFon2D when doing up to 3rd order and just rFon2
         # when doing up to 2nd order
         # rFon2D is needed as we're working with 3 sites
-        np.save(os.path.join(out_dir, naming_phenotype + str('_rFon2')), rFon2)
+        arrays_save[naming_phenotype + '_rFon2'] = rFon2
+        arrays_save[naming_phenotype + '_rFon2D'] = rFon2D
+        #np.save(os.path.join(out_dir, naming_phenotype + str('_rFon2')), rFon2)
         print("computed rFon2")
         # rFon2D is needed as we're working with 3 sites
-        np.save(os.path.join(out_dir, naming_phenotype + str('_rFon2D')), rFon2D)
+        #np.save(os.path.join(out_dir, naming_phenotype + str('_rFon2D')), rFon2D)
         print("computed rFon2D")
 
         for i in range(sites):
@@ -1167,7 +1196,9 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
         	Fest[i] = Fm + Fon1[i] + Fon2i1[i] + Fon12[i]
         	if abs(Fest[i]) < 0.0000000000001:  # avoiding roundoff error
         		Fest[i] = 0   	           # modify or remove for large datasets
-        np.save(os.path.join(out_dir, naming_phenotype + str('_Fest')), Fest)
+        arrays_save[naming_phenotype + '_Fest'] = Fest
+        #np.save(os.path.join(out_dir, naming_phenotype + str('_Fest')), Fest)
+
     # contribution of third order phenotype for each individual......
     # for i in range(pop_size):
     #     Fon3[i] = sr.inner_general(rFon3[0], P3a)
@@ -1178,6 +1209,9 @@ def orthogonal_polynomial(filename, pheno_file, molecule, sites, dm, pop_size, p
             Fon1[i] = 0
         if np.fabs(Fon2i1[i]) < 0.0000000000001:
             Fon2i1[i] = 0
+
+    output_pheno_npz_file = os.path.join(out_dir, 'naming_phenotype.npz')
+    np.savez(output_pheno_npz_file, *arrays_save)
 
     # -----------------------Listing the main results------------------
     print('Regression of trait on site 1')

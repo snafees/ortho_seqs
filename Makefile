@@ -17,5 +17,5 @@ unit-tests:
 	pytest ortho_seq_code --pdb -x
 
 coverage:
-	coverage run --source sencha --omit="*/test*" --module py.test
+	coverage run --source ortho_seq_code --omit="*/test*" --module py.test
 	coverage report --show-missing

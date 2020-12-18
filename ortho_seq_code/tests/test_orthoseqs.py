@@ -5,81 +5,8 @@ from click.testing import CliRunner
 
 from ortho_seq_code.orthogonal_polynomial import orthogonal_polynomial
 from ortho_seq_code.cli import cli
+from ortho_seq_code.tests import orthoseqs_tst_utils as utils
 
-
-def output_file_templates(basename):
-
-    return [
-        f"{basename}_mean",
-        f"{basename}_P",
-        f"{basename}_var",
-        f"{basename}_cov",
-        f"{basename}_reg11",
-        f"{basename}_Pa",
-        f"{basename}_P1i1",
-        f"{basename}_varP1i1",
-        f"{basename}_varP1i1",
-        f"{basename}_cov11i1",
-        f"{basename}_reg11i1",
-        f"{basename}_Pa1i1",
-        f"{basename}_P1D",
-        f"{basename}_varP1D", #end of building first order space
-
-    ]
-
-def output_file_2ndorder_templates(basename):
-
-    return [
-
-        f"{basename}_phi2",
-        f"{basename}_phi2m",
-        f"{basename}_Q2",
-        f"{basename}_cov2w1",
-        f"{basename}_cov2w1a",
-        f"{basename}_cov2w1b",
-        f"{basename}_r2on1a",
-        f"{basename}_r2on1b",
-        f"{basename}_P2",
-        f"{basename}_P2a",
-        f"{basename}_cov2w2",
-        f"{basename}_var2",
-        f"{basename}_reg2on2",
-        f"{basename}_P2i2",
-        f"{basename}_P2i2a",
-        f"{basename}_cov2w2i2",
-        f"{basename}_var2i2",
-        f"{basename}_reg2on2i2",
-        f"{basename}_P2D",
-        f"{basename}_P2Da", #end of building second order space
-
-    ]
-
-def pheno_output_file_templates(basename_pheno):
-
-    return [
-
-        f"{basename_pheno}_Fm", #mean phenotype value
-        f"{basename_pheno}_covFP[0]",
-        f"{basename_pheno}_cov1FP[1]",
-        f"{basename_pheno}_covFP[1]",
-        f"{basename_pheno}_covFw1i1",
-        f"{basename_pheno}_rFon1",
-        f"{basename_pheno}_rFon1D", #end of projections of phenotypes onto first order
-
-    ]
-
-def pheno_output_file_2ndorder_templates(basename_pheno_2ndorder):
-
-    return [
-
-        f"{basename_pheno_2ndorder}_covFw2", #start of projections of phenotypes onto second order
-        f"{basename_pheno_2ndorder}_covFw2D",
-        f"{basename_pheno_2ndorder}_covFw2i2",
-        f"{basename_pheno_2ndorder}_covFPP",
-        f"{basename_pheno_2ndorder}_rFon2",
-        f"{basename_pheno_2ndorder}_rFon2D", #end of projections of phenotypes onto first order
-        f"{basename_pheno_2ndorder}_Fest", #trait values estimated from regressions/projections
-    ]
 
 def test_cli(
         protein_seqs_no_padding,
@@ -110,68 +37,60 @@ def test_cli(
     assert result.exit_code == 0
 
 
+def assert_equality(expected_path, actual_path):
+    expected = np.load(expected_path)
+    obtained_arrays = np.load(actual_path)
+    for key, obtained_array in obtained_arrays.items():
+        obtained_array = expected[key]
+        assert np.testing.assert_array_equal(expected, obtained_array)
+
+
 def test_nucleotide_first_order(
         nucleotide_first_order_data_dir,
-        nucleotide_first_order_expected_output_dir,
-        nucleotide_params_first_order
-):
+        nucleotide_params_first_order):
 
-    orthogonal_polynomial(
-        *nucleotide_params_first_order
-    )
-    expected = np.load(os.path.join(nucleotide_first_order_expected_output_dir, t))
-
+    with utils.TempDirectory() as location:
+        nucleotide_params_first_order = nucleotide_params_first_order._replace(
+            out_dir=location)
+        orthogonal_polynomial(
+            *nucleotide_params_first_order
+        )
     basename = os.path.basename(nucleotide_params_first_order.seqs_filename)
-    basename_pheno = os.path.basename(nucleotide_params_first_order.pheno_filename)
-
-    for t in output_file_templates(basename): #work related to building the polynomial space
-        actual = expected[t]
-        assert np.testing.assert_array_equal(expected, actual)
-
-    for s in pheno_output_file_templates(basename_pheno): #work related to projecting phenotypes onto the polynomial space we built
-        actual = expected[s]
-        assert np.testing.assert_array_equal(expected, actual)
+    expected_path = os.path.join(
+        nucleotide_first_order_data_dir, basename + ".npz")
+    obtained_path = os.path.join(location, basename + ".npz")
+    assert_equality(expected_path, obtained_path)
 
 
 def test_nucleotide_second_order(
-        nucleotide_second_order_data_dir,
-        nucleotide_second_order_expected_output_dir,
-        nucleotide_params_second_order
-):
+        nucleotide_second_order_data_dir, nucleotide_params_second_order):
+    with utils.TempDirectory() as location:
+        nucleotide_params_second_order = \
+            nucleotide_params_second_order._replace(
+                out_dir=location)
+        orthogonal_polynomial(
+            *nucleotide_params_second_order
+        )
 
-    orthogonal_polynomial(
-        *nucleotide_params_second_order
-    )
-
-    basename = os.path.basename(nucleotide_params_second_order.seqs_filename)
-    basename_pheno_2ndorder = os.path.basename(nucleotide_params_second_order.pheno_filename)
-    expected = np.load(os.path.join(nucleotide_second_order_expected_output_dir, t))
-
-    for t in output_file_2ndorder_templates(basename):
-        actual = expected[t]
-        assert np.testing.assert_array_equal(expected, actual)
-
-    for s in pheno_output_file_2ndorder_templates(basename_pheno_2ndorder):
-        actual = expected[s]
-        assert np.testing.assert_array_equal(expected, actual)
+        basename = os.path.basename(
+            nucleotide_params_second_order.seqs_filename)
+        expected_path = os.path.join(
+            nucleotide_second_order_data_dir, basename + ".npz")
+        obtained_path = os.path.join(location, basename + ".npz")
+        assert_equality(expected_path, obtained_path)
 
 
-def test_protein_first_order(
-        protein_data_dir,
-        protein_nopad_expected_output_dir,
-        protein_params_first_order
-):
+def test_protein_first_order(protein_data_dir, protein_params_first_order):
 
-    orthogonal_polynomial(*protein_params_first_order)
+    with utils.TempDirectory() as location:
+        protein_params_first_order = protein_params_first_order._replace(
+            out_dir=location)
+        orthogonal_polynomial(
+            *protein_params_first_order
+        )
 
-    basename = os.path.basename(protein_params_first_order.seqs_filename)
-    basename_pheno = os.path.basename(protein_params_first_order.pheno_filename)
-    expected = np.load(os.path.join(protein_nopad_expected_output_dir, t))
-
-    for t in output_file_templates(basename):
-        actual = expected[t]
-        assert np.testing.assert_array_equal(expected, actual)
-
-    for s in pheno_output_file_templates(basename_pheno):
-        actual = expected[s]
-        assert np.testing.assert_array_equal(expected, actual)
+        basename = os.path.basename(protein_params_first_order.seqs_filename)
+        expected_path = os.path.join(
+            protein_data_dir, basename + ".npz")
+        obtained_path = os.path.join(location, basename + ".npz")
+        assert_equality(expected_path, obtained_path)

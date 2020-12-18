@@ -39,11 +39,6 @@ def protein_pheno_no_padding(protein_data_dir):
 
 
 @pytest.fixture
-def protein_expected_output_dir(protein_data_dir):
-    return os.path.join(protein_data_dir, "expected_outputs")
-
-
-@pytest.fixture
 def protein_nopad_expected_output_dir(protein_expected_output_dir):
     return os.path.join(protein_expected_output_dir, "protein_seqs_nopad")
 
@@ -59,18 +54,8 @@ def nucleotide_first_order_data_dir(nucleotide_data_dir):
 
 
 @pytest.fixture
-def nucleotide_first_order_expected_output_dir(nucleotide_first_order_data_dir):
-    return os.path.join(nucleotide_first_order_data_dir, "expected_outputs")
-
-
-@pytest.fixture
 def nucleotide_second_order_data_dir(nucleotide_data_dir):
     return os.path.join(nucleotide_data_dir, "second_order")
-
-
-@pytest.fixture
-def nucleotide_second_order_expected_output_dir(nucleotide_second_order_data_dir):
-    return os.path.join(nucleotide_second_order_data_dir, "expected_outputs")
 
 
 @pytest.fixture
@@ -93,7 +78,7 @@ def nucleotide_params_first_order(nucleotide_first_order_data_dir):
         12,
         'first',
         False,
-        '/tmp'
+        "",
     )
 
 
@@ -117,7 +102,7 @@ def nucleotide_params_second_order(nucleotide_second_order_data_dir):
         12,
         'second',
         False,
-        '/tmp'
+        "",
     )
 
 
@@ -141,5 +126,5 @@ def protein_params_first_order(protein_data_dir):
         6,
         'first',
         False,
-        '/tmp',
+        "",
     )

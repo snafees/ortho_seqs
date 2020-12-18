@@ -16,9 +16,6 @@ run-cli:
 unit-tests:
 	pytest ortho_seq_code --pdb -x
 
-test:
-	py.test
-
 coverage:
 	coverage run --source sencha --omit="*/test*" --module py.test
 	coverage report --show-missing

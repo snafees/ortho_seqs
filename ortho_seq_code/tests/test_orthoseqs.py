@@ -98,7 +98,7 @@ def test_cli(
         cli, [
             protein_seqs_no_padding,
             "--pheno_file", protein_pheno_no_padding,
-            "--molecule",  molecule,
+            "--molecule", molecule,
             "--sites", sites,
             "--dm", dm,
             "--pop_size", pop_size,
@@ -119,19 +119,19 @@ def test_nucleotide_first_order(
     orthogonal_polynomial(
         *nucleotide_params_first_order
     )
+    expected = np.load(os.path.join(nucleotide_first_order_expected_output_dir, t))
 
     basename = os.path.basename(nucleotide_params_first_order.seqs_filename)
     basename_pheno = os.path.basename(nucleotide_params_first_order.pheno_filename)
 
     for t in output_file_templates(basename): #work related to building the polynomial space
-        expected = np.load(os.path.join(nucleotide_first_order_expected_output_dir, t))
-        actual = np.load(os.path.join(nucleotide_params_first_order.out_dir, t))
-        assert expected.all() == actual.all()
+        actual = expected[t]
+        assert np.testing.assert_array_equal(expected, actual)
 
     for s in pheno_output_file_templates(basename_pheno): #work related to projecting phenotypes onto the polynomial space we built
-        expected = np.load(os.path.join(nucleotide_first_order_expected_output_dir, s))
-        actual = np.load(os.path.join(nucleotide_params_first_order.out_dir, s))
-        assert expected.all() == actual.all()
+        actual = expected[s]
+        assert np.testing.assert_array_equal(expected, actual)
+
 
 def test_nucleotide_second_order(
         nucleotide_second_order_data_dir,
@@ -145,16 +145,15 @@ def test_nucleotide_second_order(
 
     basename = os.path.basename(nucleotide_params_second_order.seqs_filename)
     basename_pheno_2ndorder = os.path.basename(nucleotide_params_second_order.pheno_filename)
+    expected = np.load(os.path.join(nucleotide_second_order_expected_output_dir, t))
 
     for t in output_file_2ndorder_templates(basename):
-        expected = np.load(os.path.join(nucleotide_second_order_expected_output_dir, t))
-        actual = np.load(os.path.join(nucleotide_params_second_order.out_dir, t))
-        assert expected.all() == actual.all()
+        actual = expected[t]
+        assert np.testing.assert_array_equal(expected, actual)
 
     for s in pheno_output_file_2ndorder_templates(basename_pheno_2ndorder):
-        expected = np.load(os.path.join(nucleotide_second_order_expected_output_dir, s))
-        actual = np.load(os.path.join(nucleotide_params_second_order.out_dir, s))
-        assert expected.all() == actual.all()
+        actual = expected[s]
+        assert np.testing.assert_array_equal(expected, actual)
 
 
 def test_protein_first_order(
@@ -167,14 +166,12 @@ def test_protein_first_order(
 
     basename = os.path.basename(protein_params_first_order.seqs_filename)
     basename_pheno = os.path.basename(protein_params_first_order.pheno_filename)
-
+    expected = np.load(os.path.join(protein_nopad_expected_output_dir, t))
 
     for t in output_file_templates(basename):
-        expected = np.load(os.path.join(protein_nopad_expected_output_dir, t))
-        actual = np.load(os.path.join(protein_params_first_order.out_dir, t))
-        assert expected.all() == actual.all()
+        actual = expected[t]
+        assert np.testing.assert_array_equal(expected, actual)
 
     for s in pheno_output_file_templates(basename_pheno):
-        expected = np.load(os.path.join(protein_nopad_expected_output_dir, s))
-        actual = np.load(os.path.join(protein_params_first_order.out_dir, s))
-        assert expected.all() == actual.all()
+        actual = expected[s]
+        assert np.testing.assert_array_equal(expected, actual)

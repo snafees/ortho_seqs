@@ -7,12 +7,10 @@ def recursive_array_builder(ord_one, ord_two, d):
     if ord_one - ord_two == 0:
         return 0
     else:
-        return [
-            recursive_array_builder(ord_one - 1, ord_two, d) for i in range(d)]
+        return [recursive_array_builder(ord_one - 1, ord_two, d) for i in range(d)]
 
 
-def for_loop_builder(
-        ip, depth, ord_one, ord_two, d, index_list, ar_one, ar_two):
+def for_loop_builder(ip, depth, ord_one, ord_two, d, index_list, ar_one, ar_two):
     if depth == 0:
         command, sec_comm = command_builder(ord_one, ord_two, index_list)
         result = eval(sec_comm)
@@ -27,7 +25,8 @@ def for_loop_builder(
         for a in range(d):
             index_list[ord_one - depth] = a
             ip = for_loop_builder(
-                ip, depth - 1, ord_one, ord_two, d, index_list, ar_one, ar_two)
+                ip, depth - 1, ord_one, ord_two, d, index_list, ar_one, ar_two
+            )
 
         return ip
 
@@ -73,8 +72,7 @@ def inner_general(a, b):
     # print(ord_one)
     ip = np.array(recursive_array_builder(ord_one, ord_two, d))
     ip = ip.tolist()
-    ip = for_loop_builder(
-        ip, ord_one, ord_one, ord_two, d, [0] * ord_one, a, b)
+    ip = for_loop_builder(ip, ord_one, ord_one, ord_two, d, [0] * ord_one, a, b)
     return ip
 
 
@@ -86,8 +84,7 @@ def outer_array_builder(order, d):
         return [outer_array_builder(order - 1, d) for i in range(d)]
 
 
-def outer_loop_builder(
-        op, depth, ord_one, ord_two, d, index_list, ar_one, ar_two):
+def outer_loop_builder(op, depth, ord_one, ord_two, d, index_list, ar_one, ar_two):
     if depth == 0:
         first_com = outer_command_builder(ord_one, ord_two, index_list)
         exec(first_com)
@@ -97,7 +94,8 @@ def outer_loop_builder(
         for a in range(d):
             index_list[ord_one - depth] = a
             op = outer_loop_builder(
-                op, depth - 1, ord_one, ord_two, d, index_list, ar_one, ar_two)
+                op, depth - 1, ord_one, ord_two, d, index_list, ar_one, ar_two
+            )
 
         return op
 

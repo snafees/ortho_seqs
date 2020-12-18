@@ -4,7 +4,7 @@ import shutil
 
 class TempDirectory(object):
     def __init__(self):
-        self.tempdir = tempfile.mkdtemp(prefix='orthoseqstest_')
+        self.tempdir = tempfile.mkdtemp(prefix="orthoseqstest_")
 
     def __enter__(self):
         return self.tempdir

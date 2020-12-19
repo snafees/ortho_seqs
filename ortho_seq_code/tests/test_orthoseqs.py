@@ -43,31 +43,31 @@ def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):
 
 
 def assert_equality(expected_path, actual_path):
-    expected = np.load(expected_path)
+    assert os.path.exists(expected_path)
+    assert os.path.exists(actual_path)
     obtained_arrays = np.load(actual_path)
     for key, obtained_array in obtained_arrays.items():
-        obtained_array = expected[key]
-        assert np.testing.assert_array_equal(expected, obtained_array)
+        with np.load(expected_path) as expected_arrays:
+            expected_array = expected_arrays[key]
+            np.testing.assert_array_equal(expected_array, obtained_array)
 
 
 def test_nucleotide_first_order(
-    nucleotide_first_order_data_dir, nucleotide_params_first_order
-):
+        nucleotide_first_order_data_dir, nucleotide_params_first_order):
 
     with utils.TempDirectory() as location:
         nucleotide_params_first_order = nucleotide_params_first_order._replace(
             out_dir=location
         )
         orthogonal_polynomial(*nucleotide_params_first_order)
-    basename = os.path.basename(nucleotide_params_first_order.seqs_filename)
-    expected_path = os.path.join(nucleotide_first_order_data_dir, basename + ".npz")
-    obtained_path = os.path.join(location, basename + ".npz")
-    assert_equality(expected_path, obtained_path)
+        basename = os.path.basename(nucleotide_params_first_order.seqs_filename)
+        expected_path = os.path.join(nucleotide_first_order_data_dir, basename + ".npz")
+        obtained_path = os.path.join(location, basename + ".npz")
+        assert_equality(expected_path, obtained_path)
 
 
 def test_nucleotide_second_order(
-    nucleotide_second_order_data_dir, nucleotide_params_second_order
-):
+        nucleotide_second_order_data_dir, nucleotide_params_second_order):
     with utils.TempDirectory() as location:
         nucleotide_params_second_order = nucleotide_params_second_order._replace(
             out_dir=location

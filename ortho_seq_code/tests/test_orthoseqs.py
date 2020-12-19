@@ -53,7 +53,8 @@ def assert_equality(expected_path, actual_path):
 
 
 def test_nucleotide_first_order(
-        nucleotide_first_order_data_dir, nucleotide_params_first_order):
+    nucleotide_first_order_data_dir, nucleotide_params_first_order
+):
 
     with utils.TempDirectory() as location:
         nucleotide_params_first_order = nucleotide_params_first_order._replace(
@@ -67,7 +68,8 @@ def test_nucleotide_first_order(
 
 
 def test_nucleotide_second_order(
-        nucleotide_second_order_data_dir, nucleotide_params_second_order):
+    nucleotide_second_order_data_dir, nucleotide_params_second_order
+):
     with utils.TempDirectory() as location:
         nucleotide_params_second_order = nucleotide_params_second_order._replace(
             out_dir=location

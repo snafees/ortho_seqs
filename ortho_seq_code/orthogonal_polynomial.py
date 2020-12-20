@@ -124,13 +124,12 @@ def orthogonal_polynomial(
         reg2on2 = precomputed_array[naming + "_reg2on2"]
         P2i2 = precomputed_array[naming + "_P2i2"]
         P2i2a = precomputed_array[naming + "_P2i2a"]
-        cov2w2i2= precomputed_array[naming + "_cov2w2i2"]
+        cov2w2i2 = precomputed_array[naming + "_cov2w2i2"]
         var2i2 = precomputed_array[naming + "_var2i2"]
         reg2on2i2 = precomputed_array[naming + "_reg2on2i2"]
         P2D = precomputed_array[naming + "_P2D"]
         P2Da = precomputed_array[naming + "_P2Da"]
         var2D = precomputed_array[naming + "_var2D"]
-
 
     # keep in alpha order
     # ---------------------------------First order terms ----------------------

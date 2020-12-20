@@ -43,7 +43,8 @@ def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):
 
 
 def test_cli_precomputed(
-        protein_seqs_no_padding, protein_pheno_no_padding, protein_data_dir):
+    protein_seqs_no_padding, protein_pheno_no_padding, protein_data_dir
+):
     molecule = "protein"
     sites = 6
     dm = 20
@@ -71,7 +72,7 @@ def test_cli_precomputed(
             poly_order,
             "--out_dir",
             out_dir,
-            "--precomputed"
+            "--precomputed",
         ],
     )
 

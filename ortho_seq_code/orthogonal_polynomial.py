@@ -906,7 +906,7 @@ def orthogonal_polynomial(
         # rFon2D is needed as we're working with 3 sites
         print("computed rFon2D")
 
-    regression_npz_file = os.path.join(out_dir, naming + "_regression.npz")
+    regression_npz_file = os.path.join(out_dir, naming + "_regressions.npz")
     print("Saving regression results to to {}".format(regression_npz_file))
     np.savez_compressed(regression_npz_file, **regression_results)
 

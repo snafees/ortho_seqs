@@ -42,6 +42,42 @@ def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):
     assert result.exit_code == 0
 
 
+def test_cli_precomputed(
+        protein_seqs_no_padding, protein_pheno_no_padding, protein_data_dir):
+    molecule = "protein"
+    sites = 6
+    dm = 20
+    pop_size = 6
+    poly_order = "first"
+    out_dir = protein_data_dir
+
+    runner = CliRunner()
+
+    result = runner.invoke(
+        cli,
+        [
+            protein_seqs_no_padding,
+            "--pheno_file",
+            protein_pheno_no_padding,
+            "--molecule",
+            molecule,
+            "--sites",
+            sites,
+            "--dm",
+            dm,
+            "--pop_size",
+            pop_size,
+            "--poly_order",
+            poly_order,
+            "--out_dir",
+            out_dir,
+            "--precomputed"
+        ],
+    )
+
+    assert result.exit_code == 0
+
+
 def assert_equality(expected_path, actual_path):
     assert os.path.exists(expected_path)
     assert os.path.exists(actual_path)
@@ -67,9 +103,9 @@ def test_nucleotide_first_order(
         obtained_path = os.path.join(location, basename + ".npz")
         assert_equality(expected_path, obtained_path)
         expected_path = os.path.join(
-            nucleotide_first_order_data_dir, basename + "_regression.npz"
+            nucleotide_first_order_data_dir, basename + "_regressions.npz"
         )
-        obtained_path = os.path.join(location, basename + "_regression.npz")
+        obtained_path = os.path.join(location, basename + "_regressions.npz")
         assert_equality(expected_path, obtained_path)
 
 
@@ -89,9 +125,9 @@ def test_nucleotide_second_order(
         obtained_path = os.path.join(location, basename + ".npz")
         assert_equality(expected_path, obtained_path)
         expected_path = os.path.join(
-            nucleotide_second_order_data_dir, basename + "_regression.npz"
+            nucleotide_second_order_data_dir, basename + "_regressions.npz"
         )
-        obtained_path = os.path.join(location, basename + "_regression.npz")
+        obtained_path = os.path.join(location, basename + "_regressions.npz")
         assert_equality(expected_path, obtained_path)
 
 
@@ -107,6 +143,6 @@ def test_protein_first_order(protein_data_dir, protein_params_first_order):
         expected_path = os.path.join(protein_data_dir, basename + ".npz")
         obtained_path = os.path.join(location, basename + ".npz")
         assert_equality(expected_path, obtained_path)
-        expected_path = os.path.join(protein_data_dir, basename + "_regression.npz")
-        obtained_path = os.path.join(location, basename + "_regression.npz")
+        expected_path = os.path.join(protein_data_dir, basename + "_regressions.npz")
+        obtained_path = os.path.join(location, basename + "_regressions.npz")
         assert_equality(expected_path, obtained_path)

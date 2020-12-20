@@ -8,7 +8,7 @@ import click
 import itertools
 
 
-def creat_dir_if_not_exists(out_dir):
+def create_dir_if_not_exists(out_dir):
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
     else:
@@ -27,7 +27,7 @@ def orthogonal_polynomial(
     out_dir,
 ):
     """Program to compute orthogonal polynomials up to 2nd order"""
-
+    create_dir_if_not_exists(out_dir)
     start_time = time.time()
     with open(filename) as f:
         seq = f.readlines()

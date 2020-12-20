@@ -121,6 +121,7 @@ def orthogonal_polynomial(
         P2a = precomputed_array[naming + "_P2a"]
         cov2w2 = precomputed_array[naming + "_cov2w2"]
         var2 = precomputed_array[naming + "_var2"]
+        var12 = var2[0][1]
         reg2on2 = precomputed_array[naming + "_reg2on2"]
         P2i2 = precomputed_array[naming + "_P2i2"]
         P2i2a = precomputed_array[naming + "_P2i2a"]

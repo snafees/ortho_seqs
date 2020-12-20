@@ -787,12 +787,6 @@ def orthogonal_polynomial(
             else:
                 rFon1D[j][i] = 0
 
-        arrays_save[naming_phenotype + "_rFon1"] = rFon1
-        arrays_save[naming_phenotype + "_rFon1D"] = rFon1D
-        print("computed rFon1")
-        # rFon1D is needed as we're working with 3 sites
-        print("computed rFon1D")
-
         for i, j in itertools.product(range_sites, range_sites):
             if j != i:
                 for k in range_dm:
@@ -824,14 +818,6 @@ def orthogonal_polynomial(
                         rFon2D[i][j][k][l] = covFw2D[i][j][k][l] / var2D[i][j][k][l]
                     else:
                         rFon2D[i][j][k][l] = 0
-        # we need rFon2D when doing up to 3rd order and just rFon2
-        # when doing up to 2nd order
-        # rFon2D is needed as we're working with 3 sites
-        arrays_save[naming_phenotype + "_rFon2"] = rFon2
-        arrays_save[naming_phenotype + "_rFon2D"] = rFon2D
-        print("computed rFon2")
-        # rFon2D is needed as we're working with 3 sites
-        print("computed rFon2D")
 
         for i, j in itertools.product(range_sites, range_sites):
             if j != i:
@@ -878,7 +864,6 @@ def orthogonal_polynomial(
         Fest = [
             0 if np.fabs(Fest[i]) < 0.0000000000001 else Fest[i] for i in range_popsize
         ]
-        arrays_save[naming_phenotype + "_Fest"] = Fest
     # contribution of third order phenotype for each individual......
     # for i in range_popsize:
     #     Fon3[i] = sr.inner_general(rFon3[0], P3a)
@@ -894,12 +879,21 @@ def orthogonal_polynomial(
     np.savez_compressed(output_npz_file, **arrays_save)
 
     # -----------------------Listing the main results------------------
+    regression_results = {}
     print("Regression of trait on site 1")
     print(rFon1)
     print("Regression on 1st order polynomial - orthogonalized within - rFon1D")
     print(rFon1D)
     print("Regression of trait on site 2 independent of 1")
     print(rFon2i1)
+    regression_results[naming_phenotype + "_rFon1"] = rFon1
+    regression_results[naming_phenotype + "_rFon1D"] = rFon1D
+    regression_results[naming_phenotype + "_rFon2i1"] = rFon2i1
+    regression_results[naming_phenotype + "_Fest"] = Fest
+
+    print("computed rFon1")
+    # rFon1D is needed as we're working with 3 sites
+    print("computed rFon1D")
 
     if poly_order == "second":
         print("Regression of trait on site 2")
@@ -908,6 +902,19 @@ def orthogonal_polynomial(
         print(rFon2D)
         print("Regression on (site 1)x(site 2), independent of first order")
         print(rFon12)
+        # we need rFon2D when doing up to 3rd order and just rFon2
+        # when doing up to 2nd order
+        # rFon2D is needed as we're working with 3 sites
+        regression_results[naming_phenotype + "_rFon2"] = rFon2
+        regression_results[naming_phenotype + "_rFon2D"] = rFon2D
+        regression_results[naming_phenotype + "_rFon12"] = rFon12
+        print("computed rFon2")
+        # rFon2D is needed as we're working with 3 sites
+        print("computed rFon2D")
+
+    regression_npz_file = os.path.join(out_dir, naming + "_regression.npz")
+    print("Saving regression results to to {}".format(regression_npz_file))
+    np.savez_compressed(regression_npz_file, **regression_results)
 
     print("Trait values estimated from regressions")
     print(Fest)

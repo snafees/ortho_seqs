@@ -544,14 +544,17 @@ def orthogonal_polynomial(
                                     for n in range(sites):
                                         for o in range(sites):
                                             if o != n:
-                                                cov2w2i2[j][k][l][m][n][o] += \
+                                                cov2w2i2[j][k][l][m][n][o] += (
                                                     sr.outer_general(
-                                                        P2[j][k][i],
-                                                        P2i2[l][m][n][o][i]) / pop_size
+                                                        P2[j][k][i], P2i2[l][m][n][o][i]
+                                                    )
+                                                    / pop_size
+                                                )
                                     for p in range(dm):
                                         for q in range(dm):
                                             var2i2[j][k][l][m][p][q] += (
-                                                P2i2[j][k][l][m][i][p][q] ** 2) / pop_size
+                                                P2i2[j][k][l][m][i][p][q] ** 2
+                                            ) / pop_size
         print("computed cov2w2i2, var2i2")
         arrays_save[naming + "_cov2w2i2"] = cov2w2i2
         arrays_save[naming + "_var2i2"] = var2i2
@@ -702,16 +705,20 @@ def orthogonal_polynomial(
                     if k != j:
                         for l in range(dm):
                             for m in range(dm):
-                                covFw2[j][k][l][m] += F[i] * P2[j][k][i][l][m] / pop_size
-                                covFw2D[j][k][l][m] += \
+                                covFw2[j][k][l][m] += (
+                                    F[i] * P2[j][k][i][l][m] / pop_size
+                                )
+                                covFw2D[j][k][l][m] += (
                                     F[i] * P2D[j][k][i][l][m] / pop_size
+                                )
                 for n in range(sites):
                     for o in range(sites):
                         if n != o:
                             for p in range(dm):
                                 for q in range(dm):
-                                    covFw2i2[j][k][n][o][p][q] += \
+                                    covFw2i2[j][k][n][o][p][q] += (
                                         F[i] * P2i2[j][k][n][o][i][p][q] / pop_size
+                                    )
         arrays_save[naming_phenotype + "_covFw2"] = covFw2
         arrays_save[naming_phenotype + "_covFw2D"] = covFw2D
         arrays_save[naming_phenotype + "_covFw2i2"] = covFw2i2
@@ -858,22 +865,29 @@ def orthogonal_polynomial(
                 rFon12[i] = 0
         # # Contribution of the second order phenotype for each individual.
         Fon12 = [sr.inner_general(rFon2[0][1], P2a[0][1][i]) for i in range_popsize]
-        Fon12 = [0 if np.fabs(Fon12[i]) < 0.0000000000001 else Fon12[i] for i in range_popsize ]
+        Fon12 = [
+            0 if np.fabs(Fon12[i]) < 0.0000000000001 else Fon12[i]
+            for i in range_popsize
+        ]
 
         # ----------Calculating the expected trait value for each individual
         # ----------given it's phenotype and the regressions calculated
         # -----------above (to check  whether or not everything works).
 
         Fest = [Fm + Fon1[i] + Fon2i1[i] + Fon12[i] for i in range_popsize]
-        Fest = [0 if np.fabs(Fest[i]) < 0.0000000000001 else Fest[i] for i in range_popsize]
+        Fest = [
+            0 if np.fabs(Fest[i]) < 0.0000000000001 else Fest[i] for i in range_popsize
+        ]
         arrays_save[naming_phenotype + "_Fest"] = Fest
     # contribution of third order phenotype for each individual......
     # for i in range_popsize:
     #     Fon3[i] = sr.inner_general(rFon3[0], P3a)
     # Ignoring very small values that would be due to roundoff error.
     # Change or delete this for a large data set.
-    Fon1 = [0 if np.fabs(Fon1[i]) < 0.0000000000001 else Fon1[i] for i in range_popsize ]
-    Fon2i1 = [0 if np.fabs(Fon2i1[i]) < 0.0000000000001 else Fon2i1[i] for i in range_popsize]
+    Fon1 = [0 if np.fabs(Fon1[i]) < 0.0000000000001 else Fon1[i] for i in range_popsize]
+    Fon2i1 = [
+        0 if np.fabs(Fon2i1[i]) < 0.0000000000001 else Fon2i1[i] for i in range_popsize
+    ]
 
     output_npz_file = os.path.join(out_dir, naming + ".npz")
     print("Saving to {}".format(output_npz_file))

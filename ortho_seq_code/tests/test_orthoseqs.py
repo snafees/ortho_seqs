@@ -46,10 +46,11 @@ def assert_equality(expected_path, actual_path):
     assert os.path.exists(expected_path)
     assert os.path.exists(actual_path)
     obtained_arrays = np.load(actual_path)
+    expected_arrays = np.load(expected_path)
     for key, obtained_array in obtained_arrays.items():
-        with np.load(expected_path) as expected_arrays:
-            expected_array = expected_arrays[key]
-            np.testing.assert_array_equal(expected_array, obtained_array)
+        print(key)
+        expected_array = expected_arrays[key]
+        np.testing.assert_array_equal(expected_array, obtained_array)
 
 
 def test_nucleotide_first_order(

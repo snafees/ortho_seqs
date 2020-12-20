@@ -107,6 +107,28 @@ def orthogonal_polynomial(
         Pa1i1 = precomputed_array[naming + "_Pa1i1"]
         P1D = precomputed_array[naming + "_P1D"]
         varP1D = precomputed_array[naming + "_varP1D"]
+        phi2 = precomputed_array[naming + "_phi2"]
+        phi2m = precomputed_array[naming + "_phi2m"]
+        Q2 = precomputed_array[naming + "_Q2"]
+        cov2w1 = precomputed_array[naming + "_cov2w1"]
+        cov2w1a = precomputed_array[naming + "_cov2w1a"]
+        cov2w1b = precomputed_array[naming + "_cov2w1b"]
+        r2on1a = precomputed_array[naming + "_r2on1a"]
+        r2on1b = precomputed_array[naming + "_r2on1b"]
+        P2 = precomputed_array[naming + "_P2"]
+        P2a = precomputed_array[naming + "_P2a"]
+        cov2w2 = precomputed_array[naming + "_cov2w2"]
+        var2 = precomputed_array[naming + "_var2"]
+        reg2on2 = precomputed_array[naming + "_reg2on2"]
+        P2i2 = precomputed_array[naming + "_P2i2"]
+        P2i2a = precomputed_array[naming + "_P2i2a"]
+        cov2w2i2= precomputed_array[naming + "_cov2w2i2"]
+        var2i2 = precomputed_array[naming + "_var2i2"]
+        reg2on2i2 = precomputed_array[naming + "_reg2on2i2"]
+        P2D = precomputed_array[naming + "_P2D"]
+        P2Da = precomputed_array[naming + "_P2Da"]
+        var2D = precomputed_array[naming + "_var2D"]
+
 
     # keep in alpha order
     # ---------------------------------First order terms ----------------------
@@ -239,7 +261,7 @@ def orthogonal_polynomial(
     # # # #-------------------------------------------------------------
 
     # # # # Second order phenotypes.
-    if poly_order == "second":
+    if poly_order == "second" and not precomputed:
         # this is also written under first order
         # calculate mean vectors
         for i, j in itertools.product(range_popsize, range_sites):

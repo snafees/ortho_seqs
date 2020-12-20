@@ -11,6 +11,3 @@ def cli():
 
 
 cli.add_command(orthogonal_polynomial, name="orthogonal-polynomial")
-
-if __name__ == "__main__":
-    cli()

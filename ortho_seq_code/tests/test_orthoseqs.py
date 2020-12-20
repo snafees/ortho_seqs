@@ -42,6 +42,42 @@ def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):
     assert result.exit_code == 0
 
 
+def test_cli_precomputed(
+        protein_seqs_no_padding, protein_pheno_no_padding, protein_data_dir):
+    molecule = "protein"
+    sites = 6
+    dm = 20
+    pop_size = 6
+    poly_order = "first"
+    out_dir = protein_data_dir
+
+    runner = CliRunner()
+
+    result = runner.invoke(
+        cli,
+        [
+            protein_seqs_no_padding,
+            "--pheno_file",
+            protein_pheno_no_padding,
+            "--molecule",
+            molecule,
+            "--sites",
+            sites,
+            "--dm",
+            dm,
+            "--pop_size",
+            pop_size,
+            "--poly_order",
+            poly_order,
+            "--out_dir",
+            out_dir,
+            "--precomputed"
+        ],
+    )
+
+    assert result.exit_code == 0
+
+
 def assert_equality(expected_path, actual_path):
     assert os.path.exists(expected_path)
     assert os.path.exists(actual_path)

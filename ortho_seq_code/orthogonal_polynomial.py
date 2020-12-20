@@ -748,12 +748,6 @@ def orthogonal_polynomial(
             else:
                 rFon1D[j][i] = 0
 
-        arrays_save[naming_phenotype + "_rFon1"] = rFon1
-        arrays_save[naming_phenotype + "_rFon1D"] = rFon1D
-        print("computed rFon1")
-        # rFon1D is needed as we're working with 3 sites
-        print("computed rFon1D")
-
         for i, j in itertools.product(range_sites, range_sites):
             if j != i:
                 for k in range_dm:
@@ -944,7 +938,7 @@ def orthogonal_polynomial(
     "--poly_order", default="first", help="can do first and second order so far"
 )
 @click.option(
-    "--precomputed", default="False", help="if true, then saved results are used"
+    "--precomputed", default=False, help="if true, then saved results are used"
 )
 @click.option(
     "--out_dir", help="directory to save output/debug files to", type=str

@@ -27,7 +27,6 @@ PROTEIN_ALPHABETS_POLAR = ["R", "N", "D", "C", "E", "Q", "H", "K", "S", "T", "Y"
 PROTEIN_ALPHABETS_NONPOLAR = ["A", "G", "I", "L", "M", "F", "P", "W", "V"]
 
 DM_ALPHABETS = {
-    3: PROTEIN_ALPHABETS_POLAR,
     4: DNA_ALPHABETS,
     5: DNA_ALPHABETS_N,
     20: PROTEIN_ALPHABETS,

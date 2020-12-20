@@ -91,6 +91,7 @@ def orthogonal_polynomial(
             if seq[i][j] == "n":
                 phi[j][i][2] = 1.0
 
+    naming = os.path.basename(f.name)
     if precomputed:
         precomputed_array = np.load(os.path.join(out_dir, naming + ".npz"))
         mean = precomputed_array[naming + "_mean"]
@@ -111,7 +112,6 @@ def orthogonal_polynomial(
     # ---------------------------------First order terms ----------------------
     # calculate mean vectors first
     arrays_save = {}
-    naming = os.path.basename(f.name)
     if poly_order == "first" and not precomputed:
         for i, j in itertools.product(range_popsize, range_sites):
             mean[j] += phi[j][i] / pop_size

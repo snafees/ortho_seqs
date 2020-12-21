@@ -85,7 +85,6 @@ def assert_equality(expected_path, actual_path):
     obtained_arrays = np.load(actual_path)
     expected_arrays = np.load(expected_path)
     for key, obtained_array in obtained_arrays.items():
-        print(key)
         expected_array = expected_arrays[key]
         np.testing.assert_array_equal(expected_array, obtained_array)
 
@@ -100,13 +99,19 @@ def test_nucleotide_first_order(
         )
         orthogonal_polynomial(*nucleotide_params_first_order)
         basename = os.path.basename(nucleotide_params_first_order.seqs_filename)
+        basename_pheno = os.path.basename(nucleotide_params_first_order.pheno_filename)
         expected_path = os.path.join(nucleotide_first_order_data_dir, basename + ".npz")
         obtained_path = os.path.join(location, basename + ".npz")
         assert_equality(expected_path, obtained_path)
         expected_path = os.path.join(
-            nucleotide_first_order_data_dir, basename + "_regressions.npz"
+            nucleotide_first_order_data_dir, basename_pheno + "_regressions.npz"
         )
-        obtained_path = os.path.join(location, basename + "_regressions.npz")
+        obtained_path = os.path.join(location, basename_pheno + "_regressions.npz")
+        assert_equality(expected_path, obtained_path)
+        expected_path = os.path.join(
+            nucleotide_first_order_data_dir, basename_pheno + "_covariances.npz"
+        )
+        obtained_path = os.path.join(location, basename_pheno + "_covariances.npz")
         assert_equality(expected_path, obtained_path)
 
 
@@ -120,15 +125,21 @@ def test_nucleotide_second_order(
         orthogonal_polynomial(*nucleotide_params_second_order)
 
         basename = os.path.basename(nucleotide_params_second_order.seqs_filename)
+        basename_pheno = os.path.basename(nucleotide_params_second_order.pheno_filename)
         expected_path = os.path.join(
             nucleotide_second_order_data_dir, basename + ".npz"
         )
         obtained_path = os.path.join(location, basename + ".npz")
         assert_equality(expected_path, obtained_path)
         expected_path = os.path.join(
-            nucleotide_second_order_data_dir, basename + "_regressions.npz"
+            nucleotide_second_order_data_dir, basename_pheno + "_regressions.npz"
         )
-        obtained_path = os.path.join(location, basename + "_regressions.npz")
+        obtained_path = os.path.join(location, basename_pheno + "_regressions.npz")
+        assert_equality(expected_path, obtained_path)
+        expected_path = os.path.join(
+            nucleotide_second_order_data_dir, basename_pheno + "_covariances.npz"
+        )
+        obtained_path = os.path.join(location, basename_pheno + "_covariances.npz")
         assert_equality(expected_path, obtained_path)
 
 
@@ -141,9 +152,15 @@ def test_protein_first_order(protein_data_dir, protein_params_first_order):
         orthogonal_polynomial(*protein_params_first_order)
 
         basename = os.path.basename(protein_params_first_order.seqs_filename)
+        basename_pheno = os.path.basename(protein_params_first_order.pheno_filename)
         expected_path = os.path.join(protein_data_dir, basename + ".npz")
         obtained_path = os.path.join(location, basename + ".npz")
         assert_equality(expected_path, obtained_path)
-        expected_path = os.path.join(protein_data_dir, basename + "_regressions.npz")
-        obtained_path = os.path.join(location, basename + "_regressions.npz")
+        expected_path = os.path.join(protein_data_dir, basename_pheno + "_regressions.npz")
+        obtained_path = os.path.join(location, basename_pheno + "_regressions.npz")
+        assert_equality(expected_path, obtained_path)
+        expected_path = os.path.join(
+            protein_data_dir, basename_pheno + "_covariances.npz"
+        )
+        obtained_path = os.path.join(location, basename_pheno + "_covariances.npz")
         assert_equality(expected_path, obtained_path)

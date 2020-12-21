@@ -92,7 +92,7 @@ def orthogonal_polynomial(
                 phi[j][i][2] = 1.0
 
     naming = os.path.basename(f.name)
-    if precomputed == 'True':
+    if precomputed:
         precomputed_array = np.load(os.path.join(out_dir, naming + ".npz"))
         mean = precomputed_array[naming + "_mean"]
         P = precomputed_array[naming + "_P"]

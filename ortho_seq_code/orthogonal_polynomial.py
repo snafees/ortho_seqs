@@ -679,9 +679,9 @@ def orthogonal_polynomial(
     # Calculating the mean trait value
 
     naming_phenotype = os.path.basename(f2.name)
-    cov_save = {}
+    cov_with_F_save = {}
     Fm = sum([F[i] / pop_size for i in range_popsize])
-    cov_save[naming_phenotype + "_Fm"] = Fm
+    cov_with_F_save[naming_phenotype + "_Fm"] = Fm
 
     # Covariances of the trait with each element of the 1'st order vectors.
     # We can use the 'dot' operator here to get the inner product of a
@@ -690,9 +690,9 @@ def orthogonal_polynomial(
         covFP[0] = np.dot(F, P[0]) / pop_size  # for site 1
         cov1FP[1] = np.dot(F, P[1]) / pop_size
         covFP[1] = np.dot(F, P2i1) / pop_size  # for site 2 independent of 1
-        cov_save[naming_phenotype + "_covFP[0]"] = covFP[0]
-        cov_save[naming_phenotype + "_cov1FP[1]"] = cov1FP[1]
-        cov_save[naming_phenotype + "_covFP[1]"] = covFP[1]
+        cov_with_F_save[naming_phenotype + "_covFP[0]"] = covFP[0]
+        cov_with_F_save[naming_phenotype + "_cov1FP[1]"] = cov1FP[1]
+        cov_with_F_save[naming_phenotype + "_covFP[1]"] = covFP[1]
 
         for i in range(pop_size):
             for j in range(sites):
@@ -703,16 +703,16 @@ def orthogonal_polynomial(
                     if l != j:
                         for m in range(dm):
                             covFw1i1[j][l][m] += F[i] * P1i1[j][l][i][m] / pop_size
-        cov_save[naming_phenotype + "_covFw1i1"] = covFw1i1
+        cov_with_F_save[naming_phenotype + "_covFw1i1"] = covFw1i1
 
     if poly_order == "second":
         # this part is from first order
         covFP[0] = np.dot(F, P[0]) / pop_size  # for site 1
         cov1FP[1] = np.dot(F, P[1]) / pop_size
         covFP[1] = np.dot(F, P2i1) / pop_size  # for site 2 independent of 1
-        cov_save[naming_phenotype + "_covFP[0]"] = covFP[0]
-        cov_save[naming_phenotype + "_cov1FP[1]"] = cov1FP[1]
-        cov_save[naming_phenotype + "_covFP[1]"] = covFP[1]
+        cov_with_F_save[naming_phenotype + "_covFP[0]"] = covFP[0]
+        cov_with_F_save[naming_phenotype + "_cov1FP[1]"] = cov1FP[1]
+        cov_with_F_save[naming_phenotype + "_covFP[1]"] = covFP[1]
 
         for i in range(pop_size):
             for j in range(sites):
@@ -723,7 +723,7 @@ def orthogonal_polynomial(
                     if l != j:
                         for m in range(dm):
                             covFw1i1[j][l][m] += F[i] * P1i1[j][l][i][m] / pop_size
-        cov_save[naming_phenotype + "_covFw1i1"] = covFw1i1
+        cov_with_F_save[naming_phenotype + "_covFw1i1"] = covFw1i1
         #  end of that part
 
         for i in range(pop_size):
@@ -746,9 +746,9 @@ def orthogonal_polynomial(
                                     covFw2i2[j][k][n][o][p][q] += (
                                         F[i] * P2i2[j][k][n][o][i][p][q] / pop_size
                                     )
-        cov_save[naming_phenotype + "_covFw2"] = covFw2
-        cov_save[naming_phenotype + "_covFw2D"] = covFw2D
-        cov_save[naming_phenotype + "_covFw2i2"] = covFw2i2
+        cov_with_F_save[naming_phenotype + "_covFw2"] = covFw2
+        cov_with_F_save[naming_phenotype + "_covFw2D"] = covFw2D
+        cov_with_F_save[naming_phenotype + "_covFw2i2"] = covFw2i2
 
         # Need for third degree polynomial
         # for i in range_popsize:
@@ -761,7 +761,7 @@ def orthogonal_polynomial(
         # note: We can nOT use the 'dot' operator here because
         # we do not have a matrix times a vector.
         covFPP = sum([F[i] * PP12[i] / pop_size for i in range_popsize])
-        cov_save[naming_phenotype + "_covFPP"] = covFPP
+        cov_with_F_save[naming_phenotype + "_covFPP"] = covFPP
     # Regressions of the trait on each element of the first order
     # phenotype vectors.
     if poly_order == "first":
@@ -897,7 +897,7 @@ def orthogonal_polynomial(
 
     output_npz_file = os.path.join(out_dir, naming_phenotype + "_covariances.npz")
     print("Saving to {}".format(output_npz_file))
-    np.savez_compressed(output_npz_file, **cov_save)
+    np.savez_compressed(output_npz_file, **cov_with_F_save)
 
     # -----------------------Listing the main results------------------
     regression_results = {}

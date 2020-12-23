@@ -183,7 +183,9 @@ def orthogonal_polynomial(
             # # # # # First order terms with zeros except for the value that is
             # # # # # present (i.e. orthogonalized within each vector)
             for k, i in itertools.product(range_sites, range_popsize):  # site, indiv
-                Pa[k][i] = sr.inner_general(sr.outer_general(phi[k][i], phi[k][i]), P[k][i])
+                Pa[k][i] = sr.inner_general(
+                    sr.outer_general(phi[k][i], phi[k][i]), P[k][i]
+                )
             print("computed Pa: first order orthogonalized within each vector")
             arrays_save[naming + "_Pa"] = Pa
 
@@ -311,7 +313,9 @@ def orthogonal_polynomial(
             # # # # # First order terms with zeros except for the value that is
             # # # # # present (i.e. orthogonalized within each vector)
             for k, i in itertools.product(range_sites, range_popsize):  # indiv
-                Pa[k][i] = sr.inner_general(sr.outer_general(phi[k][i], phi[k][i]), P[k][i])
+                Pa[k][i] = sr.inner_general(
+                    sr.outer_general(phi[k][i], phi[k][i]), P[k][i]
+                )
             print("computed Pa: first order orthogonalized within each vector")
             arrays_save[naming + "_Pa"] = Pa
 
@@ -407,7 +411,9 @@ def orthogonal_polynomial(
             for i, j, k in itertools.product(range_popsize, range_sites, range_sites):
                 if k != j:
                     for l in range_sites:
-                        cov2w1[j][k][l] += sr.outer_general(Q2[j][k][i], P[l][i]) / pop_size
+                        cov2w1[j][k][l] += (
+                            sr.outer_general(Q2[j][k][i], P[l][i]) / pop_size
+                        )
             print("computed cov2w1")
             arrays_save[naming + "_cov2w1"] = cov2w1
             # # # # Covariance of second order phenotype matrices with first
@@ -421,7 +427,9 @@ def orthogonal_polynomial(
             for i, j, k in itertools.product(range_popsize, range_sites, range_sites):
                 if k != j:
                     cov2w1a[j][k] += sr.outer_general(Q2[j][k][i], P[0][i]) / pop_size
-                    cov2w1b[j][k] += sr.outer_general(Q2[j][k][i], P1i1[1][0][i]) / pop_size
+                    cov2w1b[j][k] += (
+                        sr.outer_general(Q2[j][k][i], P1i1[1][0][i]) / pop_size
+                    )
                     # will need this when doing third order
                     # cov2w1c[j][k] += sr.outer_general(
                     # Q2[j][k][i], P1D[2][i]) / n
@@ -556,7 +564,9 @@ def orthogonal_polynomial(
             arrays_save[naming + "_P2i2"] = P2i2
             arrays_save[naming + "_P2i2a"] = P2i2a
             # # # # cov of 2'nd order phi with another independent of the third
-            cov2w2i2 = np.zeros((sites, sites, sites, sites, sites, sites, dm, dm, dm, dm))
+            cov2w2i2 = np.zeros(
+                (sites, sites, sites, sites, sites, sites, dm, dm, dm, dm)
+            )
             var2i2 = np.zeros((sites, sites, sites, sites, dm, dm))
             for i in range(pop_size):
                 for j in range(sites):
@@ -570,7 +580,8 @@ def orthogonal_polynomial(
                                                 if o != n:
                                                     cov2w2i2[j][k][l][m][n][o] += (
                                                         sr.outer_general(
-                                                            P2[j][k][i], P2i2[l][m][n][o][i]
+                                                            P2[j][k][i],
+                                                            P2i2[l][m][n][o][i],
                                                         )
                                                         / pop_size
                                                     )
@@ -583,7 +594,9 @@ def orthogonal_polynomial(
             arrays_save[naming + "_cov2w2i2"] = cov2w2i2
             arrays_save[naming + "_var2i2"] = var2i2
             # # # # regressions corresponding to the above
-            reg2on2i2 = np.zeros((sites, sites, sites, sites, sites, sites, dm, dm, dm, dm))
+            reg2on2i2 = np.zeros(
+                (sites, sites, sites, sites, sites, sites, dm, dm, dm, dm)
+            )
             for i, j in itertools.product(range_sites, range_sites):
                 if j != i:
                     for k, l in itertools.product(range_sites, range_sites):
@@ -594,15 +607,17 @@ def orthogonal_polynomial(
                                         range_dm, range_dm, range_dm, range_dm
                                     ):
                                         if var2i2[k][l][k1][l1][o][p] > 0.0000000001:
-                                            numerator = cov2w2i2[i][j][k][l][k1][l1][m][n][
-                                                o
-                                            ][p]
+                                            numerator = cov2w2i2[i][j][k][l][k1][l1][m][
+                                                n
+                                            ][o][p]
                                             denominator = var2i2[k][l][k1][l1][o][p]
-                                            reg2on2i2[i][j][k][l][k1][l1][m][n][o][p] = (
-                                                numerator / denominator
-                                            )
+                                            reg2on2i2[i][j][k][l][k1][l1][m][n][o][
+                                                p
+                                            ] = (numerator / denominator)
                                         else:
-                                            reg2on2i2[i][j][k][l][k1][l1][m][n][o][p] = 0
+                                            reg2on2i2[i][j][k][l][k1][l1][m][n][o][
+                                                p
+                                            ] = 0
             print("computed reg2on2i2")
             arrays_save[naming + "_reg2on2i2"] = reg2on2i2
             # # # # 2'nd order phi independent of all others

@@ -2,7 +2,7 @@ import numpy as np
 import functools
 
 
-@functools.lru_cache
+@functools.lru_cache()
 def recursive_array_builder(ord_one, ord_two, d):
     if ord_one - ord_two == 0:
         return 0

@@ -76,7 +76,7 @@ def inner_general(a, b):
     return ip
 
 
-@functools.lru_cache
+@functools.lru_cache()
 def outer_array_builder(order, d):
     if order == 0:
         return 0

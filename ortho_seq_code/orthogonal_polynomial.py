@@ -910,7 +910,7 @@ def orthogonal_polynomial(
         0 if np.fabs(Fon2i1[i]) < 0.0000000000001 else Fon2i1[i] for i in range_popsize
     ]
 
-    output_npz_file = os.path.join(out_dir, naming_phenotype + "_covariances.npz")
+    output_npz_file = os.path.join(out_dir, naming_phenotype + "_covs_with_F.npz")
     print("Saving to {}".format(output_npz_file))
     np.savez_compressed(output_npz_file, **cov_with_F_save)
 

@@ -109,9 +109,9 @@ def test_nucleotide_first_order(
         obtained_path = os.path.join(location, basename_pheno + "_regressions.npz")
         assert_equality(expected_path, obtained_path)
         expected_path = os.path.join(
-            nucleotide_first_order_data_dir, basename_pheno + "_covariances.npz"
+            nucleotide_first_order_data_dir, basename_pheno + "_covs_with_F.npz"
         )
-        obtained_path = os.path.join(location, basename_pheno + "_covariances.npz")
+        obtained_path = os.path.join(location, basename_pheno + "_covs_with_F.npz")
         assert_equality(expected_path, obtained_path)
 
 
@@ -137,9 +137,9 @@ def test_nucleotide_second_order(
         obtained_path = os.path.join(location, basename_pheno + "_regressions.npz")
         assert_equality(expected_path, obtained_path)
         expected_path = os.path.join(
-            nucleotide_second_order_data_dir, basename_pheno + "_covariances.npz"
+            nucleotide_second_order_data_dir, basename_pheno + "_covs_with_F.npz"
         )
-        obtained_path = os.path.join(location, basename_pheno + "_covariances.npz")
+        obtained_path = os.path.join(location, basename_pheno + "_covs_with_F.npz")
         assert_equality(expected_path, obtained_path)
 
 
@@ -162,7 +162,7 @@ def test_protein_first_order(protein_data_dir, protein_params_first_order):
         obtained_path = os.path.join(location, basename_pheno + "_regressions.npz")
         assert_equality(expected_path, obtained_path)
         expected_path = os.path.join(
-            protein_data_dir, basename_pheno + "_covariances.npz"
+            protein_data_dir, basename_pheno + "_covs_with_F.npz"
         )
-        obtained_path = os.path.join(location, basename_pheno + "_covariances.npz")
+        obtained_path = os.path.join(location, basename_pheno + "_covs_with_F.npz")
         assert_equality(expected_path, obtained_path)

@@ -694,6 +694,9 @@ def orthogonal_polynomial(
     # Calculating the mean trait value
 
     naming_phenotype = os.path.basename(f2.name)
+    cov_with_F_save = {}
+
+    #calculating mean phenotype value
     Fm = sum([F[i] / pop_size for i in range_popsize])
     np.save(os.path.join(out_dir, naming_phenotype + str('_Fm')), Fm)
 

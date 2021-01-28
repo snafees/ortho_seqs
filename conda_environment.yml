@@ -6,3 +6,6 @@ channels:
 dependencies:
   - numpy
   - Click
+  - pytest
+  - coverage
+  - flake8

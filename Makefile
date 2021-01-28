@@ -14,5 +14,8 @@ run-cli:
 
 
 unit-tests:
-	pytest ortho_seq_code --pdb -x
+	pytest -v ortho_seq_code
 
+coverage:
+	coverage run --source ortho_seq_code --omit="*/test*" --module py.test
+	coverage report --show-missing

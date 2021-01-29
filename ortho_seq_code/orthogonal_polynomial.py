@@ -696,9 +696,9 @@ def orthogonal_polynomial(
     naming_phenotype = os.path.basename(f2.name)
     cov_with_F_save = {}
 
-    #calculating mean phenotype value
+    # calculating mean phenotype value
     Fm = sum([F[i] / pop_size for i in range_popsize])
-    np.save(os.path.join(out_dir, naming_phenotype + str('_Fm')), Fm)
+    np.save(os.path.join(out_dir, naming_phenotype + str("_Fm")), Fm)
 
     # Covariances of the trait with each element of the 1'st order vectors.
     # We can use the 'dot' operator here to get the inner product of a

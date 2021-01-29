@@ -661,9 +661,9 @@ def orthogonal_polynomial(
                         var2D[j][k][l][m] += (P2D[j][k][i][l][m] ** 2) / pop_size
             print("computed var2D")
             arrays_save[naming + "_var2D"] = var2D
-
         output_npz_file = os.path.join(out_dir, naming + ".npz")
         print("Saving to {}".format(output_npz_file))
+
         np.savez_compressed(output_npz_file, **arrays_save)
     # ------------Projecting the trait values into the space of orthogonal ----
     # -------------polynomials ------------------------------------------------
@@ -695,11 +695,8 @@ def orthogonal_polynomial(
 
     naming_phenotype = os.path.basename(f2.name)
     cov_with_F_save = {}
-
     # calculating mean phenotype value
     Fm = sum([F[i] / pop_size for i in range_popsize])
-    np.save(os.path.join(out_dir, naming_phenotype + str("_Fm")), Fm)
-
     # Covariances of the trait with each element of the 1'st order vectors.
     # We can use the 'dot' operator here to get the inner product of a
     # first and a second rank tensor (a vector and a matrix).
@@ -721,7 +718,7 @@ def orthogonal_polynomial(
                         for m in range(dm):
                             covFw1i1[j][l][m] += F[i] * P1i1[j][l][i][m] / pop_size
         cov_with_F_save[naming_phenotype + "_covFw1i1"] = covFw1i1
-
+        cov_with_F_save[naming_phenotype + "_Fm"] = Fm
     if poly_order == "second":
         # this part is from first order
         covFP[0] = np.dot(F, P[0]) / pop_size  # for site 1
@@ -741,6 +738,7 @@ def orthogonal_polynomial(
                         for m in range(dm):
                             covFw1i1[j][l][m] += F[i] * P1i1[j][l][i][m] / pop_size
         cov_with_F_save[naming_phenotype + "_covFw1i1"] = covFw1i1
+        cov_with_F_save[naming_phenotype + "_Fm"] = Fm
         #  end of that part
 
         for i in range(pop_size):

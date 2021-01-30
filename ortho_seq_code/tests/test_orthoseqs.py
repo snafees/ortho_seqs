@@ -86,7 +86,9 @@ def assert_equality(expected_path, actual_path):
     expected_arrays = np.load(expected_path)
     for key, obtained_array in obtained_arrays.items():
         expected_array = expected_arrays[key]
-        np.testing.assert_array_equal(expected_array, obtained_array)
+        np.testing.assert_array_equal(
+            expected_array, obtained_array, "error at {}".format(key)
+        )
 
 
 def test_nucleotide_first_order(
@@ -112,7 +114,11 @@ def test_nucleotide_first_order(
             nucleotide_first_order_data_dir, basename_pheno + "_covs_with_F.npz"
         )
         obtained_path = os.path.join(location, basename_pheno + "_covs_with_F.npz")
-        assert_equality(expected_path, obtained_path)
+        expected_path = np.load(
+            os.path.join(nucleotide_first_order_data_dir, basename_pheno + "_Fm.npy")
+        )
+        obtained_path = np.load(os.path.join(location, basename_pheno + "_Fm.npy"))
+        np.testing.assert_array_equal(expected_path, obtained_path)
 
 
 def test_nucleotide_second_order(
@@ -141,6 +147,11 @@ def test_nucleotide_second_order(
         )
         obtained_path = os.path.join(location, basename_pheno + "_covs_with_F.npz")
         assert_equality(expected_path, obtained_path)
+        expected_path = np.load(
+            os.path.join(nucleotide_second_order_data_dir, basename_pheno + "_Fm.npy")
+        )
+        obtained_path = np.load(os.path.join(location, basename_pheno + "_Fm.npy"))
+        np.testing.assert_array_equal(expected_path, obtained_path)
 
 
 def test_protein_first_order(protein_data_dir, protein_params_first_order):
@@ -166,3 +177,8 @@ def test_protein_first_order(protein_data_dir, protein_params_first_order):
         )
         obtained_path = os.path.join(location, basename_pheno + "_covs_with_F.npz")
         assert_equality(expected_path, obtained_path)
+        expected_path = np.load(
+            os.path.join(protein_data_dir, basename_pheno + "_Fm.npy")
+        )
+        obtained_path = np.load(os.path.join(location, basename_pheno + "_Fm.npy"))
+        np.testing.assert_array_equal(expected_path, obtained_path)

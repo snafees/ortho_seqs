@@ -41,8 +41,23 @@ def protein_pheno_no_padding(protein_data_dir):
 
 
 @pytest.fixture
+def protein_seqs_padding(protein_data_dir):
+    return os.path.join(protein_data_dir, "protein_seqs_padded.txt")
+
+
+@pytest.fixture
+def protein_pheno_padding(protein_data_dir):
+    return os.path.join(protein_data_dir, "protein_pheno_padded.txt")
+
+
+@pytest.fixture
 def protein_nopad_expected_output_dir(protein_expected_output_dir):
     return os.path.join(protein_expected_output_dir, "protein_seqs_nopad")
+
+
+@pytest.fixture
+def protein_pad_expected_output_dir(protein_expected_output_dir):
+    return os.path.join(protein_expected_output_dir, "protein_seqs_pad")
 
 
 @pytest.fixture
@@ -116,6 +131,23 @@ def protein_params_first_order(protein_data_dir):
         6,
         20,
         6,
+        "first",
+        False,
+        "",
+    )
+
+@pytest.fixture
+def protein_params_first_order_padded(protein_data_dir):
+    seqs_filename = os.path.join(protein_data_dir, "protein_seqs_padded.txt")
+    pheno_filename = os.path.join(protein_data_dir, "protein_pheno_padded.txt")
+
+    return Params(
+        seqs_filename,
+        pheno_filename,
+        "protein_n",
+        6,
+        21,
+        10,
         "first",
         False,
         "",

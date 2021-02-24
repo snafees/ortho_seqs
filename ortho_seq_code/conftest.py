@@ -57,7 +57,7 @@ def protein_nopad_expected_output_dir(protein_expected_output_dir):
 
 @pytest.fixture
 def protein_pad_expected_output_dir(protein_expected_output_dir):
-    return os.path.join(protein_expected_output_dir, "protein_seqs_pad")
+    return os.path.join(protein_expected_output_dir, "protein_seqs_padded")
 
 
 @pytest.fixture

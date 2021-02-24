@@ -221,7 +221,7 @@ def test_protein_first_order(protein_data_dir, protein_params_first_order):
 def test_protein_padded_first_order(protein_data_dir, protein_params_first_order_padded):
 
     with utils.TempDirectory() as location:
-        protein_params_first_order = protein_params_first_order_padded._replace(
+        protein_params_first_order_padded = protein_params_first_order_padded._replace(
             out_dir=location
         )
         orthogonal_polynomial(*protein_params_first_order_padded)

@@ -136,6 +136,7 @@ def protein_params_first_order(protein_data_dir):
         "",
     )
 
+
 @pytest.fixture
 def protein_params_first_order_padded(protein_data_dir):
     seqs_filename = os.path.join(protein_data_dir, "protein_seqs_padded.txt")

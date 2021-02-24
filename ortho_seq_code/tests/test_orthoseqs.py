@@ -218,7 +218,9 @@ def test_protein_first_order(protein_data_dir, protein_params_first_order):
         np.testing.assert_array_equal(expected_path, obtained_path)
 
 
-def test_protein_padded_first_order(protein_data_dir, protein_params_first_order_padded):
+def test_protein_padded_first_order(
+    protein_data_dir, protein_params_first_order_padded
+):
 
     with utils.TempDirectory() as location:
         protein_params_first_order_padded = protein_params_first_order_padded._replace(
@@ -227,7 +229,9 @@ def test_protein_padded_first_order(protein_data_dir, protein_params_first_order
         orthogonal_polynomial(*protein_params_first_order_padded)
 
         basename = os.path.basename(protein_params_first_order_padded.seqs_filename)
-        basename_pheno = os.path.basename(protein_params_first_order_padded.pheno_filename)
+        basename_pheno = os.path.basename(
+            protein_params_first_order_padded.pheno_filename
+        )
         expected_path = os.path.join(protein_data_dir, basename + ".npz")
         obtained_path = os.path.join(location, basename + ".npz")
         assert_equality(expected_path, obtained_path)

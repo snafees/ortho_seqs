@@ -924,6 +924,8 @@ def orthogonal_polynomial(
     regression_results[naming_phenotype + "_rFon1"] = rFon1
     regression_results[naming_phenotype + "_rFon1D"] = rFon1D
     regression_results[naming_phenotype + "_rFon2i1"] = rFon2i1
+    regression_results[naming_phenotype + "_Fon1"] = Fon1
+    regression_results[naming_phenotype + "_Fon2i1"] = Fon2i1
     regression_results[naming_phenotype + "_Fest"] = Fest
 
     print("computed rFon1")
@@ -942,6 +944,7 @@ def orthogonal_polynomial(
         # rFon2D is needed as we're working with 3 sites
         regression_results[naming_phenotype + "_rFon2"] = rFon2
         regression_results[naming_phenotype + "_rFon2D"] = rFon2D
+        regression_results[naming_phenotype + "_Fon12"] = Fon12
         regression_results[naming_phenotype + "_rFon12"] = rFon12
         print("computed rFon2")
         # rFon2D is needed as we're working with 3 sites

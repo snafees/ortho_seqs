@@ -15,5 +15,6 @@ setup(
     py_modules=["orthogonal_polynomial"],
     install_requires=["Click", "numpy"],
     include_package_data=True,
+    long_description_content_type="text/markdown",
     entry_points={"console_scripts": ["ortho_seq = ortho_seq_code:cli"]},
 )

@@ -1,5 +1,8 @@
 from setuptools import find_packages, setup
 
+with open('README.md') as f:
+    long_description = f.read()
+
 setup(
     author='Saba Nafees',
     author_email='saba.nafees314@gmail.com',

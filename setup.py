@@ -1,12 +1,12 @@
 from setuptools import find_packages, setup
 
-with open('README.md') as f:
+with open("README.md") as f:
     long_description = f.read()
 
 setup(
-    author='Saba Nafees',
-    author_email='saba.nafees314@gmail.com',
-    description='A PyPI package to compute multivariate tensor-based orthogonal polynomials for sequence data and map phenotypes onto sequence space.',
+    author="Saba Nafees",
+    author_email="saba.nafees314@gmail.com",
+    description="A PyPI package to compute multivariate tensor-based orthogonal polynomials for sequence data and map phenotypes onto sequence space.",
     name="ortho_seq_code",
     version="0.1.0",
     url='https://github.com/snafees/ortho_seqs',

@@ -148,6 +148,7 @@ def orthogonal_polynomial(
         # keep in alpha order
         # ---------------------------------First order terms ----------------------
         # calculate mean vectors first
+        arrays_save = {}
         for i, j in itertools.product(range_popsize, range_sites):
             mean[j] += phi[j][i] / pop_size
         arrays_save[naming + "_mean"] = mean

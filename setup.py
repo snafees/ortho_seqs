@@ -7,15 +7,17 @@ setup(
     author="Saba Nafees",
     author_email="saba.nafees314@gmail.com",
     description="A PyPI package to compute multivariate tensor-based orthogonal polynomials for sequence data and map phenotypes onto sequence space.",
-    name="ortho_seq_code",
+    name="ortho_seqs",
     version="1.0.1",
     url="https://github.com/snafees/ortho_seqs",
     packages=find_packages(),
     keywords=[
         "regression",
+        "projections"
         "covariance",
         "rna",
         "dna",
+        "sequence-phenotype"
         "orthogonal polynomials",
         "higher order interactions",
     ],

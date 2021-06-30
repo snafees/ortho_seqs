@@ -20,7 +20,7 @@ setup(
         "higher order interactions",
     ],
     py_modules=["orthogonal_polynomial"],
-    install_requires=["Click", "numpy"],
+    install_requires=["Click", "numpy", "pandas"],
     include_package_data=True,
     long_description=long_description,
     long_description_content_type="text/markdown",

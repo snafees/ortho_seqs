@@ -13,12 +13,10 @@ setup(
     packages=find_packages(),
     keywords=[
         "regression",
-        "projections"
-        "covariance",
+        "projections" "covariance",
         "rna",
         "dna",
-        "sequence-phenotype"
-        "orthogonal polynomials",
+        "sequence-phenotype" "orthogonal polynomials",
         "higher order interactions",
     ],
     py_modules=["orthogonal_polynomial"],

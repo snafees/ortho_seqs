@@ -912,7 +912,7 @@ def orthogonal_polynomial(
 @click.option(
     "--aa_input",
     default=None,
-    help="directory of custom input for amino acids or nucleotides, if applicable",
+    help="enter txt file with space-separated custom alphabet, if needed",
     type=str,
 )
 # @click.argument('pheno_file', type=click.File('rb'))

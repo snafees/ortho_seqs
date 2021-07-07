@@ -101,7 +101,7 @@ def orthogonal_polynomial(
         )
 
         seq = [
-            seq_oneline_rep[i : i + len(test[0]) - 1]
+            seq_oneline_rep[i : i + len(seq[0]) - 1]
             for i in range(0, len(seq_oneline_rep), len(seq_series[0]))
         ]
         seq = list(pd.Series(seq) + "\n")

@@ -82,7 +82,7 @@ def orthogonal_polynomial(
     if aa_input is not None:
         with open(aa_input) as a:
             custom_aa = a.readlines()
-        alphabets = np.unique(custom_aa[0].split(" "))
+        alphabets = list(np.unique(custom_aa[0].split(" ")))
         seq_series = list(pd.Series(seq).str[0:-1])
         # Create list of custom keys
         seq_oneline = "".join(seq_series)

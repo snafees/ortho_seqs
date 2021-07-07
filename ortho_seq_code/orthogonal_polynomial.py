@@ -322,6 +322,7 @@ def orthogonal_polynomial(
                         sr.outer_general(Q2[j][k][i], P1i1[1][0][i]) / pop_size
                     )
                     # will need this when doing third order
+                    # if poly_order == "third":
                     # cov2w1c[j][k] += sr.outer_general(
                     # Q2[j][k][i], P1D[2][i]) / n
             print("computed cov2w1a,cov2w1b")
@@ -348,12 +349,13 @@ def orthogonal_polynomial(
                             )
                         else:
                             r2on1b[i][j][k][l][m] = 0
-                        # Need for third degree polynomial
-                        # if varP1D[2][m] > 10**-10:
-                        #     r2on1c[i][j][k][l][m] = \
-                        # cov2w1c[i][j][k][l][m] / varP1D[2][m]
-                        # else:
-                        #     r2on1c[i][j][k][l][m] = 0
+                            # Need for third degree polynomial
+                            # if poly_order == "third":
+                            # if varP1D[2][m] > 10**-10:
+                            #     r2on1c[i][j][k][l][m] = \
+                            # cov2w1c[i][j][k][l][m] / varP1D[2][m]
+                            # else:
+                            #     r2on1c[i][j][k][l][m] = 0
             print("computed r2on1a, r2on1b")
             arrays_save[naming + "_r2on1a"] = r2on1a
             arrays_save[naming + "_r2on1b"] = r2on1b
@@ -678,6 +680,7 @@ def orthogonal_polynomial(
         cov_with_F_save[naming_phenotype + "_covFw2i2"] = covFw2i2
 
         # Need for third degree polynomial
+        # if poly_order == "third":
         # for i in range_popsize:
         #     for j in range_dm:
         #         for k in range_dm:
@@ -745,6 +748,7 @@ def orthogonal_polynomial(
                             else:
                                 rFon2i2[i][j][k][l][m][n] = 0
         # Need when doing 3rd order
+        # if poly_order == "third":
         # for i in range_dm:
         #     for j in range_dm:
         #         for k in range_dm:
@@ -822,7 +826,7 @@ def orthogonal_polynomial(
     # rFon1D is needed as we're working with 3 sites
     print("computed rFon1D")
 
-    if poly_order == "second":
+    if poly_order == "second" or poly_order == "third":
         print("Regression of trait on site 2")
         print(rFon2)
         print("Regression on 2nd order polynomial - orthogonalized within - rFon2D")
@@ -878,6 +882,8 @@ def orthogonal_polynomial(
     "--out_dir", help="directory to save output/debug files to", type=str
 )  # noqa
 # @click.argument('pheno_file', type=click.File('rb'))
+# if molecule == "protein" and aa_input exists
+# make vectors accordingly
 def cli(
     filename,
     pop_size,

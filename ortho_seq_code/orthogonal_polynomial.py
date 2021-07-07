@@ -20,13 +20,13 @@ def orthogonal_polynomial(
     filename,
     pheno_file,
     molecule,
-    aa_input,
     sites,
     dm,
     pop_size,
     poly_order,
     precomputed,
     out_dir,
+    aa_input,
 ):
     """Program to compute orthogonal polynomials up to 2nd order"""
     create_dir_if_not_exists(out_dir)
@@ -924,21 +924,21 @@ def cli(
     dm,
     sites,
     molecule,
-    aa_input,
     pheno_file,
     poly_order,
     precomputed,
     out_dir,
+    aa_input,
 ):
     orthogonal_polynomial(
         filename,
         pheno_file,
         molecule,
-        aa_input,
         sites,
         dm,
         pop_size,
         poly_order,
         precomputed,
         out_dir,
+        aa_input,
     )

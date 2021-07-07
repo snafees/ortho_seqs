@@ -20,6 +20,7 @@ def orthogonal_polynomial(
     filename,
     pheno_file,
     molecule,
+    aa_input,
     sites,
     dm,
     pop_size,
@@ -37,7 +38,7 @@ def orthogonal_polynomial(
     if len(min(seq, key=len)) != len(max(seq, key=len)):
         seq_series = pd.Series(seq).str[0:-1]
         # MAX_SITES = max(seq_series.str.len())  # Could replace sites parameter in future
-
+        # pop_size = len(seq_series) # Could replace pop_size parameter in future
         n_ser = np.array(np.repeat("n", len(seq_series))).astype(object)
         diff = np.array(sites - seq_series.str.len())
 
@@ -78,7 +79,34 @@ def orthogonal_polynomial(
     cov = np.zeros((sites, sites, dm, dm))
     # ------------Converting letters to vectors---------------
     # phi[individual][site][state]. phi[i][j] = vector for site j in individual i.
-    alphabets = DM_ALPHABETS[dm]
+    if aa_input is not None:
+        with open(aa_input) as a:
+            custom_aa = a.readlines()
+        alphabets = np.unique(custom_aa[0].split(" "))
+        seq_series = list(pd.Series(seq).str[0:-1])
+        # Create list of custom keys
+        seq_oneline = "".join(seq_series)
+        if "n" in seq_oneline:
+            pro.append("n")
+        # dm = len(pro) # Could replace dm in future
+        if "protein" in molecule:
+            # Replaces every amino acid not in custom key with "n"
+            not_sig = list(np.setdiff1d(PROTEIN_ALPHABETS, pro))
+        else:  # DNA molecule
+            # Replaces every nucleotide not in custom key with "n"
+            not_sig = list(np.setdiff1d(DNA_ALPHABETS, pro))
+        seq_oneline_list = list(seq_oneline)
+        seq_oneline_rep = "".join(
+            ["n" if value in not_sig else value for value in seq_oneline_list]
+        )
+
+        seq = [
+            seq_oneline_rep[i : i + len(test[0]) - 1]
+            for i in range(0, len(seq_oneline_rep), len(seq_series[0]))
+        ]
+        seq = list(pd.Series(seq) + "\n")
+    else:
+        alphabets = DM_ALPHABETS[dm]
     for dna_alphabet_index in range(len(alphabets)):
         for i in range_popsize:
             for j in range_sites:
@@ -881,6 +909,12 @@ def orthogonal_polynomial(
 @click.option(
     "--out_dir", help="directory to save output/debug files to", type=str
 )  # noqa
+@click.option(
+    "--aa_input",
+    default=None,
+    help="directory of custom input for amino acids or nucleotides, if applicable",
+    type=str,
+)
 # @click.argument('pheno_file', type=click.File('rb'))
 # if molecule == "protein" and aa_input exists
 # make vectors accordingly
@@ -890,6 +924,7 @@ def cli(
     dm,
     sites,
     molecule,
+    aa_input,
     pheno_file,
     poly_order,
     precomputed,
@@ -899,6 +934,7 @@ def cli(
         filename,
         pheno_file,
         molecule,
+        aa_input,
         sites,
         dm,
         pop_size,

@@ -26,7 +26,7 @@ def orthogonal_polynomial(
     poly_order,
     precomputed,
     out_dir,
-    aa_input,
+    alphbt_input,
 ):
     """Program to compute orthogonal polynomials up to 2nd order"""
     create_dir_if_not_exists(out_dir)
@@ -563,8 +563,7 @@ def orthogonal_polynomial(
                                             P2i2a[l][m][n][o][i],
                                         )
                                         - sr.inner_general(
-                                            reg2on2[j][k][n][o],
-                                            P2a[n][o][i],
+                                            reg2on2[j][k][n][o], P2a[n][o][i],
                                         )
                                     )
                                     P2Da[j][k][i] = sr.inner_general(
@@ -910,7 +909,7 @@ def orthogonal_polynomial(
     "--out_dir", help="directory to save output/debug files to", type=str
 )  # noqa
 @click.option(
-    "--aa_input",
+    "--alphbt_input",
     default=None,
     help="enter txt file with space-separated custom alphabet, if needed",
     type=str,
@@ -928,7 +927,7 @@ def cli(
     poly_order,
     precomputed,
     out_dir,
-    aa_input,
+    alphbt_input,
 ):
     orthogonal_polynomial(
         filename,
@@ -940,5 +939,5 @@ def cli(
         poly_order,
         precomputed,
         out_dir,
-        aa_input,
+        alphbt_input,
     )

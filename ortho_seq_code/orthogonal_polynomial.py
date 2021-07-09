@@ -564,8 +564,7 @@ def orthogonal_polynomial(
                                             P2i2a[l][m][n][o][i],
                                         )
                                         - sr.inner_general(
-                                            reg2on2[j][k][n][o],
-                                            P2a[n][o][i],
+                                            reg2on2[j][k][n][o], P2a[n][o][i],
                                         )
                                     )
                                     P2Da[j][k][i] = sr.inner_general(

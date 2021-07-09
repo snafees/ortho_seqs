@@ -893,16 +893,16 @@ def orthogonal_polynomial(
 
     fig, ax = plt.subplots()
     cols = [
-        "tabs:blue",
-        "tabs:orange",
-        "tabs:green",
-        "tabs:red",
-        "tabs:purple",
-        "tabs:brown",
-        "tabs:pink",
-        "tabs:gray",
-        "tabs:olive",
-        "tabs:cyan",
+        "tab:blue",
+        "tab:orange",
+        "tab:green",
+        "tab:red",
+        "tab:purple",
+        "tab:brown",
+        "tab:pink",
+        "tab:gray",
+        "tab:olive",
+        "tab:cyan",
     ]
     pi = dict()
     for i in range(dm):
@@ -913,7 +913,7 @@ def orthogonal_polynomial(
     ax.set_xticks(ind + width)
     ax.set_xticklabels(np.arange(1, sites + 1))
 
-    ax.legend(([pi[i] for i in pi]), ([alphabets[i] for i in alphabets]), loc=0, ncol=1)
+    ax.legend(([i for i in pi]), (i for i in alphabets]), loc=0, ncol=1)
     ax.tick_params(
         width=0.4, labelsize=6
     )  # width of the tick and the size of the tick labels

@@ -7,6 +7,7 @@ import ortho_seq_code.sr as sr
 from ortho_seq_code.constants_orthoseqs import *
 import click
 import itertools
+from matplotlib import pyplot as plt
 
 
 def create_dir_if_not_exists(out_dir):
@@ -878,6 +879,41 @@ def orthogonal_polynomial(
 
     print("Trait values estimated from regressions")
     print(Fest)
+
+    ## Graph of regression
+    rFon1D_flat = list(rFon1D.flatten())
+    first_vect = rFon1D_flat[0:dm]
+    first_two_vec = rFon1D_flat[0:(2*dm)]
+
+    N = sites
+
+    ind = np.arange(N)  # x-axis
+    width = 0.16
+
+    dim = dict()
+
+    fig, ax = plt.subplots()
+    cols = ["tabs:blue", "tabs:orange", "tabs:green", "tabs:red", "tabs:purple",
+        "tabs:brown", "tabs:pink", "tabs:gray", "tabs:olive", "tabs:cyan"]
+    pi = dict()
+    for i in len(dm):
+        # some_dim = [data_array_flat[i], i for i in range(i, dm*sites, dm)]
+        dim[i] = [rFon1D_flat[i] for i in range(i, dm*sites, dm)]
+        pi[i] = ax.bar(ind+i*width, dim[i], width, color='r')
+
+    ax.set_xticks(ind + width)
+    ax.set_xticklabels(np.arange(1, 20))
+
+    ax.legend((p1[0], p2[0], p3[0], p4[0], p5[0]), ('S', 'Y', 'G', 'R', "n"), loc=0, ncol=1)
+    ax.tick_params(width = 0.4, labelsize =6) #width of the tick and the size of the tick labels
+    #Regressions of off values onto each site of target RNA (orthogonalized within)
+    #plt.savefig('rFon1D_off_star.png', bbox_inches='tight')
+    plt.xlabel('CDRH3 Site')
+    plt.ylabel('Regressions of ELISA values onto CDRH3 sites - rFon1D')
+    figure = ax.get_figure()
+    figure.savefig('rFon1D_graph.png', dpi=400)
+    print("saved regression graph as rFon1D_graph.png")
+
     print("--- %s seconds ---" % (time.time() - start_time))
 
 
@@ -916,8 +952,6 @@ def orthogonal_polynomial(
     type=str,
 )
 # @click.argument('pheno_file', type=click.File('rb'))
-# if molecule == "protein" and aa_input exists
-# make vectors accordingly
 def cli(
     filename,
     pop_size,

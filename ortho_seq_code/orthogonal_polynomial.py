@@ -79,8 +79,8 @@ def orthogonal_polynomial(
     cov = np.zeros((sites, sites, dm, dm))
     # ------------Converting letters to vectors---------------
     # phi[individual][site][state]. phi[i][j] = vector for site j in individual i.
-    if aa_input is not None:
-        with open(aa_input) as a:
+    if alpbt_input is not None:
+        with open(alphbt_input) as a:
             custom_aa = a.readlines()
         alphabets = list(np.unique(custom_aa[0].split(" ")))
         seq_series = list(pd.Series(seq).str[0:-1])

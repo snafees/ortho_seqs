@@ -905,7 +905,7 @@ def orthogonal_polynomial(
         "tabs:cyan",
     ]
     pi = dict()
-    for i in len(dm):
+    for i in range(dm):
         # some_dim = [data_array_flat[i], i for i in range(i, dm*sites, dm)]
         dim[i] = [rFon1D_flat[i] for i in range(i, dm * sites, dm)]
         pi[i] = ax.bar(ind + i * width, dim[i], width, color=cols[i % len(cols)])

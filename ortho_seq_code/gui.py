@@ -1,14 +1,26 @@
-from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QWidget, QVBoxLayout, QComboBox, QPushButton, QHBoxLayout
+from PyQt5.QtWidgets import (
+    QApplication,
+    QLabel,
+    QMainWindow,
+    QWidget,
+    QVBoxLayout,
+    QComboBox,
+    QPushButton,
+    QHBoxLayout,
+)
 import sys
+
 
 class MainWidget(QWidget):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.widget_layout = QVBoxLayout() #vertical layout
-        label = QLabel('ortho_seqs GUI: User interface to compute tensor-based orthogonal polynomials for sequence data')
-        label2 = QLabel('Upload sequence file:')
+        self.widget_layout = QVBoxLayout()  # vertical layout
+        label = QLabel(
+            "ortho_seqs GUI: User interface to compute tensor-based orthogonal polynomials for sequence data"
+        )
+        label2 = QLabel("Upload sequence file:")
         upload_button_1 = QPushButton("seq_file")
-        label3 = QLabel('Upload phenotype file:')
+        label3 = QLabel("Upload phenotype file:")
         upload_button_2 = QPushButton("pheno_file")
         start_button = QPushButton("RUN")
 
@@ -38,14 +50,12 @@ class MainWindow(QMainWindow):
         self.show()
 
 
-
 def main():
     app = QApplication(sys.argv)
     window = MainWindow()
 
-    sys.exit(app.exec()) #instead of just app.exec()
+    sys.exit(app.exec())  # instead of just app.exec()
 
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

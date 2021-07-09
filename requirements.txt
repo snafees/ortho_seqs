@@ -3,3 +3,5 @@ Click
 pytest
 coverage
 flake8
+pandas
+matplotlib

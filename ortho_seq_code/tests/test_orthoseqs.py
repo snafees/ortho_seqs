@@ -1,5 +1,7 @@
 import numpy as np
+import pandas as pd
 import os
+from matplotlib import pyplot as plt
 
 from click.testing import CliRunner
 
@@ -15,6 +17,7 @@ def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):
     pop_size = 6
     poly_order = "first"
     out_dir = "/tmp"
+    alphbt_input = None
 
     runner = CliRunner()
 
@@ -49,6 +52,7 @@ def test_cli(protein_seqs_padding, protein_pheno_padding):
     pop_size = 10
     poly_order = "first"
     out_dir = "/tmp"
+    alphbt_input = None
 
     runner = CliRunner()
 
@@ -70,6 +74,8 @@ def test_cli(protein_seqs_padding, protein_pheno_padding):
             poly_order,
             "--out_dir",
             out_dir,
+            alphbt_input,
+            "--alphbt_input",
         ],
     )
 
@@ -85,6 +91,7 @@ def test_cli_precomputed(
     pop_size = 6
     poly_order = "first"
     out_dir = protein_data_dir
+    alphbt_input = None
 
     runner = CliRunner()
 
@@ -107,6 +114,8 @@ def test_cli_precomputed(
             "--out_dir",
             out_dir,
             "--precomputed",
+            alphbt_input,
+            "--alphbt_input",
         ],
     )
 

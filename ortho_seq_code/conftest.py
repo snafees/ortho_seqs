@@ -84,17 +84,7 @@ def nucleotide_params_first_order(nucleotide_first_order_data_dir):
         nucleotide_first_order_data_dir, "trait_test_seqs_2sites_dna.txt"
     )
 
-    return Params(
-        seqs_filename,
-        pheno_filename,
-        "DNA",
-        2,
-        4,
-        12,
-        "first",
-        False,
-        "",
-    )
+    return Params(seqs_filename, pheno_filename, "DNA", 2, 4, 12, "first", False, "",)
 
 
 @pytest.fixture
@@ -106,17 +96,7 @@ def nucleotide_params_second_order(nucleotide_second_order_data_dir):
         nucleotide_second_order_data_dir, "trait_test_seqs_2sites_dna.txt"
     )
 
-    return Params(
-        seqs_filename,
-        pheno_filename,
-        "DNA",
-        2,
-        4,
-        12,
-        "second",
-        False,
-        "",
-    )
+    return Params(seqs_filename, pheno_filename, "DNA", 2, 4, 12, "second", False, "",)
 
 
 @pytest.fixture
@@ -125,15 +105,7 @@ def protein_params_first_order(protein_data_dir):
     pheno_filename = os.path.join(protein_data_dir, "protein_pheno_nopad.txt")
 
     return Params(
-        seqs_filename,
-        pheno_filename,
-        "protein",
-        6,
-        20,
-        6,
-        "first",
-        False,
-        "",
+        seqs_filename, pheno_filename, "protein", 6, 20, 6, "first", False, "",
     )
 
 
@@ -143,13 +115,35 @@ def protein_params_first_order_padded(protein_data_dir):
     pheno_filename = os.path.join(protein_data_dir, "protein_pheno_padded.txt")
 
     return Params(
+        seqs_filename, pheno_filename, "protein_n", 6, 21, 10, "first", False, "",
+    )
+
+
+@pytest.fixture
+def protein_first_order_autopad(protein_data_dir):
+    seqs_filename = os.path.join(protein_data_dir, "protein_seqs_padded_no_n.txt")
+    pheno_filename = os.path.join(protein_data_dir, "protein_pheno_padded.txt")
+
+    return Params(
+        seqs_filename, pheno_filename, "protein_n", 6, 21, 10, "first", False, "",
+    )
+
+
+@pytest.fixture
+def protein_first_order_customaa(protein_data_dir):
+    seqs_filename = os.path.join(protein_data_dir, "insulin_seq_test.txt")
+    pheno_filename = os.path.join(protein_data_dir, "insulin_phi_test.txt")
+    custom_alphbt = os.path.join(protein_data_dir, "custom_aa.txt")
+
+    return Params(
         seqs_filename,
         pheno_filename,
         "protein_n",
-        6,
-        21,
+        19,
+        5,
         10,
         "first",
         False,
         "",
+        custom_alphbt,
     )

@@ -39,6 +39,8 @@ def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):
             poly_order,
             "--out_dir",
             out_dir,
+            alphbt_input,
+            "--alphbt_input",
         ],
     )
 

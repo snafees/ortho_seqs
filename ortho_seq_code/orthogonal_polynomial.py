@@ -929,7 +929,7 @@ def orthogonal_polynomial(
 
     ax.set_xticks(ind + width)
     ax.set_xticklabels(np.arange(1, sites + 1))
-    for i in range(ind):
+    for i in ind:
         ax.avline(i, color="black", linewidth=0.8)
 
     ax.legend(

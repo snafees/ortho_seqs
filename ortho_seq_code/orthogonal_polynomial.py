@@ -884,10 +884,8 @@ def orthogonal_polynomial(
     first_vect = rFon1D_flat[0:dm]
     first_two_vec = rFon1D_flat[0 : (2 * dm)]
 
-    N = sites
-
-    ind = np.arange(N)  # x-axis
-    width = 0.16
+    ind = np.arange(sites)  # x-axis
+    width = 0.96 / sites
 
     dim = dict()
 
@@ -913,14 +911,19 @@ def orthogonal_polynomial(
     ax.set_xticks(ind + width)
     ax.set_xticklabels(np.arange(1, sites + 1))
 
-    ax.legend(([i for i in pi]), ([i for i in alphabets]), loc=0, ncol=1)
+    ax.legend(
+        ([i for i in pi]), ([i for i in alphabets]), loc=0, ncol=i // len(alphabets)
+    )
     ax.tick_params(
         width=0.4, labelsize=6
     )  # width of the tick and the size of the tick labels
     # Regressions of off values onto each site of target RNA (orthogonalized within)
     # plt.savefig('rFon1D_off_star.png', bbox_inches='tight')
     plt.xlabel("CDRH3 Site")
-    plt.ylabel("Regressions values of nucleotide/protein onto sites - rFon1D")
+    if "protein" in molecule:
+        plt.ylabel("Regressions of proteins onto each site (rFon1D)")
+    else:
+        plt.ylabel("Regressions of nucleotides onto each site (rFon1D)")
     figure = ax.get_figure()
     figure.savefig("rFon1D_graph.png", dpi=400)
     print("saved regression graph as rFon1D_graph.png")

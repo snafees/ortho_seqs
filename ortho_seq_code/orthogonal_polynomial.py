@@ -80,13 +80,13 @@ def orthogonal_polynomial(
     cov = np.zeros((sites, sites, dm, dm))
     # ------------Converting letters to vectors---------------
     # phi[individual][site][state]. phi[i][j] = vector for site j in individual i.
+    seq_series = list(pd.Series(seq).str[0:-1])
+    seq_oneline = "".join(seq_series)
     if alphbt_input is not None:
         with open(alphbt_input) as a:
             custom_aa = a.readlines()
         alphabets = list(np.unique(custom_aa[0].split(" ")))
-        seq_series = list(pd.Series(seq).str[0:-1])
         # Create list of custom keys
-        seq_oneline = "".join(seq_series)
         if "n" in seq_oneline:
             alphabets.append("n")
         # dm = len(pro) # Could replace dm in future
@@ -107,7 +107,17 @@ def orthogonal_polynomial(
         ]
         seq = list(pd.Series(seq) + "\n")
     else:
+        init_dm = dm
         alphabets = DM_ALPHABETS[dm]
+        for mol in alphabets:
+            if mol not in seq_oneline:
+                alphabets.remove(mol)
+                dm -= 1
+        if dm != init_dm:
+            if "protein" in molecule:
+                print("removed " + init_dm - dm + " unused proteins from alphabet.")
+            else:
+                print("removed " + init_dm - dm + " unused nucleotides from alphabet.")
     for dna_alphabet_index in range(len(alphabets)):
         for i in range_popsize:
             for j in range_sites:

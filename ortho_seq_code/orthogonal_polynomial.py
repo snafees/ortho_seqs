@@ -885,7 +885,7 @@ def orthogonal_polynomial(
     first_two_vec = rFon1D_flat[0 : (2 * dm)]
 
     ind = np.arange(sites)  # x-axis
-    width = 0.96 / sites
+    width = 0.96 / dm
 
     dim = dict()
 

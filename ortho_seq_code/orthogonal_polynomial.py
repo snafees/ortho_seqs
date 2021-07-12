@@ -923,7 +923,9 @@ def orthogonal_polynomial(
     for i in range(dm):
         # some_dim = [data_array_flat[i], i for i in range(i, dm*sites, dm)]
         dim[i] = [rFon1D_flat[i] for i in range(i, dm * sites, dm)]
-        pi[i] = ax.bar(ind + i * width, dim[i], width, color=colors[i % 10], align="edge")
+        pi[i] = ax.bar(
+            ind + i * width, dim[i], width, color=colors[i % 10], align="edge"
+        )
 
     ax.set_xticks(ind + width)
     ax.set_xticklabels(np.arange(1, sites + 1))

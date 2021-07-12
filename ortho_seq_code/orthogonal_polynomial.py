@@ -70,13 +70,7 @@ def orthogonal_polynomial(
     # 3 sites, each a dm dim vector, in n individuals
     # nOTE: For application to Amino Acid sequences, increase
     # the size of the arrays accordingly.
-    phi = np.zeros((sites, pop_size, dm))
-    mean = np.zeros((sites, dm))
-    var = np.zeros((sites, dm))
-    phi2 = np.zeros((sites, sites, pop_size, dm, dm))
-    phi2m = np.zeros((sites, sites, dm, dm))
-    P = np.zeros((sites, pop_size, dm))
-    cov = np.zeros((sites, sites, dm, dm))
+
     # ------------Converting letters to vectors---------------
     # phi[individual][site][state]. phi[i][j] = vector for site j in individual i.
     seq_series = list(pd.Series(seq).str[0:-1])
@@ -124,6 +118,13 @@ def orthogonal_polynomial(
                     + " unused nucleotides from alphabet."
                 )
     range_dm = range(dm)
+    phi = np.zeros((sites, pop_size, dm))
+    mean = np.zeros((sites, dm))
+    var = np.zeros((sites, dm))
+    phi2 = np.zeros((sites, sites, pop_size, dm, dm))
+    phi2m = np.zeros((sites, sites, dm, dm))
+    P = np.zeros((sites, pop_size, dm))
+    cov = np.zeros((sites, sites, dm, dm))
     for dna_alphabet_index in range(len(alphabets)):
         for i in range_popsize:
             for j in range_sites:

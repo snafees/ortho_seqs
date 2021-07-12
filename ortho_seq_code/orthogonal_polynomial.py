@@ -115,9 +115,9 @@ def orthogonal_polynomial(
                 dm -= 1
         if dm != init_dm:
             if "protein" in molecule:
-                print("removed " + init_dm - dm + " unused proteins from alphabet.")
+                print("removed " + str(init_dm - dm) + " unused proteins from alphabet.")
             else:
-                print("removed " + init_dm - dm + " unused nucleotides from alphabet.")
+                print("removed " + str(init_dm - dm) + " unused nucleotides from alphabet.")
     for dna_alphabet_index in range(len(alphabets)):
         for i in range_popsize:
             for j in range_sites:

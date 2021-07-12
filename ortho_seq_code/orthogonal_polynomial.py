@@ -85,10 +85,10 @@ def orthogonal_polynomial(
         # dm = len(pro) # Could replace dm in future
         if "protein" in molecule:
             # Replaces every amino acid not in custom key with "n"
-            not_sig = list(np.setdiff1d(PROTEIN_ALPHABETS, alphabets))
+            not_sig = list(np.setdiff1d(np.array(PROTEIN_ALPHABETS), np.array(alphabets)))
         else:  # DNA molecule
             # Replaces every nucleotide not in custom key with "n"
-            not_sig = list(np.setdiff1d(DNA_ALPHABETS, alphabets))
+            not_sig = list(np.setdiff1d(np.array(DNA_ALPHABETS), np.array(alphabets)))
         seq_oneline_list = list(seq_oneline)
         seq_oneline_rep = "".join(
             ["n" if value in not_sig else value for value in seq_oneline_list]

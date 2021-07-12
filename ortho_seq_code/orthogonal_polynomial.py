@@ -892,7 +892,7 @@ def orthogonal_polynomial(
     dim = dict()
 
     fig, ax = plt.subplots()
-    cols = [
+    colors = [
         "tab:blue",
         "tab:orange",
         "tab:green",
@@ -903,12 +903,12 @@ def orthogonal_polynomial(
         "tab:gray",
         "tab:olive",
         "tab:cyan",
-    ]
+    ]  # len(colors)=10
     pi = dict()
     for i in range(dm):
         # some_dim = [data_array_flat[i], i for i in range(i, dm*sites, dm)]
         dim[i] = [rFon1D_flat[i] for i in range(i, dm * sites, dm)]
-        pi[i] = ax.bar(ind + i * width, dim[i], width, color=cols[i % len(cols)])
+        pi[i] = ax.bar(ind + i * width, dim[i], width, color=colors[i % 10])
 
     ax.set_xticks(ind + width)
     ax.set_xticklabels(np.arange(1, sites + 1))

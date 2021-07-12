@@ -912,14 +912,14 @@ def orthogonal_polynomial(
     ax.set_xticklabels(np.arange(1, sites + 1))
 
     ax.legend(
-        ([i for i in pi]), ([i for i in alphabets]), loc=0, ncol=i // len(alphabets)
+        ([pi[i] for i in pi]), ([i for i in alphabets]), loc=0, ncol=i // len(alphabets)
     )
     ax.tick_params(
         width=0.4, labelsize=6
     )  # width of the tick and the size of the tick labels
     # Regressions of off values onto each site of target RNA (orthogonalized within)
     # plt.savefig('rFon1D_off_star.png', bbox_inches='tight')
-    plt.xlabel("CDRH3 Site")
+    plt.xlabel("Sequence Site")
     if "protein" in molecule:
         plt.ylabel("Regressions of proteins onto each site (rFon1D)")
     else:

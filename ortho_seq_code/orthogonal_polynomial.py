@@ -66,7 +66,6 @@ def orthogonal_polynomial(
     np.set_printoptions(precision=10)
     range_sites = range(sites)
     range_popsize = range(pop_size)
-    range_dm = range(dm)
     # ----Initializing various terms that we will use.--------------
     # 3 sites, each a dm dim vector, in n individuals
     # nOTE: For application to Amino Acid sequences, increase
@@ -116,14 +115,15 @@ def orthogonal_polynomial(
         if dm != init_dm:
             if "protein" in molecule:
                 print(
-                    "removed " + str(init_dm - dm) + " unused proteins from alphabet."
+                    "Removed " + str(init_dm - dm) + " unused proteins from alphabet."
                 )
             else:
                 print(
-                    "removed "
+                    "Removed "
                     + str(init_dm - dm)
                     + " unused nucleotides from alphabet."
                 )
+    range_dm = range(dm)
     for dna_alphabet_index in range(len(alphabets)):
         for i in range_popsize:
             for j in range_sites:

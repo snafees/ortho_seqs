@@ -912,7 +912,7 @@ def orthogonal_polynomial(
     ax.set_xticklabels(np.arange(1, sites + 1))
 
     ax.legend(
-        ([pi[i] for i in pi]), ([i for i in alphabets]), loc=0, ncol=i // len(alphabets)
+        ([pi[i] for i in pi]), ([i for i in alphabets]), loc=0, ncol=len(alphabets) // 5)
     )
     ax.tick_params(
         width=0.4, labelsize=6

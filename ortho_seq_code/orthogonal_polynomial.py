@@ -918,7 +918,7 @@ def orthogonal_polynomial(
     # Re-vectorization with null values
     dim_num = dict()
     for i in ind:
-        dim_num[i] = [rFon1D_flat[j] for j in range(i, s, sites)]
+        dim_num[i] = [data_null[j] for j in range(i, s, sites)]
 
     # some_dim = [data_array_flat[i], i for i in range(0, 160, 4)]
 

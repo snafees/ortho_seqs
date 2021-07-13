@@ -955,7 +955,7 @@ def orthogonal_polynomial(
     ax.set_xticks(ind + width + 0.5)
     ax.set_xticklabels(np.arange(1, sites + 1))
     for i in range(sites+1):
-        ax.axvline(i, color="#D4D4D4", linewidth=0.8)
+        ax.axvline(i, color="gray", linewidth=0.8)
 
     color_map = [color for color in list(alpb_d.values())]
     markers = [

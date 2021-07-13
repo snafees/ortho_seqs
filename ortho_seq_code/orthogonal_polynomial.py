@@ -87,15 +87,15 @@ def orthogonal_polynomial(
             # Replaces every amino acid not in custom key with "n"
             not_sig = list(
                 np.setdiff1d(
-                    list(PROTEIN_ALPHABETS),
-                    list(alphabets),
+                    PROTEIN_ALPHABETS,
+                    alphabets,
                 )
             )
         else:  # DNA molecule
             # Replaces every nucleotide not in custom key with "n"
             not_sig = list(
                 np.setdiff1d(
-                    list(DNA_ALPHABETS), list(alphabets)
+                    DNA_ALPHABETS, alphabets
                 )
             )
         seq_oneline_list = list(seq_oneline)

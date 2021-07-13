@@ -52,13 +52,13 @@ def orthogonal_polynomial(
     # vectors that must be the same size as F
     with open(pheno_file) as f2:
         phenotype = f2.readlines()
-    print(phenotype)
+    print("phenotype:\n" + phenotype)
     F = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fest = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fon1 = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fon2i1 = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fon12 = np.genfromtxt(phenotype)  # this needs to stay this way!
-    print(Fest)
+    print("Fest:\n" + Fest)
     Fest = [0] * pop_size
     Fon1 = [0] * pop_size
     Fon2i1 = [0] * pop_size
@@ -905,33 +905,38 @@ def orthogonal_polynomial(
     print(Fest)
 
     ## Graph of regression
+    # Flatten data
     rFon1D_flat = list(rFon1D.flatten())
     data_null = np.where(rFon1D_flat == 0, np.nan, rFon1D_flat)
 
+    # Constants/constant arrays
     ind = np.arange(sites)  # x-axis
     num_dm = np.arange(dm)
     width = 1 / sites
-
     s = sites * dm
 
+    # Re-vectorization with null values
     dim_num = dict()
     for i in ind:
         dim_num[i] = [rFon1D_flat[j] for j in range(i, s, sites)]
 
     # some_dim = [data_array_flat[i], i for i in range(0, 160, 4)]
 
+    # Remove all null data
     dim_na = dict()
     dim_loc = dict()
     for i in ind:
         dim_na[i] = np.array(dim_num[i])[np.array(np.isnan(dim_num[i])) == False]
         dim_loc[i] = np.arange(len(dim_num[i]))[np.array(np.isnan(dim_num[i])) == False]
-
+    print(dim_na[0])
+    # Color dictionary with corresponding letters
     col_len = len(colors)
     alpb_d = dict()
     for i in num_dm:
         alpb_d[i] = colors[i % col_len]
         alpb_d[alphabets[i]] = alpb_d.pop(i)
 
+    # Creating plots
     fig, ax = plt.subplots()
     dim = dict()
     pi = dict()

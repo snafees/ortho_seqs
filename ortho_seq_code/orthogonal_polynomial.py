@@ -915,15 +915,11 @@ def orthogonal_polynomial(
 
     s = dm * sites
 
-    dim = dict()
-    for i in num_dm:
-        dim[i] = [rFon1D_flat[i] for i in range(i, s, dm)]  # y-axis for 0 dim
-
     dim_no = dict()
     dim_num = dict()
-    for i in ind:
-        dim_no[i] = [rFon1D_flat[i] for i in range(i, s, sites)]
-        dim_num[i] = np.where(dim_no[i] == 0, float("nan"), dim_no[i])
+    for j in ind:
+        dim_no[j] = [rFon1D_flat[i] for i in range(j, s, sites)]
+        dim_num[j] = np.where(dim_no[j] == 0, float("nan"), dim_no[j])
 
     dim_na = dict()
     dim_loc = dict()
@@ -985,7 +981,7 @@ def orthogonal_polynomial(
     ]
     ax.legend(markers, alpb_d.keys(), loc=1, ncol=5, prop={"size": 60 / dm})
     ax.tick_params(
-        width=0.8, labelsize=dm // 5
+        width=0.8, labelsize= 40 / dm
     )  # width of the tick and the size of the tick labels
     # Regressions of off values onto each site of target RNA (orthogonalized within)
     # plt.savefig('rFon1D_off_star.png', bbox_inches='tight')

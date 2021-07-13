@@ -919,7 +919,6 @@ def orthogonal_polynomial(
     dim_num = dict()
     for i in ind:
         dim_num[i] = [data_null[j] for j in range(i, s, sites)]
-    print(dim_num[0])
     # some_dim = [data_array_flat[i], i for i in range(0, 160, 4)]
 
     # Remove all null data
@@ -928,7 +927,6 @@ def orthogonal_polynomial(
     for i in ind:
         dim_na[i] = np.array(dim_num[i])[np.array(np.isnan(dim_num[i])) == False]
         dim_loc[i] = np.arange(len(dim_num[i]))[np.array(np.isnan(dim_num[i])) == False]
-    print(dim_na[0])
     # Color dictionary with corresponding letters
     col_len = len(colors)
     alpb_d = dict()
@@ -941,7 +939,10 @@ def orthogonal_polynomial(
     dim = dict()
     pi = dict()
     for i in ind:
-        ln = 1 / len(dim_na[i])
+        if len(dim_na[i]) == 0:
+            ln = 1
+        else:
+            ln = 1 / len(dim_na[i])
         rn = np.arange(1 / ln)
         pi[i] = ax.bar(
             x=i + np.array([j for j in rn]) * ln,

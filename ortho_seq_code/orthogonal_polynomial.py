@@ -907,7 +907,7 @@ def orthogonal_polynomial(
     ## Graph of regression
     # Flatten data
     rFon1D_flat = list(rFon1D.flatten())
-    data_null = np.where(array(rFon1D_flat) == float(0), float('nan'), rFon1D_flat)
+    data_null = np.where(np.array(rFon1D_flat) == float(0), float('nan'), rFon1D_flat)
 
     # Constants/constant arrays
     ind = np.arange(sites)  # x-axis

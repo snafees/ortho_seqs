@@ -907,7 +907,7 @@ def orthogonal_polynomial(
     ## Graph of regression
     # Flatten data
     rFon1D_flat = list(rFon1D.flatten())
-    data_null = np.where(rFon1D_flat == float(0), float('nan'), rFon1D_flat)
+    data_null = np.where(array(rFon1D_flat) == float(0), float('nan'), rFon1D_flat)
 
     # Constants/constant arrays
     ind = np.arange(sites)  # x-axis
@@ -953,8 +953,8 @@ def orthogonal_polynomial(
 
     ax.set_xticks(ind + width + 0.5)
     ax.set_xticklabels(np.arange(1, sites + 1))
-    for i in ind + 2:
-        ax.axvline(i - 1, color="#D4D4D4", linewidth=0.8)
+    for i in range(sites+3):
+        ax.axvline(i - 2, color="#D4D4D4", linewidth=0.8)
 
     color_map = [color for color in list(alpb_d.values())]
     markers = [

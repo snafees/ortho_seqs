@@ -84,6 +84,8 @@ def orthogonal_polynomial(
             alphabets.append("n")
         # dm = len(pro) # Could replace dm in future
         if "protein" in molecule:
+            print(PROTEIN_ALPHABETS)
+            print(alphabets)
             # Replaces every amino acid not in custom key with "n"
             not_sig = list(
                 np.setdiff1d(

@@ -938,7 +938,7 @@ def orthogonal_polynomial(
     ax.set_xticks(ind + width)
     ax.set_xticklabels(np.arange(1, sites + 1))
     for i in ind:
-        ax.avline(i, color="#D4D4D4", linewidth=0.8)
+        ax.axvline(i, color="#D4D4D4", linewidth=0.8)
 
     ax.legend(
         ([pi[i] for i in pi]), ([i for i in alphabets]), loc=0, ncol=len(alphabets) // 5

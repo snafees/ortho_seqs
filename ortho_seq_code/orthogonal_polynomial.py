@@ -119,14 +119,6 @@ def orthogonal_polynomial(
                     + str(init_dm - dm)
                     + " unused nucleotides from alphabet."
                 )
-    range_dm = range(dm)
-    phi = np.zeros((sites, pop_size, dm))
-    mean = np.zeros((sites, dm))
-    var = np.zeros((sites, dm))
-    phi2 = np.zeros((sites, sites, pop_size, dm, dm))
-    phi2m = np.zeros((sites, sites, dm, dm))
-    P = np.zeros((sites, pop_size, dm))
-    cov = np.zeros((sites, sites, dm, dm))
     Fest = [0] * pop_size
     Fon1 = [0] * pop_size
     Fon2i1 = [0] * pop_size
@@ -134,11 +126,22 @@ def orthogonal_polynomial(
     np.set_printoptions(precision=10)
     range_sites = range(sites)
     range_popsize = range(pop_size)
-    # for dna_alphabet_index in range(len(alphabets)):
-    #     for i in range_popsize:
-    #         for j in range_sites:
-    #             if seq[i][j] == alphabets[dna_alphabet_index]:
-    #                 phi[j][i][dna_alphabet_index] = 1.0
+    range_dm = range(dm)
+
+
+    phi = np.zeros((sites, pop_size, dm))
+    mean = np.zeros((sites, dm))
+    var = np.zeros((sites, dm))
+    phi2 = np.zeros((sites, sites, pop_size, dm, dm))
+    phi2m = np.zeros((sites, sites, dm, dm))
+    P = np.zeros((sites, pop_size, dm))
+    cov = np.zeros((sites, sites, dm, dm))
+
+    for alphabet_index in range(len(alphabets)):
+        for i in range_popsize:
+            for j in range_sites:
+                if seq[i][j] == alphabets[alphabet_index]:
+                    phi[j][i][alphabet_index] = 1.0
 
     if dm == 3 and molecule == "protein_pnp":
         iterator = itertools.product(

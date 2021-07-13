@@ -59,13 +59,6 @@ def orthogonal_polynomial(
     Fon2i1 = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fon12 = np.genfromtxt(phenotype)  # this needs to stay this way!
     print("Fest:\n" + str(Fest))
-    Fest = [0] * pop_size
-    Fon1 = [0] * pop_size
-    Fon2i1 = [0] * pop_size
-    Fon12 = [0] * pop_size
-    np.set_printoptions(precision=10)
-    range_sites = range(sites)
-    range_popsize = range(pop_size)
     # ----Initializing various terms that we will use.--------------
     # 3 sites, each a dm dim vector, in n individuals
     # nOTE: For application to Amino Acid sequences, increase
@@ -133,6 +126,13 @@ def orthogonal_polynomial(
     phi2m = np.zeros((sites, sites, dm, dm))
     P = np.zeros((sites, pop_size, dm))
     cov = np.zeros((sites, sites, dm, dm))
+    Fest = [0] * pop_size
+    Fon1 = [0] * pop_size
+    Fon2i1 = [0] * pop_size
+    Fon12 = [0] * pop_size
+    np.set_printoptions(precision=10)
+    range_sites = range(sites)
+    range_popsize = range(pop_size)
     for dna_alphabet_index in range(len(alphabets)):
         for i in range_popsize:
             for j in range_sites:

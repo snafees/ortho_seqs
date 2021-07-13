@@ -52,7 +52,7 @@ def orthogonal_polynomial(
     # vectors that must be the same size as F
     with open(pheno_file) as f2:
         phenotype = f2.readlines()
-    print("phenotype:\n" + str(phenotype))
+    print("\nphenotype:\n" + str(phenotype))
     F = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fest = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fon1 = np.genfromtxt(phenotype)  # this needs to stay this way!
@@ -919,7 +919,7 @@ def orthogonal_polynomial(
     dim_num = dict()
     for i in ind:
         dim_num[i] = [data_null[j] for j in range(i, s, sites)]
-
+    print(dim_num[0])
     # some_dim = [data_array_flat[i], i for i in range(0, 160, 4)]
 
     # Remove all null data

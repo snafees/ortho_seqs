@@ -34,6 +34,7 @@ def orthogonal_polynomial(
     start_time = time.time()
     with open(filename) as f:
         seq = f.readlines()
+    #pop_size = len(seq) - 1
 
     # Automatically fills in lowercase n's at end of every line that needs it
     if len(min(seq, key=len)) != len(max(seq, key=len)):
@@ -133,11 +134,11 @@ def orthogonal_polynomial(
     np.set_printoptions(precision=10)
     range_sites = range(sites)
     range_popsize = range(pop_size)
-    for dna_alphabet_index in range(len(alphabets)):
-        for i in range_popsize:
-            for j in range_sites:
-                if seq[i][j] == alphabets[dna_alphabet_index]:
-                    phi[j][i][dna_alphabet_index] = 1.0
+    # for dna_alphabet_index in range(len(alphabets)):
+    #     for i in range_popsize:
+    #         for j in range_sites:
+    #             if seq[i][j] == alphabets[dna_alphabet_index]:
+    #                 phi[j][i][dna_alphabet_index] = 1.0
 
     if dm == 3 and molecule == "protein_pnp":
         iterator = itertools.product(

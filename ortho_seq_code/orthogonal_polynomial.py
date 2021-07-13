@@ -52,13 +52,13 @@ def orthogonal_polynomial(
     # vectors that must be the same size as F
     with open(pheno_file) as f2:
         phenotype = f2.readlines()
-    print("phenotype:\n" + phenotype)
+    print("phenotype:\n" + str(phenotype))
     F = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fest = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fon1 = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fon2i1 = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fon12 = np.genfromtxt(phenotype)  # this needs to stay this way!
-    print("Fest:\n" + Fest)
+    print("Fest:\n" + str(Fest))
     Fest = [0] * pop_size
     Fon1 = [0] * pop_size
     Fon2i1 = [0] * pop_size

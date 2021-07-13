@@ -919,9 +919,11 @@ def orthogonal_polynomial(
     for i in num_dm:
         dim[i] = [rFon1D_flat[i] for i in range(i, s, dm)]  # y-axis for 0 dim
 
+    dim_no = dict()
     dim_num = dict()
     for i in ind:
-        dim_num[i] = [rFon1D_flat[i] for i in range(i, s, sites)]
+        dim_no[i] = [rFon1D_flat[i] for i in range(i, s, sites)]
+        dim_num[i] = np.where(dim_no[i]==0, float('nan'), dim_no[i])
 
     dim_na = dict()
     dim_loc = dict()
@@ -973,16 +975,15 @@ def orthogonal_polynomial(
 
     ax.set_xticks(ind + width + 0.5)
     ax.set_xticklabels(np.arange(1, sites + 1))
-    for i in ind + 1:
-        ax.axvline(i, color="#D4D4D4", linewidth=0.8)
+    for i in ind + 2:
+        ax.axvline(i-1, color="#D4D4D4", linewidth=0.8)
 
     color_map = [color for color in list(alpb_d.values())]
     markers = [
         plt.Line2D([0, 0], [0, 0], color=color, marker="o", linestyle="")
         for color in alpb_d.values()
     ]
-
-    ax.legend(markers, alpb_d.keys(), loc=1, ncol=4, prop={"size": 60 / dm})
+    ax.legend(markers, alpb_d.keys(), loc=1, , prop={"size": 60 / dm})
     ax.tick_params(
         width=0.8, labelsize=dm // 5
     )  # width of the tick and the size of the tick labels

@@ -957,7 +957,7 @@ def orthogonal_polynomial(
     lencol = len(colors)
     for i in range_dm:
         alpb_d[i] = colors[i % lencol]
-        alpb_d[alpb[i]] = alpb_d.pop(i)
+        alpb_d[alphabets[i]] = alpb_d.pop(i)
     dim = dict()
     pi = dict()
     for i in ind:

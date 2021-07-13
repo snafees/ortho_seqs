@@ -137,6 +137,7 @@ def orthogonal_polynomial(
         for i in range_popsize:
             for j in range_sites:
                 if seq[i][j] == alphabets[dna_alphabet_index]:
+                    print(i, j)
                     phi[j][i][dna_alphabet_index] = 1.0
 
     if dm == 3 and molecule == "protein_pnp":

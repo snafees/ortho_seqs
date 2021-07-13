@@ -949,13 +949,13 @@ def orthogonal_polynomial(
             height=[j for j in dim_na[i]],
             width=ln,
             align="edge",
-            color=[colors[i % col_len] for i in list(dim_loc[0])],
+            color=[colors[i % col_len] for i in list(dim_loc[i])],
         )
 
     ax.set_xticks(ind + width + 0.5)
     ax.set_xticklabels(np.arange(1, sites + 1))
-    for i in range(sites+3):
-        ax.axvline(i - 2, color="#D4D4D4", linewidth=0.8)
+    for i in range(sites+1):
+        ax.axvline(i, color="#D4D4D4", linewidth=0.8)
 
     color_map = [color for color in list(alpb_d.values())]
     markers = [

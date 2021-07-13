@@ -78,7 +78,7 @@ def orthogonal_polynomial(
     if alphbt_input is not None:
         with open(alphbt_input) as a:
             custom_aa = a.readlines()
-        alphabets = list(np.unique(custom_aa[0].split(" "), return_index=True))
+        alphabets = list(np.unique(custom_aa[0][0:-1].split(" "), return_index=True)[0])
         # Create list of custom keys
         if "n" in seq_oneline:
             alphabets.append("n")
@@ -90,8 +90,7 @@ def orthogonal_polynomial(
             # Replaces every amino acid not in custom key with "n"
             not_sig = list(
                 np.setdiff1d(
-                    np.array(PROTEIN_ALPHABETS).ravel(),
-                    np.array(alphabets).ravel(),
+                    np.array(PROTEIN_ALPHABETS).ravel(), np.array(alphabets).ravel(),
                 )
             )
         else:  # DNA molecule

@@ -140,6 +140,7 @@ def orthogonal_polynomial(
     for alphabet_index in range(len(alphabets)):
         for i in range_popsize:
             for j in range_sites:
+                print(i, j)
                 if seq[i][j] == alphabets[alphabet_index]:
                     phi[j][i][alphabet_index] = 1.0
 

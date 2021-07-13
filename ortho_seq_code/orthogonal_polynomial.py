@@ -930,7 +930,7 @@ def orthogonal_polynomial(
     alpb_d = dict()
     for i in num_dm:
         alpb_d[i] = colors[i % col_len]
-        alpb_d[alpbhabets[i]] = alpb_d.pop(i)
+        alpb_d[alphabets[i]] = alpb_d.pop(i)
 
     fig, ax = plt.subplots()
     dim = dict()

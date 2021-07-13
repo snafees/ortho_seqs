@@ -906,20 +906,19 @@ def orthogonal_polynomial(
 
     ## Graph of regression
     rFon1D_flat = list(rFon1D.flatten())
-    first_vect = rFon1D_flat[0:dm]
-    first_two_vec = rFon1D_flat[0 : (2 * dm)]
+    data_null = np.where(rFon1D_flat == 0, float("nan"), data_flat)
 
     ind = np.arange(sites)  # x-axis
     num_dm = np.arange(dm)
     width = 1 / sites
 
-    s = dm * sites
-
-    dim_no = dict()
     dim_num = dict()
-    for j in ind:
-        dim_no[j] = [rFon1D_flat[i] for i in range(j, s, sites)]
-        dim_num[j] = np.where(dim_no[j] == 0, float("nan"), dim_no[j])
+    for i in ind:
+        dim_num[i] = [rFon1D_flat[j] for j in range(i, s, sites)]
+
+    s = sites * dm
+
+    # some_dim = [data_array_flat[i], i for i in range(0, 160, 4)]
 
     dim_na = dict()
     dim_loc = dict()
@@ -927,35 +926,13 @@ def orthogonal_polynomial(
         dim_na[i] = np.array(dim_num[i])[np.array(np.isnan(dim_num[i])) == False]
         dim_loc[i] = np.arange(len(dim_num[i]))[np.array(np.isnan(dim_num[i])) == False]
 
-    fig, ax = plt.subplots()
-    colors = [
-        "tab:blue",
-        "blueviolet",
-        "darkturquoise",
-        "tab:orange",
-        "tab:green",
-        "mediumvioletred",
-        "coral",
-        "tab:red",
-        "tab:purple",
-        "dodgerblue",
-        "tab:brown",
-        "gold",
-        "tab:pink",
-        "limegreen",
-        "tab:gray",
-        "chocolate",
-        "tab:olive",
-        "olivedrab",
-        "goldenrod",
-        "tab:cyan",
-        "violet",
-    ]
+    col_len = len(colors)
     alpb_d = dict()
-    lencol = len(colors)
-    for i in range_dm:
-        alpb_d[i] = colors[i % lencol]
-        alpb_d[alphabets[i]] = alpb_d.pop(i)
+    for i in num_dm:
+        alpb_d[i] = colors[i % col_len]
+        alpb_d[alpbhabets[i]] = alpb_d.pop(i)
+
+    fig, ax = plt.subplots()
     dim = dict()
     pi = dict()
     for i in ind:
@@ -966,7 +943,7 @@ def orthogonal_polynomial(
             height=[j for j in dim_na[i]],
             width=ln,
             align="edge",
-            color=[colors[i % lencol] for i in list(dim_loc[0])],
+            color=[colors[i % col_len] for i in list(dim_loc[0])],
         )
 
     ax.set_xticks(ind + width + 0.5)
@@ -981,7 +958,7 @@ def orthogonal_polynomial(
     ]
     ax.legend(markers, alpb_d.keys(), loc=1, ncol=5, prop={"size": 60 / dm})
     ax.tick_params(
-        width=0.8, labelsize= 40 / dm
+        width=0.8, labelsize=40 / dm
     )  # width of the tick and the size of the tick labels
     # Regressions of off values onto each site of target RNA (orthogonalized within)
     # plt.savefig('rFon1D_off_star.png', bbox_inches='tight')

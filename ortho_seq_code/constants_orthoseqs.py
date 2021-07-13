@@ -67,3 +67,27 @@ DM_ALPHABETS = {
     20: PROTEIN_ALPHABETS,
     21: PROTEIN_ALPHABETS_N,
 }
+
+colors = [
+    "tab:blue",
+    "blueviolet",
+    "saddlebrown",
+    "tab:orange",
+    "tab:green",
+    "mediumvioletred",
+    "coral",
+    "tab:red",
+    "tab:purple",
+    "dodgerblue",
+    "tab:brown",
+    "gold",
+    "tab:pink",
+    "limegreen",
+    "tab:gray",
+    "chocolate",
+    "tab:olive",
+    "mediumvioletred",
+    "goldenrod",
+    "tab:cyan",
+    "violet",
+]

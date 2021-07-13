@@ -951,7 +951,7 @@ def orthogonal_polynomial(
         "olivedrab",
         "goldenrod",
         "tab:cyan",
-        "violet"
+        "violet",
     ]
     alpb_d = dict()
     lencol = len(colors)
@@ -961,10 +961,15 @@ def orthogonal_polynomial(
     dim = dict()
     pi = dict()
     for i in ind:
-        ln = 1/len(dim_na[i])
-        rn = np.arange(1/ln)
-        pi[i] = ax.bar(x=i+np.array([j for j in rn])*ln, height=[j for j in dim_na[i]], width=ln, align="edge", color=[colors[i%col_len] for i in list(dim_loc[0])])
-
+        ln = 1 / len(dim_na[i])
+        rn = np.arange(1 / ln)
+        pi[i] = ax.bar(
+            x=i + np.array([j for j in rn]) * ln,
+            height=[j for j in dim_na[i]],
+            width=ln,
+            align="edge",
+            color=[colors[i % col_len] for i in list(dim_loc[0])],
+        )
 
     ax.set_xticks(ind + width + 0.5)
     ax.set_xticklabels(np.arange(1, sites + 1))
@@ -972,13 +977,14 @@ def orthogonal_polynomial(
         ax.axvline(i, color="#D4D4D4", linewidth=0.8)
 
     color_map = [color for color in list(alpb_d.values())]
-    markers = [plt.Line2D([0,0],[0,0],color=color, marker='o', linestyle='') for color in alpb_d.values()]
+    markers = [
+        plt.Line2D([0, 0], [0, 0], color=color, marker="o", linestyle="")
+        for color in alpb_d.values()
+    ]
 
-    ax.legend(
-        markers, alpb_d.keys(), loc=1, ncol=4, prop={'size': 60/dm}
-    )
+    ax.legend(markers, alpb_d.keys(), loc=1, ncol=4, prop={"size": 60 / dm})
     ax.tick_params(
-        width=0.8, labelsize=dm//5
+        width=0.8, labelsize=dm // 5
     )  # width of the tick and the size of the tick labels
     # Regressions of off values onto each site of target RNA (orthogonalized within)
     # plt.savefig('rFon1D_off_star.png', bbox_inches='tight')

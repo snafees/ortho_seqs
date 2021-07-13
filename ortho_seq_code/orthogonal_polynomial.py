@@ -134,8 +134,8 @@ def orthogonal_polynomial(
     range_sites = range(sites)
     range_popsize = range(pop_size)
     for dna_alphabet_index in range(len(alphabets)):
-        for i in range_popsize:
-            for j in range_sites:
+        for i in np.arange(pop_size):
+            for j in np.arange(sites):
                 if seq[i][j] == alphabets[dna_alphabet_index]:
                     print(i, j)
                     phi[j][i][dna_alphabet_index] = 1.0

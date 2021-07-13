@@ -968,7 +968,7 @@ def orthogonal_polynomial(
             height=[j for j in dim_na[i]],
             width=ln,
             align="edge",
-            color=[colors[i % col_len] for i in list(dim_loc[0])],
+            color=[colors[i % lencol] for i in list(dim_loc[0])],
         )
 
     ax.set_xticks(ind + width + 0.5)

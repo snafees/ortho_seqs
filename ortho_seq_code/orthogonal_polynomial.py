@@ -910,41 +910,75 @@ def orthogonal_polynomial(
     first_two_vec = rFon1D_flat[0 : (2 * dm)]
 
     ind = np.arange(sites)  # x-axis
-    width = 0.96 / dm
+    num_dm = np.arange(dm)
+    width = 1 / sites
+
+    s = dm * sites
 
     dim = dict()
+    for i in num_dm:
+        dim[i] = [rFon1D_flat[i] for i in range(i, s, dm)]  # y-axis for 0 dim
+
+    dim_num = dict()
+    for i in ind:
+        dim_num[i] = [rFon1D_flat[i] for i in range(i, s, sites)]
+
+    dim_na = dict()
+    dim_loc = dict()
+    for i in ind:
+        dim_na[i] = np.array(dim_num[i])[np.array(np.isnan(dim_num[i])) == False]
+        dim_loc[i] = np.arange(len(dim_num[i]))[np.array(np.isnan(dim_num[i])) == False]
 
     fig, ax = plt.subplots()
     colors = [
         "tab:blue",
+        "blueviolet",
+        "darkturquoise",
         "tab:orange",
         "tab:green",
+        "mediumvioletred",
+        "coral",
         "tab:red",
         "tab:purple",
+        "dodgerblue",
         "tab:brown",
+        "gold",
         "tab:pink",
+        "limegreen",
         "tab:gray",
+        "chocolate",
         "tab:olive",
+        "olivedrab",
+        "goldenrod",
         "tab:cyan",
-    ]  # len(colors)=10
+        "violet"
+    ]
+    alpb_d = dict()
+    lencol = len(colors)
+    for i in range_dm:
+        alpb_d[i] = colors[i % lencol]
+        alpb_d[alpb[i]] = alpb_d.pop(i)
+    dim = dict()
     pi = dict()
-    for i in range(dm):
-        # some_dim = [data_array_flat[i], i for i in range(i, dm*sites, dm)]
-        dim[i] = [rFon1D_flat[i] for i in range(i, dm * sites, dm)]
-        pi[i] = ax.bar(
-            ind + i * width, dim[i], width, color=colors[i % 10], align="edge"
-        )
-
-    ax.set_xticks(ind + width)
-    ax.set_xticklabels(np.arange(1, sites + 1))
     for i in ind:
+        ln = 1/len(dim_na[i])
+        rn = np.arange(1/ln)
+        pi[i] = ax.bar(x=i+np.array([j for j in rn])*ln, height=[j for j in dim_na[i]], width=ln, align="edge", color=[colors[i%col_len] for i in list(dim_loc[0])])
+
+
+    ax.set_xticks(ind + width + 0.5)
+    ax.set_xticklabels(np.arange(1, sites + 1))
+    for i in ind + 1:
         ax.axvline(i, color="#D4D4D4", linewidth=0.8)
 
+    color_map = [color for color in list(alpb_d.values())]
+    markers = [plt.Line2D([0,0],[0,0],color=color, marker='o', linestyle='') for color in alpb_d.values()]
+
     ax.legend(
-        ([pi[i] for i in pi]), ([i for i in alphabets]), loc=0, ncol=len(alphabets) // 5
+        markers, alpb_d.keys(), loc=1, ncol=4, prop={'size': 60/dm}
     )
     ax.tick_params(
-        width=0.4, labelsize=6
+        width=0.8, labelsize=dm//5
     )  # width of the tick and the size of the tick labels
     # Regressions of off values onto each site of target RNA (orthogonalized within)
     # plt.savefig('rFon1D_off_star.png', bbox_inches='tight')

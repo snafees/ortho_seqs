@@ -20,18 +20,24 @@ def orthogonal_polynomial(
     filename,
     pheno_file,
     molecule,
-    dm,
     poly_order,
     precomputed,
     out_dir,
 ):
+
+    # DELETE ONCE CUSTOM_AA IS IMPLEMENTED!!!!
+
+    custom_alphbt = None
+
+    # DELETE ONCE CUSTOM_AA IS IMPLEMENTED!!!!
+
     """Program to compute orthogonal polynomials up to 2nd order"""
     create_dir_if_not_exists(out_dir)
     start_time = time.time()
     with open(filename) as f:
         seq = f.readlines()
     global i
-    seq_series = pd.Series(seq).str[0:-1]
+    seq_series = pd.Series(seq).str[0:-1][:-1]
     sites = int(max(seq_series.str.len()))
     pop_size = len(seq_series)
     # file containing trait values that will be mapped to sequence
@@ -52,7 +58,6 @@ def orthogonal_polynomial(
     np.set_printoptions(precision=10)
     range_sites = range(sites)
     range_popsize = range(pop_size)
-    range_dm = range(dm)
     # ----Initializing various terms that we will use.--------------
     # 3 sites, each a dm dim vector, in n individuals
     # nOTE: For application to Amino Acid sequences, increase
@@ -66,7 +71,16 @@ def orthogonal_polynomial(
     cov = np.zeros((sites, sites, dm, dm))
     # ------------Converting letters to vectors---------------
     # phi[individual][site][state]. phi[i][j] = vector for site j in individual i.
-    alphabets = DM_ALPHABETS[dm]
+
+    # Autopadding here
+    if custom_alphbt is not None:
+        # Write more code once custom_alphbt is implemented
+        dm = len(alphabets)
+    else:
+        seq_list = list(seq_series)
+        alphabets = np.unique(list("".join(seq_list)))
+    range_dm = range(dm)
+    print("\nWill be computing "+str(pop_size)+" sequences with "+str(sites)+ " sites, and each vector will be "+str(dm)"-dimensional.\n")
     for dna_alphabet_index in range(len(alphabets)):
         for i in range_popsize:
             for j in range_sites:
@@ -964,11 +978,6 @@ def orthogonal_polynomial(
 @click.command(help="program to compute orthogonal polynomials up to 2nd order")  # noqa
 @click.argument("filename", type=str)  # noqa
 @click.option(
-    "--dm",
-    default=4,
-    help="dimension of vector, e.g., this is =4 when input is DNA/RNA",
-)  # noqa
-@click.option(
     "--molecule", default="DNA", help="can provide DNA or amino acid sequence"
 )
 @click.option(
@@ -986,7 +995,6 @@ def orthogonal_polynomial(
 # @click.argument('pheno_file', type=click.File('rb'))
 def cli(
     filename,
-    dm,
     molecule,
     pheno_file,
     poly_order,
@@ -997,7 +1005,6 @@ def cli(
         filename,
         pheno_file,
         molecule,
-        dm,
         poly_order,
         precomputed,
         out_dir,

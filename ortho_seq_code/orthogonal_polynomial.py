@@ -65,7 +65,7 @@ def orthogonal_polynomial(
     # Autopadding here
     if custom_alphbt is not None:
         # Write more code once custom_alphbt is implemented
-        print(2+2)
+        print(2 + 2)
     else:
         seq_list = list(seq_series)
         alphabets = list(np.unique(list("".join(seq_list))))
@@ -86,7 +86,7 @@ def orthogonal_polynomial(
     # phi[individual][site][state]. phi[i][j] = vector for site j in individual i.
 
     print(
-        "\nWill be computing "
+        "Will be computing "
         + str(pop_size)
         + " sequences with "
         + str(sites)

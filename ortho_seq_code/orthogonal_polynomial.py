@@ -58,6 +58,16 @@ def orthogonal_polynomial(
     np.set_printoptions(precision=10)
     range_sites = range(sites)
     range_popsize = range(pop_size)
+
+    # Autopadding here
+    if custom_alphbt is not None:
+        # Write more code once custom_alphbt is implemented
+        print(2+2)
+    else:
+        seq_list = list(seq_series)
+        alphabets = list(np.unique(list("".join(seq_list))))
+    dm = len(alphabets)
+    range_dm = range(dm)
     # ----Initializing various terms that we will use.--------------
     # 3 sites, each a dm dim vector, in n individuals
     # nOTE: For application to Amino Acid sequences, increase
@@ -72,14 +82,6 @@ def orthogonal_polynomial(
     # ------------Converting letters to vectors---------------
     # phi[individual][site][state]. phi[i][j] = vector for site j in individual i.
 
-    # Autopadding here
-    if custom_alphbt is not None:
-        # Write more code once custom_alphbt is implemented
-        dm = len(alphabets)
-    else:
-        seq_list = list(seq_series)
-        alphabets = np.unique(list("".join(seq_list)))
-    range_dm = range(dm)
     print(
         "\nWill be computing "
         + str(pop_size)

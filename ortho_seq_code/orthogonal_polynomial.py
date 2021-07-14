@@ -72,6 +72,7 @@ def orthogonal_polynomial(
     if alphbt_input is not None:
         with open(alphbt_input) as a:
             custom_aa = a.readlines()
+        print(custom_aa)
         alphabets = list(np.unique(custom_aa[0][0:-1].split(" "), return_index=True)[0])
         # Create list of custom keys
         if "n" in seq_oneline:

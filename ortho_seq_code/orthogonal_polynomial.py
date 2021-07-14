@@ -958,6 +958,7 @@ def orthogonal_polynomial(
 
     print("Trait values estimated from regressions")
     print(Fest)
+    print(sites)
     print("--- %s seconds ---" % (time.time() - start_time))
 
 

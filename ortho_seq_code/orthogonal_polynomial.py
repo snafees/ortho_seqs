@@ -80,7 +80,15 @@ def orthogonal_polynomial(
         seq_list = list(seq_series)
         alphabets = np.unique(list("".join(seq_list)))
     range_dm = range(dm)
-    print("\nWill be computing "+str(pop_size)+" sequences with "+str(sites)+ " sites, and each vector will be "+str(dm)"-dimensional.\n")
+    print(
+        "\nWill be computing "
+        + str(pop_size)
+        + " sequences with "
+        + str(sites)
+        + " sites, and each vector will be "
+        + str(dm)
+        + "-dimensional.\n"
+    )
     for dna_alphabet_index in range(len(alphabets)):
         for i in range_popsize:
             for j in range_sites:

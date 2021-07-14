@@ -37,8 +37,8 @@ def orthogonal_polynomial(
     with open(filename) as f:
         seq = f.readlines()
     global i
-    seq_series = pd.Series(seq).str[0:-1]
-    sites = int(max(seq_series.str.len()))
+    seq_series = pd.Series(seq).str[0:-1].str.replace(" ", "")
+    sites = max(seq_series.str.len())
     pop_size = len(seq_series)
     for i in seq:
         if i == "\n":

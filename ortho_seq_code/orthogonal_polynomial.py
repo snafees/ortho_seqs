@@ -20,7 +20,6 @@ def orthogonal_polynomial(
     filename,
     pheno_file,
     molecule,
-    sites,
     dm,
     pop_size,
     poly_order,
@@ -33,6 +32,8 @@ def orthogonal_polynomial(
     with open(filename) as f:
         seq = f.readlines()
     global i
+    seq_series = list(pd.Series(seq).str[0:-1])
+    sites = max(seq_series.str.len())
     # file containing trait values that will be mapped to sequence
     # vectors that must be the same size as F
     with open(pheno_file) as f2:
@@ -971,9 +972,6 @@ def orthogonal_polynomial(
     help="dimension of vector, e.g., this is =4 when input is DNA/RNA",
 )  # noqa
 @click.option(
-    "--sites", default=2, help="number of sites in a sequence"
-)  # starting off with two sites to run full second order
-@click.option(
     "--molecule", default="DNA", help="can provide DNA or amino acid sequence"
 )
 @click.option(
@@ -993,7 +991,6 @@ def cli(
     filename,
     pop_size,
     dm,
-    sites,
     molecule,
     pheno_file,
     poly_order,
@@ -1004,7 +1001,6 @@ def cli(
         filename,
         pheno_file,
         molecule,
-        sites,
         dm,
         pop_size,
         poly_order,

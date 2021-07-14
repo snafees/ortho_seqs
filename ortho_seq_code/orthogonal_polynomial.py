@@ -32,7 +32,7 @@ def orthogonal_polynomial(
     with open(filename) as f:
         seq = f.readlines()
     global i
-    seq_series = list(pd.Series(seq).str[0:-1])
+    seq_series = pd.Series(seq).str[0:-1]
     sites = max(seq_series.str.len())
     # file containing trait values that will be mapped to sequence
     # vectors that must be the same size as F

@@ -21,7 +21,6 @@ def orthogonal_polynomial(
     pheno_file,
     molecule,
     dm,
-    pop_size,
     poly_order,
     precomputed,
     out_dir,
@@ -34,7 +33,7 @@ def orthogonal_polynomial(
     global i
     seq_series = pd.Series(seq).str[0:-1]
     sites = int(max(seq_series.str.len()))
-    print("Sites: "+str(sites))
+    pop_size = len(seq_series)
     # file containing trait values that will be mapped to sequence
     # vectors that must be the same size as F
     with open(pheno_file) as f2:
@@ -965,9 +964,6 @@ def orthogonal_polynomial(
 @click.command(help="program to compute orthogonal polynomials up to 2nd order")  # noqa
 @click.argument("filename", type=str)  # noqa
 @click.option(
-    "--pop_size", default=1, help="Population size or number of sequences"
-)  # noqa
-@click.option(
     "--dm",
     default=4,
     help="dimension of vector, e.g., this is =4 when input is DNA/RNA",
@@ -990,7 +986,6 @@ def orthogonal_polynomial(
 # @click.argument('pheno_file', type=click.File('rb'))
 def cli(
     filename,
-    pop_size,
     dm,
     molecule,
     pheno_file,
@@ -1003,7 +998,6 @@ def cli(
         pheno_file,
         molecule,
         dm,
-        pop_size,
         poly_order,
         precomputed,
         out_dir,

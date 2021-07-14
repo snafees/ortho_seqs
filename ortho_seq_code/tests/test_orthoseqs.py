@@ -11,7 +11,6 @@ from ortho_seq_code.tests import orthoseqs_tst_utils as utils
 def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):
     molecule = "protein"
     dm = 20
-    pop_size = 6
     poly_order = "first"
     out_dir = "/tmp"
 
@@ -27,8 +26,6 @@ def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):
             molecule,
             "--dm",
             dm,
-            "--pop_size",
-            pop_size,
             "--poly_order",
             poly_order,
             "--out_dir",
@@ -42,7 +39,6 @@ def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):
 def test_cli(protein_seqs_padding, protein_pheno_padding):
     molecule = "protein"
     dm = 21
-    pop_size = 10
     poly_order = "first"
     out_dir = "/tmp"
 
@@ -58,8 +54,6 @@ def test_cli(protein_seqs_padding, protein_pheno_padding):
             molecule,
             "--dm",
             dm,
-            "--pop_size",
-            pop_size,
             "--poly_order",
             poly_order,
             "--out_dir",
@@ -75,7 +69,6 @@ def test_cli_precomputed(
 ):
     molecule = "protein"
     dm = 20
-    pop_size = 6
     poly_order = "first"
     out_dir = protein_data_dir
 
@@ -91,8 +84,6 @@ def test_cli_precomputed(
             molecule,
             "--dm",
             dm,
-            "--pop_size",
-            pop_size,
             "--poly_order",
             poly_order,
             "--out_dir",

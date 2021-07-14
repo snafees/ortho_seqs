@@ -37,9 +37,12 @@ def orthogonal_polynomial(
     with open(filename) as f:
         seq = f.readlines()
     global i
-    seq_series = pd.Series(seq).str[0:-1][:-1]
+    seq_series = pd.Series(seq).str[0:-1]
     sites = int(max(seq_series.str.len()))
     pop_size = len(seq_series)
+    for i in seq:
+        if i == "\n":
+            pop_size -= 1
     # file containing trait values that will be mapped to sequence
     # vectors that must be the same size as F
     with open(pheno_file) as f2:

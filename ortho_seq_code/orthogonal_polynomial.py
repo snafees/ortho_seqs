@@ -137,6 +137,7 @@ def orthogonal_polynomial(
     P = np.zeros((sites, pop_size, dm))
     cov = np.zeros((sites, sites, dm, dm))
 
+    print(alphabets)
     for alphabet_index in range(len(alphabets)):
         for i in range_popsize:
             print(alphabet_index, i)

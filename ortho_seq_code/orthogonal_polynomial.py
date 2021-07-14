@@ -39,7 +39,7 @@ def orthogonal_polynomial(
     global i
     seq_series = pd.Series(seq).str[0:-1]
     seq_series_rm = seq_series.str.replace(" ", "")
-    sites = max(seq_series.str.len())
+    sites = max(seq_series_rm.str.len())
     pop_size = len(seq_series)
     for i in seq:
         if i == "\n":

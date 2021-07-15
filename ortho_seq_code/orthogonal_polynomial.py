@@ -983,17 +983,6 @@ def orthogonal_polynomial(
 @click.command(help="program to compute orthogonal polynomials up to 2nd order")  # noqa
 @click.argument("filename", type=str)  # noqa
 @click.option(
-    "--pop_size", default=1, help="Population size or number of sequences"
-)  # noqa
-@click.option(
-    "--dm",
-    default=4,
-    help="dimension of vector, e.g., this is =4 when input is DNA/RNA",
-)  # noqa
-@click.option(
-    "--sites", default=2, help="number of sites in a sequence"
-)  # starting off with two sites to run full second order
-@click.option(
     "--molecule", default="DNA", help="can provide DNA or amino acid sequence"
 )
 @click.option(

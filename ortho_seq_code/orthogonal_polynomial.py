@@ -104,6 +104,7 @@ def orthogonal_polynomial(
     else:
         seq_list = list(seq_series)
         alphabets = list(np.unique(list("".join(seq_list))))
+    dm = len(alphabets)
     print(
         "Will be computing "
         + str(pop_size)

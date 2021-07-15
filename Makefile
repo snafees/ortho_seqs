@@ -11,7 +11,7 @@ run-cli:
 		--pop_size 6  \
 		--poly_order first \
 		--out_dir results \
-		--alphbt_input None/
+		--alphbt_input None /
 
 
 unit-tests:

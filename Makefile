@@ -10,7 +10,8 @@ run-cli:
 		--dm 20 \
 		--pop_size 6  \
 		--poly_order first \
-		--out_dir results/
+		--out_dir results \
+		--custom_alphbt None/
 
 
 unit-tests:

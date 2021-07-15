@@ -12,9 +12,6 @@ from ortho_seq_code.tests import orthoseqs_tst_utils as utils
 
 def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):
     molecule = "protein"
-    sites = 6
-    dm = 20
-    pop_size = 6
     poly_order = "first"
     out_dir = "/tmp"
     alphbt_input = None
@@ -29,12 +26,6 @@ def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):
             protein_pheno_no_padding,
             "--molecule",
             molecule,
-            "--sites",
-            sites,
-            "--dm",
-            dm,
-            "--pop_size",
-            pop_size,
             "--poly_order",
             poly_order,
             "--out_dir",
@@ -49,9 +40,6 @@ def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):
 
 def test_cli(protein_seqs_padding, protein_pheno_padding):
     molecule = "protein"
-    sites = 6
-    dm = 21
-    pop_size = 10
     poly_order = "first"
     out_dir = "/tmp"
     alphbt_input = None
@@ -66,12 +54,6 @@ def test_cli(protein_seqs_padding, protein_pheno_padding):
             protein_pheno_padding,
             "--molecule",
             molecule,
-            "--sites",
-            sites,
-            "--dm",
-            dm,
-            "--pop_size",
-            pop_size,
             "--poly_order",
             poly_order,
             "--out_dir",
@@ -88,9 +70,6 @@ def test_cli_precomputed(
     protein_seqs_no_padding, protein_pheno_no_padding, protein_data_dir
 ):
     molecule = "protein"
-    sites = 6
-    dm = 20
-    pop_size = 6
     poly_order = "first"
     out_dir = protein_data_dir
     alphbt_input = None
@@ -105,12 +84,6 @@ def test_cli_precomputed(
             protein_pheno_no_padding,
             "--molecule",
             molecule,
-            "--sites",
-            sites,
-            "--dm",
-            dm,
-            "--pop_size",
-            pop_size,
             "--poly_order",
             poly_order,
             "--out_dir",

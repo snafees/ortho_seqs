@@ -21,9 +21,6 @@ def orthogonal_polynomial(
     filename,
     pheno_file,
     molecule,
-    sites,
-    dm,
-    pop_size,
     poly_order,
     precomputed,
     out_dir,
@@ -36,18 +33,18 @@ def orthogonal_polynomial(
         seq = f.readlines()
     #pop_size = len(seq) - 1
 
-    # Automatically fills in lowercase n's at end of every line that needs it
+    seq_series_space = pd.Series(seq).str[0:-1]
+    seq_series_nospace = seq_series_space.str.replace(" ", float("NaN"))
+    seq_series = seq_series_nospace.str.replace("", float("NaN")).dropna()
+    sites = max(seq_series.str.len())
+    pop_size = len(seq_series)
     if len(min(seq, key=len)) != len(max(seq, key=len)):
-        seq_series = pd.Series(seq).str[0:-1]
-        # MAX_SITES = max(seq_series.str.len())  # Could replace sites parameter in future
-        # pop_size = len(seq_series) # Could replace pop_size parameter in future
-        n_ser = np.array(np.repeat("n", len(seq_series))).astype(object)
-        diff = np.array(sites - seq_series.str.len())
-
-        seq_series += pd.Series(n_ser * diff)
+        incomplete_seq_series = seq_series[seq_series.str.len() < MAX_SITES]
+        while len(incomplete_seq_series) > 0:
+            incomplete_seq_series = seq_series[seq_series.str.len() < MAX_SITES]
+            seq_series[incomplete_seq_series.index] += "n"
         seq_series += "\n"
         seq = list(seq_series)
-
     global i
     # file containing trait values that will be mapped to sequence
     # vectors that must be the same size as F
@@ -77,7 +74,6 @@ def orthogonal_polynomial(
         # Create list of custom keys
         if "n" in seq_oneline:
             alphabets.append("n")
-        # dm = len(pro) # Could replace dm in future
         if "protein" in molecule:
             # Replaces every amino acid not in custom key with "n"
             not_sig = list(
@@ -102,24 +98,22 @@ def orthogonal_polynomial(
             for i in range(0, len(seq_oneline_rep), len(seq_series[0]))
         ]
         seq = list(pd.Series(seq) + "\n")
+        while("" in alphabets):
+            alphabets.remove("")
+
     else:
-        init_dm = dm
-        alphabets = DM_ALPHABETS[dm]
-        for mol in alphabets:
-            if mol not in seq_oneline:
-                alphabets.remove(mol)
-                dm -= 1
-        if dm != init_dm:
-            if "protein" in molecule:
-                print(
-                    "Removed " + str(init_dm - dm) + " unused proteins from alphabet."
+        seq_list = list(seq_series)
+        alphabets = list(np.unique(list("".join(seq_list))))
                 )
-            else:
-                print(
-                    "Removed "
-                    + str(init_dm - dm)
-                    + " unused nucleotides from alphabet."
-                )
+    print(
+        "Will be computing "
+        + str(pop_size)
+        + " sequences with "
+        + str(sites)
+        + " sites, and each vector will be "
+        + str(dm)
+        + "-dimensional.\n"
+    )
     Fest = [0] * pop_size
     Fon1 = [0] * pop_size
     Fon2i1 = [0] * pop_size
@@ -1024,9 +1018,6 @@ def orthogonal_polynomial(
 # @click.argument('pheno_file', type=click.File('rb'))
 def cli(
     filename,
-    pop_size,
-    dm,
-    sites,
     molecule,
     pheno_file,
     poly_order,
@@ -1038,9 +1029,6 @@ def cli(
         filename,
         pheno_file,
         molecule,
-        sites,
-        dm,
-        pop_size,
         poly_order,
         precomputed,
         out_dir,

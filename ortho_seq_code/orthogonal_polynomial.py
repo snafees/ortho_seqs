@@ -34,8 +34,8 @@ def orthogonal_polynomial(
     #pop_size = len(seq) - 1
 
     seq_series_space = pd.Series(seq).str[0:-1]
-    seq_series_nospace = seq_series_space.str.replace(" ", float("NaN"))
-    seq_series = seq_series_nospace.str.replace("", float("NaN")).dropna()
+    seq_series_nospace = seq_series_space.str.replace(" ", "")
+    seq_series = seq_series_nospace[seq_series_nospace!=""]
     sites = max(seq_series.str.len())
     pop_size = len(seq_series)
     if len(min(seq, key=len)) != len(max(seq, key=len)):

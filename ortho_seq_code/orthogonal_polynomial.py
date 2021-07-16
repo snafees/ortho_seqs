@@ -31,11 +31,11 @@ def orthogonal_polynomial(
     start_time = time.time()
     with open(filename) as f:
         seq = f.readlines()
-    #pop_size = len(seq) - 1
+    # pop_size = len(seq) - 1
 
     seq_series_space = pd.Series(seq).str[0:-1]
     seq_series_nospace = seq_series_space.str.replace(" ", "")
-    seq_series = seq_series_nospace[seq_series_nospace!=""]
+    seq_series = seq_series_nospace[seq_series_nospace != ""]
     sites = max(seq_series.str.len())
     pop_size = len(seq_series)
     if len(min(seq, key=len)) != len(max(seq, key=len)):
@@ -77,7 +77,8 @@ def orthogonal_polynomial(
             # Replaces every amino acid not in custom key with "n"
             not_sig = list(
                 np.setdiff1d(
-                    np.array(PROTEIN_ALPHABETS).ravel(), np.array(alphabets).ravel(),
+                    np.array(PROTEIN_ALPHABETS).ravel(),
+                    np.array(alphabets).ravel(),
                 )
             )
         else:  # DNA molecule
@@ -97,7 +98,7 @@ def orthogonal_polynomial(
             for i in range(0, len(seq_oneline_rep), len(seq_series[0]))
         ]
         seq = list(pd.Series(seq) + "\n")
-        while("" in alphabets):
+        while "" in alphabets:
             alphabets.remove("")
 
     else:
@@ -127,7 +128,6 @@ def orthogonal_polynomial(
     range_sites = range(sites)
     range_popsize = range(pop_size)
     range_dm = range(dm)
-
 
     phi = np.zeros((sites, pop_size, dm))
     mean = np.zeros((sites, dm))
@@ -594,7 +594,8 @@ def orthogonal_polynomial(
                                             P2i2a[l][m][n][o][i],
                                         )
                                         - sr.inner_general(
-                                            reg2on2[j][k][n][o], P2a[n][o][i],
+                                            reg2on2[j][k][n][o],
+                                            P2a[n][o][i],
                                         )
                                     )
                                     P2Da[j][k][i] = sr.inner_general(
@@ -912,7 +913,7 @@ def orthogonal_polynomial(
     ## Graph of regression
     # Flatten data
     rFon1D_flat = list(rFon1D.flatten())
-    data_null = np.where(np.array(rFon1D_flat) == float(0), float('nan'), rFon1D_flat)
+    data_null = np.where(np.array(rFon1D_flat) == float(0), float("nan"), rFon1D_flat)
 
     # Constants/constant arrays
     ind = np.arange(sites)  # x-axis
@@ -959,7 +960,7 @@ def orthogonal_polynomial(
 
     ax.set_xticks(ind + width + 0.5)
     ax.set_xticklabels(np.arange(1, sites + 1))
-    for i in range(sites+1):
+    for i in range(sites + 1):
         ax.axvline(i, color="gray", linewidth=0.8)
 
     color_map = [color for color in list(alpb_d.values())]
@@ -974,7 +975,7 @@ def orthogonal_polynomial(
     # Regressions of off values onto each site of target RNA (orthogonalized within)
     # plt.savefig('rFon1D_off_star.png', bbox_inches='tight')
     plt.xlabel("Sequence Site")
-    #plt.title("")
+    # plt.title("")
     if "protein" in molecule:
         plt.ylabel("Regressions of amino acids onto each site (rFon1D)")
     else:

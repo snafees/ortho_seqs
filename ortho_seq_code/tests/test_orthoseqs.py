@@ -104,7 +104,9 @@ def assert_equality(expected_path, actual_path):
     expected_arrays = np.load(expected_path)
     for key, obtained_array in obtained_arrays.items():
         expected_array = expected_arrays[key]
-        np.testing.assert_array_equal(expected_array, obtained_array, "error at {}".format(key))
+        np.testing.assert_array_equal(
+            expected_array, obtained_array, "error at {}".format(key)
+        )
 
 
 def test_nucleotide_first_order(

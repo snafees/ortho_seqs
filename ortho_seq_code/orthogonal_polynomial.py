@@ -75,6 +75,10 @@ def orthogonal_polynomial(
         for a in alphabets:
             if a not in seq_list:
                 alphabets.remove(a)
+        if len(alphabets) != len(list(np.unique(seq_list))):
+            print("\nOops! You may have indicated the wrong molecule type, or may have accidentally input the wrong letter.")
+            print("--- %s seconds ---" % (time.time() - start_time))
+            quit()
     dm = len(alphabets)
     range_dm = range(dm)
     # ----Initializing various terms that we will use.--------------

@@ -989,14 +989,14 @@ def orthogonal_polynomial(
         # Regressions of off values onto each site of target RNA (orthogonalized within)
         # plt.savefig('rFon1D_off_star.png', bbox_inches='tight')
         plt.xlabel("Sequence Site")
-    # plt.title("")
-    if "protein" in molecule:
-        plt.ylabel("Regressions of amino acids onto each site (rFon1D)")
-    else:
-        plt.ylabel("Regressions of nucleotides onto each site (rFon1D)")
-    figure = ax.get_figure()
-    figure.savefig("rFon1D_graph.png", dpi=400)
-    print("saved regression graph as rFon1D_graph.png")
+        # plt.title("")
+        if "protein" in molecule:
+            plt.ylabel("Regressions of amino acids onto each site (rFon1D)")
+        else:
+            plt.ylabel("Regressions of nucleotides onto each site (rFon1D)")
+        figure = ax.get_figure()
+        figure.savefig("rFon1D_graph.png", dpi=400)
+        print("saved regression graph as rFon1D_graph.png")
 
     print("--- %s seconds ---" % (time.time() - start_time))
 

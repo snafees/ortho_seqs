@@ -917,68 +917,78 @@ def orthogonal_polynomial(
     ## Graph of regression
     # Flatten data
     rFon1D_flat = list(rFon1D.flatten())
-    data_null = np.where(np.array(rFon1D_flat) == float(0), float("nan"), rFon1D_flat)
+    if any(i != 0 for i in rFon1D_flat):
+        data_null = np.where(np.array(rFon1D_flat) == float(0), float("nan"), rFon1D_flat)
 
-    # Constants/constant arrays
-    ind = np.arange(sites)  # x-axis
-    num_dm = np.arange(dm)
-    width = 1 / sites
-    s = sites * dm
+        # Constants/constant arrays
+        ind = np.arange(sites)  # x-axis
+        num_dm = np.arange(dm)
+        width = 1 / sites
+        s = sites * dm
 
-    # Re-vectorization with null values
-    dim_num = dict()
-    for i in ind:
-        dim_num[i] = [data_null[j] for j in range(i, s, sites)]
-    # some_dim = [data_array_flat[i], i for i in range(0, 160, 4)]
+        # Re-vectorization with null values
+        dim_num = dict()
+        for i in ind:
+            dim_num[i] = [data_null[j] for j in range(i, s, sites)]
+        # some_dim = [data_array_flat[i], i for i in range(0, 160, 4)]
 
-    # Remove all null data
-    dim_na = dict()
-    dim_loc = dict()
-    for i in ind:
-        dim_na[i] = np.array(dim_num[i])[np.array(np.isnan(dim_num[i])) == False]
-        dim_loc[i] = np.arange(len(dim_num[i]))[np.array(np.isnan(dim_num[i])) == False]
-    # Color dictionary with corresponding letters
-    col_len = len(colors)
-    alpb_d = dict()
-    for i in num_dm:
-        alpb_d[i] = colors[i % col_len]
-        alpb_d[alphabets[i]] = alpb_d.pop(i)
+        # Remove all null data
+        dim_na = dict()
+        dim_loc = dict()
+        for i in ind:
+            dim_na[i] = np.array(dim_num[i])[np.array(np.isnan(dim_num[i])) == False]
+            dim_loc[i] = np.arange(len(dim_num[i]))[np.array(np.isnan(dim_num[i])) == False]
+        # Color dictionary with corresponding letters
 
-    # Creating plots
-    fig, ax = plt.subplots()
-    dim = dict()
-    pi = dict()
-    for i in ind:
-        if len(dim_na[i]) == 0:
-            ln = 1
+        for i in num_dm:
+            dim_aa[i] = [data_null[j] for j in range(i, s, dm)]
+
+        col_len = len(colors)
+        alpb_d = dict()
+        for i in num_dm:
+            if any(i != 0 for i in dim_aa[i]):
+                alpb_d[i] = colors[i % col_len]
+                alpb_d[alphabets[i]] = alpb_d.pop(i)
+
+        # Creating plots
+        fig, ax = plt.subplots()
+        dim = dict()
+        pi = dict()
+        for i in ind:
+            if len(dim_na[i]) == 0:
+                ln = 1
+            else:
+                ln = 1 / len(dim_na[i])
+            rn = np.arange(1 / ln)
+            pi[i] = ax.bar(
+                x=i + np.array([j for j in rn]) * ln,
+                height=[j for j in dim_na[i]],
+                width=ln,
+                align="edge",
+                color=[colors[i % col_len] for i in list(dim_loc[i])],
+            )
+
+        ax.set_xticks(ind + width + 0.5)
+        ax.set_xticklabels(np.arange(1, sites + 1))
+        for i in range(sites + 1):
+            ax.axvline(i, color="gray", linewidth=0.8)
+
+        color_map = [color for color in list(alpb_d.values())]
+        markers = [
+            plt.Line2D([0, 0], [0, 0], color=color, marker="o", linestyle="")
+            for color in alpb_d.values()
+        ]
+        if dm < 6:
+            dim = dm
         else:
-            ln = 1 / len(dim_na[i])
-        rn = np.arange(1 / ln)
-        pi[i] = ax.bar(
-            x=i + np.array([j for j in rn]) * ln,
-            height=[j for j in dim_na[i]],
-            width=ln,
-            align="edge",
-            color=[colors[i % col_len] for i in list(dim_loc[i])],
-        )
-
-    ax.set_xticks(ind + width + 0.5)
-    ax.set_xticklabels(np.arange(1, sites + 1))
-    for i in range(sites + 1):
-        ax.axvline(i, color="gray", linewidth=0.8)
-
-    color_map = [color for color in list(alpb_d.values())]
-    markers = [
-        plt.Line2D([0, 0], [0, 0], color=color, marker="o", linestyle="")
-        for color in alpb_d.values()
-    ]
-    ax.legend(markers, alpb_d.keys(), loc=1, ncol=5, prop={"size": 60 / dm})
-    ax.tick_params(
-        width=0.8, labelsize=80 / sites
-    )  # width of the tick and the size of the tick labels
-    # Regressions of off values onto each site of target RNA (orthogonalized within)
-    # plt.savefig('rFon1D_off_star.png', bbox_inches='tight')
-    plt.xlabel("Sequence Site")
+            dim = dm // 3
+        ax.legend(markers, alpb_d.keys(), loc=1, ncol=dim, prop={"size": 60 / dm})
+        ax.tick_params(
+            width=0.8, labelsize=80 / sites
+        )  # width of the tick and the size of the tick labels
+        # Regressions of off values onto each site of target RNA (orthogonalized within)
+        # plt.savefig('rFon1D_off_star.png', bbox_inches='tight')
+        plt.xlabel("Sequence Site")
     # plt.title("")
     if "protein" in molecule:
         plt.ylabel("Regressions of amino acids onto each site (rFon1D)")

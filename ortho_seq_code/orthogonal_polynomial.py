@@ -84,12 +84,13 @@ def orthogonal_polynomial(
         print("Alphabets:")
         print(custom_alphabet)
         print(alphabets)
-        for a in alphabets:
-            print()
-            if a not in custom_alphabet:
-                alphabets.remove(a)
-            print(alphabets)
-            print(custom_alphabet)
+        while len(alphabets) != len(custom_alphabets):
+            for a in alphabets:
+                print()
+                if a not in custom_alphabet:
+                    alphabets.remove(a)
+                print(alphabets)
+                print(custom_alphabet)
         if "protein" in molecule:
             # Replaces every amino acid not in custom key with "n"
             not_sig = list(

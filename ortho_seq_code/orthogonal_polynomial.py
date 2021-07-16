@@ -79,6 +79,9 @@ def orthogonal_polynomial(
         # Create list of custom keys
         if "n" in seq_oneline:
             custom_alphabet.append("n")
+        print("Alphabets:")
+        print(custom_alphabet)
+        print(alphabets)
         for a in alphabets:
             if a not in custom_alphabet:
                 alphabets.remove(a)
@@ -114,7 +117,6 @@ def orthogonal_polynomial(
         for a in alphabets:
             if a not in seq_list:
                 alphabets.remove(a)
-    print(alphabets)
     dm = len(alphabets)
     print(
         "Will be computing "

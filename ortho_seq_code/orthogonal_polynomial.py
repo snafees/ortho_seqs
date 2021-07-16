@@ -73,7 +73,6 @@ def orthogonal_polynomial(
     if alphbt_input is not None:
         with open(alphbt_input) as a:
             custom_aa = a.readlines()
-        print(custom_aa)
         custom_alphabet = list(
             np.unique(custom_aa[0][0:-1].split(" "), return_index=True)[0]
         )
@@ -115,6 +114,7 @@ def orthogonal_polynomial(
         for a in alphabets:
             if a not in seq_list:
                 alphabets.remove(a)
+    print(alphabets)
     dm = len(alphabets)
     print(
         "Will be computing "

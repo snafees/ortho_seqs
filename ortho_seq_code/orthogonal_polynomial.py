@@ -944,6 +944,8 @@ def orthogonal_polynomial(
             ]
         # Color dictionary with corresponding letters
 
+        dim_aa = dict()
+
         for i in num_dm:
             dim_aa[i] = [data_null[j] for j in range(i, s, dm)]
 

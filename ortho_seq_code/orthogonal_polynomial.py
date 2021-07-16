@@ -65,14 +65,24 @@ def orthogonal_polynomial(
     # phi[individual][site][state]. phi[i][j] = vector for site j in individual i.
     seq_series = list(pd.Series(seq).str[0:-1])
     seq_oneline = "".join(seq_series)
+    seq_list = list("".join(list(seq_series)))
+    if "protein" in molecule:
+        alphabets = DM_ALPHABETS[21]
+    else:
+        alphabets = DM_ALPHABETS[5]
     if alphbt_input is not None:
         with open(alphbt_input) as a:
             custom_aa = a.readlines()
         print(custom_aa)
-        alphabets = list(np.unique(custom_aa[0][0:-1].split(" "), return_index=True)[0])
+        custom_alphabet = list(
+            np.unique(custom_aa[0][0:-1].split(" "), return_index=True)[0]
+        )
         # Create list of custom keys
         if "n" in seq_oneline:
-            alphabets.append("n")
+            custom_alphabet.append("n")
+        for a in alphabets:
+            if a not in custom_alphabet:
+                alphabets.remove(a)
         if "protein" in molecule:
             # Replaces every amino acid not in custom key with "n"
             not_sig = list(
@@ -102,11 +112,6 @@ def orthogonal_polynomial(
             alphabets.remove("")
 
     else:
-        seq_list = list("".join(list(seq_series)))
-        if "protein" in molecule:
-            alphabets = DM_ALPHABETS[21]
-        else:
-            alphabets = DM_ALPHABETS[5]
         for a in alphabets:
             if a not in seq_list:
                 alphabets.remove(a)
@@ -970,7 +975,7 @@ def orthogonal_polynomial(
     ]
     ax.legend(markers, alpb_d.keys(), loc=1, ncol=5, prop={"size": 60 / dm})
     ax.tick_params(
-        width=0.8, labelsize=60 / sites
+        width=0.8, labelsize=80 / sites
     )  # width of the tick and the size of the tick labels
     # Regressions of off values onto each site of target RNA (orthogonalized within)
     # plt.savefig('rFon1D_off_star.png', bbox_inches='tight')

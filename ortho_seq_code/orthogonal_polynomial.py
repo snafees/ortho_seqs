@@ -68,7 +68,10 @@ def orthogonal_polynomial(
         print(2 + 2)
     else:
         seq_list = list("".join(list(seq_series)))
-        alphabets = DM_ALPHABETS[21]
+        if "protein" in molecule:
+            alphabets = DM_ALPHABETS[21]
+        else:
+            alphabets = DM_ALPHABETS[5]
         for a in alphabets:
             if a not in seq_list:
                 alphabets.remove(a)

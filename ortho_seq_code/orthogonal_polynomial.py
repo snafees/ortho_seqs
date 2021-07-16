@@ -84,7 +84,7 @@ def orthogonal_polynomial(
         print("Alphabets:")
         print(custom_alphabet)
         print(alphabets)
-        while len(alphabets) != len(custom_alphabets):
+        while len(alphabets) != len(custom_alphabet):
             for a in alphabets:
                 print()
                 if a not in custom_alphabet:

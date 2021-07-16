@@ -997,6 +997,8 @@ def orthogonal_polynomial(
         figure = ax.get_figure()
         figure.savefig("rFon1D_graph.png", dpi=400)
         print("saved regression graph as rFon1D_graph.png")
+    else:
+        print("Nothing to graph for rFon1D.")
 
     print("--- %s seconds ---" % (time.time() - start_time))
 

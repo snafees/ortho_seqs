@@ -76,16 +76,19 @@ def orthogonal_polynomial(
         custom_alphabet = list(
             np.unique(custom_aa[0][0:-1].split(" "), return_index=True)[0]
         )
+        while "" in alphabets:
+            alphabets.remove("")
         # Create list of custom keys
         if "n" in seq_oneline:
             custom_alphabet.append("n")
         print("Alphabets:")
         print(custom_alphabet)
         print(alphabets)
-        for a in alphabets:
-            if a not in custom_alphabet:
-                alphabets.remove(a)
-            print(alphabets)
+        while len(alphabets)!=len(custom_alphabet):
+            for a in alphabets:
+                if a not in custom_alphabet:
+                    alphabets.remove(a)
+                print(alphabets)
         if "protein" in molecule:
             # Replaces every amino acid not in custom key with "n"
             not_sig = list(
@@ -111,9 +114,6 @@ def orthogonal_polynomial(
             for i in range(0, len(seq_oneline_rep), len(seq_series[0]))
         ]
         seq = list(pd.Series(seq) + "\n")
-        while "" in alphabets:
-            alphabets.remove("")
-
     else:
         for a in alphabets:
             if a not in seq_list:

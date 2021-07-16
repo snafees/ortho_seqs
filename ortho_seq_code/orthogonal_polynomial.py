@@ -50,13 +50,12 @@ def orthogonal_polynomial(
     # vectors that must be the same size as F
     with open(pheno_file) as f2:
         phenotype = f2.readlines()
-    print("\nphenotype:\n" + str(phenotype))
     F = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fest = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fon1 = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fon2i1 = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fon12 = np.genfromtxt(phenotype)  # this needs to stay this way!
-    print("Fest:\n" + str(Fest))
+    print("Phenotype Values (Fest):\n" + str(Fest))
     # ----Initializing various terms that we will use.--------------
     # 3 sites, each a dm dim vector, in n individuals
     # nOTE: For application to Amino Acid sequences, increase
@@ -102,8 +101,14 @@ def orthogonal_polynomial(
             alphabets.remove("")
 
     else:
-        seq_list = list(seq_series)
-        alphabets = list(np.unique(list("".join(seq_list))))
+        seq_list = list("".join(list(seq_series)))
+        if "protein" in molecule:
+            alphabets = DM_ALPHABETS[21]
+        else:
+            alphabets = DM_ALPHABETS[5]
+        for a in alphabets:
+            if a not in seq_list:
+                alphabets.remove(a)
     dm = len(alphabets)
     print(
         "Will be computing "
@@ -964,13 +969,14 @@ def orthogonal_polynomial(
     ]
     ax.legend(markers, alpb_d.keys(), loc=1, ncol=5, prop={"size": 60 / dm})
     ax.tick_params(
-        width=0.8, labelsize=40 / dm
+        width=0.8, labelsize=60 / sites
     )  # width of the tick and the size of the tick labels
     # Regressions of off values onto each site of target RNA (orthogonalized within)
     # plt.savefig('rFon1D_off_star.png', bbox_inches='tight')
     plt.xlabel("Sequence Site")
+    #plt.title("")
     if "protein" in molecule:
-        plt.ylabel("Regressions of proteins onto each site (rFon1D)")
+        plt.ylabel("Regressions of amino acids onto each site (rFon1D)")
     else:
         plt.ylabel("Regressions of nucleotides onto each site (rFon1D)")
     figure = ax.get_figure()

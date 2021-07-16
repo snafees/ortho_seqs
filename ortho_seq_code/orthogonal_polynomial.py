@@ -918,7 +918,9 @@ def orthogonal_polynomial(
     # Flatten data
     rFon1D_flat = list(rFon1D.flatten())
     if any(i != 0 for i in rFon1D_flat):
-        data_null = np.where(np.array(rFon1D_flat) == float(0), float("nan"), rFon1D_flat)
+        data_null = np.where(
+            np.array(rFon1D_flat) == float(0), float("nan"), rFon1D_flat
+        )
 
         # Constants/constant arrays
         ind = np.arange(sites)  # x-axis
@@ -937,7 +939,9 @@ def orthogonal_polynomial(
         dim_loc = dict()
         for i in ind:
             dim_na[i] = np.array(dim_num[i])[np.array(np.isnan(dim_num[i])) == False]
-            dim_loc[i] = np.arange(len(dim_num[i]))[np.array(np.isnan(dim_num[i])) == False]
+            dim_loc[i] = np.arange(len(dim_num[i]))[
+                np.array(np.isnan(dim_num[i])) == False
+            ]
         # Color dictionary with corresponding letters
 
         for i in num_dm:

@@ -39,9 +39,9 @@ def orthogonal_polynomial(
     sites = max(seq_series.str.len())
     pop_size = len(seq_series)
     if len(min(seq, key=len)) != len(max(seq, key=len)):
-        incomplete_seq_series = seq_series[seq_series.str.len() < MAX_SITES]
+        incomplete_seq_series = seq_series[seq_series.str.len() < sites]
         while len(incomplete_seq_series) > 0:
-            incomplete_seq_series = seq_series[seq_series.str.len() < MAX_SITES]
+            incomplete_seq_series = seq_series[seq_series.str.len() < sites]
             seq_series[incomplete_seq_series.index] += "n"
         seq_series += "\n"
         seq = list(seq_series)

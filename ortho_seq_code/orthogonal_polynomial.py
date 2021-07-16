@@ -68,7 +68,7 @@ def orthogonal_polynomial(
         print(2 + 2)
     else:
         seq_list = list("".join(list(seq_series)))
-        alphabets = DM_ALPHABETS[dm]
+        alphabets = DM_ALPHABETS[21]
         for a in alphabets:
             if a not in seq_list:
                 alphabets.remove(a)

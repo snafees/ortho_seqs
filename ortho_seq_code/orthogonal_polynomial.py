@@ -76,8 +76,8 @@ def orthogonal_polynomial(
         custom_alphabet = list(
             np.unique(custom_aa[0][0:-1].split(" "), return_index=True)[0]
         )
-        while "" in alphabets:
-            alphabets.remove("")
+        while "" in custom_alphabet:
+            custom_alphabet.remove("")
         # Create list of custom keys
         if "n" in seq_oneline:
             custom_alphabet.append("n")

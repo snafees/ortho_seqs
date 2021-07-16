@@ -137,12 +137,7 @@ def test_nucleotide_second_order(
         )
         orthogonal_polynomial(*nucleotide_params_second_order)
 
-        # sites = os.path.basename(nucleotide_params_second_order.sites)
-        # assert_equality(sites, 2)
-        # dm = os.path.basename(nucleotide_params_second_order.dm)
-        # assert_equality(dm, 4)
-        # pop_size = os.path.basename(nucleotide_params_second_order.pop_size)
-        # assert_equality(pop_size, 12)
+        assert_equality(sites, 2)
 
         basename = os.path.basename(nucleotide_params_second_order.seqs_filename)
         basename_pheno = os.path.basename(nucleotide_params_second_order.pheno_filename)

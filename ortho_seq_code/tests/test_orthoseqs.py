@@ -1,5 +1,6 @@
 import numpy as np
 import os
+import pandas as pd
 
 from click.testing import CliRunner
 

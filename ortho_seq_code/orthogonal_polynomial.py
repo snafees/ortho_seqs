@@ -102,7 +102,12 @@ def orthogonal_polynomial(
         seq = list(pd.Series(seq) + "\n")
     else:
         alphabets = list(np.unique(seq_list))
-        alphabets = alphabets[alphabets != ""][alphabets != " "]
+    while "" in alphabets:
+        alphabets.rm("")
+    while " " in alphabets:
+        alphabets.rm(" ")
+    while "\n" in alphabets:
+        alphabets.rm("\n")
     dm = len(alphabets)
     print(
         "Will be computing "

@@ -76,7 +76,7 @@ def orthogonal_polynomial(
         for a in alphabets:
             if a not in seq_list:
                 alphabets.remove(a)
-    #print(alphabets) #Tells user unique letters in alphabet
+    # print(alphabets) #Tells user unique letters in alphabet
     dm = len(alphabets)
     range_dm = range(dm)
     # ----Initializing various terms that we will use.--------------

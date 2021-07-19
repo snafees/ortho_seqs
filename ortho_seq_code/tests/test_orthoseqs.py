@@ -34,7 +34,7 @@ def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):
     assert result.exit_code == 0
 
 
-def param_test(seqf):
+def param_test(seqf, s, p, d):
     with open(seqf) as f:
         seq = f.readlines()
     seq_series_rm = pd.Series(seq).str[0:-1]
@@ -47,6 +47,9 @@ def param_test(seqf):
             pop_size -= 1
     seq_list = list(np.unique(list("".join(list(seq_series)))))
     dm = len(seq_list)
+    assert_equality(sites, s)
+    assert_equality(pop_size, p)
+    assert_equality(dm, d)
 
 
 def test_cli(protein_seqs_padding, protein_pheno_padding):
@@ -186,10 +189,8 @@ def test_protein_first_order(protein_data_dir, protein_params_first_order):
         orthogonal_polynomial(*protein_params_first_order)
 
         basename = os.path.basename(protein_params_first_order.seqs_filename)
-        param_test(os.path.abspath(protein_params_first_order.seqs_filename))
-        assert_equality(sites, 6)
-        assert_equality(pop_size, 10)
-        assert_equality(dm, 18)
+        param_test(os.path.abspath(protein_params_first_order.seqs_filename), 6, 10, 18)
+
         basename_pheno = os.path.basename(protein_params_first_order.pheno_filename)
         expected_path = os.path.join(protein_data_dir, basename + ".npz")
         obtained_path = os.path.join(location, basename + ".npz")

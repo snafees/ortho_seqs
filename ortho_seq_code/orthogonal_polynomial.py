@@ -76,6 +76,7 @@ def orthogonal_polynomial(
         for a in alphabets:
             if a not in seq_list:
                 alphabets.remove(a)
+    #print(alphabets) #Tells user unique letters in alphabet
     dm = len(alphabets)
     range_dm = range(dm)
     # ----Initializing various terms that we will use.--------------
@@ -101,11 +102,11 @@ def orthogonal_polynomial(
         + str(dm)
         + "-dimensional.\n"
     )
-    for dna_alphabet_index in range(len(alphabets)):
+    for alphabet_index in range(dm):
         for i in range_popsize:
             for j in range_sites:
-                if seq[i][j] == alphabets[dna_alphabet_index]:
-                    phi[j][i][dna_alphabet_index] = 1.0
+                if seq[i][j] == alphabets[alphabet_index]:
+                    phi[j][i][alphabet_index] = 1.0
 
     if dm == 3 and molecule == "protein_pnp":
         iterator = itertools.product(

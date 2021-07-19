@@ -66,25 +66,15 @@ def orthogonal_polynomial(
     seq_series = list(pd.Series(seq).str[0:-1])
     seq_oneline = "".join(seq_series)
     seq_list = list("".join(list(seq_series)))
-    if "protein" in molecule:
-        alphabets = DM_ALPHABETS[21]
-    else:
-        alphabets = DM_ALPHABETS[5]
     if alphbt_input is not None:
         with open(alphbt_input) as a:
             custom_aa = a.readlines()
-        custom_alphabet = list(
-            np.unique(custom_aa[0][0:-1].split(" "), return_index=True)[0]
-        )
-        while "" in custom_alphabet:
-            custom_alphabet.remove("")
+        alphabets = list(np.unique(custom_aa[0][0:-1].split(" "), return_index=True)[0])
+        while "" in alphabets:
+            alphabets.remove("")
         # Create list of custom keys
         if "n" in seq_oneline:
-            custom_alphabet.append("n")
-        while len(alphabets) != len(custom_alphabet):
-            for a in alphabets:
-                if a not in custom_alphabet:
-                    alphabets.remove(a)
+            alphabets.append("n")
         if "protein" in molecule:
             # Replaces every amino acid not in custom key with "n"
             not_sig = list(
@@ -111,9 +101,8 @@ def orthogonal_polynomial(
         ]
         seq = list(pd.Series(seq) + "\n")
     else:
-        for a in alphabets:
-            if a not in seq_list:
-                alphabets.remove(a)
+        alphabets = list(np.unique(seq_list))
+        alphabets = alphabets[alphabets != ""][alphabets != " "]
     dm = len(alphabets)
     print(
         "Will be computing "
@@ -142,7 +131,7 @@ def orthogonal_polynomial(
     cov = np.zeros((sites, sites, dm, dm))
 
     print(alphabets)
-    for alphabet_index in range(len(alphabets)):
+    for alphabet_index in range(dm):  # Keep in alphabetical order with 'n' at end
         for i in range_popsize:
             for j in range_sites:
                 if seq[i][j] == alphabets[alphabet_index]:

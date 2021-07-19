@@ -42,9 +42,6 @@ def param_test(seqf, s, p, d):
     seq_series = seq_series_nospace[seq_series_nospace != ""]
     sites = max(seq_series.str.len())
     pop_size = len(seq_series)
-    for i in seq:
-        if i == "\n":
-            pop_size -= 1
     seq_list = list(np.unique(list("".join(list(seq_series)))))
     dm = len(seq_list)
     assert sites == s

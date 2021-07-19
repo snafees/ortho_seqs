@@ -185,8 +185,10 @@ def test_protein_first_order(protein_data_dir, protein_params_first_order):
         )
         orthogonal_polynomial(*protein_params_first_order)
 
+        basefile = os.path.abspath(protein_params_first_order.seqs_filename)
+        param_test(basefile, 6, 10, 18)
+
         basename = os.path.basename(protein_params_first_order.seqs_filename)
-        param_test(os.path.abspath(protein_params_first_order.seqs_filename), 6, 10, 18)
 
         basename_pheno = os.path.basename(protein_params_first_order.pheno_filename)
         expected_path = os.path.join(protein_data_dir, basename + ".npz")

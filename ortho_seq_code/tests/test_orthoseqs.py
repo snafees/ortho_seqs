@@ -40,13 +40,14 @@ def param_test(seqf, s, p, d):
     seq_series_rm = pd.Series(seq).str[0:-1]
     seq_series_nospace = seq_series_rm.str.replace(" ", "")
     seq_series = seq_series_nospace[seq_series_nospace != ""]
-    sites = max(seq_series.str.len())
+    sites = str(max(seq_series.str.len()))
     pop_size = len(seq_series)
     for i in seq:
         if i == "\n":
             pop_size -= 1
+    pop_size = str(pop_size)
     seq_list = list(np.unique(list("".join(list(seq_series)))))
-    dm = len(seq_list)
+    dm = str(len(seq_list))
     assert_equality(sites, s)
     assert_equality(pop_size, p)
     assert_equality(dm, d)
@@ -189,7 +190,9 @@ def test_protein_first_order(protein_data_dir, protein_params_first_order):
         orthogonal_polynomial(*protein_params_first_order)
 
         basename = os.path.basename(protein_params_first_order.seqs_filename)
-        param_test(os.path.abspath(protein_params_first_order.seqs_filename), 6, 10, 18)
+        param_test(
+            os.path.abspath(protein_params_first_order.seqs_filename), "6", "10", "18"
+        )
 
         basename_pheno = os.path.basename(protein_params_first_order.pheno_filename)
         expected_path = os.path.join(protein_data_dir, basename + ".npz")

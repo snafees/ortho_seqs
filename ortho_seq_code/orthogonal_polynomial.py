@@ -141,7 +141,7 @@ def orthogonal_polynomial(
             for j in range_sites:
                 if seq[i][j] == alphabets[alphabet_index]:
                     phi[j][i][alphabet_index] = 1.0
-    print(phi)
+        print(phi[i])
 
     if dm == 3 and molecule == "protein_pnp":
         iterator = itertools.product(

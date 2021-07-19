@@ -931,7 +931,7 @@ def orthogonal_polynomial(
         # Re-vectorization with null values
         dim_num = dict()
         for i in ind:
-            dim_num[i] = [data_null[i] for i in range(i, i+5)]
+            dim_num[i] = [data_null[j] for j in np.arange(dm * i, dm * i + dm)]
         # some_dim = [data_array_flat[i], i for i in range(0, 160, 4)]
 
         # Remove all null data

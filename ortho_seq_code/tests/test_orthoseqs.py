@@ -33,6 +33,22 @@ def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):
     assert result.exit_code == 0
 
 
+def param_test(seqf):
+    with open(seqf) as f:
+        seq = f.readlines()
+    seq_series_rm = pd.Series(seq).str[0:-1]
+    seq_series_nospace = seq_series_rm.str.replace(" ", "")
+    seq_series = seq_series_nospace[seq_series_nospace != ""]
+    sites = max(seq_series.str.len())
+    pop_size = len(seq_series)
+    for i in seq:
+        if i == "\n":
+            pop_size -= 1
+    seq_list = list(np.unique(list("".join(list(seq_series)))))
+    dm = len(seq_list)
+    return (sites, pop_size, dm)
+
+
 def test_cli(protein_seqs_padding, protein_pheno_padding):
     molecule = "protein"
     poly_order = "first"
@@ -137,8 +153,6 @@ def test_nucleotide_second_order(
         )
         orthogonal_polynomial(*nucleotide_params_second_order)
 
-        assert_equality(orthogonal_polynomial.sites, 2)
-
         basename = os.path.basename(nucleotide_params_second_order.seqs_filename)
         basename_pheno = os.path.basename(nucleotide_params_second_order.pheno_filename)
         expected_path = os.path.join(
@@ -172,6 +186,7 @@ def test_protein_first_order(protein_data_dir, protein_params_first_order):
         orthogonal_polynomial(*protein_params_first_order)
 
         basename = os.path.basename(protein_params_first_order.seqs_filename)
+        assert_equality(param_test(basename), (6, 10, 18))
         basename_pheno = os.path.basename(protein_params_first_order.pheno_filename)
         expected_path = os.path.join(protein_data_dir, basename + ".npz")
         obtained_path = os.path.join(location, basename + ".npz")

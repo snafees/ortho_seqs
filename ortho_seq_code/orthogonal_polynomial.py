@@ -68,14 +68,8 @@ def orthogonal_polynomial(
         # Write more code once custom_alphbt is implemented
         print(2 + 2)
     else:
-        seq_list = list("".join(list(seq_series)))
-        if "protein" in molecule:
-            alphabets = DM_ALPHABETS[21]
-        else:
-            alphabets = DM_ALPHABETS[5]
-        for a in alphabets:
-            if a not in seq_list:
-                alphabets.remove(a)
+        seq_list = list("".join(seq_series))
+        alphabets = list(np.unique(seq_list))
     # print(alphabets) #Tells user unique letters in alphabet
     dm = len(alphabets)
     range_dm = range(dm)

@@ -37,6 +37,7 @@ def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):
 
     assert result.exit_code == 0
 
+
 def param_test(seqf, s, p, d):
     with open(seqf) as f:
         seq = f.readlines()
@@ -50,6 +51,7 @@ def param_test(seqf, s, p, d):
     assert sites == s
     assert pop_size == p
     assert dm == d
+
 
 def test_cli(protein_seqs_padding, protein_pheno_padding):
     molecule = "protein"

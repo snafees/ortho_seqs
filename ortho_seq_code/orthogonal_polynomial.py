@@ -144,7 +144,7 @@ def orthogonal_polynomial(
 
     print("Test:")
     print(seq_series[0])
-    print(phi[0][0])
+    print(phi[0])
 
     if dm == 3 and molecule == "protein_pnp":
         iterator = itertools.product(

@@ -45,6 +45,8 @@ def orthogonal_polynomial(
             seq_series[incomplete_seq_series.index] += "n"
         seq_series += "\n"
         seq = list(seq_series)
+    print("Test:")
+    print(seq_series[0])
     global i
     # file containing trait values that will be mapped to sequence
     # vectors that must be the same size as F
@@ -141,6 +143,10 @@ def orthogonal_polynomial(
             for j in range_sites:
                 if seq[i][j] == alphabets[alphabet_index]:
                     phi[j][i][alphabet_index] = 1.0
+
+    print("Test:")
+    print(seq_series[0])
+    print(phi[0])
 
     if dm == 3 and molecule == "protein_pnp":
         iterator = itertools.product(

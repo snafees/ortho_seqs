@@ -70,7 +70,7 @@ def orthogonal_polynomial(
         with open(alphbt_input) as a:
             custom_aa = a.readlines()
         alphbt = custom_aa[0].replace("\n", "")
-        alphbt2 = list(alphbt.str.replace(" ", ""))
+        alphbt2 = list(alphbt.replace(" ", ""))
         alphabets = list(np.unique(alphbt2))
         while "" in alphabets:
             alphabets.remove("")

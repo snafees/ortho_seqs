@@ -33,7 +33,7 @@ def orthogonal_polynomial(
         seq = f.readlines()
     # pop_size = len(seq) - 1
 
-    seq_series_space = pd.Series(seq).str[0:-1]
+    seq_series_space = pd.Series(seq).str.replace("\n", "")
     seq_series_nospace = seq_series_space.str.replace(" ", "")
     seq_series = seq_series_nospace[seq_series_nospace != ""]
     sites = max(seq_series.str.len())
@@ -83,15 +83,15 @@ def orthogonal_polynomial(
             # Replaces every amino acid not in custom key with "n"
             not_sig = list(
                 np.setdiff1d(
-                    np.array(PROTEIN_ALPHABETS).ravel(),
-                    np.array(alphabets).ravel(),
+                    np.array(PROTEIN_ALPHABETS_N).ravel(),
+                    np.array(alphabets),
                 )
             )
         else:  # DNA molecule
             # Replaces every nucleotide not in custom key with "n"
             not_sig = list(
                 np.setdiff1d(
-                    np.array(DNA_ALPHABETS).ravel(), np.array(alphabets).ravel()
+                    np.array(DNA_ALPHABETS_N).ravel(), np.array(alphabets)
                 )
             )
         seq_oneline_list = list(seq_oneline)
@@ -106,12 +106,12 @@ def orthogonal_polynomial(
         seq = list(pd.Series(seq) + "\n")
     else:
         alphabets = list(np.unique(seq_list))
-    while "" in alphabets:
-        alphabets.rm("")
-    while " " in alphabets:
-        alphabets.rm(" ")
-    while "\n" in alphabets:
-        alphabets.rm("\n")
+        while "" in alphabets:
+            alphabets.rm("")
+        while " " in alphabets:
+            alphabets.rm(" ")
+        while "\n" in alphabets:
+            alphabets.rm("\n")
     dm = len(alphabets)
     print(
         "Will be computing "

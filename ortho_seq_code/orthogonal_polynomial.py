@@ -104,6 +104,7 @@ def orthogonal_polynomial(
             for i in range(0, len(seq_oneline_rep), len(seq_series[0]))
         ]
         seq = list(pd.Series(seq) + "\n")
+        print(seq)
     else:
         alphabets = list(np.unique(seq_list))
         while "" in alphabets:

@@ -69,7 +69,9 @@ def orthogonal_polynomial(
     if alphbt_input is not None:
         with open(alphbt_input) as a:
             custom_aa = a.readlines()
-        alphabets = list(np.unique(custom_aa[0].split(" ")))
+        alphbt = custom_aa[0].str.replace("\n", "")
+        alphbt2 = list(alphbt.str.replace(" ", ""))
+        alphabets = list(np.unique(alphbt2))
         while "" in alphabets:
             alphabets.remove("")
         while " " in alphabets:
@@ -90,9 +92,7 @@ def orthogonal_polynomial(
         else:  # DNA molecule
             # Replaces every nucleotide not in custom key with "n"
             not_sig = list(
-                np.setdiff1d(
-                    np.array(DNA_ALPHABETS_N).ravel(), np.array(alphabets)
-                )
+                np.setdiff1d(np.array(DNA_ALPHABETS_N).ravel(), np.array(alphabets))
             )
         seq_oneline_list = list(seq_oneline)
         seq_oneline_rep = "".join(

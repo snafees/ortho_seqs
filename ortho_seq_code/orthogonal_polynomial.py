@@ -69,9 +69,13 @@ def orthogonal_polynomial(
     if alphbt_input is not None:
         with open(alphbt_input) as a:
             custom_aa = a.readlines()
-        alphabets = list(np.unique(custom_aa[0][0:-1].split(" "), return_index=True)[0])
+        alphabets = list(np.unique(custom_aa[0].split(" "), return_index=True)[0])
         while "" in alphabets:
             alphabets.remove("")
+        while " " in alphabets:
+            alphabets.remove(" ")
+        while "\n" in alphabets:
+            alphabets.remove("\n")
         # Create list of custom keys
         if "n" in seq_oneline:
             alphabets.append("n")

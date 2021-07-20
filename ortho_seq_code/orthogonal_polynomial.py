@@ -886,6 +886,7 @@ def orthogonal_polynomial(
     print("computed rFon1")
     # rFon1D is needed as we're working with 3 sites
     print("computed rFon1D")
+    print(alphabets)
 
     if poly_order == "second" or poly_order == "third":
         print("Regression of trait on site 2")

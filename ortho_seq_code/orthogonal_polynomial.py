@@ -80,7 +80,7 @@ def orthogonal_polynomial(
                     np.setdiff1d(np.array(DNA_ALPHABETS).ravel(), alphbt_excluded)
                 )
             alphbt += "," + str(alphbt_last_group)
-            custom_aa = alphbt_input.upper().split(",")
+            custom_aa = alphbt.upper().split(",")
             # Assign group names to the group
             aa_dict = dict()
             for i in range(len(custom_aa)):

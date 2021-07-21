@@ -73,6 +73,8 @@ def orthogonal_polynomial(
                 alphbt = "RNDCEQHKSTY,AGILMFPWV"
             elif alphbt == "ESSENTIAL":
                 alphbt = "ILVFWHKTM,AGPYDERSCNQ"
+            if "-" in alphbt:
+                alphbt = alphbt[:-1]
             # Adding on remaining letters as the last group
             alphbt_excluded = np.array(list(alphbt)[list(alphbt) != ","])
             if "protein" in molecule:
@@ -85,7 +87,6 @@ def orthogonal_polynomial(
                 )
             if "-" in alphbt_input:
                 alphbt_last_group += "n"
-                alphbt = alphbt[:-1]
             alphbt += "," + str(alphbt_last_group)
             custom_aa = alphbt.split(",")
             if "" in custom_aa:

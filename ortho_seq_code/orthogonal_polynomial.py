@@ -68,13 +68,13 @@ def orthogonal_polynomial(
     seq_list = list("".join(list(seq_series)))
     if alphbt_input is not None:
         alphbt = alphbt_input.upper()
-        if alphbt == "PROTEIN_PNP":
+        if alphbt == "POLAR":
             alphbt = "RNDCEQHKSTY,AGILMFPWV"
         elif alphbt == "ESSENTIAL":
             alphbt = "ILVFWHKTM,AGPYDERSCNQ"
         elif alphbt == "ACIDIC":
             alphbt = "DE,RHK,AGILPVFWYSTCMNQ"
-        if "," in alphbt:
+        if "," in alphbt_input:
             if "-" in alphbt:
                 alphbt = alphbt.replace("-", "")
             # Adding on remaining letters as the last group
@@ -91,7 +91,7 @@ def orthogonal_polynomial(
                         np.array(DNA_ALPHABETS).ravel(), np.array(alphbt_excluded)
                     )
                 )
-            if "-" in alphbt:
+            if "-" in alphbt_input:
                 alphbt_last_group += "n"
             alphbt += "," + str(alphbt_last_group)
             custom_aa = alphbt.split(",")

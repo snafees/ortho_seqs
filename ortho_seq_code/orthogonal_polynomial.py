@@ -69,12 +69,13 @@ def orthogonal_polynomial(
     if alphbt_input is not None:
         alphbt = alphbt_input.upper()
         if alphbt == "PROTEIN_PNP":
-            alphbt = "RNDCEQHKSTY,AGILMFPWV"
+            alphbt_input = "RNDCEQHKSTY,AGILMFPWV"
         elif alphbt == "ESSENTIAL":
-            alphbt = "ILVFWHKTM,AGPYDERSCNQ"
+            alphbt_input = "ILVFWHKTM,AGPYDERSCNQ"
         elif alphbt == "ACIDIC":
-            alphbt = "DE,RHK,AGILPVFWYSTCMNQ"
+            alphbt_input = "DE,RHK,AGILPVFWYSTCMNQ"
         if "," in alphbt_input:
+            alphbt = alphbt_input.upper()
             if "-" in alphbt:
                 alphbt = alphbt.replace("-", "")
             # Adding on remaining letters as the last group

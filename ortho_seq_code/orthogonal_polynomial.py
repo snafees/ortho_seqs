@@ -179,7 +179,7 @@ def orthogonal_polynomial(
     P = np.zeros((sites, pop_size, dm))
     cov = np.zeros((sites, sites, dm, dm))
 
-    if "," not in alphbt_input:
+    if alphbt_input is None or "," not in alphbt_input:
         print(alphabets)
     else:
         print(custom_dict)
@@ -1036,13 +1036,16 @@ def orthogonal_polynomial(
             dim = dm
         else:
             dim = dm // 3
-        ax.legend(markers, alpb_d.keys(), loc=1, ncol=dim, prop={"size": 60 / dm})
+        ax.legend(markers, alphabets, loc=1, ncol=dim, prop={"size": 60 / dm})
         ax.tick_params(
             width=0.8, labelsize=80 / sites
         )  # width of the tick and the size of the tick labels
         # Regressions of off values onto each site of target RNA (orthogonalized within)
         # plt.savefig('rFon1D_off_star.png', bbox_inches='tight')
-        plt.xlabel("Sequence Site")
+        if alphbt_input is None or "," not in alphbt_input:
+            plt.xlabel("Sequence Site")
+        else:
+            plt.xlabel("Sequence Site\n" + str(custom_dict))
         # plt.title("")
         if "protein" in molecule:
             plt.ylabel("Regressions of amino acids onto each site (rFon1D)")

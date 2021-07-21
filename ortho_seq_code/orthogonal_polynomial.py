@@ -94,7 +94,7 @@ def orthogonal_polynomial(
                 for j in custom_aa[i]:
                     for k in range(len(seq_list)):
                         if seq_list[k] == j:
-                            seq_list_sub.append(list(aa_dict.keys())[i])            
+                            seq_list_sub.append(str(list(aa_dict.keys())[i]))
             alphabets = list(aa_dict.keys())
         else:
             alphabets = sorted(list(alphbt_input))

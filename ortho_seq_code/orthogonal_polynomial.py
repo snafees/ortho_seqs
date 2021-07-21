@@ -114,6 +114,7 @@ def orthogonal_polynomial(
                 alphabets.append("n")
         seq_adj = "".join(seq_list_sub)
         seq = [seq_adj[i : i + sites] for i in range(0, len(seq_adj), sites)]
+        print(seq)
     else:
         alphabets = list(np.unique(seq_list))
     while "" in alphabets:

@@ -75,7 +75,7 @@ def orthogonal_polynomial(
         elif alphbt_input == "ACIDIC":
             alphbt_input = "DE,RHK,AGILPVFWYSTCMNQ"
         if "," in alphbt_input:
-            if "-" in alphbt:
+            if "-" in alphbt_input:
                 alphbt = alphbt.replace("-", "")
             # Adding on remaining letters as the last group
             alphbt_excluded = np.array([i for i in alphbt if i != ","])

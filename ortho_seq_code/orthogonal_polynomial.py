@@ -85,8 +85,9 @@ def orthogonal_polynomial(
                 )
             if "-" in alphbt_input:
                 alphbt_last_group += "n"
+                alphbt = alphbt[:-1]
             alphbt += "," + str(alphbt_last_group)
-            custom_aa = alphbt.upper().split(",")
+            custom_aa = alphbt.split(",")
             if "" in custom_aa:
                 custom_aa.remove("")
             # Assign group names to the group

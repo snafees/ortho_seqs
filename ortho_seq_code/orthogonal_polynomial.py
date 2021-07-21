@@ -89,9 +89,12 @@ def orthogonal_polynomial(
                 aa_dict["n"] = ["n"]
                 custom_aa.append("n")
             # Replaces amino acids with groups
+            seq_list_sub = []
             for i in range(len(custom_aa)):
                 for j in custom_aa[i]:
-                    seq_list_sub = np.where(seq_list == j, list(aa_dict.keys())[i], seq_list)
+                    for k in range(len(seq_list)):
+                        if seq_list[k] == j:
+                            seq_list_sub.append(list(aa_dict.keys())[i])            
             alphabets = list(aa_dict.keys())
         else:
             alphabets = sorted(list(alphbt_input))

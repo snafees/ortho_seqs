@@ -67,51 +67,46 @@ def orthogonal_polynomial(
     seq_oneline = "".join(seq_series)
     seq_list = list("".join(list(seq_series)))
     if alphbt_input is not None:
-        with open(alphbt_input) as a:
-            custom_aa = a.readlines()
-        alphbt = custom_aa[0].replace("\n", "")
-        alphbt2 = list(alphbt.replace(" ", ""))
-        alphabets = list(np.unique(alphbt2))
-        while "" in alphabets:
-            alphabets.remove("")
-        while " " in alphabets:
-            alphabets.remove(" ")
-        while "\n" in alphabets:
-            alphabets.remove("\n")
-        # Create list of custom keys
-        if "n" in seq_oneline:
-            alphabets.append("n")
-        if "protein" in molecule:
-            # Replaces every amino acid not in custom key with "n"
-            not_sig = list(
-                np.setdiff1d(
-                    np.array(PROTEIN_ALPHABETS_N).ravel(),
-                    np.array(alphabets),
+        if "," in alphbt_input:
+            alphbt = alphbt_input.upper()
+            # Adding on remaining letters as the last group
+            alphbt_excluded = np.array(list(alphbt)[list(alphbt) != ","])
+            if "protein" in molecule:
+                alphbt_last_group = "".join(
+                    np.setdiff1d(np.array(PROTEIN_ALPHABETS).ravel(), alphbt_excluded)
                 )
-            )
-        else:  # DNA molecule
-            # Replaces every nucleotide not in custom key with "n"
-            not_sig = list(
-                np.setdiff1d(np.array(DNA_ALPHABETS_N).ravel(), np.array(alphabets))
-            )
-        seq_oneline_list = list(seq_oneline)
-        seq_oneline_rep = "".join(
-            ["n" if value in not_sig else value for value in seq_oneline_list]
-        )
-
-        seq = [
-            seq_oneline_rep[i : i + len(seq[0]) - 1]
-            for i in range(0, len(seq_oneline_rep), len(seq_series[0]))
-        ]
-        seq = list(pd.Series(seq) + "\n")
+            else:
+                alphbt_last_group = "".join(
+                    np.setdiff1d(np.array(DNA_ALPHABETS).ravel(), alphbt_excluded)
+                )
+            alphbt += "," + str(alphbt_last_group)
+            custom_aa = alphbt_input.upper().split(",")
+            # Assign group names to the group
+            aa_dict = dict()
+            for i in range(len(custom_aa)):
+                aa_dict["G" + str(i)] = list(np.unique(list(custom_aa[i])))
+            if "n" in seq_list:
+                aa_dict["n"] = ["n"]
+                custom_aa.append("n")
+            # Replaces amino acids with groups
+            for i in aa_dict:
+                for j in i:
+                    seq_list_sub = np.where(seq_list == j, i.key(), seq_list)
+            seq_adj = "".join(seq_list_sub)
+            seq = [seq_adj[i : i + sites] for i in range(0, len(seq_adj), sites)]
+            alphabets = aa_dict.keys()
+        else:
+            alphabets = sorted(list(alphbt_input))
+            if "n" in seq_list and "n" not in alphabets:
+                alphabets.append("n")
     else:
         alphabets = list(np.unique(seq_list))
-        while "" in alphabets:
-            alphabets.rm("")
-        while " " in alphabets:
-            alphabets.rm(" ")
-        while "\n" in alphabets:
-            alphabets.rm("\n")
+    while "" in alphabets:
+        alphabets.rm("")
+    while " " in alphabets:
+        alphabets.rm(" ")
+    while "\n" in alphabets:
+        alphabets.rm("\n")
     dm = len(alphabets)
     print(
         "Will be computing "
@@ -1028,7 +1023,7 @@ def orthogonal_polynomial(
 @click.option(
     "--alphbt_input",
     default=None,
-    help="enter txt file with space-separated custom alphabet, if needed",
+    help="enter amino acids/nucleotides you want to focus on, comma-separate to group amino acids",
     type=str,
 )
 # @click.argument('pheno_file', type=click.File('rb'))

@@ -84,14 +84,14 @@ def orthogonal_polynomial(
             # Assign group names to the group
             aa_dict = dict()
             for i in range(len(custom_aa)):
-                aa_dict["G" + str(i)] = list(np.unique(list(custom_aa[i])))
+                aa_dict[i] = list(np.unique(list(custom_aa[i])))
             if "n" in seq_list:
                 aa_dict["n"] = ["n"]
                 custom_aa.append("n")
             # Replaces amino acids with groups
-            for i in aa_dict:
+            for i in range(custom_aa):
                 for j in i:
-                    seq_list_sub = np.where(seq_list == j, i.key(), seq_list)
+                    seq_list_sub = np.where(seq_list == j, aa_dict[i].key(), seq_list)
             alphabets = aa_dict.keys()
         else:
             alphabets = sorted(list(alphbt_input))

@@ -70,9 +70,9 @@ def orthogonal_polynomial(
         if "," in alphbt_input:
             alphbt = alphbt_input.upper()
             if alphbt == "POLAR":
-                alphbt = ["RNDCEQHKSTY", "AGILMFPWV"]
+                alphbt = "RNDCEQHKSTY,AGILMFPWV"
             elif alphbt == "ESSENTIAL":
-                alphbt = ["ILVFWHKTM", "AGPYDERSCNQ"]
+                alphbt = "ILVFWHKTM,AGPYDERSCNQ"
             # Adding on remaining letters as the last group
             alphbt_excluded = np.array(list(alphbt)[list(alphbt) != ","])
             if "protein" in molecule:
@@ -107,6 +107,8 @@ def orthogonal_polynomial(
                         seq_list[i] = str(list(aa_dict.keys())[j])
             seq_list_sub = seq_list
             alphabets = list(aa_dict.keys())
+            custom_dict = {alphabets[i]:custom_aa[i] for i in range(len(custom_aa))}
+
         else:
             alphabets = sorted(list(alphbt_input))
             alphabets_other = np.setdiff1d(np.array(seq_list), np.array(alphabets))
@@ -168,8 +170,10 @@ def orthogonal_polynomial(
     P = np.zeros((sites, pop_size, dm))
     cov = np.zeros((sites, sites, dm, dm))
 
-    print(alphabets)
-    print(custom_aa)
+    if "," not in alphbt_input:
+        print(alphabets)
+    else:
+
     for alphabet_index in range(dm):  # Keep in alphabetical order with 'n' at end
         for i in range_popsize:
             for j in range_sites:

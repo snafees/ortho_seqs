@@ -92,7 +92,7 @@ def orthogonal_polynomial(
             for i in range(len(seq_list)):
                 for j in range(len(aa_dict)):
                     if seq_list[i] in aa_dict[j]:
-                        seq_list[i] = list(aa_dict.keys())[j]
+                        seq_list[i] = str(list(aa_dict.keys())[j])
             seq_list_sub = seq_list
             alphabets = list(aa_dict.keys())
         else:

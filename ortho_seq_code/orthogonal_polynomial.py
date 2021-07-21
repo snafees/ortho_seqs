@@ -91,7 +91,7 @@ def orthogonal_polynomial(
                         np.array(DNA_ALPHABETS).ravel(), np.array(alphbt_excluded)
                     )
                 )
-            if "-" in alphbt_input:
+            if "-" in alphbt:
                 alphbt_last_group += "n"
             alphbt += "," + str(alphbt_last_group)
             custom_aa = alphbt.split(",")

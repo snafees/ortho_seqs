@@ -112,7 +112,9 @@ def orthogonal_polynomial(
                 seq_list_sub = []
                 for i in range(len(seq_list)):
                     if seq_list[i] in alphbt_last_group:
-                        seq_list[i] = "n"
+                        seq_list_sub[i] = "n"
+                    else:
+                        seq_list_sub[i] = seq_list[i]
             if "n" in seq_list_sub and "n" not in alphabets:
                 alphabets.append("n")
         seq_adj = "".join(seq_list_sub)

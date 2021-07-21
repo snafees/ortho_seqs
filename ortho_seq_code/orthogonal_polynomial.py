@@ -99,7 +99,6 @@ def orthogonal_polynomial(
                     alphbt_count -= 1
                 alphbt_count += 1
             if "n" in seq_list and "-" not in alphbt_input:
-                if "-" in alphbt_input:
                 aa_dict[str(alphbt_count)] = ["n"]
                 custom_aa.append("n")
                 alphbt_count += 1
@@ -110,7 +109,7 @@ def orthogonal_polynomial(
                         seq_list[i] = str(list(aa_dict.keys())[j])
             seq_list_sub = seq_list
             alphabets = list(aa_dict.keys())
-            custom_dict = {alphabets[i]:custom_aa[i] for i in range(len(custom_aa))}
+            custom_dict = {alphabets[i]: custom_aa[i] for i in range(len(custom_aa))}
 
         else:
             alphabets = sorted(list(alphbt_input))

@@ -82,7 +82,7 @@ def orthogonal_polynomial(
             alphbt += "," + str(alphbt_last_group)
             custom_aa = alphbt.upper().split(",")
             if "" in custom_aa:
-                custom_aa.rm("")
+                custom_aa.remove("")
             # Assign group names to the group
             alphbt_count = 0
             aa_dict = dict()

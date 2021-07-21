@@ -133,6 +133,7 @@ def orthogonal_polynomial(
                         seq_list_sub.append(seq_list[i])
             if "n" in seq_list_sub and "n" not in alphabets:
                 alphabets.append("n")
+            custom_aa = alphabets
         seq_adj = "".join(seq_list_sub)
         seq = [seq_adj[i : i + sites] for i in range(0, len(seq_adj), sites)]
     else:

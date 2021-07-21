@@ -82,9 +82,14 @@ def orthogonal_polynomial(
             alphbt += "," + str(alphbt_last_group)
             custom_aa = alphbt.upper().split(",")
             # Assign group names to the group
+            alphbt_count = 0
             aa_dict = dict()
             for i in range(len(custom_aa)):
-                aa_dict[str(i)] = list(np.unique(list(custom_aa[i])))
+                aa_dict[str(alphbt_count)] = list(np.unique(list(custom_aa[i])))
+                alphbt_count += 1
+                if aa_dict[str(alphbt_count)] == "":
+                    alphbt_count -= 1
+            if aa_dict.values()
             if "n" in seq_list:
                 aa_dict[str(i+1)] = ["n"]
                 custom_aa.append("n")

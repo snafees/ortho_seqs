@@ -69,9 +69,9 @@ def orthogonal_polynomial(
     if alphbt_input is not None:
         if "," in alphbt_input:
             alphbt = alphbt_input.upper()
-            if alphbt = "POLAR":
+            if alphbt == "POLAR":
                 alphbt = ["RNDCEQHKSTY", "AGILMFPWV"]
-            elif alphbt = "ESSENTIAL":
+            elif alphbt == "ESSENTIAL":
                 alphbt = ["ILVFWHKTM", "AGPYDERSCNQ"]
             # Adding on remaining letters as the last group
             alphbt_excluded = np.array(list(alphbt)[list(alphbt) != ","])

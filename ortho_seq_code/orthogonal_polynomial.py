@@ -173,7 +173,7 @@ def orthogonal_polynomial(
     if "," not in alphbt_input:
         print(alphabets)
     else:
-
+        print(custom_dict)
     for alphabet_index in range(dm):  # Keep in alphabetical order with 'n' at end
         for i in range_popsize:
             for j in range_sites:

@@ -83,6 +83,8 @@ def orthogonal_polynomial(
                 alphbt_last_group = "".join(
                     np.setdiff1d(np.array(DNA_ALPHABETS).ravel(), alphbt_excluded)
                 )
+            if "-" in alphbt_input:
+                alphbt_last_group += "n"
             alphbt += "," + str(alphbt_last_group)
             custom_aa = alphbt.upper().split(",")
             if "" in custom_aa:
@@ -96,7 +98,8 @@ def orthogonal_polynomial(
                     del aa_dict[str(alphbt_count)]
                     alphbt_count -= 1
                 alphbt_count += 1
-            if "n" in seq_list:
+            if "n" in seq_list and "-" not in alphbt_input:
+                if "-" in alphbt_input:
                 aa_dict[str(alphbt_count)] = ["n"]
                 custom_aa.append("n")
                 alphbt_count += 1

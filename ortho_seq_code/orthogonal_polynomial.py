@@ -69,6 +69,10 @@ def orthogonal_polynomial(
     if alphbt_input is not None:
         if "," in alphbt_input:
             alphbt = alphbt_input.upper()
+            if alphbt = "POLAR":
+                alphbt = ["RNDCEQHKSTY", "AGILMFPWV"]
+            elif alphbt = "ESSENTIAL":
+                alphbt = ["ILVFWHKTM", "AGPYDERSCNQ"]
             # Adding on remaining letters as the last group
             alphbt_excluded = np.array(list(alphbt)[list(alphbt) != ","])
             if "protein" in molecule:
@@ -129,7 +133,6 @@ def orthogonal_polynomial(
                 alphabets.append("n")
         seq_adj = "".join(seq_list_sub)
         seq = [seq_adj[i : i + sites] for i in range(0, len(seq_adj), sites)]
-        print(seq)
     else:
         alphabets = list(np.unique(seq_list))
     while "" in alphabets:
@@ -166,6 +169,7 @@ def orthogonal_polynomial(
     cov = np.zeros((sites, sites, dm, dm))
 
     print(alphabets)
+    print(custom_aa)
     for alphabet_index in range(dm):  # Keep in alphabetical order with 'n' at end
         for i in range_popsize:
             for j in range_sites:
@@ -976,10 +980,16 @@ def orthogonal_polynomial(
 
         col_len = len(colors)
         alpb_d = dict()
-        for i in num_dm:
-            if any(i != 0 and i for i in dim_aa[i]):
-                alpb_d[i] = colors[i % col_len]
-                alpb_d[alphabets[i]] = alpb_d.pop(i)
+        if alphbt_input is None:
+            for i in num_dm:
+                if any(i != 0 and i for i in dim_aa[i]):
+                    alpb_d[i] = colors[i % col_len]
+                    alpb_d[alphabets[i]] = alpb_d.pop(i)
+        else:
+            for i in num_dm:
+                if any(i != 0 and i for i in dim_aa[i]):
+                    alpb_d[i] = colors[i % col_len]
+                    alpb_d[custom_aa[i]] = alpb_d.pop(i)
 
         # Creating plots
         fig, ax = plt.subplots()

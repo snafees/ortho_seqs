@@ -75,16 +75,15 @@ def orthogonal_polynomial(
                 alphbt = "ILVFWHKTM,AGPYDERSCNQ"
             if "-" in alphbt:
                 alphbt = alphbt[:-1]
-            print(alphbt)
             # Adding on remaining letters as the last group
             alphbt_excluded = np.array(list(alphbt)[list(alphbt) != ","])
             if "protein" in molecule:
                 alphbt_last_group = "".join(
-                    np.setdiff1d(np.array(PROTEIN_ALPHABETS).ravel(), alphbt_excluded)
+                    np.setdiff1d(np.array(PROTEIN_ALPHABETS).ravel(), np.array(alphbt_excluded))
                 )
             else:
                 alphbt_last_group = "".join(
-                    np.setdiff1d(np.array(DNA_ALPHABETS).ravel(), alphbt_excluded)
+                    np.setdiff1d(np.array(DNA_ALPHABETS).ravel(), np.array(alphbt_excluded))
                 )
             if "-" in alphbt_input:
                 alphbt_last_group += "n"

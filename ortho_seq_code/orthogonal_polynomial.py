@@ -93,12 +93,24 @@ def orthogonal_polynomial(
                 for j in i:
                     seq_list_sub = np.where(seq_list == j, i.key(), seq_list)
             seq_adj = "".join(seq_list_sub)
-            seq = [seq_adj[i : i + sites] for i in range(0, len(seq_adj), sites)]
-            alphabets = aa_dict.keys()
         else:
             alphabets = sorted(list(alphbt_input))
+            alphabets_other = np.setdiff1d(np.array(seq_list), np.array(alphabets))
+            if len(alphabets_other) > 0 and list(alphabets_other) != ['n']:
+                if "protein" in molecule:
+                    alphbt_last_group = list(
+                        np.setdiff1d(np.array(PROTEIN_ALPHABETS).ravel(), np.array(alphabets))
+                    )
+                else:
+                    alphbt_last_group = list(
+                        np.setdiff1d(np.array(DNA_ALPHABETS).ravel(), np.array(alphabets))
+                    )
+                alphabets.append("o")
+                seq_list_sub = np.where(seq_list in alphbt_last_group, "o", seq_list)
             if "n" in seq_list and "n" not in alphabets:
                 alphabets.append("n")
+        seq = [seq_adj[i : i + sites] for i in range(0, len(seq_adj), sites)]
+        alphabets = aa_dict.keys()
     else:
         alphabets = list(np.unique(seq_list))
     while "" in alphabets:

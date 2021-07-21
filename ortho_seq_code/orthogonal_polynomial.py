@@ -90,6 +90,7 @@ def orthogonal_polynomial(
                     del aa_dict[str(alphbt_count)]
                     alphbt_count -= 1
                 alphbt_count += 1
+                print(aa_dict)
             if "n" in seq_list:
                 aa_dict[str(i + 1)] = ["n"]
                 custom_aa.append("n")

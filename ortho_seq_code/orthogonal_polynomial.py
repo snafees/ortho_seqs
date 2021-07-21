@@ -77,7 +77,6 @@ def orthogonal_polynomial(
                 alphbt = alphbt[:-1]
             # Adding on remaining letters as the last group
             alphbt_excluded = np.array([i for i in alphbt if i != ","])
-            print(list(alphbt))
             if "protein" in molecule:
                 alphbt_last_group = "".join(
                     np.setdiff1d(

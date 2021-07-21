@@ -67,15 +67,15 @@ def orthogonal_polynomial(
     seq_oneline = "".join(seq_series)
     seq_list = list("".join(list(seq_series)))
     if alphbt_input is not None:
-        alphbt_input = alphbt_input.upper()
-        if alphbt_input == "PROTEIN_PNP":
-            alphbt_input = "RNDCEQHKSTY,AGILMFPWV"
-        elif alphbt_input == "ESSENTIAL":
-            alphbt_input = "ILVFWHKTM,AGPYDERSCNQ"
-        elif alphbt_input == "ACIDIC":
-            alphbt_input = "DE,RHK,AGILPVFWYSTCMNQ"
-        if "," in alphbt_input:
-            if "-" in alphbt_input:
+        alphbt = alphbt_input.upper()
+        if alphbt == "PROTEIN_PNP":
+            alphbt = "RNDCEQHKSTY,AGILMFPWV"
+        elif alphbt == "ESSENTIAL":
+            alphbt = "ILVFWHKTM,AGPYDERSCNQ"
+        elif alphbt == "ACIDIC":
+            alphbt = "DE,RHK,AGILPVFWYSTCMNQ"
+        if "," in alphbt:
+            if "-" in alphbt:
                 alphbt = alphbt.replace("-", "")
             # Adding on remaining letters as the last group
             alphbt_excluded = np.array([i for i in alphbt if i != ","])

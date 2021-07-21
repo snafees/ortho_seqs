@@ -86,7 +86,7 @@ def orthogonal_polynomial(
             for i in range(len(custom_aa)):
                 aa_dict[i] = list(np.unique(list(custom_aa[i])))
             if "n" in seq_list:
-                aa_dict["n"] = ["n"]
+                aa_dict[i+1] = ["n"]
                 custom_aa.append("n")
             # Replaces amino acids with groups
             for i in range(len(seq_list)):

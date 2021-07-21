@@ -68,7 +68,7 @@ def orthogonal_polynomial(
     seq_list = list("".join(list(seq_series)))
     if alphbt_input is not None:
         alphbt = alphbt_input.upper()
-        if alphbt == "POLAR":
+        if alphbt == "PROTEIN_PNP":
             alphbt = "RNDCEQHKSTY,AGILMFPWV"
         elif alphbt == "ESSENTIAL":
             alphbt = "ILVFWHKTM,AGPYDERSCNQ"

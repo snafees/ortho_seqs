@@ -962,7 +962,7 @@ def orthogonal_polynomial(
         col_len = len(colors)
         alpb_d = dict()
         for i in num_dm:
-            if any(i != 0 for i in dim_aa[i]):
+            if any(i != 0 and i for i in dim_aa[i]):
                 alpb_d[i] = colors[i % col_len]
                 alpb_d[alphabets[i]] = alpb_d.pop(i)
 

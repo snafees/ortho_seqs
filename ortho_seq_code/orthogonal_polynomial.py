@@ -89,9 +89,8 @@ def orthogonal_polynomial(
                 alphbt_count += 1
                 if aa_dict[str(alphbt_count)] == "":
                     alphbt_count -= 1
-            if aa_dict.values()
             if "n" in seq_list:
-                aa_dict[str(i+1)] = ["n"]
+                aa_dict[str(i + 1)] = ["n"]
                 custom_aa.append("n")
             # Replaces amino acids with groups
             for i in range(len(seq_list)):

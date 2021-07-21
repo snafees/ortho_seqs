@@ -92,6 +92,7 @@ def orthogonal_polynomial(
             for i in aa_dict:
                 for j in i:
                     seq_list_sub = np.where(seq_list == j, i.key(), seq_list)
+            alphabets = aa_dict.keys()
         else:
             alphabets = sorted(list(alphbt_input))
             alphabets_other = np.setdiff1d(np.array(seq_list), np.array(alphabets))
@@ -114,7 +115,6 @@ def orthogonal_polynomial(
                 alphabets.append("n")
         seq_adj = "".join(seq_list_sub)
         seq = [seq_adj[i : i + sites] for i in range(0, len(seq_adj), sites)]
-        alphabets = aa_dict.keys()
     else:
         alphabets = list(np.unique(seq_list))
     while "" in alphabets:

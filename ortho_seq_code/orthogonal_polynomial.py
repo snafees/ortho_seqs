@@ -84,7 +84,7 @@ def orthogonal_polynomial(
             # Assign group names to the group
             aa_dict = dict()
             for i in range(len(custom_aa)):
-                aa_dict[i] = list(np.unique(list(custom_aa[i])))
+                aa_dict[str(i)] = list(np.unique(list(custom_aa[i])))
             if "n" in seq_list:
                 aa_dict[str(i+1)] = ["n"]
                 custom_aa.append("n")

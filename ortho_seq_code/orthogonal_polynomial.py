@@ -88,6 +88,7 @@ def orthogonal_polynomial(
                 aa_dict[str(alphbt_count)] = list(np.unique(list(custom_aa[i])))
                 alphbt_count += 1
                 if aa_dict[str(alphbt_count)] == "":
+                    del aa_dict[str(alphbt_count)]
                     alphbt_count -= 1
             if "n" in seq_list:
                 aa_dict[str(i + 1)] = ["n"]

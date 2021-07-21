@@ -95,6 +95,7 @@ def orthogonal_polynomial(
             if "n" in seq_list:
                 aa_dict[str(alphbt_count)] = ["n"]
                 custom_aa.append("n")
+                alphbt_count += 1
             # Replaces amino acids with groups
             for i in range(len(seq_list)):
                 for j in range(alphbt_count):

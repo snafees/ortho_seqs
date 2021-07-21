@@ -109,7 +109,10 @@ def orthogonal_polynomial(
                             np.array(DNA_ALPHABETS).ravel(), np.array(alphabets)
                         )
                     )
-                seq_list_sub = np.where(seq_list in alphbt_last_group, "n", seq_list)
+                seq_list_sub = []
+                for i in range(len(seq_list)):
+                    if seq_list[i] in alphbt_last_group:
+                        seq_list[i] = "n"
             if "n" in seq_list_sub and "n" not in alphabets:
                 alphabets.append("n")
         seq_adj = "".join(seq_list_sub)

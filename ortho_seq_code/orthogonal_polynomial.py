@@ -91,7 +91,7 @@ def orthogonal_polynomial(
             # Replaces amino acids with groups
             for i in range(len(seq_list)):
                 for j in range(len(aa_dict)):
-                    if seq_list[i] in aa_dict[j]:
+                    if seq_list[i] in aa_dict[str(j)]:
                         seq_list[i] = str(list(aa_dict.keys())[j])
             seq_list_sub = seq_list
             alphabets = list(aa_dict.keys())

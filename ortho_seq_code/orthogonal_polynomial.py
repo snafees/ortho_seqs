@@ -67,12 +67,12 @@ def orthogonal_polynomial(
     seq_oneline = "".join(seq_series)
     seq_list = list("".join(list(seq_series)))
     if alphbt_input is not None:
+        if alphbt_input == "POLAR":
+            alphbt_input = "RNDCEQHKSTY,AGILMFPWV"
+        elif alphbt_input == "ESSENTIAL":
+            alphbt_input = "ILVFWHKTM,AGPYDERSCNQ"
         if "," in alphbt_input:
             alphbt = alphbt_input.upper()
-            if alphbt == "POLAR":
-                alphbt = "RNDCEQHKSTY,AGILMFPWV"
-            elif alphbt == "ESSENTIAL":
-                alphbt = "ILVFWHKTM,AGPYDERSCNQ"
             if "-" in alphbt:
                 alphbt = alphbt[:-1]
             # Adding on remaining letters as the last group

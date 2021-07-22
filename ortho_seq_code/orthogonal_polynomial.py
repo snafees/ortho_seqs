@@ -275,9 +275,9 @@ def orthogonal_polynomial(
         else:
             bns = 16
         cov_sub.hist(cov_flat, edgecolor="black", bins=bns)
-        cov_sub.xlabel("Covariances")
-        cov_sub.ylabel("Frequency")
-        cov_sub.title("Histogram of Covariances")
+        plt.xlabel("Covariances")
+        plt.ylabel("Frequency")
+        plt.title("Histogram of Covariances")
         cov_fig = cov_sub.get_figure()
         cov_fig.savefig("cov_hist.png", dpi=400)
         print("saved covariance histogram as cov_hist.png")

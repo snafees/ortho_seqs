@@ -264,14 +264,12 @@ def orthogonal_polynomial(
         # the cov matrix for the two sites is just the mean,
         # across all individuals, of the outer product of P1 and P2
         # #P2 is site 2 with means subtracted out
+        cov_flat = []
         for j, k, i in itertools.product(range_sites, range_sites, range_popsize):
+            cov_flat.append(sr.outer_general(P[j][i], P[k][i]) / pop_size)
             cov[j][k] += sr.outer_general(P[j][i], P[k][i]) / pop_size
         print("computed covariance")
         # Covariance plot
-        cov_flat4 = [i for i in cov]
-        cov_flat3 = [i for i in cov_flat4]
-        cov_flat2 = [i for i in cov_flat3]
-        cov_flat = [i for i in cov_flat2]
         print(cov_flat)
         cov_plot = plt.hist(cov_flat, edgecolor="black")
         cov_fig = cov_plot.get_figure()

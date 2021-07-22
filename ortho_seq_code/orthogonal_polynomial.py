@@ -269,15 +269,16 @@ def orthogonal_polynomial(
         print("computed covariance")
         # Covariance plot
         cov_flat = cov.flatten()
+        cov_flat = cov_flat[cov_flat != 0]
         fig, cov_sub = plt.subplots()
         if len(cov_flat) < 32:
             bns = len(cov_flat) // 4
         else:
             bns = 16
         cov_sub.hist(cov_flat, edgecolor="black", bins=bns)
-        plt.xlabel("Covariances")
+        plt.xlabel("Non-Zero Covariances")
         plt.ylabel("Frequency")
-        plt.title("Histogram of Covariances")
+        plt.title("Histogram of Non-Zero Covariances")
         cov_fig = cov_sub.get_figure()
         cov_fig.savefig("cov_hist.png", dpi=400)
         print("saved covariance histogram as cov_hist.png")

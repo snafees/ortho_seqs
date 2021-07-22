@@ -996,6 +996,8 @@ def orthogonal_polynomial(
         fig, ax = plt.subplots()
         dim = dict()
         pi = dict()
+        for i in range(sites + 1):
+            ax.axvline(i, color="gray", linewidth=0.8)
         for i in ind:
             if len(dim_na[i]) == 0:
                 ln = 1
@@ -1013,8 +1015,6 @@ def orthogonal_polynomial(
 
         ax.set_xticks(ind + width + 0.5)
         ax.set_xticklabels(np.arange(1, sites + 1))
-        for i in range(sites + 1):
-            ax.axvline(i, color="gray", linewidth=0.8)
 
         color_map = [color for color in list(alpb_d.values())]
         markers = [

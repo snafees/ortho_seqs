@@ -271,11 +271,7 @@ def orthogonal_polynomial(
         cov_flat = cov.flatten()
         cov_flat = cov_flat[cov_flat != 0]
         fig, cov_sub = plt.subplots()
-        if len(cov_flat) < 32:
-            bns = len(cov_flat) // 4
-        else:
-            bns = 16
-        cov_sub.hist(cov_flat, edgecolor="black", bins=bns, color="blueviolet")
+        cov_sub.hist(cov_flat, edgecolor="black", bins=20, color="blueviolet")
         plt.xlabel("Non-Zero Covariances")
         plt.ylabel("Frequency")
         plt.title("Histogram of Non-Zero Covariances")

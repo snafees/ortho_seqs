@@ -194,9 +194,6 @@ def orthogonal_polynomial(
                 if seq[i][j] == alphabets[alphabet_index]:
                     phi[j][i][alphabet_index] = 1.0
 
-    print("Vectors for site 4:")
-    print(phi[3])
-
     naming = os.path.basename(f.name)
     if precomputed:
         precomputed_array = np.load(os.path.join(out_dir, naming + ".npz"))

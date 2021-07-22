@@ -193,12 +193,9 @@ def orthogonal_polynomial(
             for j in range_sites:
                 if seq[i][j] == alphabets[alphabet_index]:
                     phi[j][i][alphabet_index] = 1.0
-    print("Vectors for site 1:")
-    print(phi[0])
-    print("Vectors for site 5:")
-    print(phi[4])
-    print("Vectors for site 10:")
-    print(phi[9])
+
+    print("Vectors for site 4:")
+    print(phi[3])
 
     naming = os.path.basename(f.name)
     if precomputed:

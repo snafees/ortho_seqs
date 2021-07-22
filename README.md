@@ -36,6 +36,15 @@ To start with a test example, you can run the sample command below::
 ortho_seq orthogonal-polynomial ./ortho_seq_code/tests/data/nucleotide/first_order/test_seqs_2sites_dna.txt --molecule DNA --pheno_file ./ortho_seq_code/tests/data/nucleotide/first_order/trait_test_seqs_2sites_dna.txt --poly_order second --out_dir ../results_ortho_seq_testing/DNA_2sites_test_run/
 ```
 The above sample command line is building the tensor-valued orthogonal polynomial space based on the sequence data which consists of 12 sequences, each with two sites. Since these are DNA sequences, the vectors are 4-dimensional. These used to be flags for sites, dimensions, and population size, but new functionality will automatically calculate these. Corresponding to each sequence is a phenotype value (a real number) as given in the phenotype file. For DNA, the tool can run first and second order analyses currently. We'll implement third order in a future version. For amino acids, the current version supports first order analysis and we hope to expand this in the future.
+Amino acids/nucleotides that do not appear in any sequence will be removed from the alphabet when running calculations. This is done to greatly reduce runtime for larger programs, and does not make a difference in the resulting numbers. When the program will run, it will return this sentence:
+```
+Will be computing p sequences with s sites, and each vector will be d-dimensional.
+```
+Where p represents the population size (number of rows), s represents the number of sites (number of columns), and d represents the number of amino acids/nucleotides detected in the sequence file (adds on 1 for lowercase n's). For the above example,
+the program will return
+```
+Will be computing 12 sequences with 2 sites, and each vector will be 4-dimensional.
+```
 Along with regressions on each site independent of one another and onto two sites at a time, the above command also computes *Fest* which is the phenotype estimated by the regressions. This shows that the mathematical calculations are done correctly as we now have an equation that accurately captures our initial data points. This only works here for sequences with 2 sites. If we had more sites, we'd need to do higher order calculations in order to capture all our combinations. Therefore, when running the tool with more sites, as will probably be the case for most users, even just going up to second order gives us useful information about our system. First order tells us the importance of each site (independent of any correlations it might have with another site) and second order tells the importance of pairs of nucleotides independent of other pairs. Please take a look at the paper linked above to learn more about this method.  
 
 ## Flags & Functionality

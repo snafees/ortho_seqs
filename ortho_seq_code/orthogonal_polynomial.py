@@ -270,7 +270,11 @@ def orthogonal_polynomial(
         # Covariance plot
         cov_flat = cov.flatten()
         fig, cov_sub = plt.subplots()
-        cov_sub.hist(cov_flat, edgecolor="black")
+        if len(cov_flat) < 32:
+            bns = len(cov_flat) // 4
+        else:
+            bns = 16
+        cov_sub.hist(cov_flat, edgecolor="black", bins=bns)
         cov_fig = cov_sub.get_figure()
         cov_fig.savefig("cov_hist.png", dpi=400)
         print("saved covariance histogram as cov_hist.png")

@@ -185,7 +185,7 @@ def orthogonal_polynomial(
     if alphbt_input is None or "," not in alphbt_input:
         print(alphabets)
     else:
-        print(custom_dict)
+        print(str(custom_dict).replace("'", "").replace(", ", " | "))
     for alphabet_index in range(dm):  # Keep in alphabetical order with 'n' at end
         for i in range_popsize:
             for j in range_sites:
@@ -1030,7 +1030,10 @@ def orthogonal_polynomial(
         if alphbt_input is None or "," not in alphbt_input:
             plt.xlabel("Sequence Site")
         else:
-            plt.xlabel("Sequence Site\n" + str(custom_dict))
+            plt.xlabel(
+                "Sequence Site\n"
+                + str(custom_dict).replace("'", "").replace(", ", " | ")
+            )
         # plt.title("")
         if "protein" in molecule:
             plt.ylabel("Regressions of amino acids onto each site (rFon1D)")

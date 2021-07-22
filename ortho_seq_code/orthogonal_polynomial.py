@@ -997,7 +997,7 @@ def orthogonal_polynomial(
         dim = dict()
         pi = dict()
         for i in range(sites + 1):
-            ax.axvline(i, color="gray", linewidth=0.8)
+            ax.axvline(i, color="lightgray", linewidth=0.8)
         for i in ind:
             if len(dim_na[i]) == 0:
                 ln = 1

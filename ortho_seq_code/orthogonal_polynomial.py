@@ -75,7 +75,7 @@ def orthogonal_polynomial(
         elif alphbt == "ACIDIC":
             alphbt_input = "DE,RHK,AGILPVFWYSTCMNQ"
         elif alphbt == "HYDROPHOBIC":
-            alphbt_input = "AVLIPFC"
+            alphbt_input = "AVLIPFC,"
         if "," in alphbt_input:
             alphbt = alphbt_input.upper()
             if "-" in alphbt:

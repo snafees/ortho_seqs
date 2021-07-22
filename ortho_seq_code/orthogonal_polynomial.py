@@ -165,8 +165,6 @@ def orthogonal_polynomial(
         + str(dm)
         + "-dimensional.\n"
     )
-    print("Vectors for sequence 1:")
-    print(seq_adj[:sites])
     Fest = [0] * pop_size
     Fon1 = [0] * pop_size
     Fon2i1 = [0] * pop_size
@@ -193,26 +191,8 @@ def orthogonal_polynomial(
             for j in range_sites:
                 if seq[i][j] == alphabets[alphabet_index]:
                     phi[j][i][alphabet_index] = 1.0
-
-    if dm == 3 and molecule == "protein_pnp":
-        iterator = itertools.product(
-            range(len(PROTEIN_ALPHABETS_POLAR)),
-            range(len(PROTEIN_ALPHABETS_NONPOLAR)),
-            range_popsize,
-            range_sites,
-        )
-        for (
-            protein_alphabet_index_polar,
-            protein_alphabet_index_nonpolar,
-            i,
-            j,
-        ) in iterator:
-            if seq[i][j] == PROTEIN_ALPHABETS_POLAR[protein_alphabet_index_polar]:
-                phi[j][i][0] = 1.0
-            if seq[i][j] == PROTEIN_ALPHABETS_NONPOLAR[protein_alphabet_index_nonpolar]:
-                phi[j][i][1] = 1.0
-            if seq[i][j] == "n":
-                phi[j][i][2] = 1.0
+    print("Vectors for site 1:")
+    print(phi[0])
 
     naming = os.path.basename(f.name)
     if precomputed:

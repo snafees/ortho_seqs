@@ -270,9 +270,9 @@ def orthogonal_polynomial(
         # Covariance plot
         cov_flat = cov.flatten()
         cov_flat = cov_flat[cov_flat != 0]
-        bns = [0.1*(min(cov_flat)//0.1 - 1)]
-        while bns[-1]<=0.1*(max(cov_flat)//0.1 + 1):
-            bns.append(bns[-1]+0.1)
+        bns = [0.05 * (min(cov_flat) // 0.05 - 1)]
+        while bns[-1] <= 0.05 * (max(cov_flat) // 0.05 + 1):
+            bns.append(bns[-1] + 0.05)
         fig, cov_sub = plt.subplots()
         cov_sub.hist(
             cov_flat,

@@ -165,6 +165,8 @@ def orthogonal_polynomial(
         + str(dm)
         + "-dimensional.\n"
     )
+    print("Vectors for sequence 1:")
+    print(seq_adj[:sites])
     Fest = [0] * pop_size
     Fon1 = [0] * pop_size
     Fon2i1 = [0] * pop_size

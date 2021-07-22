@@ -1012,7 +1012,7 @@ def orthogonal_polynomial(
                 color=[colors[i % col_len] for i in list(dim_loc[i])],
                 edgecolor="black",
             )
-        ax.axhline(color="black")
+        ax.axhline(color="black", linewidth=0.64)
 
         ax.set_xticks(ind + width + 0.5)
         ax.set_xticklabels(np.arange(1, sites + 1))

@@ -266,10 +266,13 @@ def orthogonal_polynomial(
         # #P2 is site 2 with means subtracted out
         for j, k, i in itertools.product(range_sites, range_sites, range_popsize):
             cov[j][k] += sr.outer_general(P[j][i], P[k][i]) / pop_size
-        print(cov)
         print("computed covariance")
         # Covariance plot
-        cov_flat = [i for j in cov for i in j]
+        cov_flat4 = [i for i in cov]
+        cov_flat3 = [i for i in cov_flat4]
+        cov_flat2 = [i for i in cov_flat3]
+        cov_flat = [i for i in cov_flat2]
+        print(cov_flat)
         cov_plot = plt.hist(cov_flat, edgecolor="black")
         cov_fig = cov_plot.get_figure()
         cov_fig.savefig("cov_hist.png", dpi=400)

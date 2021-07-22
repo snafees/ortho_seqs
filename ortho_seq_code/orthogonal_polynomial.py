@@ -275,7 +275,7 @@ def orthogonal_polynomial(
             bns = len(cov_flat) // 4
         else:
             bns = 16
-        cov_sub.hist(cov_flat, edgecolor="black", bins=bns)
+        cov_sub.hist(cov_flat, edgecolor="black", bins=bns, color="blueviolet")
         plt.xlabel("Non-Zero Covariances")
         plt.ylabel("Frequency")
         plt.title("Histogram of Non-Zero Covariances")

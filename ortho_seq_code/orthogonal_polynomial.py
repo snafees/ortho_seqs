@@ -269,6 +269,7 @@ def orthogonal_polynomial(
         print("computed covariance")
         # Covariance plot
         cov_flat = [i for j in cov for i in j]
+        print(cov_flat)
         cov_plot = plt.hist(cov_flat, edgecolor="black")
         cov_fig = cov_plot.get_figure()
         cov_fig.savefig("cov_hist.png", dpi=400)

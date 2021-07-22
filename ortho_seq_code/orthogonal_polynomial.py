@@ -266,7 +266,7 @@ def orthogonal_polynomial(
         # #P2 is site 2 with means subtracted out
         cov_flat = []
         for j, k, i in itertools.product(range_sites, range_sites, range_popsize):
-            cov_flat.append(sr.outer_general(P[j][i], P[k][i]) / pop_size)
+            cov_flat.append((sr.outer_general(P[j][i], P[k][i]) / pop_size).ravel())
             cov[j][k] += sr.outer_general(P[j][i], P[k][i]) / pop_size
         print("computed covariance")
         # Covariance plot

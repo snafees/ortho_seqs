@@ -11,10 +11,7 @@ class JobRunner(QWidget):
         self.parent = parent
         self.threadpool = threadpool
 
-        self.result_images = []
-
     def job_func(self, progress_callback):
-
         orthogonal_polynomial(
             self.filename,
             self.pheno_file,
@@ -27,10 +24,6 @@ class JobRunner(QWidget):
             os.getcwd(),
         )
 
-        # Initialize required restoration instances
-
-        return None
-
     def thread_complete(self):
         print("Thread COMPLETE")
 
@@ -39,11 +32,9 @@ class JobRunner(QWidget):
         self.pheno_file = self.parent.upload_button_2.text()
         self.molecule = self.parent.styleComboBox1.currentText()
 
-
-        # Pass the function to execute
         worker = Worker(
             self.job_func
-        )  # Any other args, kwargs are passed to the run function
+        )
 
         worker.signals.finished.connect(self.thread_complete)
 

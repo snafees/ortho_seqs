@@ -7,8 +7,8 @@ run-cli:
 		--pheno_file ${PHENO}  \
 		--molecule protein \
 		--poly_order first \
-		--out_dir results \
-		--alphbt_input None /
+		--out_dir results/ \
+		--alphbt_input None
 
 
 unit-tests:

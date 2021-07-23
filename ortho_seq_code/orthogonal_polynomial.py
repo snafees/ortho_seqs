@@ -1013,7 +1013,7 @@ def orthogonal_polynomial(
         dim = dict()
         pi = dict()
         for i in range(sites + 1):
-            ax.axvline(i, color="lightgray", linewidth=0.8)
+            ax.axvline(i, color="lightgray", linewidth=0.8, zorder=0)
         for i in ind:
             if len(dim_na[i]) == 0:
                 ln = 1
@@ -1027,6 +1027,7 @@ def orthogonal_polynomial(
                 align="edge",
                 color=[colors[i % col_len] for i in list(dim_loc[i])],
                 edgecolor="black",
+                zorder=3,
             )
         ax.axhline(color="black", linewidth=0.64)
 

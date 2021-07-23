@@ -8,7 +8,7 @@ run-cli:
 		--molecule protein \
 		--poly_order first \
 		--out_dir results \
-		--alphbt_input/
+		--alphbt_input None /
 
 
 unit-tests:

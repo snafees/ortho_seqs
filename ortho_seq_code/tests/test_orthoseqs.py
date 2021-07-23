@@ -230,7 +230,7 @@ def test_protein_padded_first_order(
         )
         orthogonal_polynomial(*protein_params_first_order_padded)
 
-        basefile = os.path.abspath(protein_params_first_order.seqs_filename)
+        basefile = os.path.abspath(protein_params_first_order_padded.seqs_filename)
         param_test(basefile, 6, 10, 21)
 
         basename = os.path.basename(protein_params_first_order_padded.seqs_filename)

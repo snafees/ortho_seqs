@@ -1,3 +1,4 @@
+from PyQt5.QtCore import QThreadPool
 from PyQt5.QtWidgets import (
     QApplication,
     QLabel,
@@ -11,6 +12,8 @@ from PyQt5.QtWidgets import (
 )
 import sys
 
+from ortho_seq_code.gui.job_runner import JobRunner
+
 
 class MainWidget(QWidget):
     def __init__(self, *args, **kwargs):
@@ -20,24 +23,30 @@ class MainWidget(QWidget):
             "ortho_seqs GUI: User interface to compute tensor-based orthogonal polynomials for sequence data"
         )
         label2 = QLabel("Upload sequence file:")
-        upload_button_1 = QPushButton("seq_file")
+        self.upload_button_1 = QPushButton("seq_file")
         label3 = QLabel("Upload phenotype file:")
-        upload_button_2 = QPushButton("pheno_file")
+        self.upload_button_2 = QPushButton("pheno_file")
+
+
         start_button = QPushButton("RUN")
+        self.threadpool = QThreadPool(self)
+        job_runner = JobRunner(self, self.threadpool)
+        start_button.clicked.connect(job_runner.launch)
+
 
         upload_layout1 = QHBoxLayout()
         upload_layout1.addWidget(label2)
         upload_layout2 = QHBoxLayout()
         upload_layout2.addWidget(label3)
-        upload_layout1.addWidget(upload_button_1)
-        upload_layout2.addWidget(upload_button_2)
+        upload_layout1.addWidget(self.upload_button_1)
+        upload_layout2.addWidget(self.upload_button_2)
 
         upload_ComboBox1_layout = QHBoxLayout()
-        styleComboBox1 = QComboBox()
-        styleComboBox1.addItems(["DNA", "protein", "dna_n", "protein_n", "protein_pnp"])
+        self.styleComboBox1 = QComboBox()
+        self.styleComboBox1.addItems(["DNA", "protein", "dna_n", "protein_n", "protein_pnp"])
         styleLabel1 = QLabel("&Molecule:")
-        styleLabel1.setBuddy(styleComboBox1)
-        upload_ComboBox1_layout.addWidget(styleComboBox1)
+        styleLabel1.setBuddy(self.styleComboBox1)
+        upload_ComboBox1_layout.addWidget(self.styleComboBox1)
 
         upload_ComboBox2_layout = QHBoxLayout()
         styleComboBox2 = QComboBox()
@@ -59,7 +68,7 @@ class MainWidget(QWidget):
         self.widget_layout.addLayout(upload_layout2)
 
         self.widget_layout.addWidget(styleLabel1)  # for moledule
-        self.widget_layout.addWidget(styleComboBox1)
+        self.widget_layout.addWidget(self.styleComboBox1)
         self.widget_layout.addLayout(upload_ComboBox1_layout)
 
         self.widget_layout.addWidget(styleLabel2)  # for poly_order

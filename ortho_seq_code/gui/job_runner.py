@@ -32,9 +32,7 @@ class JobRunner(QWidget):
         self.pheno_file = self.parent.upload_button_2.text()
         self.molecule = self.parent.styleComboBox1.currentText()
 
-        worker = Worker(
-            self.job_func
-        )
+        worker = Worker(self.job_func)
 
         worker.signals.finished.connect(self.thread_complete)
 

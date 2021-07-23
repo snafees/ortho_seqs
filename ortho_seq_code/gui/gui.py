@@ -27,12 +27,10 @@ class MainWidget(QWidget):
         label3 = QLabel("Upload phenotype file:")
         self.upload_button_2 = QPushButton("pheno_file")
 
-
         start_button = QPushButton("RUN")
         self.threadpool = QThreadPool(self)
         job_runner = JobRunner(self, self.threadpool)
         start_button.clicked.connect(job_runner.launch)
-
 
         upload_layout1 = QHBoxLayout()
         upload_layout1.addWidget(label2)
@@ -43,7 +41,9 @@ class MainWidget(QWidget):
 
         upload_ComboBox1_layout = QHBoxLayout()
         self.styleComboBox1 = QComboBox()
-        self.styleComboBox1.addItems(["DNA", "protein", "dna_n", "protein_n", "protein_pnp"])
+        self.styleComboBox1.addItems(
+            ["DNA", "protein", "dna_n", "protein_n", "protein_pnp"]
+        )
         styleLabel1 = QLabel("&Molecule:")
         styleLabel1.setBuddy(self.styleComboBox1)
         upload_ComboBox1_layout.addWidget(self.styleComboBox1)

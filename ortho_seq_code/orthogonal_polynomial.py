@@ -5,6 +5,7 @@ import time
 import os
 import ortho_seq_code.sr as sr
 from ortho_seq_code.constants_orthoseqs import *
+from ortho_seq_code.utils import get_dsp
 import click
 import itertools
 
@@ -28,17 +29,11 @@ def orthogonal_polynomial(
     """Program to compute orthogonal polynomials up to 2nd order"""
     create_dir_if_not_exists(out_dir)
     start_time = time.time()
-    with open(filename) as f:
-        seq = f.readlines()
     global i
-    seq_series_rm = pd.Series(seq).str[0:-1]
-    seq_series_nospace = seq_series_rm.str.replace(" ", "")
-    seq_series = seq_series_nospace[seq_series_nospace != ""]
-    sites = max(seq_series.str.len())
-    pop_size = len(seq_series)
-    for i in seq:
-        if i == "\n":
-            pop_size -= 1
+    dm, sites, pop_size, seq = get_dsp(filename)
+    range_dm = range(dm)
+    range_sites = range(sites)
+    range_popsize = range(pop_size)
     # file containing trait values that will be mapped to sequence
     # vectors that must be the same size as F
     with open(pheno_file) as f2:
@@ -54,15 +49,12 @@ def orthogonal_polynomial(
     Fon2i1 = [0] * pop_size
     Fon12 = [0] * pop_size
     np.set_printoptions(precision=10)
-    range_sites = range(sites)
-    range_popsize = range(pop_size)
 
     # Autopadding here
     seq_list = list("".join(seq_series))
     alphabets = list(np.unique(seq_list))
     # print(alphabets) #Tells user unique letters in alphabet
-    dm = len(alphabets)
-    range_dm = range(dm)
+
     # ----Initializing various terms that we will use.--------------
     # 3 sites, each a dm dim vector, in n individuals
     # nOTE: For application to Amino Acid sequences, increase

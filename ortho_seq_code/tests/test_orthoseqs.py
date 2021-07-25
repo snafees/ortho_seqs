@@ -7,6 +7,7 @@ from click.testing import CliRunner
 from ortho_seq_code.orthogonal_polynomial import orthogonal_polynomial
 from ortho_seq_code.cli import cli
 from ortho_seq_code.tests import orthoseqs_tst_utils as utils
+from ortho_seq_code.utils import get_dsp
 
 
 def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):
@@ -32,21 +33,6 @@ def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):
     )
 
     assert result.exit_code == 0
-
-
-def param_test(seqf, s, p, d):
-    with open(seqf) as f:
-        seq = f.readlines()
-    seq_series_rm = pd.Series(seq).str[0:-1]
-    seq_series_nospace = seq_series_rm.str.replace(" ", "")
-    seq_series = seq_series_nospace[seq_series_nospace != ""]
-    sites = max(seq_series.str.len())
-    pop_size = len(seq_series)
-    seq_list = list(np.unique(list("".join(list(seq_series)))))
-    dm = len(seq_list)
-    assert sites == s
-    assert pop_size == p
-    assert dm == d
 
 
 def test_cli(protein_seqs_padding, protein_pheno_padding):
@@ -186,7 +172,7 @@ def test_protein_first_order(protein_data_dir, protein_params_first_order):
         orthogonal_polynomial(*protein_params_first_order)
 
         basefile = os.path.abspath(protein_params_first_order.seqs_filename)
-        param_test(basefile, 6, 6, 18)
+        assert get_dsp(basefile)[:-1] == [6, 6, 18]
 
         basename = os.path.basename(protein_params_first_order.seqs_filename)
 
@@ -222,7 +208,7 @@ def test_protein_padded_first_order(
         orthogonal_polynomial(*protein_params_first_order_padded)
 
         basefile = os.path.abspath(protein_params_first_order_padded.seqs_filename)
-        param_test(basefile, 6, 10, 21)
+        assert get_dsp(basefile)[:-1] == [6, 10, 21]
 
         basename = os.path.basename(protein_params_first_order_padded.seqs_filename)
         basename_pheno = os.path.basename(

@@ -25,12 +25,6 @@ def orthogonal_polynomial(
     out_dir,
 ):
 
-    # DELETE ONCE CUSTOM_AA IS IMPLEMENTED!!!!
-
-    custom_alphbt = None
-
-    # DELETE ONCE CUSTOM_AA IS IMPLEMENTED!!!!
-
     """Program to compute orthogonal polynomials up to 2nd order"""
     create_dir_if_not_exists(out_dir)
     start_time = time.time()
@@ -64,12 +58,8 @@ def orthogonal_polynomial(
     range_popsize = range(pop_size)
 
     # Autopadding here
-    if custom_alphbt is not None:
-        # Write more code once custom_alphbt is implemented
-        print(2 + 2)
-    else:
-        seq_list = list("".join(seq_series))
-        alphabets = list(np.unique(seq_list))
+    seq_list = list("".join(seq_series))
+    alphabets = list(np.unique(seq_list))
     # print(alphabets) #Tells user unique letters in alphabet
     dm = len(alphabets)
     range_dm = range(dm)

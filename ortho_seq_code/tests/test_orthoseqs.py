@@ -172,7 +172,7 @@ def test_protein_first_order(protein_data_dir, protein_params_first_order):
         orthogonal_polynomial(*protein_params_first_order)
 
         basefile = os.path.abspath(protein_params_first_order.seqs_filename)
-        assert get_dsp(basefile)[:-2] == [6, 6, 18]
+        assert get_dsp(basefile)[:-2] == [18, 6, 6]
 
         basename = os.path.basename(protein_params_first_order.seqs_filename)
 
@@ -208,7 +208,7 @@ def test_protein_padded_first_order(
         orthogonal_polynomial(*protein_params_first_order_padded)
 
         basefile = os.path.abspath(protein_params_first_order_padded.seqs_filename)
-        assert get_dsp(basefile)[:-2] == [6, 10, 21]
+        assert get_dsp(basefile)[:-2] == [21, 6, 10]
 
         basename = os.path.basename(protein_params_first_order_padded.seqs_filename)
         basename_pheno = os.path.basename(

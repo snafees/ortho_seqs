@@ -7,7 +7,7 @@ from click.testing import CliRunner
 from ortho_seq_code.orthogonal_polynomial import orthogonal_polynomial
 from ortho_seq_code.cli import cli
 from ortho_seq_code.tests import orthoseqs_tst_utils as utils
-from ortho_seq_code.utils import get_dsp
+from ortho_seq_code.utils import get_seq_info
 
 
 def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):
@@ -172,7 +172,7 @@ def test_protein_first_order(protein_data_dir, protein_params_first_order):
         orthogonal_polynomial(*protein_params_first_order)
 
         basefile = os.path.abspath(protein_params_first_order.seqs_filename)
-        assert get_dsp(basefile)[:-2] == [18, 6, 6]
+        assert get_seq_info(basefile)[:-2] == [18, 6, 6]
 
         basename = os.path.basename(protein_params_first_order.seqs_filename)
 
@@ -208,7 +208,7 @@ def test_protein_padded_first_order(
         orthogonal_polynomial(*protein_params_first_order_padded)
 
         basefile = os.path.abspath(protein_params_first_order_padded.seqs_filename)
-        assert get_dsp(basefile)[:-2] == [21, 6, 10]
+        assert get_seq_info(basefile)[:-2] == [21, 6, 10]
 
         basename = os.path.basename(protein_params_first_order_padded.seqs_filename)
         basename_pheno = os.path.basename(

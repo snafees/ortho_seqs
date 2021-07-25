@@ -5,7 +5,7 @@ import time
 import os
 import ortho_seq_code.sr as sr
 from ortho_seq_code.constants_orthoseqs import *
-from ortho_seq_code.utils import get_dsp
+from ortho_seq_code.utils import get_seq_info
 import click
 import itertools
 
@@ -32,7 +32,7 @@ def orthogonal_polynomial(
     global i
     with open(filename) as f:
         seq = f.readlines()
-    dm, sites, pop_size, seq, seq_series = get_dsp(filename)
+    dm, sites, pop_size, seq, seq_series = get_seq_info(filename)
     range_dm = range(dm)
     range_sites = range(sites)
     range_popsize = range(pop_size)

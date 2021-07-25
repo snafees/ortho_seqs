@@ -16,4 +16,4 @@ def get_dsp(seqf):
         if i == "\n":
             pop_size -= 1
             seq.remove(i)
-    return [dm, sites, pop_size, seq]
+    return [dm, sites, pop_size, seq, seq_series]

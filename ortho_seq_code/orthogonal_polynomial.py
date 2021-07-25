@@ -30,7 +30,7 @@ def orthogonal_polynomial(
     create_dir_if_not_exists(out_dir)
     start_time = time.time()
     global i
-    dm, sites, pop_size, seq = get_dsp(filename)
+    dm, sites, pop_size, seq, seq_series = get_dsp(filename)
     range_dm = range(dm)
     range_sites = range(sites)
     range_popsize = range(pop_size)

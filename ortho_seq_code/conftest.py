@@ -164,7 +164,7 @@ def protein_params_sidhu(protein_data_dir):
 @pytest.fixture
 def protein_params_sidhu_custom_aa(protein_data_dir):
     seqs_filename = os.path.join(protein_data_dir, "insulin_seq_test_custom_aa.txt")
-    pheno_filename = os.path.join(protein_data_dir, "insulin_phi_test.txt")
+    pheno_filename = os.path.join(protein_data_dir, "insulin_phi_test_custom_aa.txt")
 
     return Params(
         seqs_filename,

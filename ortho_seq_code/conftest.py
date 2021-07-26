@@ -146,6 +146,37 @@ def protein_params_first_order_padded(protein_data_dir):
 
 
 @pytest.fixture
+def protein_params_sidhu(protein_data_dir):
+    seqs_filename = os.path.join(protein_data_dir, "insulin_seq_test.txt")
+    pheno_filename = os.path.join(protein_data_dir, "insulin_phi_test.txt")
+
+    return Params(
+        seqs_filename,
+        pheno_filename,
+        "protein",
+        "first",
+        False,
+        "",
+        "YSGR",
+    )
+
+@pytest.fixture
+def protein_params_sidhu_custom_aa(protein_data_dir):
+    seqs_filename = os.path.join(protein_data_dir, "insulin_seq_test.txt")
+    pheno_filename = os.path.join(protein_data_dir, "insulin_phi_test.txt")
+
+    return Params(
+        seqs_filename,
+        pheno_filename,
+        "protein",
+        "first",
+        False,
+        "",
+        "SY,GR-",
+    )
+
+
+@pytest.fixture
 def protein_first_order_autopad(protein_data_dir):
     seqs_filename = os.path.join(protein_data_dir, "protein_seqs_padded_no_n.txt")
     pheno_filename = os.path.join(protein_data_dir, "protein_pheno_padded.txt")

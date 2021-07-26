@@ -33,7 +33,9 @@ def orthogonal_polynomial(
     global i
     with open(filename) as f:
         seq = f.readlines()
-    dm, sites, pop_size, seq, seq_series, alphabets = get_seq_info(filename, alphbt_input)
+    dm, sites, pop_size, seq, seq_series, alphabets = get_seq_info(
+        filename, alphbt_input, molecule
+    )
 
     # file containing trait values that will be mapped to sequence
     # vectors that must be the same size as F
@@ -52,7 +54,7 @@ def orthogonal_polynomial(
 
     # ------------Converting letters to vectors---------------
     # phi[individual][site][state]. phi[i][j] = vector for site j in individual i.
-    
+
     print(
         "Will be computing "
         + str(pop_size)

@@ -1,18 +1,17 @@
 import numpy as np
 import os
+import pandas as pd
 
 from click.testing import CliRunner
 
 from ortho_seq_code.orthogonal_polynomial import orthogonal_polynomial
 from ortho_seq_code.cli import cli
 from ortho_seq_code.tests import orthoseqs_tst_utils as utils
+from ortho_seq_code.utils import get_seq_info
 
 
 def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):
     molecule = "protein"
-    sites = 6
-    dm = 20
-    pop_size = 6
     poly_order = "first"
     out_dir = "/tmp"
 
@@ -26,12 +25,6 @@ def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):
             protein_pheno_no_padding,
             "--molecule",
             molecule,
-            "--sites",
-            sites,
-            "--dm",
-            dm,
-            "--pop_size",
-            pop_size,
             "--poly_order",
             poly_order,
             "--out_dir",
@@ -44,9 +37,6 @@ def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):
 
 def test_cli(protein_seqs_padding, protein_pheno_padding):
     molecule = "protein"
-    sites = 6
-    dm = 21
-    pop_size = 10
     poly_order = "first"
     out_dir = "/tmp"
 
@@ -60,12 +50,6 @@ def test_cli(protein_seqs_padding, protein_pheno_padding):
             protein_pheno_padding,
             "--molecule",
             molecule,
-            "--sites",
-            sites,
-            "--dm",
-            dm,
-            "--pop_size",
-            pop_size,
             "--poly_order",
             poly_order,
             "--out_dir",
@@ -80,9 +64,6 @@ def test_cli_precomputed(
     protein_seqs_no_padding, protein_pheno_no_padding, protein_data_dir
 ):
     molecule = "protein"
-    sites = 6
-    dm = 20
-    pop_size = 6
     poly_order = "first"
     out_dir = protein_data_dir
 
@@ -96,12 +77,6 @@ def test_cli_precomputed(
             protein_pheno_no_padding,
             "--molecule",
             molecule,
-            "--sites",
-            sites,
-            "--dm",
-            dm,
-            "--pop_size",
-            pop_size,
             "--poly_order",
             poly_order,
             "--out_dir",
@@ -196,7 +171,11 @@ def test_protein_first_order(protein_data_dir, protein_params_first_order):
         )
         orthogonal_polynomial(*protein_params_first_order)
 
+        basefile = os.path.abspath(protein_params_first_order.seqs_filename)
+        assert get_seq_info(basefile)[:-2] == [18, 6, 6]
+
         basename = os.path.basename(protein_params_first_order.seqs_filename)
+
         basename_pheno = os.path.basename(protein_params_first_order.pheno_filename)
         expected_path = os.path.join(protein_data_dir, basename + ".npz")
         obtained_path = os.path.join(location, basename + ".npz")
@@ -227,6 +206,9 @@ def test_protein_padded_first_order(
             out_dir=location
         )
         orthogonal_polynomial(*protein_params_first_order_padded)
+
+        basefile = os.path.abspath(protein_params_first_order_padded.seqs_filename)
+        assert get_seq_info(basefile)[:-2] == [21, 6, 10]
 
         basename = os.path.basename(protein_params_first_order_padded.seqs_filename)
         basename_pheno = os.path.basename(

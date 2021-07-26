@@ -1,9 +1,11 @@
 import numpy as np
+import pandas as pd
 from numpy.linalg import *
 import time
 import os
 import ortho_seq_code.sr as sr
 from ortho_seq_code.constants_orthoseqs import *
+from ortho_seq_code.utils import get_seq_info
 import click
 import itertools
 
@@ -19,24 +21,25 @@ def orthogonal_polynomial(
     filename,
     pheno_file,
     molecule,
-    sites,
-    dm,
-    pop_size,
     poly_order,
     precomputed,
     out_dir,
 ):
+
     """Program to compute orthogonal polynomials up to 2nd order"""
     create_dir_if_not_exists(out_dir)
     start_time = time.time()
+    global i
     with open(filename) as f:
         seq = f.readlines()
-    global i
+    dm, sites, pop_size, seq, seq_series = get_seq_info(filename)
+    range_dm = range(dm)
+    range_sites = range(sites)
+    range_popsize = range(pop_size)
     # file containing trait values that will be mapped to sequence
     # vectors that must be the same size as F
     with open(pheno_file) as f2:
         phenotype = f2.readlines()
-    print(phenotype)
     F = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fest = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fon1 = np.genfromtxt(phenotype)  # this needs to stay this way!
@@ -48,9 +51,12 @@ def orthogonal_polynomial(
     Fon2i1 = [0] * pop_size
     Fon12 = [0] * pop_size
     np.set_printoptions(precision=10)
-    range_sites = range(sites)
-    range_popsize = range(pop_size)
-    range_dm = range(dm)
+
+    # Autopadding here
+    seq_list = list("".join(seq_series))
+    alphabets = list(np.unique(seq_list))
+    # print(alphabets) #Tells user unique letters in alphabet
+
     # ----Initializing various terms that we will use.--------------
     # 3 sites, each a dm dim vector, in n individuals
     # nOTE: For application to Amino Acid sequences, increase
@@ -64,12 +70,21 @@ def orthogonal_polynomial(
     cov = np.zeros((sites, sites, dm, dm))
     # ------------Converting letters to vectors---------------
     # phi[individual][site][state]. phi[i][j] = vector for site j in individual i.
-    alphabets = DM_ALPHABETS[dm]
-    for dna_alphabet_index in range(len(alphabets)):
+
+    print(
+        "Will be computing "
+        + str(pop_size)
+        + " sequences with "
+        + str(sites)
+        + " sites, and each vector will be "
+        + str(dm)
+        + "-dimensional.\n"
+    )
+    for alphabet_index in range(dm):
         for i in range_popsize:
             for j in range_sites:
-                if seq[i][j] == alphabets[dna_alphabet_index]:
-                    phi[j][i][dna_alphabet_index] = 1.0
+                if seq[i][j] == alphabets[alphabet_index]:
+                    phi[j][i][alphabet_index] = 1.0
 
     if dm == 3 and molecule == "protein_pnp":
         iterator = itertools.product(
@@ -962,17 +977,6 @@ def orthogonal_polynomial(
 @click.command(help="program to compute orthogonal polynomials up to 2nd order")  # noqa
 @click.argument("filename", type=str)  # noqa
 @click.option(
-    "--pop_size", default=1, help="Population size or number of sequences"
-)  # noqa
-@click.option(
-    "--dm",
-    default=4,
-    help="dimension of vector, e.g., this is =4 when input is DNA/RNA",
-)  # noqa
-@click.option(
-    "--sites", default=2, help="number of sites in a sequence"
-)  # starting off with two sites to run full second order
-@click.option(
     "--molecule", default="DNA", help="can provide DNA or amino acid sequence"
 )
 @click.option(
@@ -990,9 +994,6 @@ def orthogonal_polynomial(
 # @click.argument('pheno_file', type=click.File('rb'))
 def cli(
     filename,
-    pop_size,
-    dm,
-    sites,
     molecule,
     pheno_file,
     poly_order,
@@ -1003,9 +1004,6 @@ def cli(
         filename,
         pheno_file,
         molecule,
-        sites,
-        dm,
-        pop_size,
         poly_order,
         precomputed,
         out_dir,

@@ -114,10 +114,10 @@ def get_seq_info(seqf, alphbt_input, molecule):
     else:
         alphabets = list(np.unique(seq_list))
     while "" in alphabets:
-        alphabets.rm("")
+        alphabets.remove("")
     while " " in alphabets:
-        alphabets.rm(" ")
+        alphabets.remove(" ")
     while "\n" in alphabets:
-        alphabets.rm("\n")
+        alphabets.remove("\n")
     dm = len(alphabets)
     return [dm, sites, pop_size, seq, seq_series, alphabets, custom_aa]

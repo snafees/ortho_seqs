@@ -121,4 +121,4 @@ def get_seq_info(seqf, alphbt_input, molecule):
     while "\n" in alphabets:
         alphabets.rm("\n")
     dm = len(alphabets)
-    return [dm, sites, pop_size, seq, seq_series, alphabets]
+    return [dm, sites, pop_size, seq, seq_series, alphabets, custom_aa]

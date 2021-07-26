@@ -33,7 +33,7 @@ def orthogonal_polynomial(
     global i
     with open(filename) as f:
         seq = f.readlines()
-    dm, sites, pop_size, seq, seq_series, alphabets = get_seq_info(
+    dm, sites, pop_size, seq, seq_series, alphabets, custom_aa = get_seq_info(
         filename, alphbt_input, molecule
     )
 

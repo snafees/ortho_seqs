@@ -36,6 +36,7 @@ def orthogonal_polynomial(
     dm, sites, pop_size, seq, seq_series, alphabets, custom_aa = get_seq_info(
         filename, alphbt_input, molecule
     )
+    custom_dict = {alphabets[i]: custom_aa[i] for i in range(len(custom_aa))}
 
     # file containing trait values that will be mapped to sequence
     # vectors that must be the same size as F

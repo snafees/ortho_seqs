@@ -83,7 +83,6 @@ def get_seq_info(seqf, alphbt_input, molecule):
                         seq_list[i] = str(list(aa_dict.keys())[j])
             seq_list_sub = seq_list
             alphabets = list(aa_dict.keys())
-            custom_dict = {alphabets[i]: custom_aa[i] for i in range(len(custom_aa))}
 
         else:
             alphabets = sorted(list(alphbt_input))

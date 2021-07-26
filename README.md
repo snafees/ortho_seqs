@@ -36,11 +36,12 @@ To start with a test example, you can run the sample command below::
 ortho_seq orthogonal-polynomial ./ortho_seq_code/tests/data/nucleotide/first_order/test_seqs_2sites_dna.txt --molecule DNA --pheno_file ./ortho_seq_code/tests/data/nucleotide/first_order/trait_test_seqs_2sites_dna.txt --poly_order second --out_dir ../results_ortho_seq_testing/DNA_2sites_test_run/
 ```
 The above sample command line is building the tensor-valued orthogonal polynomial space based on the sequence data which consists of 12 sequences, each with two sites. Since these are DNA sequences, the vectors are 4-dimensional. These used to be flags for sites, dimensions, and population size, but new functionality will automatically calculate these. Corresponding to each sequence is a phenotype value (a real number) as given in the phenotype file. For DNA, the tool can run first and second order analyses currently. We'll implement third order in a future version. For amino acids, the current version supports first order analysis and we hope to expand this in the future.
-Amino acids/nucleotides that do not appear in any sequence will be removed from the alphabet when running calculations. This is done to greatly reduce runtime for larger programs, and does not make a difference in the resulting numbers. When the program will run, it will return this sentence:
+Amino acids/nucleotides that do not appear in any sequence will be removed from the alphabet when the letters are being converted to first order vectors. For example, if the residue 'R' (Arginine) never occurs in the sequence dataset, the first order vectors will now have 19 dimensions (instead of 20) and 20 dimensions (instead of 21) if the sequences are padded with 'n'. This is done to greatly reduce runtime for larger sequence datasets and for longer sequences.
+When the program will run, it will return this sentence:
 ```
 Will be computing p sequences with s sites, and each vector will be d-dimensional.
 ```
-Where p represents the population size (number of rows), s represents the number of sites (number of columns), and d represents the number of amino acids/nucleotides detected in the sequence file (adds on 1 for lowercase n's). For the above example,
+Where p represents the population size (number of rows in sequence file), s represents the number of sites, and d represents the number of amino acids/nucleotides detected in the sequence file (adds on 1 for lowercase n's). For the above example,
 the program will return
 ```
 Will be computing 12 sequences with 2 sites, and each vector will be 4-dimensional.

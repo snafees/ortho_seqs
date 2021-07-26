@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 
-def get_seq_info(seqf, alphbt_input=None, molecule):
+def get_seq_info(seqf, alphbt_input, molecule):
     with open(seqf) as f:
         seq = f.readlines()
     seq_series_rm = pd.Series(seq).str.replace("\n", "")

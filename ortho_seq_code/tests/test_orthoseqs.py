@@ -297,7 +297,7 @@ def test_sidhu_samp_custom_aa(protein_data_dir, protein_params_sidhu_custom_aa):
             3,
             19,
             10,
-            ["SY", "GR", "ACDEFHIKLMNPQTVWn"],
+            ["0", "1", "2"],
             ["SY", "GR", "ACDEFHIKLMNPQTVWn"],
         ]
 

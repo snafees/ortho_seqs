@@ -113,6 +113,7 @@ def get_seq_info(seqf, alphbt_input, molecule):
         seq = [seq_adj[i : i + sites] for i in range(0, len(seq_adj), sites)]
     else:
         alphabets = list(np.unique(seq_list))
+        custom_aa = None
     while "" in alphabets:
         alphabets.remove("")
     while " " in alphabets:

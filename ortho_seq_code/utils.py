@@ -32,11 +32,11 @@ def get_seq_info(seqf, alphbt_input, molecule):
     if alphbt_input is not None:
         alphbt = alphbt_input.upper()
         if alphbt == "PROTEIN_PNP":
-            alphbt_input = "RNDCEQHKSTY,AGILMFPWV"
+            alphbt_input = "RNDCEQHKSTY,"
         elif alphbt == "ESSENTIAL":
-            alphbt_input = "ILVFWHKTM,AGPYDERSCNQ"
+            alphbt_input = "ILVFWHKTM,"
         elif alphbt == "ACIDIC":
-            alphbt_input = "DE,RHK,AGILPVFWYSTCMNQ"
+            alphbt_input = "DE,RHK,"
         elif alphbt == "HYDROPHOBIC":
             alphbt_input = "AVLIPFC,"
         if "," in alphbt_input:

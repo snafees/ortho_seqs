@@ -12,7 +12,7 @@ def get_seq_info(seqf, alphbt_input, molecule):
     sites = max(seq_series.str.len())
     pop_size = len(seq_series)
     seq_list = list(np.unique(list("".join(list(seq_series)))))
-    print(seq_list)
+    print(seq)
     for i in seq:
         if i == "\n":
             pop_size -= 1

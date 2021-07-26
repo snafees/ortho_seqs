@@ -252,7 +252,7 @@ def test_sidhu_samp(protein_data_dir, protein_params_sidhu):
         basefile = os.path.abspath(protein_params_sidhu.seqs_filename)
 
         indices = [0, 1, 2, 5, 6]
-        assert [get_seq_info(basefile, alphbt_input, molecule)[x] for x in indices] == [
+        assert [get_seq_info(basefile, "GRSY", "protein")[x] for x in indices] == [
             5,
             19,
             10,
@@ -281,16 +281,19 @@ def test_sidhu_samp(protein_data_dir, protein_params_sidhu):
         obtained_path = np.load(os.path.join(location, basename_pheno + "_Fm.npy"))
         np.testing.assert_array_equal(expected_path, obtained_path)
 
+
 def test_sidhu_samp_custom_aa(protein_data_dir, protein_params_sidhu_custom_aa):
 
     with utils.TempDirectory() as location:
-        protein_params_sidhu_custom_aa = protein_params_sidhu_custom_aa._replace(out_dir=location)
+        protein_params_sidhu_custom_aa = protein_params_sidhu_custom_aa._replace(
+            out_dir=location
+        )
         orthogonal_polynomial(*protein_params_sidhu_custom_aa)
 
         basefile = os.path.abspath(protein_params_sidhu_custom_aa.seqs_filename)
 
         indices = [0, 1, 2, 5, 6]
-        assert [get_seq_info(basefile, alphbt_input, molecule)[x] for x in indices] == [
+        assert [get_seq_info(basefile, "SY,GR-", "protein")[x] for x in indices] == [
             5,
             19,
             10,

@@ -160,6 +160,7 @@ def protein_params_sidhu(protein_data_dir):
         "YSGR",
     )
 
+
 @pytest.fixture
 def protein_params_sidhu_custom_aa(protein_data_dir):
     seqs_filename = os.path.join(protein_data_dir, "insulin_seq_test.txt")

@@ -253,11 +253,11 @@ def test_sidhu_samp(protein_data_dir, protein_params_sidhu):
 
         indices = [0, 1, 2, 5, 6]
         assert [get_seq_info(basefile, "GRSY", "protein")[x] for x in indices] == [
-            5,
+            6,
             19,
             10,
-            ["G", "R", "S", "Y", "n"],
-            ["G", "R", "S", "Y", "n"],
+            ["G", "R", "S", "Y", "z", "n"],
+            ["G", "R", "S", "Y", "z", "n"],
         ]
 
         basename = os.path.basename(protein_params_sidhu.seqs_filename)
@@ -293,12 +293,12 @@ def test_sidhu_samp_custom_aa(protein_data_dir, protein_params_sidhu_custom_aa):
         basefile = os.path.abspath(protein_params_sidhu_custom_aa.seqs_filename)
 
         indices = [0, 1, 2, 5, 6]
-        assert [get_seq_info(basefile, "SY,GR-", "protein")[x] for x in indices] == [
-            3,
+        assert [get_seq_info(basefile, "SY,GR", "protein")[x] for x in indices] == [
+            4,
             19,
             10,
-            ["0", "1", "2"],
-            ["SY", "GR", "ACDEFHIKLMNPQTVWn"],
+            ["0", "1", "2", "3"],
+            ["SY", "GR", "ACDEFHIKLMNPQTVW", "n"],
         ]
 
         basename = os.path.basename(protein_params_sidhu_custom_aa.seqs_filename)

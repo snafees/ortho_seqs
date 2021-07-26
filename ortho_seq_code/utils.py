@@ -41,8 +41,6 @@ def get_seq_info(seqf, alphbt_input, molecule):
             alphbt_input = "AVLIPFC,"
         if "," in alphbt_input:
             alphbt = alphbt_input.upper()
-            if "-" in alphbt:
-                alphbt = alphbt.replace("-", "")
             # Adding on remaining letters as the last group
             alphbt_excluded = np.array([i for i in alphbt if i != ","])
             if "protein" in molecule:
@@ -57,8 +55,6 @@ def get_seq_info(seqf, alphbt_input, molecule):
                         np.array(DNA_ALPHABETS).ravel(), np.array(alphbt_excluded)
                     )
                 )
-            if "-" in alphbt_input:
-                alphbt_last_group += "n"
             alphbt += "," + str(alphbt_last_group)
             custom_aa = alphbt.split(",")
             if "" in custom_aa:
@@ -72,7 +68,7 @@ def get_seq_info(seqf, alphbt_input, molecule):
                     del aa_dict[str(alphbt_count)]
                     alphbt_count -= 1
                 alphbt_count += 1
-            if "n" in seq_list and "-" not in alphbt_input:
+            if "n" in seq_list:
                 aa_dict[str(alphbt_count)] = ["n"]
                 custom_aa.append("n")
                 alphbt_count += 1
@@ -103,7 +99,7 @@ def get_seq_info(seqf, alphbt_input, molecule):
                 seq_list_sub = []
                 for i in range(len(seq_list)):
                     if seq_list[i] in alphbt_last_group:
-                        seq_list_sub.append("n")
+                        seq_list_sub.append("z")
                     else:
                         seq_list_sub.append(seq_list[i])
             if "n" in seq_list_sub and "n" not in alphabets:

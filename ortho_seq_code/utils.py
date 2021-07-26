@@ -12,7 +12,7 @@ def get_seq_info(seqf):
     pop_size = len(seq_series)
     seq_list = list(np.unique(list("".join(list(seq_series)))))
     dm = len(seq_list)
-    for i in seq:
+    for i in seq_series:
         if i == "\n":
             pop_size -= 1
             seq.remove(i)

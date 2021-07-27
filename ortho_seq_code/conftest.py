@@ -173,7 +173,7 @@ def protein_params_sidhu_custom_aa(protein_data_dir):
         "first",
         False,
         "",
-        "SY,GR-",
+        "SY,GR",
     )
 
 

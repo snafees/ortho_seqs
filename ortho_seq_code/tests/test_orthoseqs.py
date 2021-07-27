@@ -243,25 +243,25 @@ def test_protein_padded_first_order(
         np.testing.assert_array_equal(expected_path, obtained_path)
 
 
-def test_sidhu_samp(protein_data_dir, protein_params_sidhu):
+def test_protein_paddded_custom_aa(protein_data_dir, protein_params_custom_aa):
 
     with utils.TempDirectory() as location:
-        protein_params_sidhu = protein_params_sidhu._replace(out_dir=location)
-        orthogonal_polynomial(*protein_params_sidhu)
+        protein_params_custom_aa = protein_params_custom_aa._replace(out_dir=location)
+        orthogonal_polynomial(*protein_params_custom_aa)
 
-        basefile = os.path.abspath(protein_params_sidhu.seqs_filename)
+        basefile = os.path.abspath(protein_params_custom_aa.seqs_filename)
 
         indices = [0, 1, 2, 5, 6]
-        assert [get_seq_info(basefile, "GRSY", "protein")[x] for x in indices] == [
+        assert [get_seq_info(basefile, "ARSY", "protein")[x] for x in indices] == [
             6,
             19,
             10,
-            ["G", "R", "S", "Y", "z", "n"],
-            ["G", "R", "S", "Y", "z", "n"],
+            ["A", "R", "S", "Y", "z", "n"],
+            ["A", "R", "S", "Y", "z", "n"],
         ]
 
-        basename = os.path.basename(protein_params_sidhu.seqs_filename)
-        basename_pheno = os.path.basename(protein_params_sidhu.pheno_filename)
+        basename = os.path.basename(protein_params_custom_aa.seqs_filename)
+        basename_pheno = os.path.basename(protein_params_custom_aa.pheno_filename)
         expected_path = os.path.join(protein_data_dir, basename + ".npz")
         obtained_path = os.path.join(location, basename + ".npz")
         assert_equality(expected_path, obtained_path)
@@ -282,27 +282,27 @@ def test_sidhu_samp(protein_data_dir, protein_params_sidhu):
         np.testing.assert_array_equal(expected_path, obtained_path)
 
 
-def test_sidhu_samp_custom_aa(protein_data_dir, protein_params_sidhu_custom_aa):
+def test_protein_padded_custom_aa_2(protein_data_dir, protein_params_custom_aa_2):
 
     with utils.TempDirectory() as location:
-        protein_params_sidhu_custom_aa = protein_params_sidhu_custom_aa._replace(
+        protein_params_custom_aa_2 = protein_params_custom_aa_2._replace(
             out_dir=location
         )
-        orthogonal_polynomial(*protein_params_sidhu_custom_aa)
+        orthogonal_polynomial(*protein_params_custom_aa_2)
 
-        basefile = os.path.abspath(protein_params_sidhu_custom_aa.seqs_filename)
+        basefile = os.path.abspath(protein_params_custom_aa_2.seqs_filename)
 
         indices = [0, 1, 2, 5, 6]
-        assert [get_seq_info(basefile, "SY,GR", "protein")[x] for x in indices] == [
+        assert [get_seq_info(basefile, "AR,SY", "protein")[x] for x in indices] == [
             4,
             19,
             10,
             ["0", "1", "2", "3"],
-            ["SY", "GR", "ACDEFHIKLMNPQTVW", "n"],
+            ["AR", "SY", "CDEFGHIKLMNPQTVW", "n"],
         ]
 
-        basename = os.path.basename(protein_params_sidhu_custom_aa.seqs_filename)
-        basename_pheno = os.path.basename(protein_params_sidhu_custom_aa.pheno_filename)
+        basename = os.path.basename(protein_params_custom_aa_2.seqs_filename)
+        basename_pheno = os.path.basename(protein_params_custom_aa_2.pheno_filename)
         expected_path = os.path.join(protein_data_dir, basename + ".npz")
         obtained_path = os.path.join(location, basename + ".npz")
         assert_equality(expected_path, obtained_path)

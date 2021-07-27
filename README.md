@@ -78,13 +78,13 @@ Used to group amino acids/nucleotides together, or specify certain amino acids/n
 
 There are also built-in groups:
 
-**protein_pnp** will group by polar and non-polar amino acids, and *n*.
+**protein_pnp** will group by polar and non-polar amino acids, every other amino acid, and *n*.
 
-**essential** groups by essential and non-essential amino acids, and *n*.
+**essential** groups by essential and non-essential amino acids, every other amino acid, and *n*.
 
-**acidic** groups by acidic, basic, and neutral amino acids, and *n*.
+**acidic** groups by acidic, basic, and neutral amino acids, every other amino acid, and *n*.
 
-**hydrophobic** groups by hydrophobic and non-hydrophobic amino acids, and *n*.
+**hydrophobic** groups by hydrophobic and non-hydrophobic amino acids, every other amino acid, and *n*.
 
 # Results & Outputs
 

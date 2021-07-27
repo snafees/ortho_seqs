@@ -180,8 +180,11 @@ def orthogonal_polynomial(
         plt.ylabel("Frequency")
         plt.title("Histogram of Non-Zero Covariances")
         cov_fig = cov_sub.get_figure()
-        cov_fig.savefig("cov_hist.png", dpi=400)
-        print("saved covariance histogram as cov_hist" + str(pheno_file) + ".png")
+        cov_fig.savefig(str(out_dir) + "cov_hist" + str(pheno_file) + ".png", dpi=400)
+        print(
+            "saved covariance histogram as",
+            str(out_dir) + "cov_hist" + str(pheno_file) + ".png",
+        )
         arrays_save[naming + "_cov"] = cov
 
         Pa = np.zeros((sites, pop_size, dm))
@@ -960,8 +963,13 @@ def orthogonal_polynomial(
         else:
             plt.ylabel("Regressions of nucleotides onto each site (rFon1D)")
         figure = ax.get_figure()
-        figure.savefig("rFon1D_graph.png", dpi=400)
-        print("saved regression graph as rFon1D_graph" + str(pheno_file) + ".png")
+        figure.savefig(
+            str(out_dir) + "rFon1D_graph" + str(pheno_file) + ".png", dpi=400
+        )
+        print(
+            "saved regression graph as",
+            str(out_dir) + "rFon1D_graph" + str(pheno_file) + ".png",
+        )
     else:
         print("Nothing to graph for rFon1D.")
 

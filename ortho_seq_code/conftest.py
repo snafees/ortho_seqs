@@ -148,7 +148,9 @@ def protein_params_first_order_padded(protein_data_dir):
 @pytest.fixture
 def protein_params_custom_aa(protein_data_dir):
     seqs_filename = os.path.join(protein_data_dir, "protein_seqs_padded_custom_aa.txt")
-    pheno_filename = os.path.join(protein_data_dir, "protein_pheno_padded_custom_aa.txt")
+    pheno_filename = os.path.join(
+        protein_data_dir, "protein_pheno_padded_custom_aa.txt"
+    )
 
     return Params(
         seqs_filename,
@@ -163,8 +165,12 @@ def protein_params_custom_aa(protein_data_dir):
 
 @pytest.fixture
 def protein_params_custom_aa_2(protein_data_dir):
-    seqs_filename = os.path.join(protein_data_dir, "protein_seqs_padded_custom_aa_2.txt")
-    pheno_filename = os.path.join(protein_data_dir, "protein_pheno_padded_custom_aa_2.txt")
+    seqs_filename = os.path.join(
+        protein_data_dir, "protein_seqs_padded_custom_aa_2.txt"
+    )
+    pheno_filename = os.path.join(
+        protein_data_dir, "protein_pheno_padded_custom_aa_2.txt"
+    )
 
     return Params(
         seqs_filename,

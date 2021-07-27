@@ -254,7 +254,7 @@ def test_protein_paddded_custom_aa(protein_data_dir, protein_params_custom_aa):
         indices = [0, 1, 2, 5, 6]
         assert [get_seq_info(basefile, "ARSY", "protein")[x] for x in indices] == [
             6,
-            19,
+            6,
             10,
             ["A", "R", "S", "Y", "z", "n"],
             ["A", "R", "S", "Y", "z", "n"],
@@ -295,7 +295,7 @@ def test_protein_padded_custom_aa_2(protein_data_dir, protein_params_custom_aa_2
         indices = [0, 1, 2, 5, 6]
         assert [get_seq_info(basefile, "AR,SY", "protein")[x] for x in indices] == [
             4,
-            19,
+            6,
             10,
             ["0", "1", "2", "3"],
             ["AR", "SY", "CDEFGHIKLMNPQTVW", "n"],

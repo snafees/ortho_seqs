@@ -102,6 +102,8 @@ def get_seq_info(seqf, alphbt_input, molecule):
                         seq_list_sub.append("z")
                     else:
                         seq_list_sub.append(seq_list[i])
+            if "z" in seq_list_sub and "z" not in alphabets:
+                alphabets.append("z")
             if "n" in seq_list_sub and "n" not in alphabets:
                 alphabets.append("n")
             custom_aa = alphabets

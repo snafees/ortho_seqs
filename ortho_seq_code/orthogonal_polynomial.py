@@ -41,7 +41,7 @@ def orthogonal_polynomial(
 
     # file containing trait values that will be mapped to sequence
     # vectors that must be the same size as F
-    pheno_filename = "_"+pheno_file.split("/")[-1]
+    pheno_filename = "_" + pheno_file.split("/")[-1]
     with open(pheno_file) as f2:
         phenotype = f2.readlines()
     F = np.genfromtxt(phenotype)  # this needs to stay this way!
@@ -181,7 +181,9 @@ def orthogonal_polynomial(
         plt.ylabel("Frequency")
         plt.title("Histogram of Non-Zero Covariances")
         cov_fig = cov_sub.get_figure()
-        cov_fig.savefig(str(out_dir) + "cov_hist" + str(pheno_filename) + ".png", dpi=400)
+        cov_fig.savefig(
+            str(out_dir) + "cov_hist" + str(pheno_filename) + ".png", dpi=400
+        )
         print(
             "saved covariance histogram as",
             str(out_dir) + "cov_hist" + str(pheno_filename) + ".png",

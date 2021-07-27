@@ -41,6 +41,7 @@ def orthogonal_polynomial(
 
     # file containing trait values that will be mapped to sequence
     # vectors that must be the same size as F
+    pheno_filename = pheno_file.split("/")[-1]
     with open(pheno_file) as f2:
         phenotype = f2.readlines()
     F = np.genfromtxt(phenotype)  # this needs to stay this way!
@@ -180,10 +181,10 @@ def orthogonal_polynomial(
         plt.ylabel("Frequency")
         plt.title("Histogram of Non-Zero Covariances")
         cov_fig = cov_sub.get_figure()
-        cov_fig.savefig(str(out_dir) + "/cov_hist" + str(pheno_file) + ".png", dpi=400)
+        cov_fig.savefig(str(out_dir) + "cov_hist" + str(pheno_filename) + ".png", dpi=400)
         print(
             "saved covariance histogram as",
-            str(out_dir) + "/cov_hist" + str(pheno_file) + ".png",
+            str(out_dir) + "cov_hist" + str(pheno_filename) + ".png",
         )
         arrays_save[naming + "_cov"] = cov
 
@@ -964,11 +965,11 @@ def orthogonal_polynomial(
             plt.ylabel("Regressions of nucleotides onto each site (rFon1D)")
         figure = ax.get_figure()
         figure.savefig(
-            str(out_dir) + "/rFon1D_graph" + str(pheno_file) + ".png", dpi=400
+            str(out_dir) + "rFon1D_graph" + str(pheno_filename) + ".png", dpi=400
         )
         print(
             "saved regression graph as",
-            str(out_dir) + "/rFon1D_graph" + str(pheno_file) + ".png",
+            str(out_dir) + "rFon1D_graph" + str(pheno_filename) + ".png",
         )
     else:
         print("Nothing to graph for rFon1D.")

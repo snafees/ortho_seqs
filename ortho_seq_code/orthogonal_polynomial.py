@@ -45,7 +45,7 @@ def orthogonal_polynomial(
         phenotype = f2.readlines()
     if pheno_file[-1] != "/":
         pheno_file += "/"
-    pheno_filename = "_" + pheno_file.split("/")[-1]
+    pheno_filename = "/_" + pheno_file.split("/")[-1]
     F = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fest = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fon1 = np.genfromtxt(phenotype)  # this needs to stay this way!

@@ -42,6 +42,8 @@ def orthogonal_polynomial(
     # file containing trait values that will be mapped to sequence
     # vectors that must be the same size as F
     pheno_filename = "_" + pheno_file.split("/")[-1]
+    if pheno_file[-1] != "/":
+        pheno_flename += "/"
     with open(pheno_file) as f2:
         phenotype = f2.readlines()
     F = np.genfromtxt(phenotype)  # this needs to stay this way!

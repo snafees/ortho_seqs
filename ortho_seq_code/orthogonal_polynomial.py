@@ -12,10 +12,13 @@ from matplotlib import pyplot as plt
 
 
 def create_dir_if_not_exists(out_dir):
-    if not os.path.exists(out_dir):
-        os.makedirs(out_dir, exist_ok=True)
-    else:
-        print("Path {} already exists, might be overwriting data".format(out_dir))
+    if os.path.exists(out_dir):
+        ct = 0
+        while os.path.exists(out_dir):
+            out_dir += "(" + str(ct) + ")"
+            ct += 1
+    print("Path {} already exists, will now be".format(out_dir))
+    os.makedirs(out_dir, exist_ok=True)
 
 
 def orthogonal_polynomial(

@@ -28,8 +28,7 @@ def create_dir_if_not_exists(out_dir):
         )
     out_dir = out_dir_new
     os.makedirs(out_dir)
-    print(out_dir_new)
-    print(out_dir)
+    return out_dir
 
 
 def orthogonal_polynomial(
@@ -42,8 +41,8 @@ def orthogonal_polynomial(
     alphbt_input,
 ):
     """Program to compute orthogonal polynomials up to 2nd order"""
-    create_dir_if_not_exists(out_dir)
     start_time = time.time()
+    out_dir = create_dir_if_not_exists(out_dir)
     global i
     with open(filename) as f:
         seq = f.readlines()

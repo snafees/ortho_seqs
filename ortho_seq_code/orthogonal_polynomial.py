@@ -1037,7 +1037,7 @@ def orthogonal_polynomial(
             plt.ylabel("Regressions of nucleotides onto each site (rFon1D)")
         figure = ax.get_figure()
         figure.savefig(
-            str(out_dir) + "rFon1D_graph" + str(naming_phenotype) + ".png", dpi=400
+            str(out_dir) + "rFon1D_graph_" + str(naming_phenotype) + ".png", dpi=400
         )
         print(
             "saved regression graph as",

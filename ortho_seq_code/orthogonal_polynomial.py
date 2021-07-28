@@ -207,7 +207,7 @@ def orthogonal_polynomial(
         cov_df = cov_df.apply(pd.Series)
         cov_df = cov_df.astype(str)
         cov_df["Covariance"] = cov_df["Covariance"].astype(float)
-        cov_df["ID"] = (
+        cov_df["ID (Site1-Group1,Site2-Group2)"] = (
             cov_df["Site 1"]
             + "-"
             + cov_df["Group 1"]
@@ -226,13 +226,21 @@ def orthogonal_polynomial(
         cov_df["Percentile"] = cov_df["Magnitude"].map(cov_per_d)
         cov_df = cov_df[cov_df["Percentile"] >= 72]
         cov_df = cov_df[
-            ["ID", "Covariance", "Site 1", "Group 1", "Site 2", "Group 2", "Percentile"]
+            [
+                "ID (Site1-Group1,Site2-Group2)",
+                "Covariance",
+                "Site 1",
+                "Group 1",
+                "Site 2",
+                "Group 2",
+                "Percentile",
+            ]
         ]
-        cov_df.to_csv(str(out_dir) + "cov_data_frame" + str(naming_phenotype) + ".csv")
+        cov_df.to_csv(str(out_dir) + "cov_data_frame_" + str(naming_phenotype) + ".csv")
         print(
             "Saved covariance data frame as "
             + str(out_dir)
-            + "cov_data_frame"
+            + "cov_data_frame_"
             + str(naming_phenotype)
             + ".csv"
         )

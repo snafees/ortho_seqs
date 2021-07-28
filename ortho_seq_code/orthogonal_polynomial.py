@@ -28,6 +28,8 @@ def create_dir_if_not_exists(out_dir):
         )
     out_dir = out_dir_new
     os.makedirs(out_dir)
+    print(out_dir_new)
+    print(out_dir)
 
 
 def orthogonal_polynomial(
@@ -201,8 +203,6 @@ def orthogonal_polynomial(
         cov_fig.savefig(
             str(out_dir) + "cov_hist_" + str(naming_phenotype) + ".png", dpi=400
         )
-        print(out_dir_new)
-        print(out_dir)
         print(
             "saved covariance histogram as",
             str(out_dir) + "cov_hist_" + str(naming_phenotype) + ".png",

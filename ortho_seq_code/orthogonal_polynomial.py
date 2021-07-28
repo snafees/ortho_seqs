@@ -216,6 +216,7 @@ def orthogonal_polynomial(
         cov_df["Magnitude"] = abs(pd.Series(cov_df["Covariance"]).astype(float))
         cov_df = cov_df.sort_values(by="Magnitude", ascending=False)
         cov_df.index = range(len(cov_df))
+        print(cov_df)
         cov_df["Percentile"] = (
             100 * (len(cov_df["Magnitude"]) - cov_df.index) / len(cov_df["Magnitude"])
         )

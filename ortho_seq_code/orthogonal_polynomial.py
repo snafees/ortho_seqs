@@ -27,6 +27,7 @@ def create_dir_if_not_exists(out_dir):
             "Path {} already exists, new path will be".format(out_dir)
             + str(out_dir_new)
         )
+    out_dir = out_dir_new
 
 
 def orthogonal_polynomial(

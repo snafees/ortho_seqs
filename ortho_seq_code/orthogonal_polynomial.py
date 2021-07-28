@@ -186,11 +186,11 @@ def orthogonal_polynomial(
         plt.title("Histogram of Non-Zero Covariances")
         cov_fig = cov_sub.get_figure()
         cov_fig.savefig(
-            str(out_dir) + "cov_hist" + str(naming_phenotype) + ".png", dpi=400
+            str(out_dir) + "cov_hist_" + str(naming_phenotype) + ".png", dpi=400
         )
         print(
             "saved covariance histogram as",
-            str(out_dir) + "cov_hist" + str(naming_phenotype) + ".png",
+            str(out_dir) + "cov_hist_" + str(naming_phenotype) + ".png",
         )
         # Converts lists to determine location and identity of nucleotides/amino acids
         cov_list = []
@@ -222,11 +222,15 @@ def orthogonal_polynomial(
         cov_df = cov_df[
             ["ID", "Covariance", "Site 1", "Group 1", "Site 2", "Group 2", "Percentile"]
         ]
-        cov_df.to_csv(str(naming_phenotype) + "cov_data_frame.csv")
+        cov_df.to_csv(
+            str(naming_phenotype) + "cov_data_frame" + str(naming_phenotype) + ".csv"
+        )
         print(
             "Saved covariance data frame as "
             + str(naming_phenotype)
-            + "cov_data_frame.csv"
+            + "cov_data_frame"
+            + str(naming_phenotype)
+            + ".csv"
         )
         arrays_save[naming + "_cov"] = cov
 

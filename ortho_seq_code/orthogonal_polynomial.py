@@ -204,6 +204,7 @@ def orthogonal_polynomial(
             cov_list,
             columns=["Site 1", "Site 2", "Group 1", "Group 2", "Covariance"],
         )
+        print(cov_df)
         cov_df["ID"] = (
             cov_df["Site 1"]
             + "-"

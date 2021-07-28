@@ -200,7 +200,6 @@ def orthogonal_polynomial(
                     for l in range(cov.shape[3]):
                         if j >> i:
                             cov_list.append((i, j, k, l, cov[i][j][k][l]))
-        print(cov_list)
         cov_df = pd.DataFrame(
             cov_list,
             columns=["Site 1", "Site 2", "Group 1", "Group 2", "Covariance"],
@@ -221,12 +220,12 @@ def orthogonal_polynomial(
         cov_df = cov_df.sort_values(by="Magnitude", ascending=False)
         cov_df.index = range(len(cov_df))
         cov_per = list(np.unique(cov_df["Magnitude"]))
+        print(cov_per)
         cov_per_d = dict()
         for i in cov_per:
             cov_per_d[i] = 100 * (len(cov_per) - i) / len(cov_per) // 1
         print(cov_per_d)
         cov_df["Percentile"] = cov_df["Magnitude"].map(cov_per_d)
-        print(cov_df)
         cov_df = cov_df[cov_df["Percentile"] >= 72]
         cov_df = cov_df[
             ["ID", "Covariance", "Site 1", "Group 1", "Site 2", "Group 2", "Percentile"]

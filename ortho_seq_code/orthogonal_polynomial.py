@@ -205,22 +205,14 @@ def orthogonal_polynomial(
             columns=["Site 1", "Site 2", "Group 1", "Group 2", "Covariance"],
         )
         cov_df["ID"] = (
-            str(cov_df["Site 1"])
+            pd.Series(cov_df["Site 1"]).astype(str)
             + "-"
-            + str(cov_df["Group 1"])
+            + pd.Series(cov_df["Group 1"]).astype(str)
             + ","
-            + str(cov_df["Site 2"])
+            + pd.Series(cov_df["Site 2"]).astype(str)
             + "-"
-            + str(cov_df["Group 2"])
+            + pd.Series(cov_df["Group 2"]).astype(str)
         )
-        print("Site 1+Group 1")
-        print(pd.Series(cov_df["Site 1"]).astype(str)+pd.Series(cov_df["Group 1"]).astype(str))
-        print("Group 1")
-        print(str(cov_df["Group 1"]))
-        print("Site 2")
-        print(str(cov_df["Site 2"]))
-        print("Group 2")
-        print(str(cov_df["Group 2"]))
         cov_df["Magnitude"] = abs(cov_df["Covariance"])
         cov_df = cov_df.sort_values(by="Magnitude", ascending=False)
         cov_df["Percentile"] = (

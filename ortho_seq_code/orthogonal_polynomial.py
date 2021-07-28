@@ -223,11 +223,11 @@ def orthogonal_polynomial(
             ["ID", "Covariance", "Site 1", "Group 1", "Site 2", "Group 2", "Percentile"]
         ]
         cov_df.to_csv(
-            str(naming_phenotype) + "cov_data_frame" + str(naming_phenotype) + ".csv"
+            str(out_dir) + "cov_data_frame" + str(naming_phenotype) + ".csv"
         )
         print(
             "Saved covariance data frame as "
-            + str(naming_phenotype)
+            + str(out_dir)
             + "cov_data_frame"
             + str(naming_phenotype)
             + ".csv"

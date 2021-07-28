@@ -219,11 +219,11 @@ def orthogonal_polynomial(
         cov_df["Magnitude"] = abs(cov_df["Covariance"])
         cov_df = cov_df.sort_values(by="Magnitude", ascending=False)
         cov_df.index = range(len(cov_df))
-        cov_df["Percentile"] = (
-            100
-            * (len(cov_df["Magnitude"]) - pd.Series(cov_df.index))
-            / len(cov_df["Magnitude"])
-        ) // 1
+        cov_per = list(np.unique(cov_df["Covariance"]))
+        cov_per_d = dict()
+        for i in cov_per:
+            cov_per_d[i] = 100 * (len(cov_per) - i) / len(cov_per) // 1
+        cov_df["Percentile"] = cov_df.map(cov_per_d)
         cov_df = cov_df[cov_df["Percentile"] >= 72]
         cov_df = cov_df[
             ["ID", "Covariance", "Site 1", "Group 1", "Site 2", "Group 2", "Percentile"]

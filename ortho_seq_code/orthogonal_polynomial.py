@@ -85,10 +85,11 @@ def orthogonal_polynomial(
     phi2m = np.zeros((sites, sites, dm, dm))
     P = np.zeros((sites, pop_size, dm))
     cov = np.zeros((sites, sites, dm, dm))
-
     if alphbt_input is None or "," not in alphbt_input:
+        print("Alphabet according to --alphbt_input:")
         print(alphabets)
     else:
+        print("Groupings according to --alphbt_input:")
         print(str(custom_dict).replace("'", "").replace(", ", " | "))
     for alphabet_index in range(dm):  # Keep in alphabetical order with 'n' at end
         for i in range_popsize:
@@ -1013,7 +1014,7 @@ def orthogonal_polynomial(
             plt.xlabel("Sequence Site")
         else:
             plt.xlabel(
-                "Sequence Site\n"
+                "Sequence Site\nGroupings according to --alphbt_input:\n""
                 + str(custom_dict).replace("'", "").replace(", ", " | ")
             )
         # plt.title("")

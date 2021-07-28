@@ -13,21 +13,17 @@ from matplotlib import pyplot as plt
 
 def create_dir_if_not_exists(out_dir):
     out_dir_new = out_dir
+    if not os.path.exists(out_dir):
+        return out_dir
     ct = 1
     while os.path.exists(out_dir_new):
-        if os.path.exists(out_dir_new):
-            ct += 1
-            if ct == 2:
-                out_dir_new += "(2)"
-            else:
-                out_dir_new = out_dir_new[:-3] + "(" + str(ct) + ")"
-    if ct > 1:
-        print(
-            "Path {} already exists, new path will be".format(out_dir)
-            + str(out_dir_new)
-        )
-    out_dir = out_dir_new
-    return out_dir
+        ct += 1
+        if ct == 2:
+            out_dir_new += "(2)"
+        else:
+            out_dir_new = out_dir_new[:-3] + "(" + str(ct) + ")"
+    print("Path {} already exists, new path will be".format(out_dir) + str(out_dir_new))
+    return out_dir_new
 
 
 def orthogonal_polynomial(

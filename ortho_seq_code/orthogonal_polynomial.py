@@ -207,13 +207,14 @@ def orthogonal_polynomial(
         cov_df = cov_df.apply(pd.Series)
         cov_df = cov_df.astype(str)
         cov_df["Covariance"] = cov_df["Covariance"].astype(float)
-        cov_df["ID (Site1-Group1,Site2-Group2)"] = (
-            cov_df["Site 1"]
-            + "-"
+        cov_df["ID"] = (
+            "s"
+            + cov_df["Site 1"]
+            + "-g"
             + cov_df["Group 1"]
-            + ","
+            + ",s"
             + cov_df["Site 2"]
-            + "-"
+            + "-g"
             + cov_df["Group 2"]
         )
         cov_df["Magnitude"] = abs(cov_df["Covariance"])
@@ -227,7 +228,7 @@ def orthogonal_polynomial(
         cov_df = cov_df[cov_df["Percentile"] >= 72]
         cov_df = cov_df[
             [
-                "ID (Site1-Group1,Site2-Group2)",
+                "ID",
                 "Covariance",
                 "Site 1",
                 "Group 1",

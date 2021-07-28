@@ -216,9 +216,7 @@ def orthogonal_polynomial(
         cov_df["Magnitude"] = abs(cov_df["Covariance"])
         cov_df = cov_df.sort_values(by="Magnitude", ascending=False)
         cov_df["Percentile"] = (
-            100
-            * (len(cov_df["Magnitude"]) - cov_df.index)
-            / len(cov_df["Magnitude"])
+            100 * (len(cov_df["Magnitude"]) - cov_df.index) / len(cov_df["Magnitude"])
         )
         cov_df.index = range(len(cov_df))
         cov_df = cov_df[cov_df["Percentile"] >= 72]

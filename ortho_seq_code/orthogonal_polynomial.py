@@ -201,7 +201,7 @@ def orthogonal_polynomial(
                         if j >> i:
                             cov_list.append((i, j, k, l, cov[i][j][k][l]))
         cov_df = pd.DataFrame(
-            np.array(cov_list),
+            cov_list,
             columns=["Site 1", "Site 2", "Group 1", "Group 2", "Covariance"],
         )
         cov_df["ID"] = (

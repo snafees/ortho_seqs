@@ -27,7 +27,6 @@ def create_dir_if_not_exists(out_dir):
             + str(out_dir_new)
         )
     out_dir = out_dir_new
-    os.makedirs(out_dir)
     return out_dir
 
 
@@ -43,6 +42,7 @@ def orthogonal_polynomial(
     """Program to compute orthogonal polynomials up to 2nd order"""
     start_time = time.time()
     out_dir = create_dir_if_not_exists(out_dir)
+    os.makedirs(out_dir)
     global i
     with open(filename) as f:
         seq = f.readlines()
@@ -1041,7 +1041,7 @@ def orthogonal_polynomial(
         )
         print(
             "saved regression graph as",
-            str(out_dir) + "rFon1D_graph" + str(naming_phenotype) + ".png",
+            str(out_dir) + "rFon1D_graph_" + str(naming_phenotype) + ".png",
         )
     else:
         print("Nothing to graph for rFon1D.")

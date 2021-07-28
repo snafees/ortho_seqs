@@ -11,6 +11,13 @@ import itertools
 from matplotlib import pyplot as plt
 
 
+def create_dir_if_not_exists(out_dir):
+    if not os.path.exists(out_dir):
+        os.makedirs(out_dir, exist_ok=True)
+    else:
+        print("Path {} already exists, might be overwriting data".format(out_dir))
+
+
 def orthogonal_polynomial(
     filename,
     pheno_file,
@@ -21,24 +28,8 @@ def orthogonal_polynomial(
     alphbt_input,
 ):
     """Program to compute orthogonal polynomials up to 2nd order"""
+    create_dir_if_not_exists(out_dir)
     start_time = time.time()
-    if os.path.exists(out_dir):
-        out_dir_new = out_dir
-        ct = 1
-        while os.path.exists(out_dir_new):
-            ct += 1
-            if ct == 2:
-                out_dir_new += "(2)"
-            else:
-                out_dir_new = out_dir_new[:-3] + "(" + str(ct) + ")"
-        print(
-            "Path {} already exists, new path will be".format(out_dir)
-            + str(out_dir_new)
-        )
-        out_dir = out_dir_new
-    if out_dir[-1] != "/":
-        out_dir += "/"
-    os.makedirs(out_dir)
     global i
     with open(filename) as f:
         seq = f.readlines()

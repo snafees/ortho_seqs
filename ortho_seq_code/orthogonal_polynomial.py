@@ -14,6 +14,9 @@ from matplotlib import pyplot as plt
 def create_dir_if_not_exists(out_dir):
     out_dir_new = out_dir
     if not os.path.exists(out_dir):
+        if out_dir[-1] != "/":
+            out_dir += "/"
+        os.makedirs(out_dir)
         return out_dir
     ct = 1
     while os.path.exists(out_dir_new):
@@ -23,6 +26,9 @@ def create_dir_if_not_exists(out_dir):
         else:
             out_dir_new = out_dir_new[:-3] + "(" + str(ct) + ")"
     print("Path {} already exists, new path will be".format(out_dir) + str(out_dir_new))
+    if out_dir_new[-1] != "/":
+        out_dir_new += "/"
+    os.makedirs(out_dir_new)
     return out_dir_new
 
 
@@ -38,7 +44,6 @@ def orthogonal_polynomial(
     """Program to compute orthogonal polynomials up to 2nd order"""
     start_time = time.time()
     out_dir = create_dir_if_not_exists(out_dir)
-    os.makedirs(out_dir)
     global i
     with open(filename) as f:
         seq = f.readlines()
@@ -52,8 +57,6 @@ def orthogonal_polynomial(
     # vectors that must be the same size as F
     with open(pheno_file) as f2:
         phenotype = f2.readlines()
-    if out_dir[-1] != "/":
-        out_dir += "/"
     naming_phenotype = os.path.basename(f2.name)
     F = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fest = np.genfromtxt(phenotype)  # this needs to stay this way!

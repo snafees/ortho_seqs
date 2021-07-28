@@ -215,10 +215,10 @@ def orthogonal_polynomial(
         )
         cov_df["Magnitude"] = abs(pd.Series(cov_df["Covariance"]).astype(float))
         cov_df = cov_df.sort_values(by="Magnitude", ascending=False)
+        cov_df.index = range(len(cov_df))
         cov_df["Percentile"] = (
             100 * (len(cov_df["Magnitude"]) - cov_df.index) / len(cov_df["Magnitude"])
         )
-        cov_df.index = range(len(cov_df))
         cov_df = cov_df[cov_df["Percentile"] >= 72]
         cov_df = cov_df[
             ["ID", "Covariance", "Site 1", "Group 1", "Site 2", "Group 2", "Percentile"]

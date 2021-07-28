@@ -214,7 +214,7 @@ def orthogonal_polynomial(
             + str(cov_df["Group 2"])
         )
         print("Site 1+Group 1")
-        print(str(cov_df["Site 1"])+str(cov_df["Group 1"]))
+        print(pd.Series(cov_df["Site 1"]).astype(str)+pd.Series(cov_df["Group 1"]).astype(str))
         print("Group 1")
         print(str(cov_df["Group 1"]))
         print("Site 2")

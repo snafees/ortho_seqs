@@ -204,15 +204,14 @@ def orthogonal_polynomial(
             cov_list,
             columns=["Site 1", "Site 2", "Group 1", "Group 2", "Covariance"],
         )
-        print(cov_df)
         cov_df["ID"] = (
-            cov_df["Site 1"]
+            str(cov_df["Site 1"])
             + "-"
-            + cov_df["Group 1"]
+            + str(cov_df["Group 1"])
             + ","
-            + cov_df["Site 2"]
+            + str(cov_df["Site 2"])
             + "-"
-            + cov_df["Group 2"]
+            + str(cov_df["Group 2"])
         )
         cov_df["Magnitude"] = abs(cov_df["Covariance"])
         cov_df = cov_df.sort_values(by="Magnitude", ascending=False)

@@ -204,22 +204,26 @@ def orthogonal_polynomial(
             cov_list,
             columns=["Site 1", "Site 2", "Group 1", "Group 2", "Covariance"],
         )
+        cov_df.apply(pd.Series)
+        cov_df.astype(str)
+        cov_df["Covariance"] = cov_df["Covariance"].astype(float)
         cov_df["ID"] = (
-            pd.Series(cov_df["Site 1"]).astype(str)
+            cov_df["Site 1"]
             + "-"
-            + pd.Series(cov_df["Group 1"]).astype(str)
+            + cov_df["Group 1"]
             + ","
-            + pd.Series(cov_df["Site 2"]).astype(str)
+            + cov_df["Site 2"]
             + "-"
-            + pd.Series(cov_df["Group 2"]).astype(str)
+            + cov_df["Group 2"]
         )
-        cov_df["Magnitude"] = abs(pd.Series(cov_df["Covariance"]).astype(float))
+        cov_df["Magnitude"] = abs(cov_df["Covariance"])
         cov_df = cov_df.sort_values(by="Magnitude", ascending=False)
         cov_df.index = range(len(cov_df))
-        print(cov_df.index)
         cov_df["Percentile"] = (
-            100 * (len(cov_df["Magnitude"]) - pd.Series(cov_df.index)) / len(cov_df["Magnitude"])
-        )
+            100
+            * (len(cov_df["Magnitude"]) - pd.Series(cov_df.index))
+            / len(cov_df["Magnitude"])
+        ) // 1
         cov_df = cov_df[cov_df["Percentile"] >= 72]
         cov_df = cov_df[
             ["ID", "Covariance", "Site 1", "Group 1", "Site 2", "Group 2", "Percentile"]

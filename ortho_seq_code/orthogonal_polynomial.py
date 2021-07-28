@@ -1014,7 +1014,7 @@ def orthogonal_polynomial(
             plt.xlabel("Sequence Site")
         else:
             plt.xlabel(
-                "Sequence Site\nGroupings according to --alphbt_input:\n""
+                "Sequence Site\nGroupings according to --alphbt_input:\n"
                 + str(custom_dict).replace("'", "").replace(", ", " | ")
             )
         # plt.title("")

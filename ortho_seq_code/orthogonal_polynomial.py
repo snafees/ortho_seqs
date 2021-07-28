@@ -224,10 +224,12 @@ def orthogonal_polynomial(
         for i in cov_per:
             cov_per_d[i] = 100 * (len(cov_per) - i) / len(cov_per) // 1
         cov_df["Percentile"] = cov_df["Magnitude"].map(cov_per_d)
+        print(cov_df)
         cov_df = cov_df[cov_df["Percentile"] >= 72]
         cov_df = cov_df[
             ["ID", "Covariance", "Site 1", "Group 1", "Site 2", "Group 2", "Percentile"]
         ]
+        cov_df = cov_df.iloc[:,1:]
         cov_df.to_csv(str(out_dir) + "cov_data_frame" + str(naming_phenotype) + ".csv")
         print(
             "Saved covariance data frame as "

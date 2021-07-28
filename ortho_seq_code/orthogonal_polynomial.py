@@ -36,8 +36,7 @@ def orthogonal_polynomial(
     dm, sites, pop_size, seq, seq_series, alphabets, custom_aa = get_seq_info(
         filename, alphbt_input, molecule
     )
-    if custom_aa is not None:
-        custom_dict = {alphabets[i]: custom_aa[i] for i in range(len(custom_aa))}
+    custom_dict = {alphabets[i]: custom_aa[i] for i in range(len(custom_aa))}
 
     # file containing trait values that will be mapped to sequence
     # vectors that must be the same size as F
@@ -45,7 +44,7 @@ def orthogonal_polynomial(
         phenotype = f2.readlines()
     if out_dir[-1] != "/":
         out_dir += "/"
-    pheno_filename = "_" + pheno_file.split("/")[-1].replace(".txt", "")
+    naming_phenotype = os.path.basename(f2.name)
     F = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fest = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fon1 = np.genfromtxt(phenotype)  # this needs to stay this way!
@@ -169,8 +168,10 @@ def orthogonal_polynomial(
         # Covariance plot
         cov_flat = cov.flatten()
         cov_flat = cov_flat[cov_flat != 0]
-        bns = [0.05 * (min(cov_flat) // 0.05 - 1)]
-        while bns[-1] <= 0.05 * (max(cov_flat) // 0.05 + 1):
+        cov_min = min(cov_flat)
+        cov_max = max(cov_flat)
+        bns = [0.05 * (cov_min // 0.05 - 1)]
+        while bns[-1] <= 0.05 * (cov_max // 0.05 + 1):
             bns.append(bns[-1] + 0.05)
         fig, cov_sub = plt.subplots()
         cov_sub.hist(
@@ -184,11 +185,47 @@ def orthogonal_polynomial(
         plt.title("Histogram of Non-Zero Covariances")
         cov_fig = cov_sub.get_figure()
         cov_fig.savefig(
-            str(out_dir) + "cov_hist" + str(pheno_filename) + ".png", dpi=400
+            str(out_dir) + "cov_hist" + str(naming_phenotype) + ".png", dpi=400
         )
         print(
             "saved covariance histogram as",
-            str(out_dir) + "cov_hist" + str(pheno_filename) + ".png",
+            str(out_dir) + "cov_hist" + str(naming_phenotype) + ".png",
+        )
+        # Converts lists to determine location and identity of nucleotides/amino acids
+        cov_list = []
+        for i in range(cov.shape[0]):
+            for j in range(cov.shape[1]):
+                for k in range(cov.shape[2]):
+                    for l in range(cov.shape[3]):
+                        if j >> i:
+                            cov_list.append((i, j, k, l, cov[i][j][k][l]))
+        cov_df = pd.DataFrame(
+            np.array(cov_list),
+            columns=["Site 1", "Site 2", "Group 1", "Group 2", "Covariance"],
+        )
+        cov_df["ID"] = (
+            cov_df["Site 1"]
+            + "-"
+            + cov_df["Group 1"]
+            + ","
+            + cov_df["Site 2"]
+            + "-"
+            + cov_df["Group 2"]
+        )
+        cov_df["Magnitude"] = abs(cov_df["Covariance"])
+        cov_df = cov_df.sort_values(by="Magnitude", ascending=False)
+        cov_df["Percentile"] = (len(cov_df["Magnitude"]) - cov_df["Magnitude"]) / len(
+            cov_df["Magnitude"]
+        )
+        cov_df = cov_df[cov_df["Percentile"] >= 0.72]
+        cov_df = cov_df[
+            ["ID", "Covariance", "Site 1", "Group 1", "Site 2", "Group 2", "Percentile"]
+        ]
+        cov_df.to_csv(str(naming_phenotype) + "cov_data_frame.csv")
+        print(
+            "Saved covariance data frame as "
+            + str(naming_phenotype)
+            + "cov_data_frame.csv"
         )
         arrays_save[naming + "_cov"] = cov
 
@@ -644,7 +681,6 @@ def orthogonal_polynomial(
     #     [[[0.0 for z in range_dm] for i in range_dm] for j in range_dm])
     # Calculating the mean trait value
 
-    naming_phenotype = os.path.basename(f2.name)
     cov_with_F_save = {}
     # calculating mean phenotype value
     Fm = sum([F[i] / pop_size for i in range_popsize])
@@ -969,11 +1005,11 @@ def orthogonal_polynomial(
             plt.ylabel("Regressions of nucleotides onto each site (rFon1D)")
         figure = ax.get_figure()
         figure.savefig(
-            str(out_dir) + "rFon1D_graph" + str(pheno_filename) + ".png", dpi=400
+            str(out_dir) + "rFon1D_graph" + str(naming_phenotype) + ".png", dpi=400
         )
         print(
             "saved regression graph as",
-            str(out_dir) + "rFon1D_graph" + str(pheno_filename) + ".png",
+            str(out_dir) + "rFon1D_graph" + str(naming_phenotype) + ".png",
         )
     else:
         print("Nothing to graph for rFon1D.")

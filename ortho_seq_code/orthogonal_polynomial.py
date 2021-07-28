@@ -222,12 +222,8 @@ def orthogonal_polynomial(
         cov_per = list(np.unique(cov_df["Magnitude"]))
         cov_per_d = dict()
         for i in cov_per:
-            cov_per_d[i] = 100 * (len(cov_per) - cov_per.index(i)) / len(cov_per) // 1
-        print(cov_df["Magnitude"])
+            cov_per_d[i] = 100 * cov_per.index(i) / len(cov_per) // 1
         cov_df["Percentile"] = cov_df["Magnitude"].map(cov_per_d)
-
-        print(cov_per_d)
-        print(cov_df["Percentile"])
         cov_df = cov_df[cov_df["Percentile"] >= 72]
         cov_df = cov_df[
             ["ID", "Covariance", "Site 1", "Group 1", "Site 2", "Group 2", "Percentile"]

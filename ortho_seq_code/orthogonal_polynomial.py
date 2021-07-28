@@ -21,14 +21,14 @@ def create_dir_if_not_exists(out_dir):
                 out_dir_new += "(2)"
             else:
                 out_dir_new = out_dir_new[:-3] + "(" + str(ct) + ")"
-    os.makedirs(out_dir_new)
     if ct > 1:
         print(
             "Path {} already exists, new path will be".format(out_dir)
             + str(out_dir_new)
         )
     out_dir = out_dir_new
-
+    os.makedirs(out_dir)
+    
 
 def orthogonal_polynomial(
     filename,

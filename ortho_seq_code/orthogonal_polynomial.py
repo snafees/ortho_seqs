@@ -204,8 +204,8 @@ def orthogonal_polynomial(
             cov_list,
             columns=["Site 1", "Site 2", "Group 1", "Group 2", "Covariance"],
         )
-        cov_df.apply(pd.Series)
-        cov_df.astype(str)
+        cov_df = cov_df.apply(pd.Series)
+        cov_df = cov_df.astype(str)
         cov_df["Covariance"] = cov_df["Covariance"].astype(float)
         cov_df["ID"] = (
             cov_df["Site 1"]

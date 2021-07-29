@@ -12,7 +12,7 @@ from matplotlib import pyplot as plt
 
 
 def create_dir_if_not_exists(out_dir):
-    if os.path.exists(out_dir) and out_dir != "False":
+    if os.path.exists(out_dir):
         ct = 0
         while os.path.exists(out_dir):
             if ct != 0:

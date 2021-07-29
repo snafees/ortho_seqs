@@ -11,8 +11,6 @@ import itertools
 from matplotlib import pyplot as plt
 
 def create_dir_if_not_exists(out_dir):
-    if out_dir == "False":
-        out_dir = ""
     elif os.path.exists(out_dir):
         ct = 0
         while os.path.exists(out_dir):
@@ -22,6 +20,7 @@ def create_dir_if_not_exists(out_dir):
             ct += 1
     print("Path already exists, will now be {}".format(out_dir))
     os.makedirs(out_dir, exist_ok=True)
+    print(out_dir)
     return out_dir
 
 def orthogonal_polynomial(

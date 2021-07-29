@@ -122,7 +122,7 @@ def test_nucleotide_first_order(
         basename = os.path.basename(nucleotide_params_first_order.seqs_filename)
         basename_pheno = os.path.basename(nucleotide_params_first_order.pheno_filename)
         expected_path = os.path.join(nucleotide_first_order_data_dir, basename + ".npz")
-        obtained_path = os.path.join(location.replace("(0)", ""), basename + ".npz")
+        obtained_path = os.path.join(location, basename + ".npz")
         print("Obtained Path:")
         print(obtained_path)
         assert_equality(expected_path, obtained_path)

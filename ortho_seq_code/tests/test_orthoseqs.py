@@ -116,7 +116,7 @@ def test_nucleotide_first_order(
 
     with utils.TempDirectory() as location:
         nucleotide_params_first_order = nucleotide_params_first_order._replace(
-            out_dir=location
+            out_dir=location.replace("(0)", "")
         )
         orthogonal_polynomial(*nucleotide_params_first_order)
         basename = os.path.basename(nucleotide_params_first_order.seqs_filename)
@@ -125,8 +125,6 @@ def test_nucleotide_first_order(
         obtained_path = os.path.join(location, basename + ".npz")
         print("Obtained Path:")
         print(obtained_path)
-        print("Expected Path:")
-        print(expected_path)
         assert_equality(expected_path, obtained_path)
         expected_path = os.path.join(
             nucleotide_first_order_data_dir, basename_pheno + "_regressions.npz"

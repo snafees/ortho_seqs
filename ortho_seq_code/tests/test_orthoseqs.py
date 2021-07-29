@@ -116,7 +116,7 @@ def test_nucleotide_first_order(
 
     with utils.TempDirectory() as location:
         nucleotide_params_first_order = nucleotide_params_first_order._replace(
-            out_dir=location.replace("(0)", "")
+            out_dir=location
         )
         orthogonal_polynomial(*nucleotide_params_first_order)
         basename = os.path.basename(nucleotide_params_first_order.seqs_filename)

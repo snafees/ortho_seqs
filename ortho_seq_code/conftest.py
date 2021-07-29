@@ -88,7 +88,7 @@ def nucleotide_params_first_order(nucleotide_first_order_data_dir):
         "DNA",
         "first",
         False,
-        "",
+        "False",
         None,
     )
 

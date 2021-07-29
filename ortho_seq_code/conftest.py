@@ -88,7 +88,7 @@ def nucleotide_params_first_order(nucleotide_first_order_data_dir):
         "DNA",
         "first",
         False,
-        "",
+        "False",
         None,
     )
 
@@ -108,7 +108,7 @@ def nucleotide_params_second_order(nucleotide_second_order_data_dir):
         "DNA",
         "second",
         False,
-        "",
+        "False",
         None,
     )
 
@@ -124,7 +124,7 @@ def protein_params_first_order(protein_data_dir):
         "protein",
         "first",
         False,
-        "",
+        "False",
         None,
     )
 
@@ -140,7 +140,7 @@ def protein_params_first_order_padded(protein_data_dir):
         "protein_n",
         "first",
         False,
-        "",
+        "False",
         None,
     )
 
@@ -158,7 +158,7 @@ def protein_params_custom_aa(protein_data_dir):
         "protein",
         "first",
         False,
-        "",
+        "False",
         "YSAR",
     )
 
@@ -178,7 +178,7 @@ def protein_params_custom_aa_2(protein_data_dir):
         "protein",
         "first",
         False,
-        "",
+        "False",
         "AR,SY",
     )
 
@@ -194,7 +194,7 @@ def protein_first_order_autopad(protein_data_dir):
         "protein_n",
         "first",
         False,
-        "",
+        "False",
         None,
     )
 
@@ -211,6 +211,6 @@ def protein_first_order_customaa(protein_data_dir):
         "protein_n",
         "first",
         False,
-        "",
+        "False",
         custom_alphbt,
     )

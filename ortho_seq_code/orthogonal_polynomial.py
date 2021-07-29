@@ -10,6 +10,19 @@ import click
 import itertools
 from matplotlib import pyplot as plt
 
+def create_dir_if_not_exists(out_dir):
+    if out_dir == "False":
+        out_dir = ""
+    elif os.path.exists(out_dir):
+        ct = 0
+        while os.path.exists(out_dir):
+            if ct != 0:
+                out_dir = out_dir[:-3]
+            out_dir += "(" + str(ct) + ")"
+            ct += 1
+    print("Path already exists, will now be {}".format(out_dir))
+    os.makedirs(out_dir, exist_ok=True)
+    return out_dir
 
 def orthogonal_polynomial(
     filename,
@@ -22,15 +35,7 @@ def orthogonal_polynomial(
 ):
     """Program to compute orthogonal polynomials up to 2nd order"""
     start_time = time.time()
-    if os.path.exists(out_dir):
-        ct = 0
-        while os.path.exists(out_dir):
-            if ct != 0:
-                out_dir = out_dir[:-3]
-            out_dir += "(" + str(ct) + ")"
-            ct += 1
-    print("Path already exists, will now be {}".format(out_dir))
-    os.makedirs(out_dir, exist_ok=True)
+    out_dir = create_dir_if_not_exists(out_dir)
     global i
     with open(filename) as f:
         seq = f.readlines()

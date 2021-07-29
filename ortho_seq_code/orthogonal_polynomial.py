@@ -19,7 +19,7 @@ def create_dir_if_not_exists(out_dir):
                 out_dir = out_dir[:-3]
             out_dir += "(" + str(ct) + ")"
             ct += 1
-    print("Path already exists, will now be {}".format(out_dir))
+        print("Path already exists, will now be {}".format(out_dir))
     os.makedirs(out_dir, exist_ok=True)
     print(out_dir)
     return out_dir

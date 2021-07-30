@@ -118,7 +118,7 @@ def test_nucleotide_first_order(
         nucleotide_params_first_order = nucleotide_params_first_order._replace(
             out_dir=location
         )
-        location += "(0)"
+        location += "(0)" # Test file paths already exists, but location isn't updated with out_dir, this will update it
         orthogonal_polynomial(*nucleotide_params_first_order)
         basename = os.path.basename(nucleotide_params_first_order.seqs_filename)
         basename_pheno = os.path.basename(nucleotide_params_first_order.pheno_filename)
@@ -188,6 +188,7 @@ def test_protein_first_order(protein_data_dir, protein_params_first_order):
         assert get_seq_info(basefile, None, None)[:-4] == [18, 6, 6]
 
         basename = os.path.basename(protein_params_first_order.seqs_filename)
+
         basename_pheno = os.path.basename(protein_params_first_order.pheno_filename)
         expected_path = os.path.join(protein_data_dir, basename + ".npz")
         obtained_path = os.path.join(location, basename + ".npz")

@@ -29,7 +29,7 @@ def create_dir_preventing_overwriting(out_dir):
         print("Path already exists, will now be {}".format(out_dir))
         os.mkdir(out_dir)
     # Create the directory if it doesn't exist at all
-    elif not os.path.exists(out_dir):
+    if not os.path.exists(out_dir):
         os.mkdir(out_dir)
     print(out_dir)
     return out_dir

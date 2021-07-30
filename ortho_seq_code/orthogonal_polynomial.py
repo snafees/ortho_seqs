@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from numpy.linalg import *
 import time
 import os
@@ -34,6 +35,7 @@ def orthogonal_polynomial(
     out_dir,
     alphbt_input,
 ):
+
     """Program to compute orthogonal polynomials up to 2nd order"""
     start_time = time.time()
     out_dir = create_dir_if_not_exists(out_dir)
@@ -45,12 +47,15 @@ def orthogonal_polynomial(
     )
     if custom_aa is not None:
         custom_dict = {alphabets[i]: custom_aa[i] for i in range(len(custom_aa))}
-
+    range_dm = range(dm)
+    range_sites = range(sites)
+    range_popsize = range(pop_size)
     # file containing trait values that will be mapped to sequence
     # vectors that must be the same size as F
     with open(pheno_file) as f2:
         phenotype = f2.readlines()
     naming_phenotype = os.path.basename(f2.name)
+
     F = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fest = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fon1 = np.genfromtxt(phenotype)  # this needs to stay this way!
@@ -79,10 +84,6 @@ def orthogonal_polynomial(
     Fon2i1 = [0] * pop_size
     Fon12 = [0] * pop_size
     np.set_printoptions(precision=10)
-    range_sites = range(sites)
-    range_popsize = range(pop_size)
-    range_dm = range(dm)
-
     phi = np.zeros((sites, pop_size, dm))
     mean = np.zeros((sites, dm))
     var = np.zeros((sites, dm))
@@ -101,7 +102,6 @@ def orthogonal_polynomial(
             for j in range_sites:
                 if seq[i][j] == alphabets[alphabet_index]:
                     phi[j][i][alphabet_index] = 1.0
-
     naming = os.path.basename(f.name)
     if precomputed:
         precomputed_array = np.load(os.path.join(out_dir, naming + ".npz"))

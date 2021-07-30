@@ -16,7 +16,6 @@ def get_seq_info(seqf, alphbt_input, molecule):
         if i == "\n":
             pop_size -= 1
             seq.remove(i)
-
     # Autopadding lowercase n's
     if len(min(seq, key=len)) != len(max(seq, key=len)):
         incomplete_seq_series = seq_series[seq_series.str.len() < sites]

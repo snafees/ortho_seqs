@@ -119,5 +119,3 @@ def get_seq_info(seqf, alphbt_input, molecule):
         alphabets.remove("\n")
     dm = len(alphabets)
     return [dm, sites, pop_size, seq, seq_series, alphabets, custom_aa]
-=======
-    return [dm, sites, pop_size, seq, seq_series]

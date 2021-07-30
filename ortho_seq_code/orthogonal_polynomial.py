@@ -21,7 +21,7 @@ def create_dir_if_not_exists(out_dir):
             out_dir += "(" + str(ct) + ")"
             ct += 1
         print("Path already exists, will now be {}".format(out_dir))
-        os.mkdir(out_dir)
+    os.mkdir(out_dir)
     print(out_dir)
     return out_dir
 

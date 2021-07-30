@@ -32,6 +32,11 @@ def test_create_dir_preventing_overwriting():
             f.write("I am written out for testing")
         obtained_location = create_dir_preventing_overwriting(original_location_w_sep)
         assert obtained_location == original_location + "(0)"
+    # If given a directory ending with a sepator it should be removed in the obtained location
+    with utils.TempDirectory() as original_location:
+        original_location_w_sep = original_location + os.sep
+        obtained_location = create_dir_preventing_overwriting(original_location_w_sep)
+        assert obtained_location == original_location
 
 
 def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):

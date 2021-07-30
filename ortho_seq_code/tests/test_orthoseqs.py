@@ -100,7 +100,7 @@ def test_cli_precomputed(
 
 def assert_equality(expected_path, actual_path):
     assert os.path.exists(expected_path)
-    #assert os.path.exists(actual_path)
+    assert os.path.exists(actual_path)
     obtained_arrays = np.load(actual_path)
     expected_arrays = np.load(expected_path)
     for key, obtained_array in obtained_arrays.items():

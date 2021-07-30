@@ -239,7 +239,9 @@ def orthogonal_polynomial(
                 "Percentile",
             ]
         ]
-        cov_csv_path = os.path.join(out_dir, "cov_data_frame_" + naming_phenotype + ".csv")
+        cov_csv_path = os.path.join(
+            out_dir, "cov_data_frame_" + naming_phenotype + ".csv"
+        )
         cov_df.to_csv(cov_csv_path)
         print("Saved covariance data frame at {}".format(cov_csv_path))
         arrays_save[naming + "_cov"] = cov
@@ -1019,7 +1021,9 @@ def orthogonal_polynomial(
         else:
             plt.ylabel("Regressions of nucleotides onto each site (rFon1D)")
         figure = ax.get_figure()
-        regression_graph_path = os.path.join(out_dir, "rFon1D_graph_" + naming_phenotype + ".png")
+        regression_graph_path = os.path.join(
+            out_dir, "rFon1D_graph_" + naming_phenotype + ".png"
+        )
         figure.savefig(regression_graph_path, dpi=400)
         print("saved regression graph at {}".format(regression_graph_path))
     else:

@@ -211,6 +211,6 @@ def protein_first_order_customaa(protein_data_dir):
         "protein_n",
         "first",
         False,
-        "False",
+        "",
         custom_alphbt,
     )

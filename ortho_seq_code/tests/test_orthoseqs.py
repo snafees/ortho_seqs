@@ -100,7 +100,7 @@ def test_cli_precomputed(
 
 def assert_equality(expected_path, actual_path):
     assert os.path.exists(expected_path)
-    assert os.path.exists(actual_path)
+    #assert os.path.exists(actual_path)
     obtained_arrays = np.load(actual_path)
     expected_arrays = np.load(expected_path)
     for key, obtained_array in obtained_arrays.items():
@@ -122,11 +122,7 @@ def test_nucleotide_first_order(
         basename = os.path.basename(nucleotide_params_first_order.seqs_filename)
         basename_pheno = os.path.basename(nucleotide_params_first_order.pheno_filename)
         expected_path = os.path.join(nucleotide_first_order_data_dir, basename + ".npz")
-        obtained_path = os.path.join(
-            location, basename.replace("\n", "").replace("(0)", "") + ".npz"
-        )
-        print("Obtained Path:")
-        print(obtained_path)
+        obtained_path = os.path.join(location, basename.replace("(0)", "") + ".npz")
         assert_equality(expected_path, obtained_path)
         expected_path = os.path.join(
             nucleotide_first_order_data_dir, basename_pheno + "_regressions.npz"

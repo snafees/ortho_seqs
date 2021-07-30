@@ -118,7 +118,7 @@ def test_nucleotide_first_order(
         nucleotide_params_first_order = nucleotide_params_first_order._replace(
             out_dir=location
         )
-        location += "(0)" # Test file paths already exists, but location isn't updated with out_dir, this will update it
+        location += "(0)"  # Test file paths already exists, but location isn't updated with out_dir, this will update it
         orthogonal_polynomial(*nucleotide_params_first_order)
         basename = os.path.basename(nucleotide_params_first_order.seqs_filename)
         basename_pheno = os.path.basename(nucleotide_params_first_order.pheno_filename)

@@ -1,14 +1,37 @@
 import numpy as np
-import pandas as pd
 import os
-from matplotlib import pyplot as plt
 
 from click.testing import CliRunner
 
-from ortho_seq_code.orthogonal_polynomial import orthogonal_polynomial
+from ortho_seq_code.orthogonal_polynomial import (
+    orthogonal_polynomial,
+    create_dir_preventing_overwriting,
+)
 from ortho_seq_code.cli import cli
 from ortho_seq_code.tests import orthoseqs_tst_utils as utils
 from ortho_seq_code.utils import get_seq_info
+
+
+def test_create_dir_preventing_overwriting():
+    # Checking if directory exists but is empty then the location should not change
+    with utils.TempDirectory() as original_location:
+        obtained_location = create_dir_preventing_overwriting(original_location)
+        assert obtained_location == original_location
+    # Checking if directory exists but is not empty then the location should change with a 0 sub directory inside
+    with utils.TempDirectory() as original_location:
+        # creating a temportary file inside this location to make it seem like there is data
+        with open(os.path.join(original_location, "fakefile.txt"), "w") as f:
+            f.write("I am written out for testing")
+        obtained_location = create_dir_preventing_overwriting(original_location)
+        assert obtained_location == original_location + "(0)"
+    # Checking even if path ends with a separator the (0) is not created as a subfolder
+    with utils.TempDirectory() as original_location:
+        # creating a temportary file inside this location to make it seem like there is data
+        original_location_w_sep = original_location + os.sep
+        with open(os.path.join(original_location, "fakefile.txt"), "w") as f:
+            f.write("I am written out for testing")
+        obtained_location = create_dir_preventing_overwriting(original_location_w_sep)
+        assert obtained_location == original_location + "(0)"
 
 
 def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):

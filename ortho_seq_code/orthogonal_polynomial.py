@@ -15,10 +15,12 @@ from ortho_seq_code.utils import get_seq_info
 
 def create_dir_preventing_overwriting(out_dir):
     # Check if a path exists and has something inside it,
-    # then create a new directory with the same name but 0 or 1 or
+    # then create a new directory with the same name but including the paranthesis (0) or (1) or
     # so on attached to it depending on how many times it has been run with the same name
     # Might create an infinite loop or a long loop if someone has not been giving the out_dir at all
     # and expecting the program to create the directory
+    if out_dir.endswith(os.sep):
+        out_dir = out_dir[:-1]
     if os.path.exists(out_dir):
         contents = len(os.listdir(out_dir))
         if contents != 0:

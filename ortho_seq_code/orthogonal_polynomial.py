@@ -13,7 +13,8 @@ from matplotlib import pyplot as plt
 
 
 def create_dir_preventing_overwriting(out_dir):
-    if os.path.exists(out_dir):
+    contents = len(os.listdir(out_dir))
+    if os.path.exists(out_dir) and contents != 0:
         ct = 0
         while os.path.exists(out_dir):
             if ct != 0:
@@ -21,7 +22,7 @@ def create_dir_preventing_overwriting(out_dir):
             out_dir += "(" + str(ct) + ")"
             ct += 1
         print("Path already exists, will now be {}".format(out_dir))
-    os.mkdir(out_dir)
+        os.mkdir(out_dir)
     print(out_dir)
     return out_dir
 
@@ -38,7 +39,7 @@ def orthogonal_polynomial(
 
     """Program to compute orthogonal polynomials up to 2nd order"""
     start_time = time.time()
-    create_dir_preventing_overwriting(out_dir)
+    out_dir = create_dir_preventing_overwriting(out_dir)
     global i
     with open(filename) as f:
         seq = f.readlines()

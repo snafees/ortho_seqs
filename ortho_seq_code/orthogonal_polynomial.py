@@ -21,7 +21,7 @@ def create_dir_if_not_exists(out_dir):
             out_dir += "(" + str(ct) + ")"
             ct += 1
         print("Path already exists, will now be {}".format(out_dir))
-    os.makedirs(out_dir, exist_ok=True)
+        os.mkdir(out_dir)
     print(out_dir)
     return out_dir
 
@@ -37,8 +37,12 @@ def orthogonal_polynomial(
 ):
 
     """Program to compute orthogonal polynomials up to 2nd order"""
+    print("OUT_DIR INITIALLY")
+    print(out_dir)
     start_time = time.time()
-    out_dir = create_dir_if_not_exists(out_dir)
+    create_dir_if_not_exists(out_dir)
+    print("OUT_DIR after going through create dir if not exists")
+    print(out_dir)
     global i
     with open(filename) as f:
         seq = f.readlines()
@@ -191,13 +195,9 @@ def orthogonal_polynomial(
         plt.ylabel("Frequency")
         plt.title("Histogram of Non-Zero Covariances")
         cov_fig = cov_sub.get_figure()
-        cov_fig.savefig(
-            str(out_dir) + "/cov_hist_" + str(naming_phenotype) + ".png", dpi=400
-        )
-        print(
-            "saved covariance histogram as",
-            str(out_dir) + "/cov_hist_" + str(naming_phenotype) + ".png",
-        )
+        figure_path = os.path.join(out_dir, "cov_hist_" + naming_phenotype + ".png")
+        cov_fig.savefig(figure_path, dpi=400)
+        print("saved covariance histogram as", figure_path)
         # Converts lists to determine location and identity of nucleotides/amino acids
         cov_list = []
         for i in range(cov.shape[0]):
@@ -243,16 +243,9 @@ def orthogonal_polynomial(
                 "Percentile",
             ]
         ]
-        cov_df.to_csv(
-            str(out_dir) + "/cov_data_frame_" + str(naming_phenotype) + ".csv"
-        )
-        print(
-            "Saved covariance data frame as "
-            + str(out_dir)
-            + "/cov_data_frame_"
-            + str(naming_phenotype)
-            + ".csv"
-        )
+        cov_csv_path = os.path.join(out_dir, "cov_data_frame_" + naming_phenotype + ".csv")
+        cov_df.to_csv(cov_csv_path)
+        print("Saved covariance data frame at {}".format(cov_csv_path))
         arrays_save[naming + "_cov"] = cov
 
         Pa = np.zeros((sites, pop_size, dm))
@@ -1030,13 +1023,9 @@ def orthogonal_polynomial(
         else:
             plt.ylabel("Regressions of nucleotides onto each site (rFon1D)")
         figure = ax.get_figure()
-        figure.savefig(
-            str(out_dir) + "/rFon1D_graph_" + str(naming_phenotype) + ".png", dpi=400
-        )
-        print(
-            "saved regression graph as",
-            str(out_dir) + "/rFon1D_graph_" + str(naming_phenotype) + ".png",
-        )
+        regression_graph_path = os.path.join(out_dir, "rFon1D_graph_" + naming_phenotype + ".png")
+        figure.savefig(regression_graph_path, dpi=400)
+        print("saved regression graph at {}".format(regression_graph_path))
     else:
         print("Nothing to graph for rFon1D.")
 

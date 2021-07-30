@@ -118,7 +118,6 @@ def test_nucleotide_first_order(
         nucleotide_params_first_order = nucleotide_params_first_order._replace(
             out_dir=location
         )
-        location += "(0)"  # Test file paths already exists, but location isn't updated with out_dir, this will update it
         orthogonal_polynomial(*nucleotide_params_first_order)
         basename = os.path.basename(nucleotide_params_first_order.seqs_filename)
         basename_pheno = os.path.basename(nucleotide_params_first_order.pheno_filename)
@@ -148,7 +147,6 @@ def test_nucleotide_second_order(
         nucleotide_params_second_order = nucleotide_params_second_order._replace(
             out_dir=location
         )
-        location += "(0)"
         orthogonal_polynomial(*nucleotide_params_second_order)
 
         basename = os.path.basename(nucleotide_params_second_order.seqs_filename)
@@ -181,7 +179,6 @@ def test_protein_first_order(protein_data_dir, protein_params_first_order):
         protein_params_first_order = protein_params_first_order._replace(
             out_dir=location
         )
-        location += "(0)"
         orthogonal_polynomial(*protein_params_first_order)
 
         basefile = os.path.abspath(protein_params_first_order.seqs_filename)
@@ -218,7 +215,6 @@ def test_protein_padded_first_order(
         protein_params_first_order_padded = protein_params_first_order_padded._replace(
             out_dir=location
         )
-        location += "(0)"
         orthogonal_polynomial(*protein_params_first_order_padded)
 
         basefile = os.path.abspath(protein_params_first_order_padded.seqs_filename)
@@ -252,7 +248,6 @@ def test_protein_paddded_custom_aa(protein_data_dir, protein_params_custom_aa):
 
     with utils.TempDirectory() as location:
         protein_params_custom_aa = protein_params_custom_aa._replace(out_dir=location)
-        location += "(0)"
         orthogonal_polynomial(*protein_params_custom_aa)
 
         basefile = os.path.abspath(protein_params_custom_aa.seqs_filename)
@@ -294,7 +289,6 @@ def test_protein_padded_custom_aa_2(protein_data_dir, protein_params_custom_aa_2
         protein_params_custom_aa_2 = protein_params_custom_aa_2._replace(
             out_dir=location
         )
-        location += "(0)"
         orthogonal_polynomial(*protein_params_custom_aa_2)
 
         basefile = os.path.abspath(protein_params_custom_aa_2.seqs_filename)

@@ -136,6 +136,8 @@ def test_nucleotide_first_order(
         expected_path = np.load(
             os.path.join(nucleotide_first_order_data_dir, basename_pheno + "_Fm.npy")
         )
+        print("Location:")
+        print(location)
         obtained_path = np.load(os.path.join(location.replace("(0)", ""), basename_pheno + "_Fm.npy"))
         np.testing.assert_array_equal(expected_path, obtained_path)
 

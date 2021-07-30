@@ -118,8 +118,6 @@ def test_nucleotide_first_order(
         nucleotide_params_first_order = nucleotide_params_first_order._replace(
             out_dir=location
         )
-        print("Location:")
-        print(location)
         orthogonal_polynomial(*nucleotide_params_first_order)
         basename = os.path.basename(nucleotide_params_first_order.seqs_filename)
         basename_pheno = os.path.basename(nucleotide_params_first_order.pheno_filename)
@@ -138,7 +136,7 @@ def test_nucleotide_first_order(
         expected_path = np.load(
             os.path.join(nucleotide_first_order_data_dir, basename_pheno + "_Fm.npy")
         )
-        obtained_path = np.load(os.path.join(location, basename_pheno + "_Fm.npy"))
+        obtained_path = np.load(os.path.join(location.replace("(0)", ""), basename_pheno + "_Fm.npy"))
         np.testing.assert_array_equal(expected_path, obtained_path)
 
 

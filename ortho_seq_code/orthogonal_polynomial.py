@@ -14,6 +14,11 @@ from matplotlib import pyplot as plt
 
 def create_dir_preventing_overwriting(out_dir):
     contents = len(os.listdir(out_dir))
+    # Check if a path exists and has something inside it,
+    # then create a new directory with the same name but 0 or 1 or 
+    # so on attached to it depending on how many times it has been run with the same name
+    # Might create an infinite loop or a long loop if someone has not been giving the out_dir at all
+    # and expecting the program to create the directory
     if os.path.exists(out_dir) and contents != 0:
         ct = 0
         while os.path.exists(out_dir):
@@ -22,6 +27,9 @@ def create_dir_preventing_overwriting(out_dir):
             out_dir += "(" + str(ct) + ")"
             ct += 1
         print("Path already exists, will now be {}".format(out_dir))
+        os.mkdir(out_dir)
+    # Create the directory if it doesn't exist at all
+    elif not os.path.exists(out_dir):
         os.mkdir(out_dir)
     print(out_dir)
     return out_dir

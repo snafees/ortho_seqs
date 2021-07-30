@@ -191,12 +191,10 @@ def orthogonal_polynomial(
         plt.ylabel("Frequency")
         plt.title("Histogram of Non-Zero Covariances")
         cov_fig = cov_sub.get_figure()
-        cov_fig.savefig(
-            str(out_dir) + "/cov_hist_" + str(naming_phenotype) + ".png", dpi=400
-        )
+        path_sav = "cov_hist_" + str(naming_phenotype) + ".png"
+        cov_fig.savefig(os.path.join(str(out_dir), path_sav), dpi=400)
         print(
-            "saved covariance histogram as",
-            str(out_dir) + "/cov_hist_" + str(naming_phenotype) + ".png",
+            "saved covariance histogram as", str(os.path.join(str(out_dir), path_sav))
         )
         # Converts lists to determine location and identity of nucleotides/amino acids
         cov_list = []
@@ -243,15 +241,10 @@ def orthogonal_polynomial(
                 "Percentile",
             ]
         ]
-        cov_df.to_csv(
-            str(out_dir) + "/cov_data_frame_" + str(naming_phenotype) + ".csv"
-        )
+        path_sav = "cov_data_frame_" + str(naming_phenotype) + ".csv"
+        cov_df.to_csv(os.path.join(str(out_dir), path_sav))
         print(
-            "Saved covariance data frame as "
-            + str(out_dir)
-            + "/cov_data_frame_"
-            + str(naming_phenotype)
-            + ".csv"
+            "Saved covariance data frame as", str(os.path.join(str(out_dir), path_sav))
         )
         arrays_save[naming + "_cov"] = cov
 
@@ -1030,13 +1023,9 @@ def orthogonal_polynomial(
         else:
             plt.ylabel("Regressions of nucleotides onto each site (rFon1D)")
         figure = ax.get_figure()
-        figure.savefig(
-            str(out_dir) + "/rFon1D_graph_" + str(naming_phenotype) + ".png", dpi=400
-        )
-        print(
-            "saved regression graph as",
-            str(out_dir) + "/rFon1D_graph_" + str(naming_phenotype) + ".png",
-        )
+        path_sav = "rFon1D_graph_" + str(naming_phenotype) + ".png"
+        figure.savefig(os.path.join(str(out_dir), path_sav), dpi=400)
+        print("saved regression graph as", str(os.path.join(str(out_dir), path_sav)))
     else:
         print("Nothing to graph for rFon1D.")
 

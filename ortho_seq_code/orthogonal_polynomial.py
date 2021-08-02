@@ -27,15 +27,14 @@ def create_dir_preventing_overwriting(out_dir):
             ct = 0
             while os.path.exists(out_dir):
                 if ct != 0:
-                    out_dir = out_dir[:-3]
+                    ct_range = out_dir.rfind("(") - len(out_dir)
+                    out_dir = out_dir[:ct_range]
+                    # Removes existing number and parentheses
                 out_dir += "(" + str(ct) + ")"
                 ct += 1
             print("Path already exists, will now be {}".format(out_dir))
-            os.mkdir(out_dir)
     # Create the directory if it doesn't exist at all
-    else:
-        print("Path doesn't exist, creating {}".format(out_dir))
-        os.mkdir(out_dir)
+    os.mkdir(out_dir)
     return out_dir
 
 

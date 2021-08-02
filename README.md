@@ -70,7 +70,6 @@ Directory where results can be stored.
 --precomputed
 ```
 Let's say you have a case where you have the same set of sequences but two different corresponding sets of phenotypes. You can build your sequence space and then project the first set of phenotypes onto this space. Then, if you wish to see how the other set of phenotypes maps onto the same sequence space, you can use this flag so that you're not wasting time and memory to recompute the space. When doing this, be sure to add your results from the first run to the **out_dir** when rerunning the command with the **precomputed** flag.
-
 ```
 --alphbt_input
 ```
@@ -85,6 +84,10 @@ There are also built-in groups:
 **acidic** groups by acidic, basic, and neutral amino acids, every other amino acid, and *n*.
 
 **hydrophobic** groups by hydrophobic and non-hydrophobic amino acids, every other amino acid, and *n*.
+```
+--min_pct
+```
+When **ortho_seqs** is run, a .csv file of covariances will be saved in the specified path. The *min_pct* flag is short for minimum percentile, which will remove any data from the .csv file that is below the percentile. The default value is 72.
 
 # Results & Outputs
 

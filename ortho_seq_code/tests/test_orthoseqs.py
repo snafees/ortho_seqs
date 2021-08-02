@@ -44,6 +44,7 @@ def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):
     poly_order = "first"
     out_dir = "/tmp"
     alphbt_input = None
+    min_pct = 72
 
     runner = CliRunner()
 
@@ -61,6 +62,8 @@ def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):
             out_dir,
             "--alphbt_input",
             alphbt_input,
+            "--min_pct",
+            min_pct,
         ],
     )
 
@@ -72,6 +75,7 @@ def test_cli(protein_seqs_padding, protein_pheno_padding):
     poly_order = "first"
     out_dir = "/tmp"
     alphbt_input = None
+    min_pct = 72
 
     runner = CliRunner()
 
@@ -89,6 +93,8 @@ def test_cli(protein_seqs_padding, protein_pheno_padding):
             out_dir,
             "--alphbt_input",
             alphbt_input,
+            "--min_pct",
+            min_pct,
         ],
     )
 
@@ -102,6 +108,7 @@ def test_cli_precomputed(
     poly_order = "first"
     out_dir = protein_data_dir
     alphbt_input = None
+    min_pct = 72
 
     runner = CliRunner()
 
@@ -120,6 +127,8 @@ def test_cli_precomputed(
             "--precomputed",
             alphbt_input,
             "--alphbt_input",
+            min_pct,
+            "--min_pct",
         ],
     )
 

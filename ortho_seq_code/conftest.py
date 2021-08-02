@@ -14,6 +14,7 @@ Params = namedtuple(
         "precomputed",
         "out_dir",
         "alphbt_input",
+        "min_pct",
     ],
 )
 
@@ -90,6 +91,7 @@ def nucleotide_params_first_order(nucleotide_first_order_data_dir):
         False,
         "",
         None,
+        72,
     )
 
 
@@ -110,6 +112,7 @@ def nucleotide_params_second_order(nucleotide_second_order_data_dir):
         False,
         "",
         None,
+        72,
     )
 
 
@@ -126,6 +129,7 @@ def protein_params_first_order(protein_data_dir):
         False,
         "",
         None,
+        72,
     )
 
 
@@ -142,6 +146,7 @@ def protein_params_first_order_padded(protein_data_dir):
         False,
         "",
         None,
+        72,
     )
 
 
@@ -160,6 +165,7 @@ def protein_params_custom_aa(protein_data_dir):
         False,
         "",
         "YSAR",
+        72,
     )
 
 
@@ -180,6 +186,7 @@ def protein_params_custom_aa_2(protein_data_dir):
         False,
         "",
         "AR,SY",
+        72,
     )
 
 
@@ -196,6 +203,7 @@ def protein_first_order_autopad(protein_data_dir):
         False,
         "",
         None,
+        72,
     )
 
 
@@ -213,4 +221,5 @@ def protein_first_order_customaa(protein_data_dir):
         False,
         "",
         custom_alphbt,
+        72,
     )

@@ -48,6 +48,7 @@ def orthogonal_polynomial(
     precomputed,
     out_dir,
     alphbt_input,
+    min_pct,
 ):
 
     """Program to compute orthogonal polynomials up to 2nd order"""
@@ -241,10 +242,11 @@ def orthogonal_polynomial(
         for i in cov_per:
             cov_per_d[i] = 100 * cov_per.index(i) / len(cov_per) // 1
         cov_df["Percentile"] = cov_df["Magnitude"].map(cov_per_d)
-        cov_df = cov_df[cov_df["Percentile"] >= 72]
+        cov_df = cov_df[cov_df["Percentile"] >= min_pct]
         cov_df = cov_df[
             [
                 "ID",
+                "Magnitude",
                 "Covariance",
                 "Site 1",
                 "Group 1",
@@ -1069,6 +1071,12 @@ def orthogonal_polynomial(
     help="enter amino acids/nucleotides you want to focus on, comma-separate to group amino acids",
     type=str,
 )
+@click.option(
+    "--min_pct",
+    default=72,
+    help="minimum percentile that you want saved in the covariance csv",
+    type=int,
+)
 # @click.argument('pheno_file', type=click.File('rb'))
 def cli(
     filename,
@@ -1078,6 +1086,7 @@ def cli(
     precomputed,
     out_dir,
     alphbt_input,
+    min_pct,
 ):
     orthogonal_polynomial(
         filename,
@@ -1087,4 +1096,5 @@ def cli(
         precomputed,
         out_dir,
         alphbt_input,
+        min_pct,
     )

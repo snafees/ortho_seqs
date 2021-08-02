@@ -233,6 +233,7 @@ def orthogonal_polynomial(
         cov_df = cov_df[
             [
                 "ID",
+                "Magnitude"
                 "Covariance",
                 "Site 1",
                 "Group 1",

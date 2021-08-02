@@ -33,8 +33,10 @@ def create_dir_preventing_overwriting(out_dir):
                 out_dir += "(" + str(ct) + ")"
                 ct += 1
             print("Path already exists, will now be {}".format(out_dir))
+            os.mkdir(out_dir)
     # Create the directory if it doesn't exist at all
-    os.mkdir(out_dir)
+    else:
+        os.mkdir(out_dir)
     return out_dir
 
 

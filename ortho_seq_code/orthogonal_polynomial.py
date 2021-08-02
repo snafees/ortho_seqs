@@ -1072,7 +1072,7 @@ def cli(
     precomputed,
     out_dir,
     alphbt_input,
-    min_pct
+    min_pct,
 ):
     orthogonal_polynomial(
         filename,
@@ -1082,5 +1082,5 @@ def cli(
         precomputed,
         out_dir,
         alphbt_input,
-        min_pct
+        min_pct,
     )

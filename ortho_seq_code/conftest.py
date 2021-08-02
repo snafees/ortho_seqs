@@ -14,7 +14,7 @@ Params = namedtuple(
         "precomputed",
         "out_dir",
         "alphbt_input",
-        "min_pct"
+        "min_pct",
     ],
 )
 

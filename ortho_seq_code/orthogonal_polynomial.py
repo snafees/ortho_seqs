@@ -1024,13 +1024,18 @@ def orthogonal_polynomial(
         else:
             plt.xlabel(
                 "Sequence Site\nGroupings according to --alphbt_input:\n"
-                + str(custom_dict).replace("'", "").replace(", ", " | ")
+                + str(custom_dict).replace("'", "").replace(", ", " | ").replace(": ", " is ")
+                , prop={"size": 16}
             )
         # plt.title("")
         if "protein" in molecule:
-            plt.ylabel("Regressions of", str(pheno_filename), "onto each site and amino acid")
+            plt.ylabel(
+                "Regressions of", str(pheno_filename), "onto each site and amino acid"
+            )
         else:
-            plt.ylabel("Regressions of", str(pheno_filename), "onto each site and nucleotide")
+            plt.ylabel(
+                "Regressions of", str(pheno_filename), "onto each site and nucleotide"
+            )
         figure = ax.get_figure()
         path_sav = "rFon1D_graph_" + str(naming_phenotype) + ".png"
         figure.savefig(os.path.join(str(out_dir), path_sav), dpi=400)

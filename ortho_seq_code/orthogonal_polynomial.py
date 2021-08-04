@@ -1024,8 +1024,11 @@ def orthogonal_polynomial(
         else:
             plt.xlabel(
                 "Sequence Site\nGroupings according to --alphbt_input:\n"
-                + str(custom_dict).replace("'", "").replace(", ", " | ").replace(": ", " is ")
-                , prop={"size": 16}
+                + str(custom_dict)
+                .replace("'", "")
+                .replace(", ", " | ")
+                .replace(": ", " is "),
+                prop={"size": 16},
             )
         # plt.title("")
         if "protein" in molecule:

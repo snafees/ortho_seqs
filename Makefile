@@ -9,7 +9,7 @@ run-cli:
 		--poly_order first \
 		--out_dir results/ \
 		--alphbt_input None \
-		--min_pct 72
+		--min_pct 75
 
 
 unit-tests:

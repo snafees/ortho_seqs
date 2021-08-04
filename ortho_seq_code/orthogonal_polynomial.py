@@ -206,20 +206,28 @@ def orthogonal_polynomial(
                             cov_list.append((i, j, k, l, cov[i][j][k][l]))
         cov_df = pd.DataFrame(
             cov_list,
-            columns=["Site 1", "Site 2", "Group 1", "Group 2", "Covariance"],
+            columns=[
+                "First Site",
+                "2nd Site",
+                "First Group",
+                "Second Group",
+                "Covariance",
+            ],
         )
+        cov_df["First Site"] = pd.Series(cov_df["First Site"]) + 1
+        cov_df["Second Site"] = pd.Series(cov_df["Second Site"]) + 1
         cov_df = cov_df.apply(pd.Series)
         cov_df = cov_df.astype(str)
         cov_df["Covariance"] = cov_df["Covariance"].astype(float)
         cov_df["ID"] = (
             "s"
-            + cov_df["Site 1"]
+            + cov_df["First Site"]
             + "-g"
-            + cov_df["Group 1"]
+            + cov_df["First Group"]
             + ",s"
-            + cov_df["Site 2"]
+            + cov_df["Second Site"]
             + "-g"
-            + cov_df["Group 2"]
+            + cov_df["Second Group"]
         )
         cov_df["Magnitude"] = abs(cov_df["Covariance"])
         cov_df = cov_df.sort_values(by="Magnitude", ascending=False)
@@ -235,10 +243,10 @@ def orthogonal_polynomial(
                 "ID",
                 "Magnitude",
                 "Covariance",
-                "Site 1",
-                "Group 1",
-                "Site 2",
-                "Group 2",
+                "First Site",
+                "First Group",
+                "Second Site",
+                "Second Group",
                 "Percentile",
             ]
         ]
@@ -1058,7 +1066,7 @@ def orthogonal_polynomial(
 )
 @click.option(
     "--min_pct",
-    default=72,
+    default=75,
     help="minimum percentile that you want saved in the covariance csv",
     type=int,
 )

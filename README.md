@@ -87,7 +87,7 @@ There are also built-in groups:
 ```
 --min_pct
 ```
-When **ortho_seqs** is run, a .csv file of covariances will be saved in the specified path. The *min_pct* flag is short for minimum percentile, which will remove any data from the .csv file that is below the percentile. The default value is 72.
+When **ortho_seqs** is run, a .csv file of covariances will be saved in the specified path. The *min_pct* flag is short for minimum percentile, which will remove any data from the .csv file that is below the percentile. The default value is 75.
 
 # Results & Outputs
 

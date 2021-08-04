@@ -208,7 +208,7 @@ def orthogonal_polynomial(
             cov_list,
             columns=[
                 "First Site",
-                "2nd Site",
+                "Second Site",
                 "First Group",
                 "Second Group",
                 "Covariance",

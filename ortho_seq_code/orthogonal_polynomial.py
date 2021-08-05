@@ -1028,7 +1028,7 @@ def orthogonal_polynomial(
                 .replace("'", "")
                 .replace(", ", " | ")
                 .replace(": ", " is "),
-                prop={"size": 16},
+                fontsize=16,
             )
         # plt.title("")
         if "protein" in molecule:

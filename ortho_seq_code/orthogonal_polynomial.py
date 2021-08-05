@@ -251,7 +251,7 @@ def orthogonal_polynomial(
             ]
         ]
         path_sav = "cov_data_frame_" + str(naming_phenotype) + ".csv"
-        cov_df.to_csv(os.path.join(str(out_dir), path_sav))
+        cov_df.to_csv(os.path.join(str(out_dir), path_sav), index=None)
         print(
             "Saved covariance data frame as", str(os.path.join(str(out_dir), path_sav))
         )

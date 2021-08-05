@@ -1033,11 +1033,11 @@ def orthogonal_polynomial(
         # plt.title("")
         if "protein" in molecule:
             plt.ylabel(
-                "Regressions of", str(pheno_file), "onto each site and amino acid"
+                "Regressions of", str(naming_phenotype), "onto each site and amino acid"
             )
         else:
             plt.ylabel(
-                "Regressions of", str(pheno_file), "onto each site and nucleotide"
+                "Regressions of", str(naming_phenotype), "onto each site and nucleotide"
             )
         figure = ax.get_figure()
         path_sav = "rFon1D_graph_" + str(naming_phenotype) + ".png"

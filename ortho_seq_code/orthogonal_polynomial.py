@@ -1032,11 +1032,11 @@ def orthogonal_polynomial(
             )
         # plt.title("")
         if "protein" in molecule:
-            plt.ylabel(
+            plt.set_ylabel(
                 "Regressions of", str(naming_phenotype), "onto each site and amino acid"
             )
         else:
-            plt.ylabel(
+            plt.set_ylabel(
                 "Regressions of", str(naming_phenotype), "onto each site and nucleotide"
             )
         figure = ax.get_figure()

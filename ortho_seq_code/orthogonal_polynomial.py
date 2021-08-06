@@ -17,8 +17,9 @@ def create_dir_if_not_exists(out_dir):
         ct = 0
         while os.path.exists(out_dir):
             if ct != 0:
-                out_dir = out_dir[:-3]
-            out_dir += "(" + str(ct) + ")"
+                loc = out_dir.rfind("_") - len(out_dir)
+                out_dir = out_dir[:loc]
+            out_dir += "_" + str(ct)
             ct += 1
         print("Path already exists, will now be {}".format(out_dir))
     os.makedirs(out_dir, exist_ok=True)

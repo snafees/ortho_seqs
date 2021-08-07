@@ -38,6 +38,8 @@ def get_seq_info(seqf, alphbt_input, molecule):
             alphbt_input = "DE,RHK,"
         elif alphbt == "HYDROPHOBIC":
             alphbt_input = "AVLIPFC,"
+        elif alphbt == "FREQUENCY":
+            alphbt_input = "Y,G,D,V,S,A,F,R,L,PTWNEM,"
         if "," in alphbt_input:
             alphbt = alphbt_input.upper()
             # Adding on remaining letters as the last group

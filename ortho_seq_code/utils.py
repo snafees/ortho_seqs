@@ -38,7 +38,7 @@ def get_seq_info(seqf, alphbt_input, molecule):
             alphbt_input = "Y,G,D,V,S,A,F,R,L,PTWNEM"
         elif alphbt == "FREQUENCY_9AA":
             alphbt_input = "YF,G,DE,VLI,ST,A,RK,PWMN"
-        elif alphbt == "ALBERT":
+        elif alphbt == "ALBERTS":
             alphbt_input = "KRH,DE,AVLIPFMWGC"
         elif alphbt == "SIGMA":
             alphbt_input = "AILMV,FYV,NQCST,KRH,DE,G"

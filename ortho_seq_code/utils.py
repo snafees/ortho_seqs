@@ -31,11 +31,21 @@ def get_seq_info(seqf, alphbt_input, molecule):
     if alphbt_input is not None:
         alphbt = alphbt_input.upper()
         if alphbt == "PROTEIN_PNP":
-            alphbt_input = "RNDEQHKSTY,"
+            alphbt_input = "RNDEQHKSTY"
         elif alphbt == "ESSENTIAL":
-            alphbt_input = "ILVFWHKTM,"
+            alphbt_input = "ILVFWHKTM"
         elif alphbt == "FREQUENCY_11AA":
-            alphbt_input = "Y,G,D,V,S,A,F,R,L,PTWNEM,"
+            alphbt_input = "Y,G,D,V,S,A,F,R,L,PTWNEM"
+        elif alphbt == "FREQUENCY_9AA":
+            alphbt_input = "YF,G,DE,VLI,ST,A,RK,PWMN"
+        elif alphbt == "ALBERT":
+            alphbt_input = "KRH,DE,AVLIPFMWGC"
+        elif alphbt == "SIGMA":
+            alphbt_input = "AILMV,FYV,NQCST,KRH,DE,G"
+        elif alphbt == "HBOND":
+            alphbt_input = "NQSTDERKYHW"
+        elif alphbt == "HYDROPHOBICITY":
+            alphbt_input = "LIFWVM,CYA,TEGSQD"
         if "," in alphbt_input:
             alphbt = alphbt_input.upper()
             # Adding on remaining letters as the last group

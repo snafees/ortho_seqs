@@ -82,13 +82,26 @@ There are also built-in groups:
 **essential** groups by essential and non-essential amino acids, every other amino acid, and *n*.
 (Source: https://www.ncbi.nlm.nih.gov/books/NBK557845/)
 
-**alberts** groups by frequency set by Alberts.
+**alberts** groups by categories set by Alberts.
+Group 1: KRH
+Group 2: DE
+Group 3: AVLIPFMWGC
+Group 4: Everything else
+Group 5: n
 (Source: https://www.ncbi.nlm.nih.gov/books/NBK21054/)
 
-**sigma** groups by frequency set by Sigma.
+**sigma** groups by categories set by Sigma.
+Group 1: AILMV
+Group 2: FYV
+Group 3: NQCST
+Group 4: KRH
+Group 5: DE
+Group 6: G
+Group 7: Everything else
+Group 8: n
 (Source: https://www.sigmaaldrich.com/US/en/technical-documents/technical-article/protein-biology/protein-structural-analysis/amino-acid-reference-chart)
 
-**hbond** groups by frequency by strength of hydrogen bond attractions. The first group is able to make hydrogen bonds, whereas the second group is not.
+**hbond** groups by strength of hydrogen bond attractions. The first group is able to make hydrogen bonds, whereas the second group is not.
 
 **hydrophobicity** groups by hydrophobicity. The first group is very hydrophobic, the second group is slightly hydrophobic, the third group is neutral, and the last group is hydrophilic.
 

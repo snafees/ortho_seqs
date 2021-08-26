@@ -84,12 +84,6 @@ There are also built-in groups:
 
 **acidic** groups by acidic, basic, and neutral amino acids, every other amino acid, and *n*.
 
-**frequency_11aa** groups by frequency by the Alberts standards.
-(Source: https://www.ncbi.nlm.nih.gov/books/NBK21054/)
-
-**frequency_9aa** groups by frequency by the Sigma standards.
-(Source: https://www.sigmaaldrich.com/US/en/technical-documents/technical-article/protein-biology/protein-structural-analysis/amino-acid-reference-chart)
-
 **hbond** groups by frequency by strength of hydrogen bond attractions.
 
 **hydrophobicity** groups by hydrophobicity.

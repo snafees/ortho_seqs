@@ -47,7 +47,7 @@ Input a file with phenotype values corresponding to each sequence in the sequenc
  ```
  --molecule
  ```
- Currently, you can provide DNA or protein sequences. Here, you can also provide sequences of unequal lengths. 
+ Currently, you can provide DNA or protein sequences. Here, you can also provide sequences of unequal lengths.
  ```
  --sites
  ```
@@ -101,6 +101,10 @@ This set of files contains the main results which includes the following:
 2. **rFon2D**: This gives 4 matrices which give the regression of the pheonotype onto (site1)x(site1), (site 1)x(site 2), (site 2)x(site 1) and (site 2)x(site 2), in that order. The second matrix here is the important one and it is the same as rFon12. See description of rFon12.
 3. **rFon12**:  This is the regression of the trait onto *pairs* of sites for given nucleotides at each site. These are regressions on (site 1)x(site 2) independent of first order associations. Since we're looking at 2 sites at a time and there's a possibility of having 4 nucleotides at each site (for the case of DNA), we can visualize this via a 4x4 matrix as shown in Figure 8 in the paper linked above.
 
+# To run the GUI (currently in development)
+A GUI version of the CLI is being actively developed in order to make it easier for users to utilize the tool. The GUI allows the user to upload the sequence and phenotype files via an upload button, specify the molecule, the polynomial order they wish to run, and whether the sequence space was already computed or not (via the precomputed button). The GUI is in its primitive form and will include further updates resembling the cli in future versions. 
+
+![GUI - early version](https://github.com/snafees/ortho_seqs/blob/gui_draft/GUI_in_development.png?raw=true)
 
 # Support
 If you have specific or general questions, feel free to open an issue and we'll do our best to address them.

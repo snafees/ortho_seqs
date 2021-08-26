@@ -41,7 +41,7 @@ def get_seq_info(seqf, alphbt_input, molecule):
         elif alphbt == "ALBERTS":
             alphbt_input = "KRH,DE,AVLIPFMWGC"
         elif alphbt == "SIGMA":
-            alphbt_input = "AILMV,FYV,NQCST,KRH,DE,G"
+            alphbt_input = "AILMV,FYW,NQCST,KRH,DE,G"
         elif alphbt == "HBOND":
             alphbt_input = "NQSTDERKYHW"
         elif alphbt == "HYDROPHOBICITY":

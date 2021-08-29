@@ -73,42 +73,56 @@ Let's say you have a case where you have the same set of sequences but two diffe
 ```
 --alphbt_input
 ```
-Used to group amino acids/nucleotides together, or specify certain amino acids/nucleotides. For example, putting *ASGR* will tell the program to have 6 dimensions: one for each amino acid specified, and one for *z*, where every unspecified amino acid will be converted to *z*, and one for *n*. You can also comma-separate amino acids/nucleotides to group them. For example, putting *AS,GR* will make the vectors 4-dimensional, one for *AS*, one for *GR*, one for every other amino acid, and one for *n*.
+Used to group amino acids/nucleotides together, or specify certain amino acids/nucleotides. For example, putting *ASGR* will tell the program to have 6 dimensions: one for each amino acid specified, and one for *z*, where every unspecified amino acid will be converted to *z*, and one for *n* (whenever sequences have unequal lengths, *ortho_seqs* will pad the shorter sequences with *n*). You can also comma-separate amino acids/nucleotides to group them. For example, putting *AS,GR* will make the vectors 4-dimensional, one for *AS*, one for *GR*, one for every other amino acid, and one for *n*.
 
 There are also built-in groups:
 
 **protein_pnp** will group by polar and non-polar amino acids, every other amino acid, and *n*.
 
-**essential** groups by essential and non-essential amino acids, every other amino acid, and *n*.
+**essential** groups by essential and non-essential amino acids, every other amino acid, and *n*. \
+Group 1: Essential - ILVFWHKTM \
+Group 2: Non-Essential - Everything else \
+Group 3: n \
 (Source: https://www.ncbi.nlm.nih.gov/books/NBK557845/)
 
-**alberts** groups by categories set by Alberts.
-Group 1: KRH
-Group 2: DE
-Group 3: AVLIPFMWGC
-Group 4: Everything else
-Group 5: n
+**alberts** groups by categories set by Alberts. \
+Group 1: Basic - KRH \
+Group 2: Acidic - DE \
+Group 3: AVLIPFMWGC \
+Group 4: Everything else \
+Group 5: n \
 (Source: https://www.ncbi.nlm.nih.gov/books/NBK21054/)
 
-**sigma** groups by categories set by Sigma.
-Group 1: AILMV
-Group 2: FYV
-Group 3: NQCST
-Group 4: KRH
-Group 5: DE
-Group 6: G
-Group 7: Everything else
-Group 8: n
+**sigma** groups by categories set by Sigma. \
+Group 1: Aliphatic - AILMV \
+Group 2: Aromatic - FYV \
+Group 3: Polar Neutral - NQCST \
+Group 4: Acidic - KRH \
+Group 5: Basic - DE \
+Group 6: Other - G \
+Group 7: Other - P \
+Group 8: n \
 (Source: https://www.sigmaaldrich.com/US/en/technical-documents/technical-article/protein-biology/protein-structural-analysis/amino-acid-reference-chart)
 
-**hbond** groups by strength of hydrogen bond attractions. The first group is able to make hydrogen bonds, whereas the second group is not.
+**hbond** groups by strength of hydrogen bond attractions. \
+Group 1: Can Make Hydrogen Bonds - NQSTDERKYHW \
+Group 2: Can Not Make Hydrogen Bonds - Everything else \
+Group 3: n \
+The first group is able to make hydrogen bonds, whereas the second group is not.
 
-**hydrophobicity** groups by hydrophobicity. The first group is very hydrophobic, the second group is slightly hydrophobic, the third group is neutral, and the last group is hydrophilic.
+**hydrophobicity** groups by hydrophobicity. \
+Group 1: Very Hydrophobic - LIFWVM \
+Group 2: Hydrophobic - CYA \
+Group 3: Neutral - TEGSQD \
+Group 4: Hydrophilic - Everything else \
+Group 4: n \
+The first group is very hydrophobic, the second group is slightly hydrophobic, the third group is neutral, and the last group is hydrophilic.
 
 ```
 --min_pct
 ```
-When ortho_seqs is run, a .csv file of covariances will be saved in the specified path. This matrix of covariances is one of the main results of the program (as shown in {sequence_file_name}.npz output below). The csv file will contain the covariance of each nucleotide at each site with another nucleotide at another site (or amino acids at each site).
+When *ortho_seqs* is run, a .csv file of covariances will be saved in the specified path. This matrix of covariances is one of the main results of the program (as shown in {sequence_file_name}.npz output below). The csv file will contain the covariance of each nucleotide at each site with another nucleotide at another site (or amino acids at each site).
+In addition, *ortho_seqs* will automatically return a histogram of all non-zero covariances, such that the distribution can be observed. The bin width will always be 0.5. *ortho_seqs* will also graph the rFon1D values for every non-zero item at every site.
 Suppose there are 5 covariance values of 2, 1, 0, 0, -1. For the percentiles, all unique *magnitudes* will be considered when assigning covariances, which will be 2, 1, and 0. 0 will be the 0th percentile (therefore, assigning 0 to the *--min_pct* flag will return every covariance), 1 (and -1) will be 33.33..., and 2 will be 66.66... Specifying 50 as *--min_pct* will only return the row with the covariance of 2, since only 66.6...>50.
 The min_pct flag is short for minimum percentile, which will remove any covariances
 from the .csv file that are below the given percentile. The default value is 75.

@@ -121,8 +121,7 @@ The first group is very hydrophobic, the second group is slightly hydrophobic, t
 ```
 --min_pct
 ```
-When *ortho_seqs* is run, a .csv file of covariances will be saved in the specified path. This matrix of covariances is one of the main results of the program (as shown in {sequence_file_name}.npz output below). The csv file will contain the covariance of each nucleotide at each site with another nucleotide at another site (or amino acids at each site).
-In addition, *ortho_seqs* will automatically return a histogram of all non-zero covariances, such that the distribution can be observed. The bin width will always be 0.5. *ortho_seqs* will also graph the rFon1D values for every non-zero item at every site.
+When ortho_seqs is run, a .csv file of covariances will be saved in the specified path. This matrix of covariances is one of the main results of the program (as shown in {sequence_file_name}.npz output below). The csv file will contain the covariance of each nucleotide at each site with another nucleotide at another site (or amino acids at each site).
 Suppose there are 5 covariance values of 2, 1, 0, 0, -1. For the percentiles, all unique *magnitudes* will be considered when assigning covariances, which will be 2, 1, and 0. 0 will be the 0th percentile (therefore, assigning 0 to the *--min_pct* flag will return every covariance), 1 (and -1) will be 33.33..., and 2 will be 66.66... Specifying 50 as *--min_pct* will only return the row with the covariance of 2, since only 66.6...>50.
 The min_pct flag is short for minimum percentile, which will remove any covariances
 from the .csv file that are below the given percentile. The default value is 75.

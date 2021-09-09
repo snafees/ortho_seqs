@@ -20,9 +20,14 @@ setup(
         "higher order interactions",
     ],
     py_modules=["orthogonal_polynomial"],
-    install_requires=["Click", "numpy", "pandas"],
+    install_requires=["Click", "numpy", "pandas", "matplotlib"],
     include_package_data=True,
     long_description=long_description,
     long_description_content_type="text/markdown",
     entry_points={"console_scripts": ["ortho_seq = ortho_seq_code:cli"]},
+    extras_require={
+        "lint_code": ["flake8"],
+        "data_vis": ["matplotlib"],
+        "data_man": ["pandas"],
+    },
 )

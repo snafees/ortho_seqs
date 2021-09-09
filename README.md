@@ -31,11 +31,11 @@ conda activate ortho_seq
 
 ## Then, to run the commandline tool:
 To start with a test example, you can run the sample command below::
-
 ```
 ortho_seq orthogonal-polynomial ./ortho_seq_code/tests/data/nucleotide/first_order/test_seqs_2sites_dna.txt --molecule DNA --pheno_file ./ortho_seq_code/tests/data/nucleotide/first_order/trait_test_seqs_2sites_dna.txt --poly_order second --out_dir ../results_ortho_seq_testing/DNA_2sites_test_run/
 ```
 The above sample command line is building the tensor-valued orthogonal polynomial space based on the sequence data which consists of 12 sequences, each with two sites. Since these are DNA sequences, the vectors are 4-dimensional. These used to be flags for sites, dimensions, and population size, but new functionality will automatically calculate these. Corresponding to each sequence is a phenotype value (a real number) as given in the phenotype file. For DNA, the tool can run first and second order analyses currently. We'll implement third order in a future version. For amino acids, the current version supports first order analysis and we hope to expand this in the future.
+
 Amino acids/nucleotides that do not appear in any sequence will be removed from the alphabet when the letters are being converted to first order vectors. For example, if the residue 'R' (Arginine) never occurs in the sequence dataset, the first order vectors will now have 19 dimensions (instead of 20) and 20 dimensions (instead of 21) if the sequences are padded with 'n'. This is done to greatly reduce runtime for larger sequence datasets and for longer sequences.
 When the program will run, it will return this sentence:
 ```
@@ -70,6 +70,61 @@ Directory where results can be stored.
 --precomputed
 ```
 Let's say you have a case where you have the same set of sequences but two different corresponding sets of phenotypes. You can build your sequence space and then project the first set of phenotypes onto this space. Then, if you wish to see how the other set of phenotypes maps onto the same sequence space, you can use this flag so that you're not wasting time and memory to recompute the space. When doing this, be sure to add your results from the first run to the **out_dir** when rerunning the command with the **precomputed** flag.
+```
+--alphbt_input
+```
+Used to group amino acids/nucleotides together, or specify certain amino acids/nucleotides. For example, putting *ASGR* will tell the program to have 6 dimensions: one for each amino acid specified, and one for *z*, where every unspecified amino acid will be converted to *z*, and one for *n* (whenever sequences have unequal lengths, *ortho_seqs* will pad the shorter sequences with *n*). You can also comma-separate amino acids/nucleotides to group them. For example, putting *AS,GR* will make the vectors 4-dimensional, one for *AS*, one for *GR*, one for every other amino acid, and one for *n*.
+
+There are also built-in groups:
+
+**protein_pnp** will group by polar and non-polar amino acids, every other amino acid, and *n*.
+
+**essential** groups by essential and non-essential amino acids, every other amino acid, and *n*. \
+Group 1: Essential - ILVFWHKTM \
+Group 2: Non-Essential - Everything else \
+Group 3: n \
+(Source: https://www.ncbi.nlm.nih.gov/books/NBK557845/)
+
+**alberts** groups by categories set by Alberts. \
+Group 1: Basic - KRH \
+Group 2: Acidic - DE \
+Group 3: AVLIPFMWGC \
+Group 4: Everything else \
+Group 5: n \
+(Source: https://www.ncbi.nlm.nih.gov/books/NBK21054/)
+
+**sigma** groups by categories set by Sigma. \
+Group 1: Aliphatic - AILMV \
+Group 2: Aromatic - FYV \
+Group 3: Polar Neutral - NQCST \
+Group 4: Acidic - KRH \
+Group 5: Basic - DE \
+Group 6: Other - G \
+Group 7: Other - P \
+Group 8: n \
+(Source: https://www.sigmaaldrich.com/US/en/technical-documents/technical-article/protein-biology/protein-structural-analysis/amino-acid-reference-chart)
+
+**hbond** groups by strength of hydrogen bond attractions. \
+Group 1: Can Make Hydrogen Bonds - NQSTDERKYHW \
+Group 2: Can Not Make Hydrogen Bonds - Everything else \
+Group 3: n \
+The first group is able to make hydrogen bonds, whereas the second group is not.
+
+**hydrophobicity** groups by hydrophobicity. \
+Group 1: Very Hydrophobic - LIFWVM \
+Group 2: Hydrophobic - CYA \
+Group 3: Neutral - TEGSQD \
+Group 4: Hydrophilic - Everything else \
+Group 4: n \
+The first group is very hydrophobic, the second group is slightly hydrophobic, the third group is neutral, and the last group is hydrophilic.
+
+```
+--min_pct
+```
+When ortho_seqs is run, a .csv file of covariances will be saved in the specified path. This matrix of covariances is one of the main results of the program (as shown in {sequence_file_name}.npz output below). The csv file will contain the covariance of each nucleotide at each site with another nucleotide at another site (or amino acids at each site).
+Suppose there are 5 covariance values of 2, 1, 0, 0, -1. For the percentiles, all unique *magnitudes* will be considered when assigning covariances, which will be 2, 1, and 0. 0 will be the 0th percentile (therefore, assigning 0 to the *--min_pct* flag will return every covariance), 1 (and -1) will be 33.33..., and 2 will be 66.66... Specifying 50 as *--min_pct* will only return the row with the covariance of 2, since only 66.6...>50.
+The min_pct flag is short for minimum percentile, which will remove any covariances
+from the .csv file that are below the given percentile. The default value is 75.
 
 # Results & Outputs
 
@@ -99,6 +154,20 @@ This set of files contains the main results which includes the following:
 2. **rFon2D**: This gives 4 matrices which give the regression of the pheonotype onto (site1)x(site1), (site 1)x(site 2), (site 2)x(site 1) and (site 2)x(site 2), in that order. The second matrix here is the important one and it is the same as rFon12. See description of rFon12.
 3. **rFon12**:  This is the regression of the trait onto *pairs* of sites for given nucleotides at each site. These are regressions on (site 1)x(site 2) independent of first order associations. Since we're looking at 2 sites at a time and there's a possibility of having 4 nucleotides at each site (for the case of DNA), we can visualize this via a 4x4 matrix as shown in Figure 8 in the paper linked above.
 
+```
+cov_hist_{trait_file_name}.png
+```
+This is a histogram of all non-zero covariances. It's bin width is 0.5.
+
+```
+cov_data_frame_{trait_file_name}.csv
+```
+This file is a csv file of covariances between every item at every site. This includes the item ID and site for both items in the pair used to calculate the covariance, the covariance value, the covariance magnitude, and an ID for the pair (s1-g2,s3-g4 represents the pairing of an element from the first group in the alphabet at the second site, and an element from the third group at the fourth site).
+
+```
+rFon1D_graph_{trait_file_name}.png
+```
+This is a bar plot of all nonzero rFon1D values of every item at every site.
 
 # Support
 If you have specific or general questions, feel free to open an issue and we'll do our best to address them.

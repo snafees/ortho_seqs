@@ -25,4 +25,5 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     entry_points={"console_scripts": ["ortho_seq = ortho_seq_code:cli"]},
+    extras_require=["pandas", "matplotlib", "flake8"],
 )

@@ -17,8 +17,13 @@ def get_seq_info(seqf, alphbt_input, molecule):
             pop_size -= 1
             seq.remove(i)
     # Autopadding lowercase n's
-    padded_seqs = seq_series.apply(lambda row: row + (sites - len(row)) * "n")
-    seq = [f"{e}\n" for e in padded_seqs]
+    if len(min(seq, key=len)) != len(max(seq, key=len)):
+        incomplete_seq_series = seq_series[seq_series.str.len() < sites]
+        while len(incomplete_seq_series) > 0:
+            incomplete_seq_series = seq_series[seq_series.str.len() < sites]
+            seq_series[incomplete_seq_series.index] += "n"
+        seq_series += "\n"
+        seq = list(seq_series)
 
     # Custom alphabet
     seq_oneline = "".join(seq_series)

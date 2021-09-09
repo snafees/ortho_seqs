@@ -155,6 +155,11 @@ This set of files contains the main results which includes the following:
 3. **rFon12**:  This is the regression of the trait onto *pairs* of sites for given nucleotides at each site. These are regressions on (site 1)x(site 2) independent of first order associations. Since we're looking at 2 sites at a time and there's a possibility of having 4 nucleotides at each site (for the case of DNA), we can visualize this via a 4x4 matrix as shown in Figure 8 in the paper linked above.
 
 ```
+cov_hist_{trait_file_name}.png
+```
+This is a histogram of all non-zero covariances. It's bin width is 0.5.
+
+```
 cov_data_frame_{trait_file_name}.csv
 ```
 This file is a csv file of covariances between every item at every site. This includes the item ID and site for both items in the pair used to calculate the covariance, the covariance value, the covariance magnitude, and an ID for the pair (s1-g2,s3-g4 represents the pairing of an element from the first group in the alphabet at the second site, and an element from the third group at the fourth site).

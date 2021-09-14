@@ -2,4 +2,4 @@
 Background & Quickstart
 ===========
 
-.. include:: ../../README.md
+.. mdinclude:: ../../README.md

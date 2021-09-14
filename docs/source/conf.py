@@ -36,7 +36,7 @@ master_doc = "index"
 
 extensions = [
     ...,
-    "m2r",
+    "m2r2",
 ]
 
 # source_suffix = '.rst'

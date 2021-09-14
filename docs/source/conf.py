@@ -34,9 +34,7 @@ master_doc = "index"
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 
-extensions = [
-    "m2r2"
-]
+extensions = ["m2r2"]
 
 # source_suffix = '.rst'
 source_suffix = [".rst", ".md"]

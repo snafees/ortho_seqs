@@ -27,7 +27,7 @@ conda activate ortho_seq
 
 ## Gather the input files needed.
 1. You'll have one file with sequence data as seen in the first column in the image above (.txt or .dat or .csv). See repo's data folder for examples of what these look like for DNA or proteins.
-2. You'll have one file with corresponding phenotypes as seen in the last column in the image above (.txt or .dat or .csv) with the same length as the number of sequences. Phenotypes here are defined as real numbers.
+2. You'll have one file with corresponding phenotypes as seen in the last column in the image above (.txt or .dat or .csv) with the same length as the number of sequences. Phenotypes here are defined as real numbers (see paper linked above for more background on this).
 
 ## Then, to run the commandline tool:
 To start with a test example, you can run the sample command below::
@@ -48,6 +48,7 @@ Will be computing 12 sequences with 2 sites, and each vector will be 4-dimension
 ```
 Along with regressions on each site independent of one another and onto two sites at a time, the above command also computes *Fest* which is the phenotype estimated by the regressions. This shows that the mathematical calculations are done correctly as we now have an equation that accurately captures our initial data points. This only works here for sequences with 2 sites. If we had more sites, we'd need to do higher order calculations in order to capture all our combinations. Therefore, when running the tool with more sites, as will probably be the case for most users, even just going up to second order gives us useful information about our system. First order tells us the importance of each site (independent of any correlations it might have with another site) and second order tells the importance of pairs of nucleotides independent of other pairs. Please take a look at the paper linked above to learn more about this method.  
 
+
 ## Flags & Functionality
 ```
 --pheno_file
@@ -57,7 +58,21 @@ Input a file with phenotype values corresponding to each sequence in the sequenc
  ```
  --molecule
  ```
- Currently, you can provide DNA or protein sequences.
+
+ Currently, you can provide DNA or protein sequences. Here, you can also provide sequences of unequal lengths.
+ ```
+ --sites
+ ```
+ The number of sites in a sequence. If you have sequences with unequal lengths, please pad them with a lowercase 'n'. See examples in the ortho_seq_code/tests/ folder.
+ ```
+ --dm
+ ```
+ The dimension of the vector corresponding to a site along a sequence. This is 4 for DNA and 20 for protein. For protein, you can provide a dimension of 21 in the case that you have padded protein sequences. See test data in the repo for examples.
+```
+--pop_size
+```
+The number of total sequences.
+
 ```            
 --poly_order
 ```
@@ -70,6 +85,12 @@ Directory where results can be stored.
 --precomputed
 ```
 Let's say you have a case where you have the same set of sequences but two different corresponding sets of phenotypes. You can build your sequence space and then project the first set of phenotypes onto this space. Then, if you wish to see how the other set of phenotypes maps onto the same sequence space, you can use this flag so that you're not wasting time and memory to recompute the space. When doing this, be sure to add your results from the first run to the **out_dir** when rerunning the command with the **precomputed** flag.
+
+
+# Results & Outputs
+
+The tool will provide udpates as the run is progressing regarding which parts of the calculations are done being computed. For example, when the mean is computed, it'll say "computed mean". All the different elements that it is computing are different parts of building the multivariate tensor-valued orthogonal polynomial space based on the sequence information. To get a general idea of what the calculations mean, please refer to the supplementary methods in the paper linked above.
+
 ```
 --alphbt_input
 ```
@@ -154,6 +175,12 @@ This set of files contains the main results which includes the following:
 2. **rFon2D**: This gives 4 matrices which give the regression of the pheonotype onto (site1)x(site1), (site 1)x(site 2), (site 2)x(site 1) and (site 2)x(site 2), in that order. The second matrix here is the important one and it is the same as rFon12. See description of rFon12.
 3. **rFon12**:  This is the regression of the trait onto *pairs* of sites for given nucleotides at each site. These are regressions on (site 1)x(site 2) independent of first order associations. Since we're looking at 2 sites at a time and there's a possibility of having 4 nucleotides at each site (for the case of DNA), we can visualize this via a 4x4 matrix as shown in Figure 8 in the paper linked above.
 
+
+# To run the GUI (currently in development)
+A GUI version of the CLI is being actively developed in order to make it easier for users to utilize the tool. The GUI allows the user to upload the sequence and phenotype files via an upload button, specify the molecule, the polynomial order they wish to run, and whether the sequence space was already computed or not (via the precomputed button). The GUI is in its primitive form and will include further updates resembling the cli in future versions. 
+
+![GUI - early version](https://github.com/snafees/ortho_seqs/blob/gui_draft/GUI_in_development.png?raw=true)
+
 ```
 cov_hist_{trait_file_name}.png
 ```
@@ -169,6 +196,7 @@ rFon1D_graph_{trait_file_name}.png
 ```
 This is a bar plot of all nonzero rFon1D values of every item at every site.
 
+
 # Support
 If you have specific or general questions, feel free to open an issue and we'll do our best to address them.
 If you have any comments, suggestions or would like to chat about this method or similar ideas, feel free to reach out via email at saba.nafees314@gmail.com.
@@ -177,10 +205,12 @@ If you have any comments, suggestions or would like to chat about this method or
 We hope to implement third order analysis for DNA in the near future. For amino acids, we hope to implement second order analysis. We'll add visualization ideas soon but if you have any thoughts on this, please feel free to reach out.
 
 # Contribution
-We hope to make the tool run faster as with higher dimensions and higher order analysis of longer sequence data, we can run into memory and time issues. Any thoughts on this or visualization are welcome.
+
+We hope to make the tool run faster as with higher dimenions and higher order analysis of longer sequence data, we can run into memory and time issues. Any thoughts on this or visualization are welcome.
+
 
 # Authors and acknowledgements
-The derivation of the method and the construction of an initial version of the program was done by Dr. Sean Rice who served as Saba's Ph.D. advisor. Thank you to Isaac Griswold-Steiner for helping write the function to compute generalized inner and outer products. Thank you to Pranathi Vemuri for helping with the very initial draft of the CLI, adding CI integration testing, and to Phoenix Logan for helping write unit-tests. Thank you to Vijayanta Jain and Saugato Rahman Dhruba for being the guinea pigs and running lots of sample commands, discussing the mathematics with me, and for their ideas on visualizations. Their efforts are deeply appreciated!
+The derivation of the method and the construction of an initial version of the program was done by Dr. Sean Rice who served as Saba's Ph.D. advisor. Thank you to Isaac Griswold-Steiner for helping write the function to compute generalized inner and outer products. Thank you to Pranathi Vemuri for helping with the very initial draft of the CLI, adding CI integration testing, and to Phoenix Logan for helping write unit-tests. Thank you to AhmetCan for helping initiatie the first GUI version. Thank you, Aaron, for always being ready to review PRs and for your insights/help in the development process. Thank you to Vijayanta Jain and Saugato Rahman Dhruba for being the guinea pigs and running lots of sample commands, discussing the mathematics with me, and for their ideas on visualizations. Their efforts are deeply appreciated!
 
 # License
 [MIT](https://choosealicense.com/licenses/mit/)

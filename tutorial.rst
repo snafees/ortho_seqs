@@ -2,6 +2,7 @@
 *********************************************
 ortho_seqs
 *********************************************
+This document will walk you through the steps of how to run a dataset on ortho_seqs, and what the various outputs are.
 
 .. _downloads:
 Setting Up Your Computer to Run ortho_seqs

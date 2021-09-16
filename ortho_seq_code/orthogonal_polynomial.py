@@ -137,8 +137,8 @@ def orthogonal_polynomial(
         # calculate mean vectors first
         arrays_save = {}
         if poly_order == "first" and not precomputed:
-            for j in itertools.product(range_popsize, range_sites):
-                mean[j] = sum(np.array(phi[j])) / pop_size
+            for i, j in itertools.product(range_popsize, range_sites):
+                mean[j] += phi[j][i] / pop_size
             arrays_save[naming + "_mean"] = mean
             #  to show progress, can do something much more efficient/elegant
             print("computed mean")

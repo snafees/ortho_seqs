@@ -13,7 +13,8 @@ setup(
     packages=find_packages(),
     keywords=[
         "regression",
-        "projections" "covariance",
+        "projections",
+        "covariance",
         "rna",
         "dna",
         "sequence-phenotype",

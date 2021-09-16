@@ -31,19 +31,19 @@ Insert text here
    
 Insert text here
 
-.. dataset_input:
+.. _dataset_input:
 Your Dataset
 -----------------------------------------------------------
 
 Insert text here
 
-.. parameter_definitions:
+.. _parameter_definitions:
 The Flags in ortho_seqs and What They Mean
 -----------------------------------------------------------
 
 Insert text here
 
-.. outputs:
+.. _outputs:
 Outputs
 -----------------------------------------------------------
 

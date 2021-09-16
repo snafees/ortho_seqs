@@ -4,3 +4,4 @@ pytest
 coverage
 flake8
 pyqt5>=5.15.4
+

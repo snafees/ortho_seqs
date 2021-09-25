@@ -41,8 +41,17 @@ def orthogonal_polynomial(
     start_time = time.time()
     out_dir = create_dir_if_not_exists(out_dir)
     global i
-    with open(filename) as f:
-        seq = f.readlines()
+    if pheno_file != None:
+        with open(filename) as f:
+            seq = f.readlines()
+    else:
+        if os.path.splittext(filename) == ".xlsx":
+            df = pd.read_excel(filename)
+        else:
+            df = pd.read_csv(filename)
+        seq = df[0]
+        phenotype = df[1]
+        naming_phenotype = os.path.basename(filename.name)
     dm, sites, pop_size, seq, seq_series, alphabets, custom_aa = get_seq_info(
         filename, alphbt_input, molecule
     )
@@ -53,9 +62,10 @@ def orthogonal_polynomial(
     range_popsize = range(pop_size)
     # file containing trait values that will be mapped to sequence
     # vectors that must be the same size as F
-    with open(pheno_file) as f2:
-        phenotype = f2.readlines()
-    naming_phenotype = os.path.basename(f2.name)
+    if pheno_file != None:
+        with open(pheno_file) as f2:
+            phenotype = f2.readlines()
+        naming_phenotype = os.path.basename(f2.name)
 
     F = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fest = np.genfromtxt(phenotype)  # this needs to stay this way!
@@ -1061,7 +1071,10 @@ def orthogonal_polynomial(
     "--molecule", default="DNA", help="can provide DNA or amino acid sequence"
 )
 @click.option(
-    "--pheno_file", type=str, help="phenotype text file corresponding to sequence data"
+    "--pheno_file",
+    default=None,
+    type=str,
+    help="phenotype text file corresponding to sequence data",
 )
 @click.option(
     "--poly_order", default="first", help="can do first and second order so far"

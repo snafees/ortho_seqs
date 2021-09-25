@@ -44,6 +44,9 @@ def orthogonal_polynomial(
     if pheno_file != None:
         with open(filename) as f:
             seq = f.readlines()
+        with open(pheno_file) as f2:
+            phenotype = f2.readlines()
+        naming_phenotype = os.path.basename(f2.name)
     else:
         if os.path.splittext(filename) == ".xlsx":
             df = pd.read_excel(filename)
@@ -62,10 +65,6 @@ def orthogonal_polynomial(
     range_popsize = range(pop_size)
     # file containing trait values that will be mapped to sequence
     # vectors that must be the same size as F
-    if pheno_file != None:
-        with open(pheno_file) as f2:
-            phenotype = f2.readlines()
-        naming_phenotype = os.path.basename(f2.name)
 
     F = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fest = np.genfromtxt(phenotype)  # this needs to stay this way!

@@ -1074,7 +1074,7 @@ def orthogonal_polynomial(
     "--pheno_file",
     default=None,
     type=str,
-    help="phenotype text file corresponding to sequence data",
+    help="phenotype text file corresponding to sequence data"
 )
 @click.option(
     "--poly_order", default="first", help="can do first and second order so far"

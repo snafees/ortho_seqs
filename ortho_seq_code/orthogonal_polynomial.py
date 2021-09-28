@@ -1076,7 +1076,7 @@ def orthogonal_polynomial(
     "--alphbt_input",
     default=None,
     help="enter amino acids/nucleotides you want to focus on, comma-separate to group amino acids",
-    type=str,
+    type=str
 )
 @click.option(
     "--min_pct",

@@ -41,7 +41,7 @@ def orthogonal_polynomial(
     start_time = time.time()
     out_dir = create_dir_if_not_exists(out_dir)
     global i
-    print("\n\n\n\n\n\n\n\n\n\n\n\n\nPheno File: " + pheno_file!=None)
+    print("\n\n\n\n\n\n\n\n\n\n\n\n\nPheno File: " + pheno_file != None)
     if pheno_file != None:
         with open(filename) as f:
             seq = f.readlines()
@@ -1074,7 +1074,7 @@ def orthogonal_polynomial(
     "--pheno_file",
     default=None,
     type=str,
-    help="phenotype text file corresponding to sequence data"
+    help="phenotype text file corresponding to sequence data",
 )
 @click.option(
     "--poly_order", default="first", help="can do first and second order so far"
@@ -1089,7 +1089,7 @@ def orthogonal_polynomial(
     "--alphbt_input",
     default=None,
     help="enter amino acids/nucleotides you want to focus on, comma-separate to group amino acids",
-    type=str
+    type=str,
 )
 @click.option(
     "--min_pct",

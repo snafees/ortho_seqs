@@ -43,29 +43,22 @@ def orthogonal_polynomial(
     global i
     print("")
     if pheno_file != None:
-        print("Pheno file is separate from sequence file.")
-        with open(filename) as f:
-            seq = f.readlines()
         with open(pheno_file) as f2:
             phenotype = f2.readlines()
         naming_phenotype = os.path.basename(f2.name)
+        onefile = False
     else:
-        print(
-            "Pheno file is not separate from sequence file, assuming seq_file is either a .csv or a .xlsx file."
-        )
         if os.path.splitext(filename)[1] == ".xlsx":
-            print("Reading .xlsx file.")
             df = pd.read_excel(filename, engine="openpyxl", header=None)
         else:
-            print("Reading .csv file.")
             df = pd.read_csv(filename, header=None)
-        seq = df[0]
         phenotype = df[1]
         naming_phenotype = os.path.splitext(os.path.basename(filename))[0]
-    dm, sites, pop_size, seq, seq_series, alphabets, custom_aa = get_seq_info(
-        filename, alphbt_input, molecule
-    )
+        onefile = True
     print("")
+    dm, sites, pop_size, seq, seq_series, alphabets, custom_aa = get_seq_info(
+        filename, alphbt_input, molecule, onefile
+    )
     if custom_aa is not None:
         custom_dict = {alphabets[i]: custom_aa[i] for i in range(len(custom_aa))}
     range_dm = range(dm)

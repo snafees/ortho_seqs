@@ -53,7 +53,7 @@ def orthogonal_polynomial(
         print(
             "Pheno file is not separate from sequence file, assuming seq_file is either a .csv or a .xlsx file."
         )
-        if os.path.splitext(filename) == ".xlsx":
+        if os.path.splitext(filename)[1] == ".xlsx":
             df = pd.read_excel(filename)
         else:
             df = pd.read_csv(filename)

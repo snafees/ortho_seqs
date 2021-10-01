@@ -41,6 +41,7 @@ def orthogonal_polynomial(
     start_time = time.time()
     out_dir = create_dir_if_not_exists(out_dir)
     global i
+    print("")
     if pheno_file != None:
         print("Pheno file is not separate from sequence file, assuming seq_file is either a .csv or a .xlsx file.")
         with open(filename) as f:
@@ -60,6 +61,7 @@ def orthogonal_polynomial(
     dm, sites, pop_size, seq, seq_series, alphabets, custom_aa = get_seq_info(
         filename, alphbt_input, molecule
     )
+    print("")
     if custom_aa is not None:
         custom_dict = {alphabets[i]: custom_aa[i] for i in range(len(custom_aa))}
     range_dm = range(dm)

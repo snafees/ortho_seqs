@@ -175,7 +175,7 @@ A GUI version of the CLI is being actively developed in order to make it easier 
 ```
 cov_hist_{trait_file_name}.png
 ```
-This is a histogram of all non-zero covariances. It's bin width is 0.5.
+This is a histogram of all non-zero covariances. Its bin width is 0.5.
 
 ```
 cov_data_frame_{trait_file_name}.csv

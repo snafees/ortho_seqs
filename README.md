@@ -133,10 +133,10 @@ from the .csv file that are below the given percentile. The default value is 75.
 
 # Sequence and Phenotype Files
 
-There are three main ways to submit your sequence and phenotype files to *ortho_seqs*. The first method is to submit them separately, in their own .txt files. Recently, however, an update was added that allows you to submit them both in the same file. For this to apply: \
-1) The file must be either a .xlsx or a .csv file. \
-2) The sequences must be in the first column, and the phenotypes must be in the second column. \
-3) The columns must not have header names. \
+There are three main ways to submit your sequence and phenotype files to *ortho_seqs*. The first method is to submit them separately, in their own .txt files. Recently, however, an update was added that allows you to submit them both in the same file. For this to apply:
+1) The file must be either a .xlsx or a .csv file.
+2) The sequences must be in the first column, and the phenotypes must be in the second column.
+3) The columns must not have header names.
 If you use a single file for the sequence and phenotype, you would submit the file path where you would submit the sequence file path, and leave the *--pheno_file* flag blank (*ortho_seqs* will set that flag to **None**).
 
 # Results & Outputs

@@ -25,9 +25,16 @@ conda activate ortho_seq
 ## Then, install the package:
 ``python setup.py install``
 
-## Gather the input files needed.
-1. You'll have one file with sequence data as seen in the first column in the image above (.txt or .dat or .csv). See repo's data folder for examples of what these look like for DNA or proteins.
-2. You'll have one file with corresponding phenotypes as seen in the last column in the image above (.txt or .dat or .csv) with the same length as the number of sequences. Phenotypes here are defined as real numbers (see paper linked above for more background on this).
+## Gather the input file(s) needed.
+
+There are three main ways to submit your sequence and phenotype files to *ortho_seqs*. The first method is to submit them separately, in their own .txt files. Recently, however, an update was added that allows you to submit them both in the same file. For this to apply:
+1) The file must be either a .xlsx or a .csv file.
+2) The sequences must be in the first column, and the phenotypes must be in the second column.
+3) The columns must not have header names.
+
+If you use a single file for the sequence and phenotype, you would submit the file path where you would submit the sequence file path, and leave the *--pheno_file* flag blank (*ortho_seqs* will set that flag to **None**).
+
+The phenotypes must be real numbers.
 
 ## Then, to run the commandline tool:
 To start with a test example, you can run the sample command below::
@@ -53,7 +60,7 @@ Along with regressions on each site independent of one another and onto two site
 ```
 --pheno_file
 ```
-Input a file with phenotype values corresponding to each sequence in the sequence file. If you have a .xlsx or .csv file, do NOT use this flag (more details below in the **Sequence and Phenotype Files** section).
+Input a file with phenotype values corresponding to each sequence in the sequence file. If you have a .xlsx or .csv file, do NOT use this flag (more details above in the **Gather the Input Files Needed** section).
 
  ```
  --molecule
@@ -130,15 +137,6 @@ When ortho_seqs is run, a .csv file of covariances will be saved in the specifie
 Suppose there are 5 covariance values of 2, 1, 0, 0, -1. For the percentiles, all unique *magnitudes* will be considered when assigning covariances, which will be 2, 1, and 0. 0 will be the 0th percentile (therefore, assigning 0 to the *--min_pct* flag will return every covariance), 1 (and -1) will be 33.33..., and 2 will be 66.66... Specifying 50 as *--min_pct* will only return the row with the covariance of 2, since only 66.6...>50.
 The min_pct flag is short for minimum percentile, which will remove any covariances
 from the .csv file that are below the given percentile. The default value is 75.
-
-# Sequence and Phenotype Files
-
-There are three main ways to submit your sequence and phenotype files to *ortho_seqs*. The first method is to submit them separately, in their own .txt files. Recently, however, an update was added that allows you to submit them both in the same file. For this to apply:
-1) The file must be either a .xlsx or a .csv file.
-2) The sequences must be in the first column, and the phenotypes must be in the second column.
-3) The columns must not have header names.
-
-If you use a single file for the sequence and phenotype, you would submit the file path where you would submit the sequence file path, and leave the *--pheno_file* flag blank (*ortho_seqs* will set that flag to **None**).
 
 # Results & Outputs
 

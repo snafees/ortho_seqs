@@ -61,7 +61,7 @@ def orthogonal_polynomial(
             df = pd.read_csv(filename, header=None)
         seq = df[0]
         phenotype = df[1]
-        naming_phenotype = os.path.basename(filename.name)
+        naming_phenotype = os.path.splitext(os.path.basename(filename))[0]
     dm, sites, pop_size, seq, seq_series, alphabets, custom_aa = get_seq_info(
         filename, alphbt_input, molecule
     )

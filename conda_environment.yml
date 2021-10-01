@@ -9,4 +9,3 @@ dependencies:
   - pytest
   - coverage
   - flake8
-  - openpyxl

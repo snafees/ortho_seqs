@@ -66,12 +66,18 @@ def orthogonal_polynomial(
     range_popsize = range(pop_size)
     # file containing trait values that will be mapped to sequence
     # vectors that must be the same size as F
-
-    F = np.genfromtxt(phenotype)  # this needs to stay this way!
-    Fest = np.genfromtxt(phenotype)  # this needs to stay this way!
-    Fon1 = np.genfromtxt(phenotype)  # this needs to stay this way!
-    Fon2i1 = np.genfromtxt(phenotype)  # this needs to stay this way!
-    Fon12 = np.genfromtxt(phenotype)  # this needs to stay this way!
+    if not onefile:
+        F = np.genfromtxt(phenotype)  # this needs to stay this way!
+        Fest = np.genfromtxt(phenotype)  # this needs to stay this way!
+        Fon1 = np.genfromtxt(phenotype)  # this needs to stay this way!
+        Fon2i1 = np.genfromtxt(phenotype)  # this needs to stay this way!
+        Fon12 = np.genfromtxt(phenotype)  # this needs to stay this way!
+    else:
+        F = np.array(phenotype)
+        Fest = np.array(phenotype)
+        Fon1 = np.array(phenotype)
+        Fon2i1 = np.array(phenotype)
+        Fon12 = np.array(phenotype)
     print("Phenotype Values (Fest):\n" + str(Fest))
     # ----Initializing various terms that we will use.--------------
     # 3 sites, each a dm dim vector, in n individuals

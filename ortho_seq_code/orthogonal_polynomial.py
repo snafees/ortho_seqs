@@ -122,7 +122,10 @@ def orthogonal_polynomial(
             for j in range_sites:
                 if seq[i][j] == alphabets[alphabet_index]:
                     phi[j][i][alphabet_index] = 1.0
-    naming = os.path.basename(f.name)
+    if not onefile:
+        naming = os.path.basename(f.name)
+    else:
+        naming = naming_phenotype
     if precomputed:
         precomputed_array = np.load(os.path.join(out_dir, naming + ".npz"))
         mean = precomputed_array[naming + "_mean"]

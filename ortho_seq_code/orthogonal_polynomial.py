@@ -55,10 +55,10 @@ def orthogonal_polynomial(
         )
         if os.path.splitext(filename)[1] == ".xlsx":
             print("Reading .xlsx file.")
-            df = pd.read_excel(filename, engine="openpyxl")
+            df = pd.read_excel(filename, engine="openpyxl", header=None)
         else:
             print("Reading .csv file.")
-            df = pd.read_csv(filename)
+            df = pd.read_csv(filename, header=None)
         seq = df[0]
         phenotype = df[1]
         naming_phenotype = os.path.basename(filename.name)

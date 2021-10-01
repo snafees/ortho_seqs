@@ -43,7 +43,9 @@ def orthogonal_polynomial(
     global i
     print("")
     if pheno_file != None:
-        print("Pheno file is not separate from sequence file, assuming seq_file is either a .csv or a .xlsx file.")
+        print(
+            "Pheno file is not separate from sequence file, assuming seq_file is either a .csv or a .xlsx file."
+        )
         with open(filename) as f:
             seq = f.readlines()
         with open(pheno_file) as f2:

@@ -43,7 +43,7 @@ def orthogonal_polynomial(
     global i
     print("")
     if pheno_file != None:
-        with open(seqf) as f:
+        with open(filename) as f:
             seq = f.readlines()
         with open(pheno_file) as f2:
             phenotype = f2.readlines()

@@ -43,16 +43,16 @@ def orthogonal_polynomial(
     global i
     print("")
     if pheno_file != None:
-        print(
-            "Pheno file is not separate from sequence file, assuming seq_file is either a .csv or a .xlsx file."
-        )
+        print("Pheno file is separate from sequence file.")
         with open(filename) as f:
             seq = f.readlines()
         with open(pheno_file) as f2:
             phenotype = f2.readlines()
         naming_phenotype = os.path.basename(f2.name)
     else:
-        print("Pheno file is separate from sequence file.")
+        print(
+            "Pheno file is not separate from sequence file, assuming seq_file is either a .csv or a .xlsx file."
+        )
         if os.path.splittext(filename) == ".xlsx":
             df = pd.read_excel(filename)
         else:

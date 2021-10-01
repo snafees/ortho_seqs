@@ -54,8 +54,10 @@ def orthogonal_polynomial(
             "Pheno file is not separate from sequence file, assuming seq_file is either a .csv or a .xlsx file."
         )
         if os.path.splitext(filename)[1] == ".xlsx":
+            print("Reading .xlsx file.")
             df = pd.read_excel(filename)
         else:
+            print("Reading .csv file.")
             df = pd.read_csv(filename)
         seq = df[0]
         phenotype = df[1]

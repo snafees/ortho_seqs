@@ -55,10 +55,10 @@ def orthogonal_polynomial(
         phenotype = df[1]
         naming_phenotype = os.path.splitext(os.path.basename(filename))[0]
         onefile = True
-    print("")
     dm, sites, pop_size, seq, seq_series, alphabets, custom_aa = get_seq_info(
         filename, alphbt_input, molecule, onefile
     )
+    print("")
     if custom_aa is not None:
         custom_dict = {alphabets[i]: custom_aa[i] for i in range(len(custom_aa))}
     range_dm = range(dm)

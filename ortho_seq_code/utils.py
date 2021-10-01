@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 from ortho_seq_code.constants_orthoseqs import *
+import os
 
 
 def get_seq_info(seqf, alphbt_input, molecule, onefile):

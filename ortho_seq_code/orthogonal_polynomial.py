@@ -55,7 +55,7 @@ def orthogonal_polynomial(
         )
         if os.path.splitext(filename)[1] == ".xlsx":
             print("Reading .xlsx file.")
-            df = pd.read_excel(filename)
+            df = pd.read_excel(filename, engine="openpyxl")
         else:
             print("Reading .csv file.")
             df = pd.read_csv(filename)

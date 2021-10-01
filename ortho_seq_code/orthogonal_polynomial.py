@@ -43,6 +43,8 @@ def orthogonal_polynomial(
     global i
     print("")
     if pheno_file != None:
+        with open(seqf) as f:
+            seq = f.readlines()
         with open(pheno_file) as f2:
             phenotype = f2.readlines()
         naming_phenotype = os.path.basename(f2.name)
@@ -53,6 +55,7 @@ def orthogonal_polynomial(
         else:
             df = pd.read_csv(filename, header=None)
         phenotype = df[1]
+        f = filename
         naming_phenotype = os.path.splitext(os.path.basename(filename))[0]
         onefile = True
     dm, sites, pop_size, seq, seq_series, alphabets, custom_aa = get_seq_info(

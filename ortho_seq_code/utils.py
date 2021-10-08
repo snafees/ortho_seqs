@@ -56,6 +56,12 @@ def get_seq_info(seqf, alphbt_input, molecule):
                         np.array(PROTEIN_ALPHABETS).ravel(), np.array(alphbt_excluded)
                     )
                 )
+            elif "RNA" in molecule:
+                alphbt_last_group = "".join(
+                    np.setdiff1d(
+                        np.array(RNA_ALPHABETS).ravel(), np.array(alphbt_excluded)
+                    )
+                )
             else:
                 alphbt_last_group = "".join(
                     np.setdiff1d(
@@ -95,6 +101,12 @@ def get_seq_info(seqf, alphbt_input, molecule):
                     alphbt_last_group = list(
                         np.setdiff1d(
                             np.array(PROTEIN_ALPHABETS).ravel(), np.array(alphabets)
+                        )
+                    )
+                elif "protein" in molecule:
+                    alphbt_last_group = list(
+                        np.setdiff1d(
+                            np.array(RNA_ALPHABETS).ravel(), np.array(alphabets)
                         )
                     )
                 else:

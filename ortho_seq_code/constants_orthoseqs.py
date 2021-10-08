@@ -1,4 +1,5 @@
 DNA_ALPHABETS = ["A", "C", "G", "T"]
+RNA_ALPHABETS = ["A", "C", "G", "U"]
 PROTEIN_ALPHABETS = [
     "A",
     "R",

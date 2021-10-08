@@ -9,6 +9,8 @@ def get_seq_info(seqf, alphbt_input, molecule):
     seq_series_rm = pd.Series(seq).str.replace("\n", "")
     seq_series_nospace = seq_series_rm.str.replace(" ", "")
     seq_series = seq_series_nospace[seq_series_nospace != ""]
+    if molecule == 'RNA'
+        seq_series = pd.Series(seq).str.replace("T", "U")
     sites = max(seq_series.str.len())
     pop_size = len(seq_series)
     seq_list = list(np.unique(list("".join(list(seq_series)))))
@@ -103,7 +105,7 @@ def get_seq_info(seqf, alphbt_input, molecule):
                             np.array(PROTEIN_ALPHABETS).ravel(), np.array(alphabets)
                         )
                     )
-                elif "protein" in molecule:
+                elif "RNA" in molecule:
                     alphbt_last_group = list(
                         np.setdiff1d(
                             np.array(RNA_ALPHABETS).ravel(), np.array(alphabets)

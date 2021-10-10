@@ -11,7 +11,7 @@ Setting Up Your Computer to Run ortho_seqs
 The first thing you have to do (aside from gathering data!) is set up your computer to run ortho_seqs.
 First, you need to have Miniconda installed on your computer. To install, follow the link 'here'_, and choose the appropriate version, with regards to your computer.
 
-.._here: https://docs.conda.io/en/latest/miniconda.html
+.. _here: https://docs.conda.io/en/latest/miniconda.html
 
 .. code-block:: shell-session
 

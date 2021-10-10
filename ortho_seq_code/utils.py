@@ -9,6 +9,8 @@ def get_seq_info(seqf, alphbt_input, molecule):
     seq_series_rm = pd.Series(seq).str.replace("\n", "")
     seq_series_nospace = seq_series_rm.str.replace(" ", "")
     seq_series = seq_series_nospace[seq_series_nospace != ""]
+    if molecule == "RNA":
+        seq_series = pd.Series(seq_series).str.replace("T", "U")
     sites = max(seq_series.str.len())
     pop_size = len(seq_series)
     seq_list = list(np.unique(list("".join(list(seq_series)))))
@@ -16,10 +18,6 @@ def get_seq_info(seqf, alphbt_input, molecule):
         if i == "\n":
             pop_size -= 1
             seq.remove(i)
-    if molecule == "RNA":
-        for i in seq_series:
-            if i == "T":
-                pd.Series(seq).str.replace("T", "U")
     # Autopadding lowercase n's
     if len(min(seq, key=len)) != len(max(seq, key=len)):
         incomplete_seq_series = seq_series[seq_series.str.len() < sites]

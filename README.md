@@ -25,9 +25,16 @@ conda activate ortho_seq
 ## Then, install the package:
 ``python setup.py install``
 
-## Gather the input files needed.
-1. You'll have one file with sequence data as seen in the first column in the image above (.txt or .dat or .csv). See repo's data folder for examples of what these look like for DNA or proteins.
-2. You'll have one file with corresponding phenotypes as seen in the last column in the image above (.txt or .dat or .csv) with the same length as the number of sequences. Phenotypes here are defined as real numbers (see paper linked above for more background on this).
+## Gather the input file(s) needed.
+
+There are three main ways to submit your sequence and phenotype files to *ortho_seqs*. The first method is to submit them separately, in their own .txt files. Recently, however, an update was added that allows you to submit them both in the same file. For this to apply:
+1) The file must be either a .xlsx or a .csv file.
+2) The sequences must be in the first column, and the phenotypes must be in the second column.
+3) The columns must not have header names.
+
+If you use a single file for the sequence and phenotype, you would submit the file path where you would submit the sequence file path, and leave the *--pheno_file* flag blank (*ortho_seqs* will set that flag to **None**).
+
+The phenotypes must be real numbers.
 
 ## Then, to run the commandline tool:
 To start with a test example, you can run the sample command below::
@@ -53,43 +60,27 @@ Along with regressions on each site independent of one another and onto two site
 ```
 --pheno_file
 ```
-Input a file with phenotype values corresponding to each sequence in the sequence file.
+Input a file with phenotype values corresponding to each sequence in the sequence file. If you have a .xlsx or .csv file, do NOT use this flag (more details above in the **Gather the Input Files Needed** section).
 
  ```
  --molecule
  ```
+ Currently, you can provide DNA or protein sequences. Here, you can also provide sequences of unequal lengths, where sequences will be padded with lowercase 'n's until it has reached the length of the longest sequence.
 
- Currently, you can provide DNA or protein sequences. Here, you can also provide sequences of unequal lengths.
- ```
- --sites
- ```
- The number of sites in a sequence. If you have sequences with unequal lengths, please pad them with a lowercase 'n'. See examples in the ortho_seq_code/tests/ folder.
- ```
- --dm
- ```
- The dimension of the vector corresponding to a site along a sequence. This is 4 for DNA and 20 for protein. For protein, you can provide a dimension of 21 in the case that you have padded protein sequences. See test data in the repo for examples.
-```
---pop_size
-```
-The number of total sequences.
-
-```            
+```         
 --poly_order
 ```
 The order of the polynomials that will be constructed. Currently, one can do first and second order for DNA and first order for protein.
+
 ```
 --out_dir
 ```
 Directory where results can be stored.
+
 ```
 --precomputed
 ```
 Let's say you have a case where you have the same set of sequences but two different corresponding sets of phenotypes. You can build your sequence space and then project the first set of phenotypes onto this space. Then, if you wish to see how the other set of phenotypes maps onto the same sequence space, you can use this flag so that you're not wasting time and memory to recompute the space. When doing this, be sure to add your results from the first run to the **out_dir** when rerunning the command with the **precomputed** flag.
-
-
-# Results & Outputs
-
-The tool will provide udpates as the run is progressing regarding which parts of the calculations are done being computed. For example, when the mean is computed, it'll say "computed mean". All the different elements that it is computing are different parts of building the multivariate tensor-valued orthogonal polynomial space based on the sequence information. To get a general idea of what the calculations mean, please refer to the supplementary methods in the paper linked above.
 
 ```
 --alphbt_input
@@ -177,14 +168,14 @@ This set of files contains the main results which includes the following:
 
 
 # To run the GUI (currently in development)
-A GUI version of the CLI is being actively developed in order to make it easier for users to utilize the tool. The GUI allows the user to upload the sequence and phenotype files via an upload button, specify the molecule, the polynomial order they wish to run, and whether the sequence space was already computed or not (via the precomputed button). The GUI is in its primitive form and will include further updates resembling the cli in future versions. 
+A GUI version of the CLI is being actively developed in order to make it easier for users to utilize the tool. The GUI allows the user to upload the sequence and phenotype files via an upload button, specify the molecule, the polynomial order they wish to run, and whether the sequence space was already computed or not (via the precomputed button). The GUI is in its primitive form and will include further updates resembling the cli in future versions.
 
 ![GUI - early version](https://github.com/snafees/ortho_seqs/blob/gui_draft/GUI_in_development.png?raw=true)
 
 ```
 cov_hist_{trait_file_name}.png
 ```
-This is a histogram of all non-zero covariances. It's bin width is 0.5.
+This is a histogram of all non-zero covariances. Its bin width is 0.5.
 
 ```
 cov_data_frame_{trait_file_name}.csv

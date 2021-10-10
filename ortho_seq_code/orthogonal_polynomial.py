@@ -41,7 +41,6 @@ def orthogonal_polynomial(
     start_time = time.time()
     out_dir = create_dir_if_not_exists(out_dir)
     global i
-    print("\n\n\n\n\n\n\n\n\n\n\n\n\nPheno File: " + pheno_file != None)
     if pheno_file != None:
         with open(filename) as f:
             seq = f.readlines()

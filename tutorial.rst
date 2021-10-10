@@ -53,7 +53,7 @@ Using the Sidhu Dataset, our input would look like:
 
 .. code-block:: shell-session
 
-  ortho_seq orthogonal-polynomial ortho_seq_code/tests/data/nucleotide/onefile_tests/sidhu.xlsx --molecule DNA --poly_order first --out_dir ../onefile_tests/sidhu --alphbt_input SYG,R --min_pct 40
+  ortho_seq orthogonal-polynomial ortho_seq_code/tests/data/nucleotide/onefile_tests/sidhu.xlsx --molecule protein --poly_order first --out_dir ../onefile_tests/sidhu --alphbt_input SYG,R --min_pct 40
 
 Let's explore what these flags are, and how you can use them to assist you.
 
@@ -63,7 +63,7 @@ The file input (ortho_seq_code/.../sidhu.xlsx) is our sequence AND phenotype dat
   
   --molecule
   
-This flag is where you indicate what kind of molecule this is. This can be DNA, RNA, or protein, as of now. For the Sidhu Dataset, the molecules are DNA molecules.
+This flag is where you indicate what kind of molecule this is. This can be DNA, RNA, or protein, as of now. For the Sidhu Dataset, the molecules are protein molecules.
 
 .. code-block::
   
@@ -87,16 +87,26 @@ This flag indicates where you want the output files to go (more on what exactly 
   
   --alphbt_input
   
-This flag indicates the groupings of characters you want.
+  (Note: "Characters" in the following section refer to the nucleotides for DNA, the bases for RNA, and all 21 amino acids for proteins, plus one additional character, "n", which indicates nothing is at that spot)
+This flag indicates the groupings of characters you want. The default will be no groupings, or every character gets counted on its own. If you include (uppercase) letters here, then only those characters will be noted (every other character, except "n", gets converted to a "z" and treated as one group). If you comma-separate somewhere in that group, then characters will be grouped based on what comma(s) they are in between. For the Sidhu Dataset, the groupings will be:
+1. SYG
+2. R
+3. Everything else (z)
+4. n
+
+If I were to leave out the commas, the groups would be:
+1. S
+2. Y
+3. R
+4. G
+5. Everything else (z)
+6. n
 
 .. code-block::
   
   --min_pct
   
 One output will be a .xlsx file containing all of the first-order covariances. However, this file can get pretty big pretty quick, and will probably have a lot of covariance values of zero. Therefore, this flag will only print out covariance values whose magnitudes are at or above the PERCENTILE value specified. The default is 75, meaning it will only save the covariances who range from the 75th to the 100th percentiles in magnitude. To keep it at the default, leave out this flag when inputting what you want. For the Sidhu Dataset, we want all magnitudes at or above the 40th percentile.
-
-
-
 
 .. _outputs:
 4. Obtained Outputs

@@ -89,12 +89,14 @@ This flag indicates where you want the output files to go (more on what exactly 
   
 (Note: "Characters" in the following section refer to the nucleotides for DNA, the bases for RNA, and all 21 amino acids for proteins, plus one additional character, "n", which indicates nothing is at that spot)
 This flag indicates the groupings of characters you want. The default will be no groupings, or every character gets counted on its own. If you include (uppercase) letters here, then only those characters will be noted (every other character, except "n", gets converted to a "z" and treated as one group). If you comma-separate somewhere in that group, then characters will be grouped based on what comma(s) they are in between. For the Sidhu Dataset, the groupings will be:
+
 1. SYG \
 2. R \
 3. Everything else (z) \
 4. n \
 
 If I were to leave out the commas, the groups would be:
+
 1. S
 2. Y
 3. R

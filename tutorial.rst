@@ -5,7 +5,7 @@ ortho_seqs
 This document will walk you through the steps of how to run a dataset on ortho_seqs, and what the various outputs are.
 
 .. _downloads:
-Setting Up Your Computer to Run ortho_seqs
+1. Setting Up Your Computer to Run ortho_seqs
 -----------------------------------------------------------
 
 The first thing you have to do (aside from gathering data!) is set up your computer to run ortho_seqs.
@@ -36,7 +36,7 @@ To activate ortho_seqs on your device. You will also need to run:
 This line must be run every time ortho_seqs is updated, so you are using the most recent version. If the above steps have worked, congrats! You now have ortho_seqs on your computer. It's time to input some data.
 
 .. _dataset_input:
-Your Dataset
+2. Your Dataset
 -----------------------------------------------------------
 
 The data that is input to ortho_seqs must include a column of sequences, and a column of their corresponding phenotype values. These two columns can either be separate .txt files, or a single .xlsx or .csv file. Take, for instance, our toy example, which is a dataset originating from (will be referred to as the "Sidhu Dataset" for this tutorial). The dataset, when input into ortho_seqs, should look like
@@ -45,7 +45,7 @@ The data that is input to ortho_seqs must include a column of sequences, and a c
 Note that for .xlsx (and .csv) files, the first column must be the sequences, and the second column must be the phenotypes. In addition, there must not be any header names for any files.
 
 .. _parameter_definitions:
-The Flags in ortho_seqs and What They Mean
+3. Executing Ortho_Seqs
 -----------------------------------------------------------
 
 We now turn towards our CLI to execute ortho_seqs.
@@ -99,7 +99,7 @@ One output will be a .xlsx file containing all of the first-order covariances. H
 
 
 .. _outputs:
-Outputs
+4. Obtained Outputs
 -----------------------------------------------------------
 
 Insert text here

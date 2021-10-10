@@ -9,7 +9,10 @@ Setting Up Your Computer to Run ortho_seqs
 -----------------------------------------------------------
 
 The first thing you have to do (aside from gathering data!) is set up your computer to run ortho_seqs.
-First, you need to have Miniconda installed on your computer. To install, follow the link `here <https://docs.conda.io/en/latest/miniconda.html>`_, and choose the appropriate version, with regards to your computer.
+
+  You first need to have Miniconda installed on your computer, in order to do the shell commands. To do so, follow the link `here <https://docs.conda.io/en/latest/miniconda.html>`_, and choose the appropriate version, with regards to your computer.
+
+After you have installed Minoconda, open up Terminal, or an equivalent Command-Line Interface (CLI). Run either this:
 
 .. code-block:: shell-session
 
@@ -17,32 +20,83 @@ First, you need to have Miniconda installed on your computer. To install, follow
   pip install -r requirements.txt
   conda activate ortho_seq
 
-Insert text here
+Or, alternatively:
 
 .. code-block:: shell-session
 
   conda env create -f conda_environment.yml
   conda activate ortho_seq
 
-Insert text here
+To activate ortho_seqs on your device. You will also need to run:
 
 .. code-block:: shell-session
 
   python setup.py install
 
-Insert text here
+This line must be run every time ortho_seqs is updated, so you are using the most recent version. If the above steps have worked, congrats! You now have ortho_seqs on your computer. It's time to input some data.
 
 .. _dataset_input:
 Your Dataset
 -----------------------------------------------------------
 
-Insert text here
+The data that is input to ortho_seqs must include a column of sequences, and a column of their corresponding phenotype values. These two columns can either be separate .txt files, or a single .xlsx or .csv file. Take, for instance, our toy example, which is a dataset originating from (will be referred to as the "Sidhu Dataset" for this tutorial). The dataset, when input into ortho_seqs, should look like
+
+
+Note that for .xlsx (and .csv) files, the first column must be the sequences, and the second column must be the phenotypes. In addition, there must not be any header names for any files.
 
 .. _parameter_definitions:
 The Flags in ortho_seqs and What They Mean
 -----------------------------------------------------------
 
-Insert text here
+We now turn towards our CLI to execute ortho_seqs.
+Using the Sidhu Dataset, our input would look like:
+
+.. code-block:: shell-session
+
+  ortho_seq orthogonal-polynomial ortho_seq_code/tests/data/nucleotide/onefile_tests/sidhu.xlsx --molecule DNA --poly_order first --out_dir ../onefile_tests/sidhu --alphbt_input SYG,R --min_pct 40
+
+Let's explore what these flags are, and how you can use them to assist you.
+
+The file input (ortho_seq_code/.../sidhu.xlsx) is our sequence AND phenotype data.
+
+.. code-block::
+  
+  --molecule
+  
+This flag is where you indicate what kind of molecule this is. This can be DNA, RNA, or protein, as of now. For the Sidhu Dataset, the molecules are DNA molecules.
+
+.. code-block::
+  
+  --poly_order
+  
+This flag is to indicate the highest degree of polynomial order you want. Currently, DNA and RNA can go up to 2, and protein can only be 1. For the Sidhu Dataset, we are only interested in first-order calculations.
+
+.. code-block::
+  
+  --pheno_file
+  
+This flag is not in the example, because we don't need it. If you were to present your data as two separate .txt files, then this would be where you put the file path for the phenotype data, and the first file path is for your sequence data.
+
+.. code-block::
+  
+  --out_dir
+  
+This flag indicates where you want the output files to go (more on what exactly is saved there later). If the folder path already exists, ortho_seqs will create a new directory with a very similar name, and it will tell you what the new path's name is.
+
+.. code-block::
+  
+  --alphbt_input
+  
+This flag indicates the groupings of characters you want.
+
+.. code-block::
+  
+  --min_pct
+  
+One output will be a .xlsx file containing all of the first-order covariances. However, this file can get pretty big pretty quick, and will probably have a lot of covariance values of zero. Therefore, this flag will only print out covariance values whose magnitudes are at or above the PERCENTILE value specified. The default is 75, meaning it will only save the covariances who range from the 75th to the 100th percentiles in magnitude. To keep it at the default, leave out this flag when inputting what you want. For the Sidhu Dataset, we want all magnitudes at or above the 40th percentile.
+
+
+
 
 .. _outputs:
 Outputs

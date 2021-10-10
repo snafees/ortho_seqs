@@ -39,7 +39,7 @@ This line must be run every time ortho_seqs is updated, so you are using the mos
 2. Your Dataset
 -----------------------------------------------------------
 
-The data that is input to ortho_seqs must include a column of sequences, and a column of their corresponding phenotype values. These two columns can either be separate .txt files, or a single .xlsx or .csv file. Take, for instance, our toy example, which is a dataset originating from (will be referred to as the "Sidhu Dataset" for this tutorial). The dataset, when input into ortho_seqs, should look like
+The data that is input to ortho_seqs must include a column of sequences, and a column of their corresponding phenotype values. These two columns can either be separate .txt files, or a single .xlsx or .csv file. Take, for instance, our toy example, which is a dataset originating from a paper titled `The Intrinsic Contributions of Tyrosine, Serine, Glycine, and Arginine to the Affinity and Specificity of Antibodies <https://www.sciencedirect.com/science/article/pii/S0022283608001691?casa_token=Qs608NJVJggAAAAA:-PruJ8_0_3pBtf4NHSVo0POYtzErFcDoqJYMxJQZER51_uZNtRYvBoWIMa9j3oIZJ18uY0rS3g>`_, and measures the Specificity ELISA Signal Optical Density, with regards to its sequences (Figure 4a) (will be referred to as the "Sidhu Dataset" for this tutorial). The dataset, when input into ortho_seqs, should look like
 
 
 Note that for .xlsx (and .csv) files, the first column must be the sequences, and the second column must be the phenotypes. In addition, there must not be any header names for any files.
@@ -87,7 +87,7 @@ This flag indicates where you want the output files to go (more on what exactly 
   
   --alphbt_input
   
-  (Note: "Characters" in the following section refer to the nucleotides for DNA, the bases for RNA, and all 21 amino acids for proteins, plus one additional character, "n", which indicates nothing is at that spot)
+ (Note: "Characters" in the following section refer to the nucleotides for DNA, the bases for RNA, and all 21 amino acids for proteins, plus one additional character, "n", which indicates nothing is at that spot)
 This flag indicates the groupings of characters you want. The default will be no groupings, or every character gets counted on its own. If you include (uppercase) letters here, then only those characters will be noted (every other character, except "n", gets converted to a "z" and treated as one group). If you comma-separate somewhere in that group, then characters will be grouped based on what comma(s) they are in between. For the Sidhu Dataset, the groupings will be:
 1. SYG
 2. R

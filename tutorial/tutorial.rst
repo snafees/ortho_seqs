@@ -139,6 +139,7 @@ And will have the file name cov_hist_{name}.png
 The .csv file has 8 columns.
 
 They are:
+
 1. ID: Useful for searching for a specific pairing. Ordering will be s{Site 1)-g{Group 1}, s{Site 2)-g{Group 2}. For example, s1-g2,s10-g8 refers to the pairing between Group 2 at Site 1, and Group 8 at Site 10.
 2. Magnitude: Absolute value of the covariance value, used to assign percentile values.
 3. Covariance: The obtained covariance value.

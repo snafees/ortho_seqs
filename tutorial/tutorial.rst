@@ -44,6 +44,12 @@ The data that is input to ortho_seqs must include a column of sequences, and a c
 .. image:: sidhu_txt_image.png
   :width: 400px
   :height: 200px
+  
+or
+
+.. image:: sidhu_xlsx_image.png
+  :width: 400px
+  :height: 200px
 
 Note that for .xlsx (and .csv) files, the first column must be the sequences, and the second column must be the phenotypes. In addition, there must not be any header names for any files.
 

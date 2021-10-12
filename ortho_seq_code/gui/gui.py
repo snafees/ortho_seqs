@@ -20,7 +20,7 @@ class MainWidget(QWidget):
         super().__init__(*args, **kwargs)
         self.widget_layout = QVBoxLayout()  # vertical layout
         label = QLabel(
-            "ortho_seqs GUI: User interface to compute tensor-based orthogonal polynomials for sequence data"
+            "User interface to compute tensor-based orthogonal polynomials for sequence data"
         )
         label2 = QLabel("Upload sequence file:")
         self.upload_button_1 = QPushButton("seq_file")

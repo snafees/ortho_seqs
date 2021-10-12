@@ -16,8 +16,8 @@ Groupings according to --alphbt_input:
 computed mean
 computed variance
 computed covariance
-saved covariance histogram as /Users/miles.woollacott/Desktop/onefile_tests/sidhu[0]/cov_hist_sidhu.png
-Saved covariance data frame as /Users/miles.woollacott/Desktop/onefile_tests/sidhu[0]/cov_data_frame_sidhu.csv
+saved covariance histogram as {path}/cov_hist_sidhu.png
+Saved covariance data frame as {path}/cov_data_frame_sidhu.csv
 computed reg11
 computed Pa: first order orthogonalized within each vector
 computed P1i1
@@ -27,8 +27,8 @@ computed reg11i1
 computed Pa1i1
 computed P1D
 computed varP1D
-Saving to /Users/miles.woollacott/Desktop/onefile_tests/sidhu[0]/sidhu.npz
-Saving to /Users/miles.woollacott/Desktop/onefile_tests/sidhu[0]/sidhu_covs_with_F.npz
+Saving to {path}/sidhu.npz
+Saving to {path}/sidhu_covs_with_F.npz
 Regression of trait on site 1
 [[-1.2409090909  1.2409090909  0.            0.          ]
  [ 0.5716578947 -0.5716578947  0.            0.          ]
@@ -73,8 +73,8 @@ Regression of trait on site 2 independent of 1
 [0. 0. 0. 0.]
 computed rFon1
 computed rFon1D
-Saving regression results to to /Users/miles.woollacott/Desktop/onefile_tests/sidhu[0]/sidhu_regressions.npz
+Saving regression results to to {path}/sidhu_regressions.npz
 Trait values estimated from regressions
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-saved regression graph as /Users/miles.woollacott/Desktop/onefile_tests/sidhu[0]/rFon1D_graph_sidhu.png
+saved regression graph as {path}/rFon1D_graph_sidhu.png
 --- 659.7260167598724 seconds ---

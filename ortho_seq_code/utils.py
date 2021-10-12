@@ -9,7 +9,7 @@ def get_seq_info(seqf, alphbt_input, molecule):
     seq_series_rm = pd.Series(seq).str.replace("\n", "")
     seq_series_nospace = seq_series_rm.str.replace(" ", "")
     seq_series = seq_series_nospace[seq_series_nospace != ""]
-    if molecule == "RNA":
+    if "RNA" in molecule:
         seq_series = pd.Series(seq_series).str.replace("T", "U")
     sites = max(seq_series.str.len())
     pop_size = len(seq_series)

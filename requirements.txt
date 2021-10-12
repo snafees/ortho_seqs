@@ -1,7 +1,9 @@
 numpy
 Click
-pytest
 coverage
 flake8
+matplotlib
+pandas
 pyqt5>=5.15.4
+pytest
 

@@ -41,8 +41,9 @@ This line must be run every time ortho_seqs is updated, so you are using the mos
 
 The data that is input to ortho_seqs must include a column of sequences, and a column of their corresponding phenotype values. These two columns can either be separate .txt files, or a single .xlsx or .csv file. Take, for instance, our toy example, which is a dataset originating from a paper titled `The Intrinsic Contributions of Tyrosine, Serine, Glycine, and Arginine to the Affinity and Specificity of Antibodies <https://www.sciencedirect.com/science/article/pii/S0022283608001691?casa_token=Qs608NJVJggAAAAA:-PruJ8_0_3pBtf4NHSVo0POYtzErFcDoqJYMxJQZER51_uZNtRYvBoWIMa9j3oIZJ18uY0rS3g>`_ by Sidhu et al., and measures the Specificity ELISA Signal Optical Density, with regards to its sequences (Figure 4a) (will be referred to as the "Sidhu Dataset" for this tutorial). The dataset, when input into ortho_seqs, should look like
 
-.. image:: sidhu_image_txt
-  :width: 400
+.. image:: sidhu_txt_image.png
+  :width: 400px
+  :height: 400px
 
 Note that for .xlsx (and .csv) files, the first column must be the sequences, and the second column must be the phenotypes. In addition, there must not be any header names for any files.
 

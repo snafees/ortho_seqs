@@ -123,6 +123,11 @@ One output will be a .xlsx file containing all of the first-order covariances. H
 4. Obtained Outputs
 -----------------------------------------------------------
 +++++++++
+CLI Outputs
++++++++++
+The CLI will print out the g
+
++++++++++
 Histogram and Spreadsheet of Covariances
 +++++++++
 The covariances between every character at every site is recorded in a .csv file, and includes everything at or above the minimum percentile you specified in the input (or defaults to 75th percentile). In addition, the program outputs a histogram of the non-zero covariances, with the bin widths always being 0.5. For the Sidhu Dataset, it looks like
@@ -131,6 +136,15 @@ The covariances between every character at every site is recorded in a .csv file
   :height: 250px
 
 And will have the file name cov_hist_{name}.png
+The .csv file has 8 columns. They are:
+1. ID: Useful for searching for a specific pairing. Ordering will be s{Site 1)-g{Group 1}, s{Site 2)-g{Group 2}. For example, s1-g2,s10-g8 refers to the pairing between Group 2 at Site 1, and Group 8 at Site 10.
+2. Magnitude: Absolute value of the covariance value, used to assign percentile values.
+3. Covariance: The obtained covariance value.
+4. First Site: The site of one of the groups of the covariance pairing. Site 1 for ID column.
+5. First Group: The group the character belongs to, identifiable through the --alphbt_input dictionary. Group 1 for ID Column.
+6. Second Site: The site of the other group of the covariance pairing. Site 2 for ID column.
+7. First Group: The group the character belongs to, identifiable through the --alphbt_input dictionary. Group 2 for ID Column.
+8. Percentile: The percentile the respective magnitude is, relative to the entire dataset (including magnitudes that were omitted from the .csv file).
 
 +++++++++
 rFon1D Graph

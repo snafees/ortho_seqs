@@ -122,6 +122,15 @@ One output will be a .xlsx file containing all of the first-order covariances. H
 .. _outputs:
 4. Obtained Outputs
 -----------------------------------------------------------
++++++++++
+Histogram and Spreadsheet of Covariances
++++++++++
+The covariances between every character at every site is recorded in a .csv file, and includes everything at or above the minimum percentile you specified in the input (or defaults to 75th percentile). In addition, the program outputs a histogram of the non-zero covariances, with the bin widths always being 0.5. For the Sidhu Dataset, it looks like
+
+.. image:: Sidhu_Dataset_Outputs/cov_hist_sidhu.png
+  :height: 250px
+
+And will have the file name cov_hist_{name}.png
 
 +++++++++
 rFon1D Graph
@@ -131,3 +140,6 @@ One output is a graph of the nonzero rFon1D values. For the Sidhu Dataset, it lo
 
 .. image:: Sidhu_Dataset_Outputs/rFon1D_graph_sidhu.png
   :height: 250px
+
+At the bottom, it lists the dictionary of the groups and their corresponding number, which then can be used to determine which color bar belongs to which group. The rFon1D values can also be found in the _regressions.npz file.
+The rFon1D graph will always have the name rFon1D_graph_{name}.png

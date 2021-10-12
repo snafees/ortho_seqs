@@ -123,4 +123,11 @@ One output will be a .xlsx file containing all of the first-order covariances. H
 4. Obtained Outputs
 -----------------------------------------------------------
 
-Insert text here
++++++++++
+rFon1D Graph
++++++++++
+
+One output is a graph of the nonzero rFon1D values. For the Sidhu Dataset, it looks like
+
+.. image:: Sidhu_Dataset_Outputs/rFon1D_graph_sidhu.png
+  :height: 250px

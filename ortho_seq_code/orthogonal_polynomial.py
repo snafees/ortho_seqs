@@ -1,60 +1,90 @@
 import numpy as np
+import pandas as pd
 from numpy.linalg import *
 import time
 import os
+import pandas as pd
 import ortho_seq_code.sr as sr
 from ortho_seq_code.constants_orthoseqs import *
+from ortho_seq_code.utils import get_seq_info
 import click
 import itertools
+from matplotlib import pyplot as plt
 
 
 def create_dir_if_not_exists(out_dir):
-    if not os.path.exists(out_dir):
-        os.makedirs(out_dir)
-    else:
-        print("Path {} already exists, might be overwriting data".format(out_dir))
+    if os.path.exists(out_dir):
+        ct = 0
+        while os.path.exists(out_dir):
+            if ct != 0:
+                loc = out_dir.rfind("[") - len(out_dir)
+                out_dir = out_dir[:loc]
+            out_dir += "[" + str(ct) + "]"
+            ct += 1
+        print("Path already exists, will now be {}".format(out_dir))
+    os.makedirs(out_dir, exist_ok=True)
+    return out_dir
 
 
 def orthogonal_polynomial(
     filename,
     pheno_file,
     molecule,
-    sites,
-    dm,
-    pop_size,
     poly_order,
     precomputed,
     out_dir,
+    alphbt_input,
+    min_pct,
 ):
+
     """Program to compute orthogonal polynomials up to 2nd order"""
-    create_dir_if_not_exists(out_dir)
     start_time = time.time()
+    out_dir = create_dir_if_not_exists(out_dir)
+    global i
     with open(filename) as f:
         seq = f.readlines()
-    global i
+    dm, sites, pop_size, seq, seq_series, alphabets, custom_aa = get_seq_info(
+        filename, alphbt_input, molecule
+    )
+    if custom_aa is not None:
+        custom_dict = {alphabets[i]: custom_aa[i] for i in range(len(custom_aa))}
+    range_dm = range(dm)
+    range_sites = range(sites)
+    range_popsize = range(pop_size)
     # file containing trait values that will be mapped to sequence
     # vectors that must be the same size as F
     with open(pheno_file) as f2:
         phenotype = f2.readlines()
-    print(phenotype)
+    naming_phenotype = os.path.basename(f2.name)
+
     F = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fest = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fon1 = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fon2i1 = np.genfromtxt(phenotype)  # this needs to stay this way!
     Fon12 = np.genfromtxt(phenotype)  # this needs to stay this way!
-    print(Fest)
+    print("Phenotype Values (Fest):\n" + str(Fest))
+    # ----Initializing various terms that we will use.--------------
+    # 3 sites, each a dm dim vector, in n individuals
+    # nOTE: For application to Amino Acid sequences, increase
+    # the size of the arrays accordingly.
+
+    # ------------Converting letters to vectors---------------
+    # phi[individual][site][state]. phi[i][j] = vector for site j in individual i.
+
+    print(
+        "Will be computing "
+        + str(pop_size)
+        + " sequences with "
+        + str(sites)
+        + " sites, and each vector will be "
+        + str(dm)
+        + "-dimensional.\n"
+    )
     Fest = [0] * pop_size
     Fon1 = [0] * pop_size
     Fon2i1 = [0] * pop_size
     Fon12 = [0] * pop_size
     np.set_printoptions(precision=10)
-    range_sites = range(sites)
-    range_popsize = range(pop_size)
-    range_dm = range(dm)
-    # ----Initializing various terms that we will use.--------------
-    # 3 sites, each a dm dim vector, in n individuals
-    # nOTE: For application to Amino Acid sequences, increase
-    # the size of the arrays accordingly.
     phi = np.zeros((sites, pop_size, dm))
     mean = np.zeros((sites, dm))
     var = np.zeros((sites, dm))
@@ -62,35 +92,17 @@ def orthogonal_polynomial(
     phi2m = np.zeros((sites, sites, dm, dm))
     P = np.zeros((sites, pop_size, dm))
     cov = np.zeros((sites, sites, dm, dm))
-    # ------------Converting letters to vectors---------------
-    # phi[individual][site][state]. phi[i][j] = vector for site j in individual i.
-    alphabets = DM_ALPHABETS[dm]
-    for dna_alphabet_index in range(len(alphabets)):
+    if alphbt_input is None or "," not in alphbt_input:
+        print("Alphabet according to --alphbt_input:")
+        print(alphabets)
+    else:
+        print("Groupings according to --alphbt_input:")
+        print(str(custom_dict).replace("'", "").replace(", ", " | "))
+    for alphabet_index in range(dm):  # Keep in alphabetical order with 'n' at end
         for i in range_popsize:
             for j in range_sites:
-                if seq[i][j] == alphabets[dna_alphabet_index]:
-                    phi[j][i][dna_alphabet_index] = 1.0
-
-    if dm == 3 and molecule == "protein_pnp":
-        iterator = itertools.product(
-            range(len(PROTEIN_ALPHABETS_POLAR)),
-            range(len(PROTEIN_ALPHABETS_NONPOLAR)),
-            range_popsize,
-            range_sites,
-        )
-        for (
-            protein_alphabet_index_polar,
-            protein_alphabet_index_nonpolar,
-            i,
-            j,
-        ) in iterator:
-            if seq[i][j] == PROTEIN_ALPHABETS_POLAR[protein_alphabet_index_polar]:
-                phi[j][i][0] = 1.0
-            if seq[i][j] == PROTEIN_ALPHABETS_NONPOLAR[protein_alphabet_index_nonpolar]:
-                phi[j][i][1] = 1.0
-            if seq[i][j] == "n":
-                phi[j][i][2] = 1.0
-
+                if seq[i][j] == alphabets[alphabet_index]:
+                    phi[j][i][alphabet_index] = 1.0
     naming = os.path.basename(f.name)
     if precomputed:
         precomputed_array = np.load(os.path.join(out_dir, naming + ".npz"))
@@ -136,256 +148,216 @@ def orthogonal_polynomial(
         # ---------------------------------First order terms ----------------------
         # calculate mean vectors first
         arrays_save = {}
-        if poly_order == "first" and not precomputed:
-            for i, j in itertools.product(range_popsize, range_sites):
-                mean[j] += phi[j][i] / pop_size
-            arrays_save[naming + "_mean"] = mean
-            #  to show progress, can do something much more efficient/elegant
-            print("computed mean")
-            for j, i in itertools.product(range_sites, range_popsize):  # site, indiv
-                P[j][i] = phi[j][i] - mean[j]
-            arrays_save[naming + "_P"] = P
+        for i, j in itertools.product(range_popsize, range_sites):
+            mean[j] += phi[j][i] / pop_size
+        arrays_save[naming + "_mean"] = mean
+        #  to show progress, can do something much more efficient/elegant
+        print("computed mean")
+        for j, i in itertools.product(range_sites, range_popsize):  # site, indiv
+            P[j][i] = phi[j][i] - mean[j]
+        arrays_save[naming + "_P"] = P
 
-            # var[site][nucleotide]
-            for k, i, j in itertools.product(
-                range_sites, range_dm, range_popsize
-            ):  # nucleotide, indiv
-                var[k][i] += ((P[k][j][i]) ** 2) / pop_size
-            print("computed variance")
-            arrays_save[naming + "_var"] = var
+        # var[site][nucleotide]
+        for k, i, j in itertools.product(
+            range_sites, range_dm, range_popsize
+        ):  # nucleotide, indiv
+            var[k][i] += ((P[k][j][i]) ** 2) / pop_size
+        print("computed variance")
+        arrays_save[naming + "_var"] = var
 
-            # Covariances between nucleotides at sites i and j
-            # this is a matrix
-            # the cov matrix for the two sites is just the mean,
-            # across all individuals, of the outer product of P1 and P2
-            # #P2 is site 2 with means subtracted out
-            for j, k, i in itertools.product(range_sites, range_sites, range_popsize):
-                cov[j][k] += sr.outer_general(P[j][i], P[k][i]) / pop_size
-            print("computed covariance")
-            arrays_save[naming + "_cov"] = cov
+        # Covariances between nucleotides at sites i and j
+        # this is a matrix
+        # the cov matrix for the two sites is just the mean,
+        # across all individuals, of the outer product of P1 and P2
+        # #P2 is site 2 with means subtracted out
+        for j, k, i in itertools.product(range_sites, range_sites, range_popsize):
+            cov[j][k] += sr.outer_general(P[j][i], P[k][i]) / pop_size
+        print("computed covariance")
+        # Covariance plot
+        cov_flat = cov.flatten()
+        cov_flat = cov_flat[cov_flat != 0]
+        cov_min = min(cov_flat)
+        cov_max = max(cov_flat)
+        bns = [0.05 * (cov_min // 0.05 - 1)]
+        while bns[-1] <= 0.05 * (cov_max // 0.05 + 1):
+            bns.append(bns[-1] + 0.05)
+        fig, cov_sub = plt.subplots()
+        cov_sub.hist(
+            cov_flat,
+            edgecolor="black",
+            bins=bns,
+            color="blueviolet",
+        )
+        plt.xlabel("Non-Zero Covariances")
+        plt.ylabel("Frequency")
+        plt.title("Histogram of Non-Zero Covariances")
+        cov_fig = cov_sub.get_figure()
+        path_sav = "cov_hist_" + str(naming_phenotype) + ".png"
+        cov_fig.savefig(os.path.join(str(out_dir), path_sav), dpi=400)
+        print(
+            "saved covariance histogram as", str(os.path.join(str(out_dir), path_sav))
+        )
+        # Converts lists to determine location and identity of nucleotides/amino acids
+        cov_list = []
+        for i in range(cov.shape[0]):
+            for j in range(cov.shape[1]):
+                for k in range(cov.shape[2]):
+                    for l in range(cov.shape[3]):
+                        if j >> i:
+                            cov_list.append((i, j, k, l, cov[i][j][k][l]))
+        cov_df = pd.DataFrame(
+            cov_list,
+            columns=[
+                "First Site",
+                "Second Site",
+                "First Group",
+                "Second Group",
+                "Covariance",
+            ],
+        )
+        cov_df["First Site"] = pd.Series(cov_df["First Site"]) + 1
+        cov_df["Second Site"] = pd.Series(cov_df["Second Site"]) + 1
+        cov_df = cov_df.apply(pd.Series)
+        cov_df = cov_df.astype(str)
+        cov_df["Covariance"] = cov_df["Covariance"].astype(float)
+        cov_df["ID"] = (
+            "s"
+            + cov_df["First Site"]
+            + "-g"
+            + cov_df["First Group"]
+            + ",s"
+            + cov_df["Second Site"]
+            + "-g"
+            + cov_df["Second Group"]
+        )
+        cov_df["Magnitude"] = abs(cov_df["Covariance"])
+        cov_df = cov_df.sort_values(by="Magnitude", ascending=False)
+        cov_df.index = range(len(cov_df))
+        cov_per = list(np.unique(cov_df["Magnitude"]))
+        cov_per_d = dict()
+        for i in cov_per:
+            cov_per_d[i] = 100 * cov_per.index(i) / len(cov_per) // 1
+        cov_df["Percentile"] = cov_df["Magnitude"].map(cov_per_d)
+        cov_df = cov_df[cov_df["Percentile"] >= min_pct]
+        cov_df = cov_df[
+            [
+                "ID",
+                "Magnitude",
+                "Covariance",
+                "First Site",
+                "First Group",
+                "Second Site",
+                "Second Group",
+                "Percentile",
+            ]
+        ]
+        path_sav = "cov_data_frame_" + str(naming_phenotype) + ".csv"
+        cov_df.to_csv(os.path.join(str(out_dir), path_sav), index=None)
+        print(
+            "Saved covariance data frame as", str(os.path.join(str(out_dir), path_sav))
+        )
+        arrays_save[naming + "_cov"] = cov
 
-            Pa = np.zeros((sites, pop_size, dm))
-            reg11 = np.zeros((sites, sites, dm, dm))
-            # Regression of site k on site l
-            # reg11[2][1] is a matrix (hence two more indices)
-            # containing the regressions of
-            # each element of the site 2 vector on each element of the site 1 vector
-            for k, l, i, j in itertools.product(
-                range_sites, range_sites, range_dm, range_dm
-            ):
-                if var[l][j] > 0.0000000000001:
-                    reg11[k][l][i][j] = cov[k][l][i][j] / var[l][j]
-                else:
-                    reg11[k][l][i][j] = 0
-            print("computed reg11")
-            arrays_save[naming + "_reg11"] = reg11
+        Pa = np.zeros((sites, pop_size, dm))
+        reg11 = np.zeros((sites, sites, dm, dm))
+        # Regression of site k on site l
+        # reg11[2][1] is a matrix (hence two more indices)
+        # containing the regressions of
+        # each element of the site 2 vector on each element of the site 1 vector
+        for k, l, i, j in itertools.product(
+            range_sites, range_sites, range_dm, range_dm
+        ):
+            if var[l][j] > 10 ** -13:
+                reg11[k][l][i][j] = cov[k][l][i][j] / var[l][j]
+            else:
+                reg11[k][l][i][j] = 0
+        print("computed reg11")
+        arrays_save[naming + "_reg11"] = reg11
 
-            # # # # # First order terms with zeros except for the value that is
-            # # # # # present (i.e. orthogonalized within each vector)
-            for k, i in itertools.product(range_sites, range_popsize):  # site, indiv
-                Pa[k][i] = sr.inner_general(
-                    sr.outer_general(phi[k][i], phi[k][i]), P[k][i]
+        # # # # # First order terms with zeros except for the value that is
+        # # # # # present (i.e. orthogonalized within each vector)
+        for k, i in itertools.product(range_sites, range_popsize):  # site, indiv
+            Pa[k][i] = sr.inner_general(sr.outer_general(phi[k][i], phi[k][i]), P[k][i])
+        print("computed Pa: first order orthogonalized within each vector")
+        arrays_save[naming + "_Pa"] = Pa
+
+        # Site j orthogonalized wrt site k
+        # P1i1[j][k][i] =  first order phi of site j independent of
+        # site k for individual i
+        P1i1 = np.zeros((sites, sites, pop_size, dm))
+        for i, j, k in itertools.product(range_popsize, range_sites, range_sites):
+            if k != j:
+                P1i1[j][k][i] = P[j][i] - sr.inner_general(reg11[j][k], Pa[k][i])
+        print("computed P1i1")
+        arrays_save[naming + "_P1i1"] = P1i1
+        P2i1 = P1i1[1][0]
+
+        # # # # Variance in P2i1
+        varP1i1 = np.zeros((sites, sites, dm))
+        for i, j, k in itertools.product(range_popsize, range_sites, range_sites):
+            if k != j:
+                varP1i1[j][k] += (P1i1[j][k][i] ** 2) / pop_size
+        print("computed varP1i1")
+        arrays_save[naming + "_varP1i1"] = varP1i1
+
+        # # # # cov11i1[j][k][l] = cov between site j and (site k independent of l)
+        cov11i1 = np.zeros((sites, sites, sites, dm, dm))
+        for j, k, l, i in itertools.product(
+            range_sites, range_sites, range_sites, range_popsize
+        ):
+            cov11i1[j][k][l] += sr.outer_general(P[j][i], P1i1[k][l][i]) / pop_size
+        print("computed cov11i1")
+        arrays_save[naming + "_cov11i1"] = cov11i1
+        # # # # # regression of site j on (site k independent of l)
+        reg11i1 = np.zeros((sites, sites, sites, dm, dm))
+        for k, l, m, i, j in itertools.product(
+            range_sites, range_sites, range_sites, range_dm, range_dm
+        ):
+            if varP1i1[l][m][j] > 10 ** -13:
+                reg11i1[k][l][m][i][j] = cov11i1[k][l][m][i][j] / varP1i1[l][m][j]
+            else:
+                reg11i1[k][l][m][i][j] = 0
+        print("computed reg11i1")
+        arrays_save[naming + "_reg11i1"] = reg11i1
+
+        # # # # # same as P1i1, except with all elements = 0 except the one present
+        Pa1i1 = np.zeros((sites, sites, pop_size, dm))
+        for i, j, k in itertools.product(range_popsize, range_sites, range_sites):
+            if k != j:
+                Pa1i1[j][k][i] = sr.inner_general(
+                    sr.outer_general(phi[j][i], phi[j][i]), P1i1[j][k][i]
                 )
-            print("computed Pa: first order orthogonalized within each vector")
-            arrays_save[naming + "_Pa"] = Pa
+        print("computed Pa1i1")
+        arrays_save[naming + "_Pa1i1"] = Pa1i1
+        # # # # # P1D[j][i] = first order poly of site j independent of all other
+        # sites, for individual i
+        P1D = np.zeros((sites, pop_size, dm))
+        for i, j, k in itertools.product(range_popsize, range_sites, range_sites):
+            if k != j:
+                for l in range_sites:
+                    if l != k & l != j:
+                        P1D[j][i] = (
+                            P[j][i]
+                            - sr.inner_general(reg11i1[j][k][l], Pa1i1[k][l][i])
+                            - sr.inner_general(reg11[j][l], Pa[l][i])
+                        )
+        print("computed P1D")
+        arrays_save[naming + "_P1D"] = P1D
 
-            # Site j orthogonalized wrt site k
-            # P1i1[j][k][i] =  first order phi of site j independent of
-            # site k for individual i
-            P1i1 = np.zeros((sites, sites, pop_size, dm))
-            for i, j, k in itertools.product(range_popsize, range_sites, range_sites):
-                if k != j:
-                    P1i1[j][k][i] = P[j][i] - sr.inner_general(reg11[j][k], Pa[k][i])
-            print("computed P1i1")
-            arrays_save[naming + "_P1i1"] = P1i1
-            P2i1 = P1i1[1][0]
-
-            # # # # Variance in P2i1
-            varP1i1 = np.zeros((sites, sites, dm))
-            for i, j, k in itertools.product(range_popsize, range_sites, range_sites):
-                if k != j:
-                    varP1i1[j][k] += (P1i1[j][k][i] ** 2) / pop_size
-            print("computed varP1i1")
-            arrays_save[naming + "_varP1i1"] = varP1i1
-
-            # # # # cov11i1[j][k][l] = cov between site j and (site k independent of l)
-            cov11i1 = np.zeros((sites, sites, sites, dm, dm))
-            for j, k, l, i in itertools.product(
-                range_sites, range_sites, range_sites, range_popsize
-            ):
-                cov11i1[j][k][l] += sr.outer_general(P[j][i], P1i1[k][l][i]) / pop_size
-            print("computed cov11i1")
-            arrays_save[naming + "_cov11i1"] = cov11i1
-            # # # # # regression of site j on (site k independent of l)
-            reg11i1 = np.zeros((sites, sites, sites, dm, dm))
-            for k, l, m, i, j in itertools.product(
-                range_sites, range_sites, range_sites, range_dm, range_dm
-            ):
-                if varP1i1[l][m][j] > 0.0000000000001:
-                    reg11i1[k][l][m][i][j] = cov11i1[k][l][m][i][j] / varP1i1[l][m][j]
-                else:
-                    reg11i1[k][l][m][i][j] = 0
-            print("computed reg11i1")
-            arrays_save[naming + "_reg11i1"] = reg11i1
-
-            # # # # # same as P1i1, except with all elements = 0 except the one present
-            Pa1i1 = np.zeros((sites, sites, pop_size, dm))
-            for i, j, k in itertools.product(range_popsize, range_sites, range_sites):
-                if k != j:
-                    Pa1i1[j][k][i] = sr.inner_general(
-                        sr.outer_general(phi[j][i], phi[j][i]), P1i1[j][k][i]
-                    )
-            print("computed Pa1i1")
-            arrays_save[naming + "_Pa1i1"] = Pa1i1
-            # # # # # P1D[j][i] = first order poly of site j independent of all other
-            # sites, for individual i
-            P1D = np.zeros((sites, pop_size, dm))
-            for i, j, k in itertools.product(range_popsize, range_sites, range_sites):
-                if k != j:
-                    for l in range_sites:
-                        if l != k & l != j:
-                            P1D[j][i] = (
-                                P[j][i]
-                                - sr.inner_general(reg11i1[j][k][l], Pa1i1[k][l][i])
-                                - sr.inner_general(reg11[j][l], Pa[l][i])
-                            )
-            print("computed P1D")
-            arrays_save[naming + "_P1D"] = P1D
-
-            # # # #variance in P1D
-            varP1D = np.zeros((sites, dm))
-            for k, i, j in itertools.product(range_sites, range_dm, range_popsize):
-                varP1D[k][i] += ((P1D[k][j][i]) ** 2) / pop_size
-            print("computed varP1D")
-            arrays_save[naming + "_varP1D"] = varP1D
+        # # # #variance in P1D
+        varP1D = np.zeros((sites, dm))
+        for k, i, j in itertools.product(range_sites, range_dm, range_popsize):
+            varP1D[k][i] += ((P1D[k][j][i]) ** 2) / pop_size
+        print("computed varP1D")
+        arrays_save[naming + "_varP1D"] = varP1D
         # Pa2i1 = Pa1i1[1][0]
         # varP2i1 = varP1i1[1][0]
         # # # #-------------------------------------------------------------
         # # # # ------------------------Second Order Terms -----------------
         # # # #-------------------------------------------------------------
 
-        # # # # Second order phenotypes.
-        if poly_order == "second" and not precomputed:
-            # this is also written under first order
-            # calculate mean vectors
-            for i, j in itertools.product(range_popsize, range_sites):
-                mean[j] += phi[j][i] / pop_size
-            arrays_save[naming + "_mean"] = mean
-            #  to show progress, can do something much more efficient/elegant
-            print("computed mean")
-
-            for j, i in itertools.product(range_sites, range_popsize):
-                P[j][i] = phi[j][i] - mean[j]
-            arrays_save[naming + "_P"] = P
-
-            # var[site][nucleotide]
-            for k, i, j in itertools.product(range_sites, range_dm, range_popsize):
-                var[k][i] += ((P[k][j][i]) ** 2) / pop_size
-            print("computed variance")
-            arrays_save[naming + "_var"] = var
-
-            # Covariances between nucleotides at sites i and j
-            # this is a matrix
-            # the cov matrix for the two sites is just the mean,
-            # across all individuals, of the outer product of P1 and P2
-            # #P2 is site 2 with means subtracted out
-            for j, k, i in itertools.product(range_sites, range_sites, range_popsize):
-                cov[j][k] += sr.outer_general(P[j][i], P[k][i]) / pop_size
-            print("computed covariance")
-            arrays_save[naming + "_cov"] = cov
-
-            Pa = np.zeros((sites, pop_size, dm))
-            reg11 = np.zeros((sites, sites, dm, dm))
-            # Regression of site k on site l
-            # reg11[2][1] is a matrix (hence two more indices)
-            # containing the regressions of
-            # each element of the site 2 vector on each element of the site 1 vector
-            for k, l, i, j in itertools.product(
-                range_sites, range_sites, range_dm, range_dm
-            ):
-                if var[l][j] > 0.0000000000001:
-                    reg11[k][l][i][j] = cov[k][l][i][j] / var[l][j]
-                else:
-                    reg11[k][l][i][j] = 0
-            print("computed reg11")
-            arrays_save[naming + "_reg11"] = reg11
-
-            # # # # # First order terms with zeros except for the value that is
-            # # # # # present (i.e. orthogonalized within each vector)
-            for k, i in itertools.product(range_sites, range_popsize):  # indiv
-                Pa[k][i] = sr.inner_general(
-                    sr.outer_general(phi[k][i], phi[k][i]), P[k][i]
-                )
-            print("computed Pa: first order orthogonalized within each vector")
-            arrays_save[naming + "_Pa"] = Pa
-
-            P1i1 = np.zeros((sites, sites, pop_size, dm))
-            for i, j, k in itertools.product(range_popsize, range_sites, range_sites):
-                if k != j:
-                    P1i1[j][k][i] = P[j][i] - sr.inner_general(reg11[j][k], Pa[k][i])
-            P2i1 = P1i1[1][0]
-            print("computed P1i1")
-            arrays_save[naming + "_P1i1"] = P1i1
-
-            # # # # Variance in P2i1
-            varP1i1 = np.zeros((sites, sites, dm))
-            for i, j, k in itertools.product(range_popsize, range_sites, range_sites):
-                if k != j:
-                    varP1i1[j][k] += (P1i1[j][k][i] ** 2) / pop_size
-            print("computed varP1i1")
-            arrays_save[naming + "_varP1i1"] = varP1i1
-            # # # # cov11i1[j][k][l] = cov between site j and (site k independent of l)
-            cov11i1 = np.zeros((sites, sites, sites, dm, dm))
-            for j, k, l, i in itertools.product(
-                range_sites, range_sites, range_sites, range_popsize
-            ):
-                cov11i1[j][k][l] += sr.outer_general(P[j][i], P1i1[k][l][i]) / pop_size
-            print("computed cov11i1")
-            arrays_save[naming + "_cov11i1"] = cov11i1
-            # # # # # regression of site j on (site k independent of l)
-            reg11i1 = np.zeros((sites, sites, sites, dm, dm))
-            for k, l, m, i, j in itertools.product(
-                range_sites, range_sites, range_sites, range_dm, range_dm
-            ):
-                if varP1i1[l][m][j] > 0.0000000000001:
-                    reg11i1[k][l][m][i][j] = cov11i1[k][l][m][i][j] / varP1i1[l][m][j]
-                else:
-                    reg11i1[k][l][m][i][j] = 0
-            print("computed reg11i1")
-            arrays_save[naming + "_reg11i1"] = reg11i1
-            # # # # # same as P1i1, except with all elements = 0 except the one present
-            Pa1i1 = np.zeros((sites, sites, pop_size, dm))
-            for i, j, k in itertools.product(range_popsize, range_sites, range_sites):
-                if k != j:
-                    Pa1i1[j][k][i] = sr.inner_general(
-                        sr.outer_general(phi[j][i], phi[j][i]), P1i1[j][k][i]
-                    )
-            print("computed Pa1i1")
-            arrays_save[naming + "_Pa1i1"] = Pa1i1
-            # # # # # P1D[j][i] = first order poly of site j independent of all other
-            # sites, for individual i
-            P1D = np.zeros((sites, pop_size, dm))
-            for i, j, k in itertools.product(
-                range_popsize, range_sites, range_sites
-            ):  # indiv
-                if k != j:
-                    for l in range_sites:
-                        if l != k & l != j:
-                            P1D[j][i] = (
-                                P[j][i]
-                                - sr.inner_general(reg11i1[j][k][l], Pa1i1[k][l][i])
-                                - sr.inner_general(reg11[j][l], Pa[l][i])
-                            )
-            print("computed P1D")
-            arrays_save[naming + "_P1D"] = P1D
-            # # # #variance in P1D
-            varP1D = np.zeros((sites, dm))
-            for k, i, j in itertools.product(range_sites, range_dm, range_popsize):
-                varP1D[k][i] += ((P1D[k][j][i]) ** 2) / pop_size
-            print("computed varP1D")
-            arrays_save[naming + "_varP1D"] = varP1D
-            #  end of that part from first order
-
+        # # # # Code only to be used for second and third order phenotypes.
+        if poly_order == "second" or poly_order == "third":
             for k, i, j in itertools.product(range_popsize, range_sites, range_sites):
                 if j != i:
                     phi2[i][j][k] = sr.outer_general(phi[i][k], phi[j][k])
@@ -431,6 +403,7 @@ def orthogonal_polynomial(
                         sr.outer_general(Q2[j][k][i], P1i1[1][0][i]) / pop_size
                     )
                     # will need this when doing third order
+                    # if poly_order == "third":
                     # cov2w1c[j][k] += sr.outer_general(
                     # Q2[j][k][i], P1D[2][i]) / n
             print("computed cov2w1a,cov2w1b")
@@ -447,22 +420,23 @@ def orthogonal_polynomial(
             for i, j in itertools.product(range_sites, range_sites):
                 if j != i:
                     for k, l, m in itertools.product(range_dm, range_dm, range_dm):
-                        if var[0][m] > 0.0000000001:
+                        if var[0][m] > 10 ** -10:
                             r2on1a[i][j][k][l][m] = cov2w1a[i][j][k][l][m] / var[0][m]
                         else:
                             r2on1a[i][j][k][l][m] = 0
-                        if varP1i1[1][0][m] > 0.0000000001:
+                        if varP1i1[1][0][m] > 10 ** -10:
                             r2on1b[i][j][k][l][m] = (
                                 cov2w1b[i][j][k][l][m] / varP1i1[1][0][m]
                             )
                         else:
                             r2on1b[i][j][k][l][m] = 0
-                        # Need for third degree polynomial
-                        # if varP1D[2][m] > 0.0000000001:
-                        #     r2on1c[i][j][k][l][m] = \
-                        # cov2w1c[i][j][k][l][m] / varP1D[2][m]
-                        # else:
-                        #     r2on1c[i][j][k][l][m] = 0
+                            # Need for third degree polynomial
+                            # if poly_order == "third":
+                            # if varP1D[2][m] > 10**-10:
+                            #     r2on1c[i][j][k][l][m] = \
+                            # cov2w1c[i][j][k][l][m] / varP1D[2][m]
+                            # else:
+                            #     r2on1c[i][j][k][l][m] = 0
             print("computed r2on1a, r2on1b")
             arrays_save[naming + "_r2on1a"] = r2on1a
             arrays_save[naming + "_r2on1b"] = r2on1b
@@ -536,7 +510,7 @@ def orthogonal_polynomial(
                             for m, n, o, p in itertools.product(
                                 range_dm, range_dm, range_dm, range_dm
                             ):
-                                if var2[k][l][o][p] > 0.0000000001:
+                                if var2[k][l][o][p] > 10 ** -10:
                                     numerator = cov2w2[i][j][k][l][m][n][o][p]
                                     denominator = var2[k][l][o][p]
                                     reg2on2[i][j][k][l][m][n][o][p] = (
@@ -606,7 +580,7 @@ def orthogonal_polynomial(
                                     for m, n, o, p in itertools.product(
                                         range_dm, range_dm, range_dm, range_dm
                                     ):
-                                        if var2i2[k][l][k1][l1][o][p] > 0.0000000001:
+                                        if var2i2[k][l][k1][l1][o][p] > 10 ** -10:
                                             numerator = cov2w2i2[i][j][k][l][k1][l1][m][
                                                 n
                                             ][o][p]
@@ -660,6 +634,49 @@ def orthogonal_polynomial(
                         var2D[j][k][l][m] += (P2D[j][k][i][l][m] ** 2) / pop_size
             print("computed var2D")
             arrays_save[naming + "_var2D"] = var2D
+
+        # # # #-------------------------------------------------------------
+        # # # # ------------------------Third Order Terms ------------------
+        # # # #-------------------------------------------------------------
+
+        # # # # Third order phenotypes.
+
+        # if poly_order == "third":
+
+        # will need this when doing third order
+        # cov2w1c = array([[[[[0.0 for z in range_dm] for i in range_dm]
+        # for j in range_dm] for k in range_sites] for l in range_sites])
+
+        # for i, j, k in itertools.product(range_popsize, range_sites, range_sites):
+        # if k != j:
+        # cov2w1a[j][k] += sr.outer_general(Q2[j][k][i], P[0][i]) / pop_size
+        # cov2w1b[j][k] += (
+        # sr.outer_general(Q2[j][k][i], P1i1[1][0][i]) / pop_size
+        # )
+        # will need this when doing third order
+        # cov2w1c[j][k] += sr.outer_general(
+        # Q2[j][k][i], P1D[2][i]) / n
+
+        # for i, j in itertools.product(range_sites, range_sites):
+        # if j != i:
+        # for k, l, m in itertools.product(range_dm, range_dm, range_dm):
+        # if var[0][m] > 10**-10:
+        #     r2on1a[i][j][k][l][m] = cov2w1a[i][j][k][l][m] / var[0][m]
+        # else:
+        #     r2on1a[i][j][k][l][m] = 0
+        # if varP1i1[1][0][m] > 10**-10:
+        #     r2on1b[i][j][k][l][m] = (
+        #         cov2w1b[i][j][k][l][m] / varP1i1[1][0][m]
+        #     )
+        # else:
+        #     r2on1b[i][j][k][l][m] = 0
+        # Need for third degree polynomial
+        # if varP1D[2][m] > 10**-10:
+        #     r2on1c[i][j][k][l][m] = \
+        # cov2w1c[i][j][k][l][m] / varP1D[2][m]
+        # else:
+        #     r2on1c[i][j][k][l][m] = 0
+
         output_npz_file = os.path.join(out_dir, naming + ".npz")
         print("Saving to {}".format(output_npz_file))
 
@@ -692,7 +709,6 @@ def orthogonal_polynomial(
     #     [[[0.0 for z in range_dm] for i in range_dm] for j in range_dm])
     # Calculating the mean trait value
 
-    naming_phenotype = os.path.basename(f2.name)
     cov_with_F_save = {}
     # calculating mean phenotype value
     Fm = sum([F[i] / pop_size for i in range_popsize])
@@ -700,45 +716,24 @@ def orthogonal_polynomial(
     # Covariances of the trait with each element of the 1'st order vectors.
     # We can use the 'dot' operator here to get the inner product of a
     # first and a second rank tensor (a vector and a matrix).
-    if poly_order == "first":
-        covFP[0] = np.dot(F, P[0]) / pop_size  # for site 1
-        cov1FP[1] = np.dot(F, P[1]) / pop_size
-        covFP[1] = np.dot(F, P2i1) / pop_size  # for site 2 independent of 1
-        cov_with_F_save[naming_phenotype + "_covFP[0]"] = covFP[0]
-        cov_with_F_save[naming_phenotype + "_cov1FP[1]"] = cov1FP[1]
-        cov_with_F_save[naming_phenotype + "_covFP[1]"] = covFP[1]
+    covFP[0] = np.dot(F, P[0]) / pop_size  # for site 1
+    cov1FP[1] = np.dot(F, P[1]) / pop_size
+    covFP[1] = np.dot(F, P2i1) / pop_size  # for site 2 independent of 1
+    cov_with_F_save[naming_phenotype + "_covFP[0]"] = covFP[0]
+    cov_with_F_save[naming_phenotype + "_cov1FP[1]"] = cov1FP[1]
+    cov_with_F_save[naming_phenotype + "_covFP[1]"] = covFP[1]
 
-        for i in range(pop_size):
-            for j in range(sites):
-                for k in range(dm):
-                    covFw1[j][k] += F[i] * P[j][i][k] / pop_size
-                    covFw1D[j][k] += F[i] * P1D[j][i][k] / pop_size
-                for l in range(sites):
-                    if l != j:
-                        for m in range(dm):
-                            covFw1i1[j][l][m] += F[i] * P1i1[j][l][i][m] / pop_size
-        cov_with_F_save[naming_phenotype + "_covFw1i1"] = covFw1i1
-    if poly_order == "second":
-        # this part is from first order
-        covFP[0] = np.dot(F, P[0]) / pop_size  # for site 1
-        cov1FP[1] = np.dot(F, P[1]) / pop_size
-        covFP[1] = np.dot(F, P2i1) / pop_size  # for site 2 independent of 1
-        cov_with_F_save[naming_phenotype + "_covFP[0]"] = covFP[0]
-        cov_with_F_save[naming_phenotype + "_cov1FP[1]"] = cov1FP[1]
-        cov_with_F_save[naming_phenotype + "_covFP[1]"] = covFP[1]
-
-        for i in range(pop_size):
-            for j in range(sites):
-                for k in range(dm):
-                    covFw1[j][k] += F[i] * P[j][i][k] / pop_size
-                    covFw1D[j][k] += F[i] * P1D[j][i][k] / pop_size
-                for l in range(sites):
-                    if l != j:
-                        for m in range(dm):
-                            covFw1i1[j][l][m] += F[i] * P1i1[j][l][i][m] / pop_size
-        cov_with_F_save[naming_phenotype + "_covFw1i1"] = covFw1i1
-        #  end of that part
-
+    for i in range(pop_size):
+        for j in range(sites):
+            for k in range(dm):
+                covFw1[j][k] += F[i] * P[j][i][k] / pop_size
+                covFw1D[j][k] += F[i] * P1D[j][i][k] / pop_size
+            for l in range(sites):
+                if l != j:
+                    for m in range(dm):
+                        covFw1i1[j][l][m] += F[i] * P1i1[j][l][i][m] / pop_size
+    cov_with_F_save[naming_phenotype + "_covFw1i1"] = covFw1i1
+    if poly_order == "second" or poly_order == "third":
         for i in range(pop_size):
             for j in range(sites):
                 for k in range(sites):
@@ -764,6 +759,7 @@ def orthogonal_polynomial(
         cov_with_F_save[naming_phenotype + "_covFw2i2"] = covFw2i2
 
         # Need for third degree polynomial
+        # if poly_order == "third":
         # for i in range_popsize:
         #     for j in range_dm:
         #         for k in range_dm:
@@ -777,78 +773,44 @@ def orthogonal_polynomial(
         cov_with_F_save[naming_phenotype + "_covFPP"] = covFPP
     # Regressions of the trait on each element of the first order
     # phenotype vectors.
-    if poly_order == "first":
-        for j, i in itertools.product(range_sites, range_dm):
-            if var[j][i] > 0.0000000001:
-                rFon1[j][i] = covFw1[j][i] / var[j][i]
-            else:
-                rFon1[j][i] = 0
-            if varP1D[j][i] > 0.0000000001:
-                rFon1D[j][i] = covFw1D[j][i] / varP1D[j][i]
-            else:
-                rFon1D[j][i] = 0
+    for j, i in itertools.product(range_sites, range_dm):
+        if var[j][i] > 10 ** -10:
+            rFon1[j][i] = covFw1[j][i] / var[j][i]
+        else:
+            rFon1[j][i] = 0
+        if varP1D[j][i] > 10 ** -10:
+            rFon1D[j][i] = covFw1D[j][i] / varP1D[j][i]
+        else:
+            rFon1D[j][i] = 0
 
-        for i, j in itertools.product(range_sites, range_sites):
-            if j != i:
-                for k in range_dm:
-                    if varP1i1[i][j][k] > 0.00000000001:
-                        rFon1i1[i][j][k] = covFw1i1[i][j][k] / varP1i1[i][j][k]
-                    else:
-                        rFon1i1[i][j][k] = 0
-        # Contribution of site 1 for each individual.
-        # This is the regression of the trait on site 1 times (inner product)
-        # the individual's site 1 vector that has been orthogonalized within
-        # the vector.
-        # test_val = sr.inner_general(rFon1[0],Pa[0][i])
-        Fon1 = [sr.inner_general(rFon1[0], Pa[0][i]) for i in range_popsize]
+    for i, j in itertools.product(range_sites, range_sites):
+        if j != i:
+            for k in range_dm:
+                if varP1i1[i][j][k] > 10 ** -11:
+                    rFon1i1[i][j][k] = covFw1i1[i][j][k] / varP1i1[i][j][k]
+                else:
+                    rFon1i1[i][j][k] = 0
+    # Contribution of site 1 for each individual.
+    # This is the regression of the trait on site 1 times (inner product)
+    # the individual's site 1 vector that has been orthogonalized within
+    # the vector.
+    # test_val = sr.inner_general(rFon1[0],Pa[0][i])
+    Fon1 = [sr.inner_general(rFon1[0], Pa[0][i]) for i in range_popsize]
 
-        # Contribution of site 2 independent of 1 for each individual.
-        Fon2i1 = [
-            sr.inner_general(rFon1i1[1][0], Pa1i1[1][0][i]) for i in range_popsize
-        ]
+    # Contribution of site 2 independent of 1 for each individual.
+    Fon2i1 = [sr.inner_general(rFon1i1[1][0], Pa1i1[1][0][i]) for i in range_popsize]
 
     # Regressions of the trait on each element of the second order
     # phenotype matrices.
-    if poly_order == "second":
-        # this part is from first order
-        for j, i in itertools.product(range_sites, range_dm):
-            if var[j][i] > 0.0000000001:
-                rFon1[j][i] = covFw1[j][i] / var[j][i]
-            else:
-                rFon1[j][i] = 0
-            if varP1D[j][i] > 0.0000000001:
-                rFon1D[j][i] = covFw1D[j][i] / varP1D[j][i]
-            else:
-                rFon1D[j][i] = 0
-
-        for i, j in itertools.product(range_sites, range_sites):
-            if j != i:
-                for k in range_dm:
-                    if varP1i1[i][j][k] > 0.00000000001:
-                        rFon1i1[i][j][k] = covFw1i1[i][j][k] / varP1i1[i][j][k]
-                    else:
-                        rFon1i1[i][j][k] = 0
-        # Contribution of site 1 for each individual.
-        # This is the regression of the trait on site 1 times (inner product)
-        # the individual's site 1 vector that has been orthogonalized within
-        # the vector.
-        # test_val = sr.inner_general(rFon1[0],Pa[0][i])
-        Fon1 = [sr.inner_general(rFon1[0], Pa[0][i]) for i in range_popsize]
-
-        # Contribution of site 2 independent of 1 for each individual.
-        Fon2i1 = [
-            sr.inner_general(rFon1i1[1][0], Pa1i1[1][0][i]) for i in range_popsize
-        ]
-        # end of that section from first order
-
+    if poly_order == "second" or poly_order == "third":
         for i, j in itertools.product(range_sites, range_sites):
             if j != i:
                 for k, l in itertools.product(range_dm, range_dm):
-                    if var2[i][j][k][l] > 0.00000000001:
+                    if var2[i][j][k][l] > 10 ** -11:
                         rFon2[i][j][k][l] = covFw2[i][j][k][l] / var2[i][j][k][l]
                     else:
                         rFon2[i][j][k][l] = 0
-                    if var2D[i][j][k][l] > 0.00000000001:
+                    if var2D[i][j][k][l] > 10 ** -11:
                         rFon2D[i][j][k][l] = covFw2D[i][j][k][l] / var2D[i][j][k][l]
                     else:
                         rFon2D[i][j][k][l] = 0
@@ -858,17 +820,18 @@ def orthogonal_polynomial(
                 for k, l in itertools.product(range_sites, range_sites):
                     if l != k:
                         for m, n in itertools.product(range_dm, range_dm):
-                            if var2i2[i][j][k][l][m][n] > 0.0000000001:
+                            if var2i2[i][j][k][l][m][n] > 10 ** -10:
                                 numerator = covFw2i2[i][j][k][l][m][n]
                                 denominator = var2i2[i][j][k][l][m][n]
                                 rFon2i2[i][j][k][l][m][n] = numerator / denominator
                             else:
                                 rFon2i2[i][j][k][l][m][n] = 0
         # Need when doing 3rd order
+        # if poly_order == "third":
         # for i in range_dm:
         #     for j in range_dm:
         #         for k in range_dm:
-        #             if var3[i][j][k] > 0.0000000001:
+        #             if var3[i][j][k] > 10**-10:
         #                 rFon3[i][j][k] = covFw3[i][j][k] / var3[i][j][k]
         #             else:
         #                 rFon3[i][j][k] = 0
@@ -879,15 +842,14 @@ def orthogonal_polynomial(
         # of the second order phenotype matrix.
         # nucleotide1, nucleotide2
         for i, j in itertools.product(range_dm, range_dm):
-            if var12[i][j] > 0.0000000001:
+            if var12[i][j] > 10 ** -10:
                 rFon12[i][j] = covFPP[i][j] / var12[i][j]
             else:
                 rFon12[i] = 0
         # # Contribution of the second order phenotype for each individual.
         Fon12 = [sr.inner_general(rFon2[0][1], P2a[0][1][i]) for i in range_popsize]
         Fon12 = [
-            0 if np.fabs(Fon12[i]) < 0.0000000000001 else Fon12[i]
-            for i in range_popsize
+            0 if np.fabs(Fon12[i]) < 10 ** -13 else Fon12[i] for i in range_popsize
         ]
 
         # ----------Calculating the expected trait value for each individual
@@ -895,18 +857,30 @@ def orthogonal_polynomial(
         # -----------above (to check  whether or not everything works).
 
         Fest = [Fm + Fon1[i] + Fon2i1[i] + Fon12[i] for i in range_popsize]
-        Fest = [
-            0 if np.fabs(Fest[i]) < 0.0000000000001 else Fest[i] for i in range_popsize
-        ]
+        Fest = [0 if np.fabs(Fest[i]) < 10 ** -13 else Fest[i] for i in range_popsize]
+
+    # Third order
+
+    # if poly_order == "third":
+
+    # Need when doing 3rd order
+    # for i in range_dm:
+    #     for j in range_dm:
+    #         for k in range_dm:
+    #             if var3[i][j][k] > 10**-10:
+    #                 rFon3[i][j][k] = covFw3[i][j][k] / var3[i][j][k]
+    #             else:
+    #                 rFon3[i][j][k] = 0
+
+    # print("rFon2i1"+str(rFon2i1))
+
     # contribution of third order phenotype for each individual......
     # for i in range_popsize:
     #     Fon3[i] = sr.inner_general(rFon3[0], P3a)
     # Ignoring very small values that would be due to roundoff error.
     # Change or delete this for a large data set.
-    Fon1 = [0 if np.fabs(Fon1[i]) < 0.0000000000001 else Fon1[i] for i in range_popsize]
-    Fon2i1 = [
-        0 if np.fabs(Fon2i1[i]) < 0.0000000000001 else Fon2i1[i] for i in range_popsize
-    ]
+    Fon1 = [0 if np.fabs(Fon1[i]) < 10 ** -13 else Fon1[i] for i in range_popsize]
+    Fon2i1 = [0 if np.fabs(Fon2i1[i]) < 10 ** -13 else Fon2i1[i] for i in range_popsize]
 
     output_npz_file = os.path.join(out_dir, naming_phenotype + "_covs_with_F.npz")
     print("Saving to {}".format(output_npz_file))
@@ -931,7 +905,7 @@ def orthogonal_polynomial(
     # rFon1D is needed as we're working with 3 sites
     print("computed rFon1D")
 
-    if poly_order == "second":
+    if poly_order == "second" or poly_order == "third":
         print("Regression of trait on site 2")
         print(rFon2)
         print("Regression on 2nd order polynomial - orthogonalized within - rFon2D")
@@ -955,22 +929,133 @@ def orthogonal_polynomial(
 
     print("Trait values estimated from regressions")
     print(Fest)
+
+    ## Graph of regression
+    # Flatten data
+    rFon1D_flat = list(rFon1D.flatten())
+    if any(i != 0 for i in rFon1D_flat):
+        data_null = np.where(
+            np.array(rFon1D_flat) == float(0), float("nan"), rFon1D_flat
+        )
+
+        # Constants/constant arrays
+        ind = np.arange(sites)  # x-axis
+        num_dm = np.arange(dm)
+        width = 1 / sites
+        s = sites * dm
+
+        # Re-vectorization with null values
+        dim_num = dict()
+        for i in ind:
+            dim_num[i] = [data_null[j] for j in np.arange(dm * i, dm * i + dm)]
+        # some_dim = [data_array_flat[i], i for i in range(0, 160, 4)]
+
+        # Remove all null data
+        dim_na = dict()
+        dim_loc = dict()
+        for i in ind:
+            dim_na[i] = np.array(dim_num[i])[np.array(np.isnan(dim_num[i])) == False]
+            dim_loc[i] = np.arange(len(dim_num[i]))[
+                np.array(np.isnan(dim_num[i])) == False
+            ]
+        # Color dictionary with corresponding letters
+
+        dim_aa = dict()
+
+        for i in num_dm:
+            dim_aa[i] = [data_null[j] for j in range(i, s, dm)]
+
+        col_len = len(colors)
+        alpb_d = dict()
+        if alphbt_input is None:
+            for i in num_dm:
+                if any(i != 0 and i for i in dim_aa[i]):
+                    alpb_d[i] = colors[i % col_len]
+                    alpb_d[alphabets[i]] = alpb_d.pop(i)
+        else:
+            for i in num_dm:
+                if any(i != 0 and i for i in dim_aa[i]):
+                    alpb_d[i] = colors[i % col_len]
+                    alpb_d[custom_aa[i]] = alpb_d.pop(i)
+
+        # Creating plots
+        fig, ax = plt.subplots()
+        dim = dict()
+        pi = dict()
+        for i in range(sites + 1):
+            ax.axvline(i, color="lightgray", linewidth=0.8, zorder=0)
+        for i in ind:
+            if len(dim_na[i]) == 0:
+                ln = 1
+            else:
+                ln = 1 / len(dim_na[i])
+            rn = np.arange(1 / ln)
+            pi[i] = ax.bar(
+                x=i + np.array([j for j in rn]) * ln,
+                height=[j for j in dim_na[i]],
+                width=ln,
+                align="edge",
+                color=[colors[i % col_len] for i in list(dim_loc[i])],
+                edgecolor="black",
+                zorder=3,
+            )
+        ax.axhline(color="black", linewidth=0.64)
+
+        ax.set_xticks(ind + width + 0.5)
+        ax.set_xticklabels(np.arange(1, sites + 1))
+
+        color_map = [color for color in list(alpb_d.values())]
+        markers = [
+            plt.Line2D([0, 0], [0, 0], color=color, marker="o", linestyle="")
+            for color in alpb_d.values()
+        ]
+        if dm < 6:
+            dim = dm
+        else:
+            dim = dm // 3
+        ax.legend(markers, alphabets, loc=1, ncol=dim, prop={"size": 60 / dm})
+        ax.tick_params(
+            width=0.8, labelsize=80 / sites
+        )  # width of the tick and the size of the tick labels
+        # Regressions of off values onto each site of target RNA (orthogonalized within)
+        # plt.savefig('rFon1D_off_star.png', bbox_inches='tight')
+        if alphbt_input is None or "," not in alphbt_input:
+            plt.xlabel("Sequence Site")
+        else:
+            plt.xlabel(
+                "Sequence Site\nGroupings according to --alphbt_input:\n"
+                + str(custom_dict)
+                .replace("'", "")
+                .replace(", ", " | ")
+                .replace(": ", " is "),
+                fontsize=5.6,
+            )
+        # plt.title("")
+        if "protein" in molecule:
+            ylab = (
+                "Regressions of "
+                + str(naming_phenotype)
+                + " onto each site and amino acid"
+            )
+        else:
+            ylab = (
+                "Regressions of "
+                + str(naming_phenotype)
+                + " onto each site and nucleotide"
+            )
+        plt.ylabel(ylab)
+        figure = ax.get_figure()
+        path_sav = "rFon1D_graph_" + str(naming_phenotype) + ".png"
+        figure.savefig(os.path.join(str(out_dir), path_sav), dpi=400)
+        print("saved regression graph as", str(os.path.join(str(out_dir), path_sav)))
+    else:
+        print("Nothing to graph for rFon1D.")
+
     print("--- %s seconds ---" % (time.time() - start_time))
 
 
 @click.command(help="program to compute orthogonal polynomials up to 2nd order")  # noqa
 @click.argument("filename", type=str)  # noqa
-@click.option(
-    "--pop_size", default=1, help="Population size or number of sequences"
-)  # noqa
-@click.option(
-    "--dm",
-    default=4,
-    help="dimension of vector, e.g., this is =4 when input is DNA/RNA",
-)  # noqa
-@click.option(
-    "--sites", default=2, help="number of sites in a sequence"
-)  # starting off with two sites to run full second order
 @click.option(
     "--molecule", default="DNA", help="can provide DNA or amino acid sequence"
 )
@@ -986,26 +1071,36 @@ def orthogonal_polynomial(
 @click.option(
     "--out_dir", help="directory to save output/debug files to", type=str
 )  # noqa
+@click.option(
+    "--alphbt_input",
+    default=None,
+    help="enter amino acids/nucleotides you want to focus on, comma-separate to group amino acids",
+    type=str,
+)
+@click.option(
+    "--min_pct",
+    default=75,
+    help="minimum percentile that you want saved in the covariance csv",
+    type=int,
+)
 # @click.argument('pheno_file', type=click.File('rb'))
 def cli(
     filename,
-    pop_size,
-    dm,
-    sites,
     molecule,
     pheno_file,
     poly_order,
     precomputed,
     out_dir,
+    alphbt_input,
+    min_pct,
 ):
     orthogonal_polynomial(
         filename,
         pheno_file,
         molecule,
-        sites,
-        dm,
-        pop_size,
         poly_order,
         precomputed,
         out_dir,
+        alphbt_input,
+        min_pct,
     )

@@ -18,7 +18,7 @@ class JobRunner(QWidget):
             self.poly_order,
             self.precomputed,
             out_dir=".",
-            alphbt_input="PROTEIN_PNP",
+            alphbt_input="DNA",
             min_pct=50,
         )
 

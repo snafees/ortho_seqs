@@ -1,5 +1,4 @@
 from PyQt5.QtWidgets import QWidget
-import os
 
 from ortho_seq_code.orthogonal_polynomial import orthogonal_polynomial
 from ortho_seq_code.gui.worker import Worker
@@ -16,12 +15,11 @@ class JobRunner(QWidget):
             self.filename,
             self.pheno_file,
             self.molecule,
-            2,
-            4,
-            1,
-            "first",
-            False,
-            os.getcwd(),
+            self.poly_order,
+            self.precomputed,
+            self.out_dir,
+            self.alphbt_input,
+            self.min_pct
         )
 
     def thread_complete(self):
@@ -31,6 +29,11 @@ class JobRunner(QWidget):
         self.filename = self.parent.upload_button_1.text()
         self.pheno_file = self.parent.upload_button_2.text()
         self.molecule = self.parent.styleComboBox1.currentText()
+        self.poly_order = self.parent.poly
+        self.precomputed,
+        self.out_dir,
+        self.alphbt_input,
+        self.min_pct
 
         worker = Worker(self.job_func)
 

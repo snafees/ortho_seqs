@@ -17,9 +17,6 @@ class JobRunner(QWidget):
             self.molecule,
             self.poly_order,
             self.precomputed,
-            self.out_dir,
-            self.alphbt_input,
-            self.min_pct
         )
 
     def thread_complete(self):
@@ -28,12 +25,9 @@ class JobRunner(QWidget):
     def launch(self):
         self.filename = self.parent.upload_button_1.text()
         self.pheno_file = self.parent.upload_button_2.text()
-        self.molecule = self.parent.styleComboBox1.currentText()
-        self.poly_order = self.parent.poly
-        self.precomputed,
-        self.out_dir,
-        self.alphbt_input,
-        self.min_pct
+        self.molecule = self.parent.molecule_combobox.currentText()
+        self.poly_order = self.parent.poly_order_combobox.currentText()
+        self.precomputed = self.parent.precomputed_combobox.currentText() == "Yes"
 
         worker = Worker(self.job_func)
 

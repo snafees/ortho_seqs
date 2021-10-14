@@ -9,6 +9,7 @@ from PyQt5.QtWidgets import (
     QPushButton,
     QHBoxLayout,
     QCheckBox,
+    QFileDialog,
 )
 import sys
 
@@ -29,8 +30,10 @@ class MainWidget(QWidget):
         # Upload file buttons
         label2 = QLabel("Upload sequence file:")
         self.upload_button_1 = QPushButton("seq_file")
+        self.upload_button_1.clicked.connect(lambda: self.upload_button_1.setText(self.openFileNamesDialog()))
         label3 = QLabel("Upload phenotype file:")
         self.upload_button_2 = QPushButton("pheno_file")
+        self.upload_button_2.clicked.connect(lambda: self.upload_button_2.setText(self.openFileNamesDialog()))
 
         upload_layout1 = QHBoxLayout()
         upload_layout1.addWidget(label2)
@@ -68,14 +71,13 @@ class MainWidget(QWidget):
         self.widget_layout.addLayout(upload_ComboBox2_layout)
 
         # Precomputed checkboxes
-        label4 = QLabel("Precomputed?")
         upload_layout3 = QHBoxLayout()
+        label4 = QLabel("Precomputed?")
         upload_layout3.addWidget(label4)
-        checkbox1 = QCheckBox("Yes")
-        checkbox2 = QCheckBox("No")
+        self.precomputed_combobox = QComboBox()
+        self.precomputed_combobox.addItems(["Yes", "No"])
+        upload_layout3.addWidget(self.precomputed_combobox)
         self.widget_layout.addLayout(upload_layout3)  # for checkbox
-        self.widget_layout.addWidget(checkbox1)
-        self.widget_layout.addWidget(checkbox2)
 
         # RUN button
         start_button = QPushButton("RUN")
@@ -85,6 +87,16 @@ class MainWidget(QWidget):
         self.widget_layout.addWidget(start_button)
 
         self.setLayout(self.widget_layout)
+
+    def openFileNamesDialog(self):
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        files, _ = QFileDialog.getOpenFileNames(
+            self, "Open File(s)", "", "All Files (*)", options=options
+        )
+
+        if files:
+            return files[0]
 
 
 class MainWindow(QMainWindow):

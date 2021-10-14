@@ -18,7 +18,7 @@ class JobRunner(QWidget):
             self.poly_order,
             self.precomputed,
             out_dir=".",
-            alphbt_input="DNA",
+            alphbt_input=None,
             min_pct=50,
         )
 

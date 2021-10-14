@@ -183,10 +183,7 @@ def orthogonal_polynomial(
             bns.append(bns[-1] + 0.05)
         fig, cov_sub = plt.subplots()
         cov_sub.hist(
-            cov_flat,
-            edgecolor="black",
-            bins=bns,
-            color="blueviolet",
+            cov_flat, edgecolor="black", bins=bns, color="blueviolet",
         )
         plt.xlabel("Non-Zero Covariances")
         plt.ylabel("Frequency")

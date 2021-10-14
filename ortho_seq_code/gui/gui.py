@@ -30,10 +30,14 @@ class MainWidget(QWidget):
         # Upload file buttons
         label2 = QLabel("Upload sequence file:")
         self.upload_button_1 = QPushButton("seq_file")
-        self.upload_button_1.clicked.connect(lambda: self.upload_button_1.setText(self.openFileNamesDialog()))
+        self.upload_button_1.clicked.connect(
+            lambda: self.upload_button_1.setText(self.openFileNamesDialog())
+        )
         label3 = QLabel("Upload phenotype file:")
         self.upload_button_2 = QPushButton("pheno_file")
-        self.upload_button_2.clicked.connect(lambda: self.upload_button_2.setText(self.openFileNamesDialog()))
+        self.upload_button_2.clicked.connect(
+            lambda: self.upload_button_2.setText(self.openFileNamesDialog())
+        )
 
         upload_layout1 = QHBoxLayout()
         upload_layout1.addWidget(label2)

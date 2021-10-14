@@ -17,6 +17,9 @@ class JobRunner(QWidget):
             self.molecule,
             self.poly_order,
             self.precomputed,
+            out_dir=".",
+            alphbt_input="PROTEIN_PNP",
+            min_pct=50,
         )
 
     def thread_complete(self):

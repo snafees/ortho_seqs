@@ -110,7 +110,7 @@ class MainWindow(QMainWindow):
         self.show()
 
 
-def main():
+def gui_run():
     app = QApplication(sys.argv)
     window = MainWindow()
 
@@ -118,4 +118,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    gui_run()

@@ -1,6 +1,6 @@
 import click
 from ortho_seq_code.orthogonal_polynomial import cli as orthogonal_polynomial
-from ortho_seq_code.gui import gui_run
+from ortho_seq_code.gui.gui import gui_run
 
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 

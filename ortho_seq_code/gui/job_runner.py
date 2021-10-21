@@ -19,7 +19,7 @@ class JobRunner(QWidget):
             self.precomputed,
             out_dir=".",
             alphbt_input=None,
-            min_pct=50,
+            min_pct=75,
         )
 
     def thread_complete(self):

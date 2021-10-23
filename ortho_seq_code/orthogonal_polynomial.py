@@ -17,7 +17,7 @@ def create_dir_if_not_exists(out_dir):
         ct = 0
         while os.path.exists(out_dir):
             if ct != 0:
-                loc = out_dir.rfind("[") - len(out_dir)
+                loc = len(out_dir) - len(str(ct))
                 out_dir = out_dir[:loc]
             out_dir += str(ct)
             ct += 1
@@ -205,10 +205,7 @@ def orthogonal_polynomial(
             bns.append(bns[-1] + 0.05)
         fig, cov_sub = plt.subplots()
         cov_sub.hist(
-            cov_flat,
-            edgecolor="black",
-            bins=bns,
-            color="blueviolet",
+            cov_flat, edgecolor="black", bins=bns, color="blueviolet",
         )
         plt.xlabel("Non-Zero Covariances")
         plt.ylabel("Frequency")
@@ -638,8 +635,7 @@ def orthogonal_polynomial(
                                             P2i2a[l][m][n][o][i],
                                         )
                                         - sr.inner_general(
-                                            reg2on2[j][k][n][o],
-                                            P2a[n][o][i],
+                                            reg2on2[j][k][n][o], P2a[n][o][i],
                                         )
                                     )
                                     P2Da[j][k][i] = sr.inner_general(

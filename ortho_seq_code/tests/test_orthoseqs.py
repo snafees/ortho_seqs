@@ -227,7 +227,7 @@ def test_protein_padded_first_order(
         protein_params_first_order_padded = protein_params_first_order_padded._replace(
             out_dir=location
         )
-        location += "[0]"
+        location += "0"
         orthogonal_polynomial(*protein_params_first_order_padded)
 
         basefile = os.path.abspath(protein_params_first_order_padded.seqs_filename)
@@ -261,7 +261,7 @@ def test_protein_paddded_custom_aa(protein_data_dir, protein_params_custom_aa):
 
     with utils.TempDirectory() as location:
         protein_params_custom_aa = protein_params_custom_aa._replace(out_dir=location)
-        location += "[0]"
+        location += "0"
         orthogonal_polynomial(*protein_params_custom_aa)
 
         basefile = os.path.abspath(protein_params_custom_aa.seqs_filename)
@@ -303,7 +303,7 @@ def test_protein_padded_custom_aa_2(protein_data_dir, protein_params_custom_aa_2
         protein_params_custom_aa_2 = protein_params_custom_aa_2._replace(
             out_dir=location
         )
-        location += "[0]"
+        location += "0"
         orthogonal_polynomial(*protein_params_custom_aa_2)
 
         basefile = os.path.abspath(protein_params_custom_aa_2.seqs_filename)

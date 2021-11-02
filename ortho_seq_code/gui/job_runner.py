@@ -17,7 +17,7 @@ class JobRunner(QWidget):
             self.molecule,
             self.poly_order,
             self.precomputed,
-            out_dir="_",
+            out_dir="",
             alphbt_input=None,
             min_pct=50,
         )

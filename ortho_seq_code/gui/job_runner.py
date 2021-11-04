@@ -17,7 +17,7 @@ class JobRunner(QWidget):
             self.molecule,
             self.poly_order,
             self.precomputed,
-            out_dir='../results_ortho_seq_testing/',
+            out_dir="../results_ortho_seq_testing/",
             alphbt_input=None,
             min_pct=75,
         )

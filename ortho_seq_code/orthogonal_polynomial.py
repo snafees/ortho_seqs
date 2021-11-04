@@ -183,7 +183,10 @@ def orthogonal_polynomial(
             bns.append(bns[-1] + 0.05)
         fig, cov_sub = plt.subplots()
         cov_sub.hist(
-            cov_flat, edgecolor="black", bins=bns, color="blueviolet",
+            cov_flat,
+            edgecolor="black",
+            bins=bns,
+            color="blueviolet",
         )
         plt.xlabel("Non-Zero Covariances")
         plt.ylabel("Frequency")
@@ -1066,7 +1069,9 @@ def orthogonal_polynomial(
     "--precomputed", default=False, help="if true, then saved results are used"
 )
 @click.option(
-    "--out_dir", help="directory to save output/debug files to", type=str,
+    "--out_dir",
+    help="directory to save output/debug files to",
+    type=str,
 )  # noqa
 @click.option(
     "--alphbt_input",

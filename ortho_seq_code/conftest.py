@@ -83,16 +83,7 @@ def nucleotide_params_first_order(nucleotide_first_order_data_dir):
         nucleotide_first_order_data_dir, "trait_test_seqs_2sites_dna.txt"
     )
 
-    return Params(
-        seqs_filename,
-        pheno_filename,
-        "DNA",
-        "first",
-        False,
-        "",
-        None,
-        75,
-    )
+    return Params(seqs_filename, pheno_filename, "DNA", "first", False, "", None, 75,)
 
 
 @pytest.fixture
@@ -104,16 +95,7 @@ def nucleotide_params_second_order(nucleotide_second_order_data_dir):
         nucleotide_second_order_data_dir, "trait_test_seqs_2sites_dna.txt"
     )
 
-    return Params(
-        seqs_filename,
-        pheno_filename,
-        "DNA",
-        "second",
-        False,
-        "",
-        None,
-        75,
-    )
+    return Params(seqs_filename, pheno_filename, "DNA", "second", False, "", None, 75,)
 
 
 @pytest.fixture
@@ -122,14 +104,7 @@ def protein_params_first_order(protein_data_dir):
     pheno_filename = os.path.join(protein_data_dir, "protein_pheno_nopad.txt")
 
     return Params(
-        seqs_filename,
-        pheno_filename,
-        "protein",
-        "first",
-        False,
-        "",
-        None,
-        75,
+        seqs_filename, pheno_filename, "protein", "first", False, "", None, 75,
     )
 
 
@@ -139,14 +114,7 @@ def protein_params_first_order_padded(protein_data_dir):
     pheno_filename = os.path.join(protein_data_dir, "protein_pheno_padded.txt")
 
     return Params(
-        seqs_filename,
-        pheno_filename,
-        "protein_n",
-        "first",
-        False,
-        "",
-        None,
-        75,
+        seqs_filename, pheno_filename, "protein_n", "first", False, "", None, 75,
     )
 
 
@@ -158,14 +126,7 @@ def protein_params_custom_aa(protein_data_dir):
     )
 
     return Params(
-        seqs_filename,
-        pheno_filename,
-        "protein",
-        "first",
-        False,
-        "",
-        "YSAR",
-        75,
+        seqs_filename, pheno_filename, "protein", "first", False, "", "YSAR", 75,
     )
 
 
@@ -179,14 +140,7 @@ def protein_params_custom_aa_2(protein_data_dir):
     )
 
     return Params(
-        seqs_filename,
-        pheno_filename,
-        "protein",
-        "first",
-        False,
-        "",
-        "AR,SY",
-        75,
+        seqs_filename, pheno_filename, "protein", "first", False, "", "AR,SY", 75,
     )
 
 
@@ -196,14 +150,7 @@ def protein_first_order_autopad(protein_data_dir):
     pheno_filename = os.path.join(protein_data_dir, "protein_pheno_padded.txt")
 
     return Params(
-        seqs_filename,
-        pheno_filename,
-        "protein_n",
-        "first",
-        False,
-        "",
-        None,
-        75,
+        seqs_filename, pheno_filename, "protein_n", "first", False, "", None, 75,
     )
 
 

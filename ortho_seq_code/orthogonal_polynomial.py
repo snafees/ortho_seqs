@@ -39,6 +39,7 @@ def orthogonal_polynomial(
 
     """Program to compute orthogonal polynomials up to 2nd order"""
     start_time = time.time()
+    out_dir = "~/Desktop/tests"
     out_dir = create_dir_if_not_exists(out_dir)
     global i
     with open(filename) as f:

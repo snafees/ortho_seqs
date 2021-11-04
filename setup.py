@@ -22,7 +22,7 @@ setup(
         "higher order interactions",
     ],
     py_modules=["orthogonal_polynomial"],
-    install_requires=["Click", "numpy", "pandas", "matplotlib", "PyQt5"],
+    install_requires=["Click", "numpy", "pandas", "matplotlib", "PyQt5", "PyQt5-Qt5", "PyQt5-sip"],
     include_package_data=True,
     long_description=long_description,
     long_description_content_type="text/markdown",

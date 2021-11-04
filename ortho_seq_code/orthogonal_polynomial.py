@@ -19,7 +19,7 @@ def create_dir_if_not_exists(out_dir):
             if ct != 0:
                 loc = -1 * len(str(ct))
                 out_dir = out_dir[:loc]
-            out_dir += str(ct)
+            out_dir += "results_" + str(ct)
             ct += 1
         print("Path already exists, will now be {}".format(out_dir))
     os.makedirs(out_dir, exist_ok=True)

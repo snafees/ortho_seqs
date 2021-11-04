@@ -52,7 +52,7 @@ def test_cli(protein_seqs_padding, protein_pheno_padding):
     runner = CliRunner()
 
     result = runner.invoke(
-        cli,
+        cli.main,
         [
             protein_seqs_padding,
             "--pheno_file",

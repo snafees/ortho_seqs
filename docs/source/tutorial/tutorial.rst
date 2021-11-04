@@ -30,7 +30,8 @@ Or, alternatively:
 To activate ortho_seqs on your device. You will also need to run:
 
 .. code-block:: shell-session
-
+  
+  conda install openpyxl
   python setup.py install
 
 This line must be run every time ortho_seqs is updated, so you are using the most recent version. If the above steps have worked, congrats! You now have ortho_seqs on your computer. It's time to input some data.

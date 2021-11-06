@@ -7,6 +7,7 @@ import pandas as pd
 import ortho_seq_code.sr as sr
 from ortho_seq_code.constants_orthoseqs import *
 from ortho_seq_code.utils import get_seq_info
+from ortho_seq_code.gui.gui import gui_run
 import click
 import itertools
 from matplotlib import pyplot as plt
@@ -1095,6 +1096,7 @@ def cli(
     out_dir,
     alphbt_input,
     min_pct,
+    gui,
 ):
     orthogonal_polynomial(
         filename,
@@ -1105,4 +1107,5 @@ def cli(
         out_dir,
         alphbt_input,
         min_pct,
+        gui,
     )

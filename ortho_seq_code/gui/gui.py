@@ -111,17 +111,17 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(MainWidget())
         self.show()
 
-#@click.command(help="GUI option instead of command line input")
+
+# @click.command(help="GUI option instead of command line input")
 
 
 @click.command()
-@click.option('--gui')
+@click.option("--gui")
 def gui_run(gui):
     app = QApplication(sys.argv)
     window = MainWindow()
 
     sys.exit(app.exec())  # instead of just app.exec()
-
 
 
 if __name__ == "__main__":

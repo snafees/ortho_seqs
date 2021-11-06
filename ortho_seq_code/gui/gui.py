@@ -12,6 +12,8 @@ from PyQt5.QtWidgets import (
     QFileDialog,
 )
 import sys
+import click
+
 
 from ortho_seq_code.gui.job_runner import JobRunner
 
@@ -109,12 +111,17 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(MainWidget())
         self.show()
 
+#@click.command(help="GUI option instead of command line input")
 
-def gui_run():
+
+@click.command()
+@click.option('--gui')
+def gui_run(gui):
     app = QApplication(sys.argv)
     window = MainWindow()
 
     sys.exit(app.exec())  # instead of just app.exec()
+
 
 
 if __name__ == "__main__":

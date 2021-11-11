@@ -1,4 +1,5 @@
 import numpy as np
+from ortho_seq_code.orthogonal_polynomial import ortho_poly_command
 import pandas as pd
 import os
 from matplotlib import pyplot as plt
@@ -21,7 +22,7 @@ def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):
     runner = CliRunner()
 
     result = runner.invoke(
-        cli,
+        ortho_poly_command,
         [
             protein_seqs_no_padding,
             "--pheno_file",
@@ -52,7 +53,7 @@ def test_cli(protein_seqs_padding, protein_pheno_padding):
     runner = CliRunner()
 
     result = runner.invoke(
-        cli.main,
+        ortho_poly_command.main,
         [
             protein_seqs_padding,
             "--pheno_file",
@@ -85,7 +86,7 @@ def test_cli_precomputed(
     runner = CliRunner()
 
     result = runner.invoke(
-        cli,
+        ortho_poly_command,
         [
             protein_seqs_no_padding,
             "--pheno_file",

@@ -12,7 +12,7 @@ def cli():
 
 
 cli.add_command(ortho_poly_command, name="orthogonal-polynomial")
-# cli.add_command(gui_run, name="gui")
+cli.add_command(gui_run, name="gui")
 
 
 if __name__ == "__main__":

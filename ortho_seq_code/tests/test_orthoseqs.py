@@ -71,7 +71,7 @@ def test_cli(protein_seqs_padding, protein_pheno_padding):
         ],
     )
 
-    assert result.stderr == 0
+    assert result.exit_code == 0
 
 
 def test_cli_precomputed(
@@ -105,7 +105,7 @@ def test_cli_precomputed(
         ],
     )
 
-    assert result.stderr == 0
+    assert result.exit_code == 0
 
 
 def assert_equality(expected_path, actual_path):

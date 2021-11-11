@@ -1095,7 +1095,6 @@ def ortho_poly_command(
     out_dir,
     alphbt_input,
     min_pct,
-    gui,
 ):
     orthogonal_polynomial(
         filename,
@@ -1106,5 +1105,4 @@ def ortho_poly_command(
         out_dir,
         alphbt_input,
         min_pct,
-        gui,
     )

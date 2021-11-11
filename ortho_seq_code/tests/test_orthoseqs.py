@@ -1,13 +1,10 @@
 import numpy as np
 from ortho_seq_code.orthogonal_polynomial import ortho_poly_command
-import pandas as pd
 import os
-from matplotlib import pyplot as plt
 
 from click.testing import CliRunner
 
 from ortho_seq_code.orthogonal_polynomial import orthogonal_polynomial
-from ortho_seq_code.cli import cli
 from ortho_seq_code.tests import orthoseqs_tst_utils as utils
 from ortho_seq_code.utils import get_seq_info
 

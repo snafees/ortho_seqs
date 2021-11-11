@@ -7,7 +7,6 @@ import pandas as pd
 import ortho_seq_code.sr as sr
 from ortho_seq_code.constants_orthoseqs import *
 from ortho_seq_code.utils import get_seq_info
-from ortho_seq_code.gui.gui import gui_run
 import click
 import itertools
 from matplotlib import pyplot as plt
@@ -1087,7 +1086,7 @@ def orthogonal_polynomial(
     type=int,
 )
 # @click.argument('pheno_file', type=click.File('rb'))
-def cli(
+def ortho_poly_command(
     filename,
     molecule,
     pheno_file,

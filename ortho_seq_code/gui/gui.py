@@ -116,8 +116,8 @@ class MainWindow(QMainWindow):
 
 
 @click.command()
-@click.option("--gui", help="to run gui")
-def gui_run(gui):
+#@click.option("--gui", help="to run gui")
+def gui_run():
     app = QApplication(sys.argv)
     window = MainWindow()
 

@@ -124,5 +124,5 @@ def gui_run():
     sys.exit(app.exec())  # instead of just app.exec()
 
 
-if __name__ == "__main__":
-    gui_run()
+# if __name__ == "__main__":
+#     gui_run()

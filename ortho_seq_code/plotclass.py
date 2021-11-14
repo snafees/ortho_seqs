@@ -25,7 +25,8 @@ class rf1d:
         print("Number of sites:", str(self.s))
         print("Number of dimensions:", str(self.d))
         print("Alphabet inupt:", str(self.alphbt_input))
-        print("Molecule:", str(self.m))
+        print("Molecule:", str(self.m) + "\n")
+
     def plot_bar(
         self,
         xlab="Sequence Site",
@@ -45,9 +46,9 @@ class rf1d:
 
             # Constants/constant arrays
             width = 1 / self.s
-            s = self.s * self.d
+            sd = self.s * self.d
 
-            # Re-vectorization with null values
+            # Re-vectorization with null values (converts to dict)
             dim_num = dict()
             for i in self.ind:
                 dim_num[i] = [
@@ -56,6 +57,7 @@ class rf1d:
             # some_dim = [data_array_flat[i], i for i in range(0, 160, 4)]
 
             # Remove all null data
+            # dim_loc is the indeces of all non-null data
             dim_na = dict()
             dim_loc = dict()
             for i in self.ind:
@@ -69,8 +71,10 @@ class rf1d:
 
             dim_aa = dict()
 
+            # dim_aa
+
             for i in self.num_dm:
-                dim_aa[i] = [data_null[j] for j in range(i, self.s, self.d)]
+                dim_aa[i] = [data_null[j] for j in range(i, sd, self.d)]
 
             col_len = len(colors)
             alpb_d = dict()

@@ -151,3 +151,11 @@ class rf1d:
 
         else:
             print("Nothing to graph for rFon1D")
+
+    def heatmap(self):
+        print("Coming soon!")
+
+    def sort(self, n=10, by_magnitude=False, ascending=True):
+        if by_magnitude:
+            x_sort = sorted(abs(self.x_flat), reverse=ascending)[0:n]
+        print("Coming soon!")

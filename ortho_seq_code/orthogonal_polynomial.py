@@ -10,7 +10,7 @@ from ortho_seq_code.utils import get_seq_info
 import click
 import itertools
 from matplotlib import pyplot as plt
-from plotclass import rf1d
+from ortho_seq_code.plotclass import rf1d
 
 
 def create_dir_if_not_exists(out_dir):

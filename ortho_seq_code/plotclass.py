@@ -104,7 +104,7 @@ class rf1d:
                 plt.Line2D([0, 0], [0, 0], color=color, marker="o", linestyle="")
                 for color in alpb_d.values()
             ]
-            if dm < 6:
+            if self.d < 6:
                 dim = self.d
             else:
                 dim = self.d // 3

@@ -136,16 +136,19 @@ class rf1d:
             # width of the tick and the size of the tick labels
             # Regressions of off values onto each site of target RNA (orthogonalized within)
             # plt.savefig('rFon1D_off_star.png', bbox_inches='tight')
-
-            plt.xlabel(
-                xlab
-                + "\nGroupings according to --alphbt_input:\n"
-                + str(alpb_d)
-                .replace("'", "")
-                .replace(", ", " | ")
-                .replace(": ", " is "),
-                fontsize=4.8,
-            )
+            if self.is_custom:
+                custom_dict = {self.alphbt_input[i]: self.alphbt_input[i] for i in range(len(self.alphbt_input))}
+                plt.xlabel(
+                    xlab
+                    + "\nGroupings according to --alphbt_input:\n"
+                    + str(custom_dict)
+                    .replace("'", "")
+                    .replace(", ", " | ")
+                    .replace(": ", " is "),
+                    fontsize=4.8,
+                )
+            else:
+                plt.xlabel("Sequence Site")
             # plt.title("")
             if ylab is None:
                 ylab = "Regressions of phenotype onto each site and amino acid"

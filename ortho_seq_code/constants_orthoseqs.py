@@ -43,5 +43,5 @@ colors = [
     "mediumvioletred",
     "goldenrod",
     "tab:cyan",
-    "violet",
+    "tab:violet",
 ]

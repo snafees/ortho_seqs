@@ -103,7 +103,7 @@ class rf1d:
 
             color_map = [color for color in list(alpb_d.values())]
             markers = [
-                plt.Line2D([0, 0], [0, 0], color=color, marker="o", linestyle="")
+                plt.Line2D([0, 0], [0, 0], color=color_map, marker="o", linestyle="")
                 for color in alpb_d.values()
             ]
             if self.d < 6:
@@ -123,23 +123,18 @@ class rf1d:
             # Regressions of off values onto each site of target RNA (orthogonalized within)
             # plt.savefig('rFon1D_off_star.png', bbox_inches='tight')
 
-            if self.alphbt_input is None or "," not in self.alphbt_input:
-                plt.xlabel(xlab)
-            else:
-                plt.xlabel(
-                    xlab
-                    + "\nGroupings according to --alphbt_input:\n"
-                    + str(self.alphbt_input)
-                    .replace("'", "")
-                    .replace(", ", " | ")
-                    .replace(": ", " is "),
-                    fontsize=5.6,
-                )
+            plt.xlabel(
+                xlab
+                + "\nGroupings according to --alphbt_input:\n"
+                + str(self.alphbt_input)
+                .replace("'", "")
+                .replace(", ", " | ")
+                .replace(": ", " is "),
+                fontsize=5.6,
+            )
             # plt.title("")
             if ylab is None:
-                ylab = (
-                    "Regressions of phenotype onto each site and amino acid"
-                )
+                ylab = "Regressions of phenotype onto each site and amino acid"
             plt.ylabel(ylab)
             figure = ax.get_figure()
             if out_dir is not None:

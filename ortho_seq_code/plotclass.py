@@ -136,7 +136,7 @@ class rf1d:
                     fontsize=5.6,
                 )
             # plt.title("")
-            if ylab is not None:
+            if ylab is None:
                 if "protein" in self.m:
                     ylab = (
                         "Regressions of "

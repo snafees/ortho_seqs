@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 class rf1d:
     # Initialize rf1d object
-    def __init__(self, ndarray, alphbt_input, molecule="protein"):
+    def __init__(self, ndarray, alphbt_input, molecule="protein", custom=False):
         try:
             self.x = ndarray
             self.x_flat = list(ndarray.flatten())
@@ -16,8 +16,9 @@ class rf1d:
             self.num_dm = np.arange(self.d)
             self.alphbt_input = alphbt_input
             self.m = molecule
+            self.is_custom = custom
         except:
-            print("Error: Please provide an ndarray object when initializing.")
+            print("Error: Please provide an ndarray object and molecule type when initializing.")
 
     # rFon1D bar plot
     def print(self):
@@ -78,9 +79,10 @@ class rf1d:
 
             col_len = len(colors)
             alpb_d = dict()
-            if any(i != 0 and i for i in dim_aa[i]):
-                alpb_d[i] = colors[i % col_len]
-                alpb_d[self.alphbt_input[i]] = alpb_d.pop(i)
+            for i in self.num_dm:
+                if any(i != 0 and i for i in dim_aa[i]):
+                    alpb_d[i] = colors[i % col_len]
+                    alpb_d[self.alphabets[i]] = alpb_d.pop(i)
 
             print(alpb_d)
             # Creating plots

@@ -59,7 +59,7 @@ class rf1d:
 
             dim_aa = dict()
 
-            for i in num_dm:
+            for i in self.num_dm:
                 dim_aa[i] = [data_null[j] for j in range(i, self.s, self.d)]
 
             col_len = len(colors)

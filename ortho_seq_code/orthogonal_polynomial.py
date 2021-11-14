@@ -930,7 +930,7 @@ def orthogonal_polynomial(
 
     ## Bar plot of regression
 
-    rFon1D_o = rf1d(rFon1D, custom_aa)
+    rFon1D_o = rf1d(rFon1D, alphabets)
 
     rFon1D_o.plot_bar()
 

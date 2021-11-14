@@ -84,7 +84,7 @@ class rf1d:
             for i in self.num_dm:
                 if any(i != 0 and i for i in dim_aa[i]):
                     alpb_d[i] = colors[i % col_len]
-                    alpb_d[self.alphabet_input[i]] = alpb_d.pop(i)
+                    alpb_d[self.alphbt_input[i]] = alpb_d.pop(i)
 
             print(alpb_d)
             # Creating plots

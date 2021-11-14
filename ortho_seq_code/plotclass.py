@@ -87,7 +87,7 @@ class rf1d:
                     alpb_d[self.alphbt_input[i]] = alpb_d.pop(i)
 
             # Creating plots
-            fig, ax = plt.subplots()
+            fig, ax = plt.subplots(figsize=(8, 6))
             dim = dict()
             pi = dict()
             for i in range(self.s + 1):

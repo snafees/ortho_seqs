@@ -82,6 +82,7 @@ class rf1d:
                 alpb_d[i] = colors[i % col_len]
                 alpb_d[self.alphbt_input[i]] = alpb_d.pop(i)
 
+            print(alpb_d)
             # Creating plots
             fig, ax = plt.subplots()
             dim = dict()
@@ -122,7 +123,7 @@ class rf1d:
                 dim = self.d
             else:
                 dim = self.d // 3
-            print(alpb_d)
+
             ax.legend(
                 markers, alpb_d, loc=1, ncol=self.d, prop={"size": 60 / self.d},
             )

@@ -115,6 +115,8 @@ class rf1d:
             ax.set_xticklabels(np.arange(1, self.s + 1))
 
             color_map = [color for color in list(alpb_d.values())]
+            print("Color map:")
+            print(color_map)
             markers = [
                 plt.Line2D([0, 0], [0, 0], color=color_map, marker="o", linestyle="")
                 for color in alpb_d.values()

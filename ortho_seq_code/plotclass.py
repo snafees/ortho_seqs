@@ -137,18 +137,9 @@ class rf1d:
                 )
             # plt.title("")
             if ylab is None:
-                if "protein" in self.m:
-                    ylab = (
-                        "Regressions of "
-                        + str(naming_phenotype)
-                        + " onto each site and amino acid"
-                    )
-                else:
-                    ylab = (
-                        "Regressions of "
-                        + str(naming_phenotype)
-                        + " onto each site and nucleotide"
-                    )
+                ylab = (
+                    "Regressions of phenotype onto each site and amino acid"
+                )
             plt.ylabel(ylab)
             figure = ax.get_figure()
             if out_dir is not None:

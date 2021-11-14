@@ -1,3 +1,4 @@
+import os
 import numpy as np
 from ortho_seq_code.constants_orthoseqs import *
 import matplotlib.pyplot as plt

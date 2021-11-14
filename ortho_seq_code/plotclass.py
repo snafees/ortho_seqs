@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 class rf1d:
     # Initialize rf1d object
-    def __init__(self, ndarray, alphbt_input=None):
+    def __init__(self, ndarray, alphbt_input):
         try:
             self.x = ndarray
             self.x_flat = list(ndarray.flatten())
@@ -73,7 +73,7 @@ class rf1d:
                 for i in self.num_dm:
                     if any(i != 0 and i for i in dim_aa[i]):
                         alpb_d[i] = colors[i % col_len]
-                        alpb_d[custom_aa[i]] = alpb_d.pop(i)
+                        alpb_d[self.alphbt_input[i]] = alpb_d.pop(i)
 
             # Creating plots
             fig, ax = plt.subplots()

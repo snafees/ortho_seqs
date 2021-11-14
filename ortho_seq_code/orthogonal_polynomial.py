@@ -930,10 +930,7 @@ def orthogonal_polynomial(
 
     ## Bar plot of regression
 
-    if alphbt_input != None:
-        rFon1D_o = rf1d(rFon1D, custom_aa)
-    else:
-        rFon1D_o = rf1d(rFon1D)
+    rFon1D_o = rf1d(rFon1D, custom_aa)
 
     rFon1D_o.plot_bar()
 

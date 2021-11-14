@@ -18,7 +18,9 @@ class rf1d:
             self.m = molecule
             self.is_custom = custom
         except:
-            print("Error: Please provide an ndarray object and molecule type when initializing.")
+            print(
+                "Error: Please provide an ndarray object and molecule type when initializing."
+            )
 
     # rFon1D bar plot
     def print(self):

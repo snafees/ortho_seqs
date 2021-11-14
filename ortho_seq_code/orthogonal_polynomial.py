@@ -10,6 +10,7 @@ from ortho_seq_code.utils import get_seq_info
 import click
 import itertools
 from matplotlib import pyplot as plt
+from plotclass import rf1d
 
 
 def create_dir_if_not_exists(out_dir):
@@ -927,126 +928,14 @@ def orthogonal_polynomial(
     print("Trait values estimated from regressions")
     print(Fest)
 
-    ## Graph of regression
-    # Flatten data
-    rFon1D_flat = list(rFon1D.flatten())
-    if any(i != 0 for i in rFon1D_flat):
-        data_null = np.where(
-            np.array(rFon1D_flat) == float(0), float("nan"), rFon1D_flat
-        )
+    ## Bar plot of regression
 
-        # Constants/constant arrays
-        ind = np.arange(sites)  # x-axis
-        num_dm = np.arange(dm)
-        width = 1 / sites
-        s = sites * dm
-
-        # Re-vectorization with null values
-        dim_num = dict()
-        for i in ind:
-            dim_num[i] = [data_null[j] for j in np.arange(dm * i, dm * i + dm)]
-        # some_dim = [data_array_flat[i], i for i in range(0, 160, 4)]
-
-        # Remove all null data
-        dim_na = dict()
-        dim_loc = dict()
-        for i in ind:
-            dim_na[i] = np.array(dim_num[i])[np.array(np.isnan(dim_num[i])) == False]
-            dim_loc[i] = np.arange(len(dim_num[i]))[
-                np.array(np.isnan(dim_num[i])) == False
-            ]
-        # Color dictionary with corresponding letters
-
-        dim_aa = dict()
-
-        for i in num_dm:
-            dim_aa[i] = [data_null[j] for j in range(i, s, dm)]
-
-        col_len = len(colors)
-        alpb_d = dict()
-        if alphbt_input is None:
-            for i in num_dm:
-                if any(i != 0 and i for i in dim_aa[i]):
-                    alpb_d[i] = colors[i % col_len]
-                    alpb_d[alphabets[i]] = alpb_d.pop(i)
-        else:
-            for i in num_dm:
-                if any(i != 0 and i for i in dim_aa[i]):
-                    alpb_d[i] = colors[i % col_len]
-                    alpb_d[custom_aa[i]] = alpb_d.pop(i)
-
-        # Creating plots
-        fig, ax = plt.subplots()
-        dim = dict()
-        pi = dict()
-        for i in range(sites + 1):
-            ax.axvline(i, color="lightgray", linewidth=0.8, zorder=0)
-        for i in ind:
-            if len(dim_na[i]) == 0:
-                ln = 1
-            else:
-                ln = 1 / len(dim_na[i])
-            rn = np.arange(1 / ln)
-            pi[i] = ax.bar(
-                x=i + np.array([j for j in rn]) * ln,
-                height=[j for j in dim_na[i]],
-                width=ln,
-                align="edge",
-                color=[colors[i % col_len] for i in list(dim_loc[i])],
-                edgecolor="black",
-                zorder=3,
-            )
-        ax.axhline(color="black", linewidth=0.64)
-
-        ax.set_xticks(ind + width + 0.5)
-        ax.set_xticklabels(np.arange(1, sites + 1))
-
-        color_map = [color for color in list(alpb_d.values())]
-        markers = [
-            plt.Line2D([0, 0], [0, 0], color=color, marker="o", linestyle="")
-            for color in alpb_d.values()
-        ]
-        if dm < 6:
-            dim = dm
-        else:
-            dim = dm // 3
-        ax.legend(markers, alphabets, loc=1, ncol=dim, prop={"size": 60 / dm})
-        ax.tick_params(
-            width=0.8, labelsize=80 / sites
-        )  # width of the tick and the size of the tick labels
-        # Regressions of off values onto each site of target RNA (orthogonalized within)
-        # plt.savefig('rFon1D_off_star.png', bbox_inches='tight')
-        if alphbt_input is None or "," not in alphbt_input:
-            plt.xlabel("Sequence Site")
-        else:
-            plt.xlabel(
-                "Sequence Site\nGroupings according to --alphbt_input:\n"
-                + str(custom_dict)
-                .replace("'", "")
-                .replace(", ", " | ")
-                .replace(": ", " is "),
-                fontsize=5.6,
-            )
-        # plt.title("")
-        if "protein" in molecule:
-            ylab = (
-                "Regressions of "
-                + str(naming_phenotype)
-                + " onto each site and amino acid"
-            )
-        else:
-            ylab = (
-                "Regressions of "
-                + str(naming_phenotype)
-                + " onto each site and nucleotide"
-            )
-        plt.ylabel(ylab)
-        figure = ax.get_figure()
-        path_sav = "rFon1D_graph_" + str(naming_phenotype) + ".png"
-        figure.savefig(os.path.join(str(out_dir), path_sav), dpi=400)
-        print("saved regression graph as", str(os.path.join(str(out_dir), path_sav)))
+    if alphbt_input != None:
+        rFon1D_o = rf1d(rFon1D, custom_aa)
     else:
-        print("Nothing to graph for rFon1D.")
+        rFon1D_o = rf1d(rFon1D)
+
+    rFon1d_o.plot_bar()
 
     print("--- %s seconds ---" % (time.time() - start_time))
 

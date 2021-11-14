@@ -34,6 +34,8 @@ class rf1d:
                 data_null = np.where(
                     np.array(self.x_flat) == float(0), float("nan"), self.x_flat
                 )
+            else:
+                data_null = self.x_flat
 
             # Constants/constant arrays
             width = 1 / self.s

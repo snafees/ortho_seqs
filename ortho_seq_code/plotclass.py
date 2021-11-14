@@ -128,7 +128,7 @@ class rf1d:
                 dim = self.d // 3
 
             ax.legend(
-                markers, alpb_d.keys(), loc=1, ncol=dim, prop={"size": 60 / self.d},
+                markers, alpb_d.keys(), loc=1, ncol=dim, prop={"size": 100 / self.d},
             )
             ax.tick_params(width=0.8, labelsize=80 / self.s)
             # width of the tick and the size of the tick labels

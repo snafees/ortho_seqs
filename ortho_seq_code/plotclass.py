@@ -14,7 +14,6 @@ class rf1d:
             self.ind = np.arange(self.s)
             self.num_dm = np.arange(self.d)
             self.alphbt_input = alphbt_input
-            self.alphabets = list(aa_dict.keys())
         except:
             print("Error: Please provide an ndarray object when initializing.")
 
@@ -69,7 +68,7 @@ class rf1d:
                 for i in self.num_dm:
                     if any(i != 0 and i for i in dim_aa[i]):
                         alpb_d[i] = colors[i % col_len]
-                        alpb_d[self.alphabets[i]] = alpb_d.pop(i)
+                        alpb_d[self.alphbt_input[i]] = alpb_d.pop(i)
             else:
                 for i in self.num_dm:
                     if any(i != 0 and i for i in dim_aa[i]):
@@ -117,7 +116,7 @@ class rf1d:
             else:
                 dim = self.d // 3
             ax.legend(
-                markers, self.alphabets, loc=1, ncol=self.d, prop={"size": 60 / self.d}
+                markers, alphbt_input, loc=1, ncol=self.d, prop={"size": 60 / self.d}
             )
             ax.tick_params(width=0.8, labelsize=80 / self.s)
             # width of the tick and the size of the tick labels

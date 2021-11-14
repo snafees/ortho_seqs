@@ -139,6 +139,7 @@ class rf1d:
             if ylab is None:
                 ylab = "Regressions of phenotype onto each site and amino acid"
             plt.ylabel(ylab)
+            plt.tight_layout()
             figure = ax.get_figure()
             if out_dir is not None:
                 path_sav = "rFon1D_" + str(ylab) + ".png"

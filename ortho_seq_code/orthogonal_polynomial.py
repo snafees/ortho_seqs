@@ -932,6 +932,8 @@ def orthogonal_polynomial(
 
     rFon1D_o = rf1d(rFon1D, alphabets)
 
+    rFon1D_o.print()
+
     rFon1D_o.plot_bar(out_dir=out_dir)
 
     print("--- %s seconds ---" % (time.time() - start_time))

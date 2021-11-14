@@ -20,6 +20,12 @@ class rf1d:
             print("Error: Please provide an ndarray object when initializing.")
 
     # rFon1D bar plot
+    def print(self):
+        print("rf1d Object:\n")
+        print("Number of sites:", str(self.s))
+        print("Number of dimensions:", str(self.d))
+        print("Alphabet inupt:", str(self.alphbt_input))
+        print("Molecule:", str(self.m))
     def plot_bar(
         self,
         xlab="Sequence Site",

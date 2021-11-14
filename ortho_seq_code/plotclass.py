@@ -118,8 +118,6 @@ class rf1d:
             ax.set_xticklabels(np.arange(1, self.s + 1))
 
             color_map = [color for color in list(alpb_d.values())]
-            print("Color map:")
-            print(color_map)
             markers = [
                 plt.Line2D([0, 0], [0, 0], color=color, marker="o", linestyle="")
                 for color in alpb_d.values()
@@ -130,25 +128,13 @@ class rf1d:
                 dim = self.d // 3
 
             ax.legend(
-                markers, alpb_d, loc=1, ncol=self.d, prop={"size": 60 / self.d},
+                markers, alpb_d.keys(), loc=1, ncol=self.d, prop={"size": 40 / self.d},
             )
             ax.tick_params(width=0.8, labelsize=80 / self.s)
             # width of the tick and the size of the tick labels
             # Regressions of off values onto each site of target RNA (orthogonalized within)
             # plt.savefig('rFon1D_off_star.png', bbox_inches='tight')
-            if self.is_custom:
-                custom_dict = {self.alphbt_input[i]: self.alphbt_input[i] for i in range(len(self.alphbt_input))}
-                plt.xlabel(
-                    xlab
-                    + "\nGroupings according to --alphbt_input:\n"
-                    + str(custom_dict)
-                    .replace("'", "")
-                    .replace(", ", " | ")
-                    .replace(": ", " is "),
-                    fontsize=4.8,
-                )
-            else:
-                plt.xlabel("Sequence Site")
+            plt.xlabel("Sequence Site")
             # plt.title("")
             if ylab is None:
                 ylab = "Regressions of phenotype onto each site and amino acid"

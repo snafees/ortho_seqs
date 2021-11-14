@@ -64,16 +64,9 @@ class rf1d:
 
             col_len = len(colors)
             alpb_d = dict()
-            if self.alphbt_input is None:
-                for i in self.num_dm:
-                    if any(i != 0 and i for i in dim_aa[i]):
-                        alpb_d[i] = colors[i % col_len]
-                        alpb_d[self.alphbt_input[i]] = alpb_d.pop(i)
-            else:
-                for i in self.num_dm:
-                    if any(i != 0 and i for i in dim_aa[i]):
-                        alpb_d[i] = colors[i % col_len]
-                        alpb_d[self.alphbt_input[i]] = alpb_d.pop(i)
+            if any(i != 0 and i for i in dim_aa[i]):
+                alpb_d[i] = colors[i % col_len]
+                alpb_d[self.alphbt_input[i]] = alpb_d.pop(i)
 
             # Creating plots
             fig, ax = plt.subplots()

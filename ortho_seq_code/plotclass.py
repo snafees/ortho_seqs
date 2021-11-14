@@ -22,7 +22,6 @@ class rf1d:
                 "Error: Please provide an ndarray object and molecule type when initializing."
             )
 
-    # rFon1D bar plot
     def summary(self):
         print("rf1d Object:\n")
         print("Number of sites:", str(self.s))
@@ -30,6 +29,7 @@ class rf1d:
         print("Alphabet inupt:", str(self.alphbt_input))
         print("Molecule:", str(self.m) + "\n")
 
+    # rFon1D bar plot
     def plot_bar(
         self,
         xlab="Sequence Site",
@@ -128,7 +128,7 @@ class rf1d:
                 dim = self.d // 3
 
             ax.legend(
-                markers, alpb_d.keys(), loc=1, ncol=self.d, prop={"size": 48 / self.d},
+                markers, alpb_d.keys(), loc=1, ncol=dim, prop={"size": 60 / self.d},
             )
             ax.tick_params(width=0.8, labelsize=80 / self.s)
             # width of the tick and the size of the tick labels

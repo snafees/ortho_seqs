@@ -108,6 +108,7 @@ class rf1d:
                 dim = self.d
             else:
                 dim = self.d // 3
+            print(self.alphbt_input)
             ax.legend(
                 markers, self.alphbt_input, loc=1, ncol=self.d, prop={"size": 60 / self.d}
             )

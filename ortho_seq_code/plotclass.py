@@ -86,7 +86,6 @@ class rf1d:
                     alpb_d[i] = colors[i % col_len]
                     alpb_d[self.alphbt_input[i]] = alpb_d.pop(i)
 
-            print(alpb_d)
             # Creating plots
             fig, ax = plt.subplots()
             dim = dict()
@@ -122,7 +121,7 @@ class rf1d:
             print("Color map:")
             print(color_map)
             markers = [
-                plt.Line2D([0, 0], [0, 0], color=color_map, marker="o", linestyle="")
+                plt.Line2D([0, 0], [0, 0], color=color, marker="o", linestyle="")
                 for color in alpb_d.values()
             ]
             if self.d < 6:

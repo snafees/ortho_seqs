@@ -64,7 +64,7 @@ class rf1d:
 
             col_len = len(colors)
             alpb_d = dict()
-            if alphbt_input is None:
+            if self.alphbt_input is None:
                 for i in self.num_dm:
                     if any(i != 0 and i for i in dim_aa[i]):
                         alpb_d[i] = colors[i % col_len]

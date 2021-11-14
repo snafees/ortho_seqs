@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 class rf1d:
     # Initialize rf1d object
-    def __init__(self, ndarray, alphbt_input):
+    def __init__(self, ndarray, alphbt_input, molecule="protein"):
         try:
             self.x = ndarray
             self.x_flat = list(ndarray.flatten())
@@ -15,6 +15,7 @@ class rf1d:
             self.ind = np.arange(self.s)
             self.num_dm = np.arange(self.d)
             self.alphbt_input = alphbt_input
+            self.m = molecule
         except:
             print("Error: Please provide an ndarray object when initializing.")
 
@@ -135,8 +136,8 @@ class rf1d:
                     fontsize=5.6,
                 )
             # plt.title("")
-            if ylab != None:
-                if "protein" in molecule:
+            if ylab is not None:
+                if "protein" in self.m:
                     ylab = (
                         "Regressions of "
                         + str(naming_phenotype)
@@ -150,7 +151,7 @@ class rf1d:
                     )
             plt.ylabel(ylab)
             figure = ax.get_figure()
-            if out_dir != None:
+            if out_dir is not None:
                 path_sav = "rFon1D_" + str(ylab) + ".png"
                 figure.savefig(os.path.join(str(out_dir), path_sav), dpi=400)
                 print(

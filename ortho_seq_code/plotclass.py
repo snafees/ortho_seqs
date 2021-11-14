@@ -23,7 +23,7 @@ class rf1d:
             )
 
     # rFon1D bar plot
-    def print(self):
+    def summary(self):
         print("rf1d Object:\n")
         print("Number of sites:", str(self.s))
         print("Number of dimensions:", str(self.d))
@@ -128,7 +128,7 @@ class rf1d:
                 dim = self.d // 3
 
             ax.legend(
-                markers, alpb_d.keys(), loc=1, ncol=self.d, prop={"size": 40 / self.d},
+                markers, alpb_d.keys(), loc=1, ncol=self.d, prop={"size": 48 / self.d},
             )
             ax.tick_params(width=0.8, labelsize=80 / self.s)
             # width of the tick and the size of the tick labels

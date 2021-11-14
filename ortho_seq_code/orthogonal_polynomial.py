@@ -935,7 +935,7 @@ def orthogonal_polynomial(
     else:
         rFon1D_o = rf1d(rFon1D, alphabets, custom=False)
 
-    rFon1D_o.print()
+    rFon1D_o.summary()
 
     rFon1D_o.plot_bar(out_dir=out_dir)
 

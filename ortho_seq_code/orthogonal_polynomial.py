@@ -18,7 +18,7 @@ def create_dir_if_not_exists(out_dir):
         ct = 0
         while os.path.exists(out_dir):
             if ct != 0:
-                loc = -1 * len(str(ct + 1))
+                loc = -1 * len(str(ct - 1))
                 out_dir = out_dir[:loc]
             out_dir += str(ct)
             ct += 1

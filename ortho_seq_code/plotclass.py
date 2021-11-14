@@ -126,11 +126,11 @@ class rf1d:
             plt.xlabel(
                 xlab
                 + "\nGroupings according to --alphbt_input:\n"
-                + str(self.alphbt_input)
+                + str(alpb_d)
                 .replace("'", "")
                 .replace(", ", " | ")
                 .replace(": ", " is "),
-                fontsize=5.6,
+                fontsize=4.8,
             )
             # plt.title("")
             if ylab is None:

@@ -15,6 +15,7 @@ Guide
    :maxdepth: 3
 
    readme
+   tutorial
    license
    help
 

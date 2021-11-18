@@ -12,7 +12,6 @@ Guide
 ^^^^^
 
 .. toctree::
-   :maxdepth: 3
 
    readme
    tutorial

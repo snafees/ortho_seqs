@@ -137,7 +137,7 @@ Histogram and Spreadsheet of Covariances
 +++++++++
 The covariances between every character at every site with every other character at another site is recorded in a .csv file, and includes everything at or above the minimum percentile you specified in the input (or defaults to 75th percentile). In addition, the program outputs a histogram of the non-zero covariances, with the bin widths always being 0.5. For the Sidhu dataset, it looks like
 
-.. image:: Sidhu_dataset_Outputs/cov_hist_sidhu.png
+.. image:: cov_hist_sidhu.png
   :height: 250px
 
 And will have the file name cov_hist_{name}.png
@@ -169,7 +169,7 @@ Here, we can use this result to understand the independent effects of a given am
 
 One output is a graph of the nonzero rFon1D values. For the Sidhu dataset, it looks like
 
-.. image:: Sidhu_dataset_Outputs/rFon1D_graph_sidhu.png
+.. image:: rFon1D_graph_sidhu.png
   :height: 250px
 
 At the bottom, it lists the dictionary of the groups and their corresponding number, which then can be used to determine which color bar belongs to which group.

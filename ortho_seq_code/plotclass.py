@@ -131,7 +131,8 @@ class rf1d:
             ax.legend(
                 markers, alpb_d.keys(), loc=1, ncol=dim, prop={"size": 100 / self.d},
             )
-            ax.tick_params(width=0.8, labelsize=80 / self.s)
+            ax.tick_params(width=0.8)
+            ax.xaxis.label.set_size(32 - (self.s) / 2)
             # width of the tick and the size of the tick labels
             # Regressions of off values onto each site of target RNA (orthogonalized within)
             # plt.savefig('rFon1D_off_star.png', bbox_inches='tight')

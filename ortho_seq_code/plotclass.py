@@ -199,14 +199,14 @@ class rf1d:
             if type(span) != list:
                 print("<> and >< can only be used for list ranges.")
                 return
-            x[x < span[0] and x > span[1]] = 0
-            x_flat[x_flat < span[0] and x_flat > span[1]] = 0
+            x[abs(x-np.mean(span))>=np.mean(span)] = 0
+            x_flat[abs(x_flat-np.mean(span))>=np.mean(span)] = 0
         else:
             if type(span) != list:
                 print("<> and >< can only be used for list ranges.")
                 return
-            x[x > span[0] and x < span[1]] = 0
-            x_flat[x_flat > span[0] and x_flat < span[1]] = 0
+            x[abs(x-np.mean(span))<np.mean(span)] = 0
+            x_flat[abs(x_flat-np.mean(span))<np.mean(span)] = 0
         print("Successfully trimmed array.")
         self.x_flat = list(x_flat)
         self.x = x

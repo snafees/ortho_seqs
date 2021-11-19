@@ -17,6 +17,7 @@ class rf1d:
             self.alphbt_input = alphbt_input
             self.m = molecule
             self.is_custom = custom
+            self.complist = ["<", ">", "<>", "><"]
         except:
             print(
                 "Error: Please provide an ndarray object and molecule type when initializing."
@@ -159,3 +160,57 @@ class rf1d:
         if by_magnitude:
             x_sort = sorted(abs(self.x_flat), reverse=ascending)[0:n]
         print("Coming soon!")
+
+    def trim(self, span, comp):
+        if comp not in self.complist:
+            print(
+                "comp parameter was not valid. Valid parameters are:\n"
+                + str(self.complist)
+            )
+            return
+        if type(span) not in [list, float, int]:
+            print(
+                "span parameter was not valid. Must be either a 2d list of numbers, or a number."
+            )
+            return
+        if type(list) == list:
+            if len(span) > 2 or not np.all(
+                [type(i) == float or type(i) == int for i in self.x_flat]
+            ):
+                print("Span must be a 2d list of ints or floats.")
+                return
+        x_flat = np.array(self.x_flat)
+        x = self.x
+        if comp == "<":
+            if type(span) == list:
+                x[x < span[0]] = 0
+                x_flat[x_flat < span[0]] = 0
+            else:
+                x[x < span] = 0
+                x_flat[x_flat < span] = 0
+        elif comp == ">":
+            if type(span) == list:
+                x[x > span[1]] = 0
+                x_flat[x_flat > span[1]] = 0
+            else:
+                x[x > span] = 0
+                x_flat[x_flat > span] = 0
+        elif comp == "<>":
+            if type(span) != list:
+                print("<> and >< can only be used for list ranges.")
+                return
+            x[x < span[0]] = 0
+            x_flat[x_flat < span[0]] = 0
+            x[x > span[1]] = 0
+            x_flat[x_flat > span[1]] = 0
+        else:
+            if type(span) != list:
+                print("<> and >< can only be used for list ranges.")
+                return
+            x[x > span[0]] = 0
+            x_flat[x_flat > span[0]] = 0
+            x[x < span[1]] = 0
+            x_flat[x_flat < span[1]] = 0
+        print("Successfully trimmed array.")
+        self.x_flat = list(x_flat)
+        self.x = x

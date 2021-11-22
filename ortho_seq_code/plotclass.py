@@ -29,6 +29,8 @@ class rf1d:
         print("Number of dimensions:", str(self.d))
         print("Alphabet inupt:", str(self.alphbt_input))
         print("Molecule:", str(self.m) + "\n")
+        print("Highest rFon1D magnitudes:")
+        self.sort(by_magnitude=True)
 
     # rFon1D bar plot
     def plot_bar(
@@ -159,8 +161,23 @@ class rf1d:
 
     def sort(self, n=10, by_magnitude=False, ascending=True):
         if by_magnitude:
-            x_sort = sorted(abs(self.x_flat), reverse=ascending)[0:n]
-        print("Coming soon!")
+            x_flat = abs(np.array(self.x_flat))
+            x = abs(self.x)
+        else:
+            x_flat = self.x_flat
+            x = self.x
+        x_sort = sorted(x_flat, reverse=ascending)[0:n]
+        for i in x_sort:
+            z = np.where(x == i)
+            s = z[0][0]
+            k = z[1][0]
+            print(
+                str(x[s, k])
+                + "\tSite: "
+                + str(s)
+                + "\t\tKey: "
+                + str(self.alphbt_input[k])
+            )
 
     def trim(self, span, comp):
         if comp not in self.complist:

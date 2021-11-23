@@ -6,7 +6,9 @@ import matplotlib.pyplot as plt
 
 class rf1d:
     # Initialize rf1d object
-    def __init__(self, ndarray, alphbt_input, molecule="protein", custom=False):
+    def __init__(
+        self, ndarray, alphbt_input, molecule="protein", custom=False, phenotype=None
+    ):
         try:
             self.x = ndarray
             self.x_flat = list(ndarray.flatten())
@@ -18,9 +20,10 @@ class rf1d:
             self.m = molecule
             self.is_custom = custom
             self.complist = ["<", ">", "<>", "><"]
+            self.phenotype = phenotype
         except:
             print(
-                "Error: Please provide an ndarray object and molecule type when initializing."
+                "Error: Please provide a valid ndarray object and molecule type when initializing."
             )
 
     def summary(self):
@@ -29,6 +32,7 @@ class rf1d:
         print("Number of dimensions:", str(self.d))
         print("Alphabet inupt:", str(self.alphbt_input))
         print("Molecule:", str(self.m) + "\n")
+        print("Phenotype value represents", self.phenotype)
         print("Highest rFon1D magnitudes:")
         self.sort(by_magnitude=True)
 
@@ -36,7 +40,6 @@ class rf1d:
     def plot_bar(
         self,
         xlab="Sequence Site",
-        ylab=None,
         title=None,
         fixed_width=False,
         include_borders=True,
@@ -140,8 +143,10 @@ class rf1d:
             # plt.savefig('rFon1D_off_star.png', bbox_inches='tight')
             plt.xlabel("Sequence Site")
             # plt.title("")
-            if ylab is None:
+            if self.phenotype is None:
                 ylab = "Regressions of phenotype onto each site and amino acid"
+            else:
+                ylab = "Regressions of, " + self.phenotype + " values"
             plt.ylabel(ylab)
             plt.tight_layout()
             figure = ax.get_figure()

@@ -32,7 +32,8 @@ class rf1d:
         print("Number of dimensions:", str(self.d))
         print("Alphabet inupt:", str(self.alphbt_input))
         print("Molecule:", str(self.m) + "\n")
-        print("Phenotype value represents", self.phenotype)
+        if self.phenotype is not None:
+            print("Phenotype value represents", self.phenotype)
         print("Highest rFon1D magnitudes:")
         self.sort(by_magnitude=True)
 

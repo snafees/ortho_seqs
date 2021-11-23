@@ -162,9 +162,6 @@ class rf1d:
         else:
             print("Nothing to graph for rFon1D")
 
-    def plot_heatmap(self):
-        print("Coming soon!")
-
     def sort(self, n=10, by_magnitude=False, ascending=True):
         if by_magnitude:
             x_flat = abs(np.array(self.x_flat))

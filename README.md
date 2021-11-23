@@ -176,8 +176,18 @@ This set of files contains the main results which includes the following:
 3. **rFon12**:  This is the regression of the trait onto *pairs* of sites for given nucleotides at each site. These are regressions on (site 1)x(site 2) independent of first order associations. Since we're looking at 2 sites at a time and there's a possibility of having 4 nucleotides at each site (for the case of DNA), we can visualize this via a 4x4 matrix as shown in Figure 8 in the paper linked above.
 
 
+# The rf1d class
+The newest update to *ortho_seqs* involves adding a new class of objects, called *rf1d* (short for rFon1D). To declare an *rf1d* object, you must supply a numpy ndarray of the rFon1D values (supplied via the regressions.npz file that is output when *ortho_seqs* is run), along with the alphabet input, and the molecule type.
+Once you have done this, you can explore the rFon1D values, and see if there are any trends. You can:
+1. Print out a summary of the object using .summary()
+2. Make a bar plot (just like the rFon1D bar plot automatically generated) using .plot_bar()
+3. Print out the extreme rFon1D values using .sort()
+4. Remove any insignificant, but nonzero, rFon1D values using the .trim() function (**NOTE:** this will change the ndarray in the rf1d object, and to recover old data, you must reinstatiate an rf1d object)
+5. Make a histogram of rFon1D values using .plot_hist()
+
+
 # To run the GUI (currently in development)
-A GUI version of the CLI is being actively developed in order to make it easier for users to utilize the tool. The GUI allows the user to upload the sequence and phenotype files via an upload button, specify the molecule, the polynomial order they wish to run, and whether the sequence space was already computed or not (via the precomputed button). The GUI is in its primitive form and will include further updates resembling the cli in future versions. 
+A GUI version of the CLI is being actively developed in order to make it easier for users to utilize the tool. The GUI allows the user to upload the sequence and phenotype files via an upload button, specify the molecule, the polynomial order they wish to run, and whether the sequence space was already computed or not (via the precomputed button). The GUI is in its primitive form and will include further updates resembling the cli in future versions.
 
 ![GUI - early version](https://github.com/snafees/ortho_seqs/blob/gui_draft/GUI_in_development.png?raw=true)
 

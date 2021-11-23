@@ -258,7 +258,7 @@ class rf1d:
             x_red = self.x_flat
         if omit_zeroes:
             lst = list(x_red)
-            x_red = np.array([i for i in lst if i != 0])
+            x_red = np.array(lst[lst != 0])
         if border:
             if bins is not None:
                 width = 1 - bins / 200

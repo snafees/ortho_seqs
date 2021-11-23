@@ -156,7 +156,7 @@ class rf1d:
         else:
             print("Nothing to graph for rFon1D")
 
-    def heatmap(self):
+    def plot_heatmap(self):
         print("Coming soon!")
 
     def sort(self, n=10, by_magnitude=False, ascending=True):

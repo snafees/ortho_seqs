@@ -228,3 +228,42 @@ class rf1d:
         print("Successfully trimmed array.")
         self.x_flat = list(x_flat)
         self.x = x
+
+    def plot_hist(
+        self,
+        bins=None,
+        site=None,
+        alphabet_item=None,
+        omit_zeroes=True,
+        bin_color=None,
+        border=True,
+    ):
+        if alphabet_item is not None and site is not None:
+            print("Only one of site and alphabet_item may not be null.")
+            return
+        if alphabet_item is not None and alphabet_item not in self.alphbt_input:
+            print("Alphabet item must be one of:")
+            print(self.alphbt_input)
+            return
+        if site is not None:
+            if site > self.s or site < 0:
+                print("Site must be between 0 and", str(self.s))
+                return
+        if alphabet_item is not None:
+            a = self.alphbt_input.index(alphabet_item) * self.s
+            x_red = y.x_flat[a : a + self.d]
+        elif site is not None:
+            x_red = x[site]
+        else:
+            x_red = self.x_flat
+        if omit_zeroes:
+            lst = list(x_red)
+            x_red = np.array([i for i in lst if i != 0])
+        if border:
+            if bins is not None:
+                width = 1 - bins / 200
+            else:
+                width = 1 - len(x_red) / 1200
+        else:
+            width = 0
+        plt.hist(x_red, bins=bins, color=bin_color, lw=width, ec="black")

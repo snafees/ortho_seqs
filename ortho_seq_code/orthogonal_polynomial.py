@@ -177,14 +177,9 @@ def orthogonal_polynomial(
         # Covariance plot
         cov_flat = cov.flatten()
         cov_flat = cov_flat[cov_flat != 0]
-        cov_min = min(cov_flat)
-        cov_max = max(cov_flat)
-        bns = [0.05 * (cov_min // 0.05 - 1)]
-        while bns[-1] <= 0.05 * (cov_max // 0.05 + 1):
-            bns.append(bns[-1] + 0.05)
         fig, cov_sub = plt.subplots()
         cov_sub.hist(
-            cov_flat, edgecolor="black", bins=bns, color="blueviolet",
+            cov_flat, edgecolor="black", color="blueviolet",
         )
         plt.xlabel("Non-Zero Covariances")
         plt.ylabel("Frequency")

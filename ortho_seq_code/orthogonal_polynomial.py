@@ -28,10 +28,13 @@ def create_dir_if_not_exists(out_dir):
 
 def check_input_dir(input_dir):
     if os.path.exists(input_dir):
-        print('Input path with precomputed files supplied is {}'.format(input_dir))
+        print("Input path with precomputed files supplied is {}".format(input_dir))
     else:
-        assert os.path.exists(input_dir), "Precomputed files not found at, " + str(input_dir)
+        assert os.path.exists(input_dir), "Precomputed files not found at, " + str(
+            input_dir
+        )
     return input_dir
+
 
 def orthogonal_polynomial(
     filename,
@@ -118,6 +121,7 @@ def orthogonal_polynomial(
         precomputed_array = np.load(os.path.join(input_dir, naming + ".npz"))
         mean = precomputed_array[naming + "_mean"]
         P = precomputed_array[naming + "_P"]
+        print("collected P array from precomputed")
         var = precomputed_array[naming + "_var"]
         cov = precomputed_array[naming + "_cov"]
         reg11 = precomputed_array[naming + "_reg11"]
@@ -1076,7 +1080,9 @@ def orthogonal_polynomial(
     "--poly_order", default="first", help="can do first and second order so far"
 )
 @click.option(
-    "--precomputed", default=False, help="if true, then saved results in input_dir are used"
+    "--precomputed",
+    default=False,
+    help="if true, then saved results in input_dir are used",
 )
 @click.option(
     "--out_dir",

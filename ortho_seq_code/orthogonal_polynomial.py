@@ -48,6 +48,7 @@ def orthogonal_polynomial(
     """Program to compute orthogonal polynomials up to 2nd order"""
     start_time = time.time()
     out_dir = create_dir_if_not_exists(out_dir)
+    input_dir = check_input_dir(input_dir)
     global i
     with open(filename) as f:
         seq = f.readlines()

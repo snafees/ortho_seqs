@@ -26,6 +26,13 @@ def create_dir_if_not_exists(out_dir):
     return out_dir
 
 
+def check_input_dir(input_dir):
+    if os.path.exists(input_dir):
+        print('Input path with precomputed files supplied is'.format(input_dir))
+    else:
+        assert os.path.exists(input_dir), "Precomputed files not found at, " + str(input_dir)
+    return input_dir
+
 def orthogonal_polynomial(
     filename,
     pheno_file,
@@ -33,6 +40,7 @@ def orthogonal_polynomial(
     poly_order,
     precomputed,
     out_dir,
+    input_dir,
     alphbt_input,
     min_pct,
 ):
@@ -104,8 +112,9 @@ def orthogonal_polynomial(
                 if seq[i][j] == alphabets[alphabet_index]:
                     phi[j][i][alphabet_index] = 1.0
     naming = os.path.basename(f.name)
+
     if precomputed:
-        precomputed_array = np.load(os.path.join(out_dir, naming + ".npz"))
+        precomputed_array = np.load(os.path.join(input_dir, naming + ".npz"))
         mean = precomputed_array[naming + "_mean"]
         P = precomputed_array[naming + "_P"]
         var = precomputed_array[naming + "_var"]
@@ -1066,11 +1075,16 @@ def orthogonal_polynomial(
     "--poly_order", default="first", help="can do first and second order so far"
 )
 @click.option(
-    "--precomputed", default=False, help="if true, then saved results are used"
+    "--precomputed", default=False, help="if true, then saved results in input_dir are used"
 )
 @click.option(
     "--out_dir",
     help="directory to save output/debug files to",
+    type=str,
+)  # noqa
+@click.option(
+    "--input_dir",
+    help="directory which contains results from a previous run",
     type=str,
 )  # noqa
 @click.option(
@@ -1093,6 +1107,7 @@ def ortho_poly_command(
     poly_order,
     precomputed,
     out_dir,
+    input_dir,
     alphbt_input,
     min_pct,
 ):
@@ -1103,6 +1118,7 @@ def ortho_poly_command(
         poly_order,
         precomputed,
         out_dir,
+        input_dir,
         alphbt_input,
         min_pct,
     )

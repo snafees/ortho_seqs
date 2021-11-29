@@ -28,7 +28,7 @@ def create_dir_if_not_exists(out_dir):
 
 def check_input_dir(input_dir):
     if os.path.exists(input_dir):
-        print('Input path with precomputed files supplied is'.format(input_dir))
+        print('Input path with precomputed files supplied is {}'.format(input_dir))
     else:
         assert os.path.exists(input_dir), "Precomputed files not found at, " + str(input_dir)
     return input_dir

@@ -119,6 +119,7 @@ def orthogonal_polynomial(
 
     if precomputed:
         precomputed_array = np.load(os.path.join(input_dir, naming + ".npz"))
+        print("loaded precomputed npz file")
         mean = precomputed_array[naming + "_mean"]
         P = precomputed_array[naming + "_P"]
         print("collected P array from precomputed")

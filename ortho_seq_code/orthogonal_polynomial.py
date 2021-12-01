@@ -172,6 +172,7 @@ def orthogonal_polynomial(
         for j, i in itertools.product(range_sites, range_popsize):  # site, indiv
             P[j][i] = phi[j][i] - mean[j]
         arrays_save[naming + "_P"] = P
+        print(P)
 
         # var[site][nucleotide]
         for k, i, j in itertools.product(

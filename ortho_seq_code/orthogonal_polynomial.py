@@ -123,6 +123,7 @@ def orthogonal_polynomial(
         mean = precomputed_array[naming + "_mean"]
         P = precomputed_array[naming + "_P"]
         print("collected P array from precomputed")
+        print(P)
         var = precomputed_array[naming + "_var"]
         cov = precomputed_array[naming + "_cov"]
         reg11 = precomputed_array[naming + "_reg11"]

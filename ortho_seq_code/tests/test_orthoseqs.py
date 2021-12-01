@@ -76,9 +76,11 @@ def test_cli_precomputed(
 ):
     molecule = "protein"
     poly_order = "first"
-    out_dir = protein_data_dir
+    out_dir = "/tmp"
     alphbt_input = None
     min_pct = 75
+    precomputed = True
+    input_dir = protein_data_dir
 
     runner = CliRunner()
 
@@ -95,10 +97,11 @@ def test_cli_precomputed(
             "--out_dir",
             out_dir,
             "--precomputed",
-            alphbt_input,
+            precomputed,
             "--alphbt_input",
-            min_pct,
+            alphbt_input,
             "--min_pct",
+            min_pct,
         ],
     )
 

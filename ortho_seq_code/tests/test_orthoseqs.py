@@ -1,6 +1,7 @@
 import numpy as np
 from ortho_seq_code.orthogonal_polynomial import ortho_poly_command
 import os
+import tempfile
 
 from click.testing import CliRunner
 
@@ -12,61 +13,61 @@ from ortho_seq_code.utils import get_seq_info
 def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):
     molecule = "protein"
     poly_order = "first"
-    out_dir = "/tmp"
     alphbt_input = None
     min_pct = 75
 
     runner = CliRunner()
 
-    result = runner.invoke(
-        ortho_poly_command,
-        [
-            protein_seqs_no_padding,
-            "--pheno_file",
-            protein_pheno_no_padding,
-            "--molecule",
-            molecule,
-            "--poly_order",
-            poly_order,
-            "--out_dir",
-            out_dir,
-            "--alphbt_input",
-            alphbt_input,
-            "--min_pct",
-            min_pct,
-        ],
-    )
+    with tempfile.TemporaryDirectory() as out_dir:
+        result = runner.invoke(
+            ortho_poly_command,
+            [
+                protein_seqs_no_padding,
+                "--pheno_file",
+                protein_pheno_no_padding,
+                "--molecule",
+                molecule,
+                "--poly_order",
+                poly_order,
+                "--out_dir",
+                out_dir,
+                "--alphbt_input",
+                alphbt_input,
+                "--min_pct",
+                min_pct,
+            ]
+        )
 
     assert result.exit_code == 0
 
 
-def test_cli(protein_seqs_padding, protein_pheno_padding):
+def test_cli_with_padding(protein_seqs_padding, protein_pheno_padding):
     molecule = "protein"
     poly_order = "first"
-    out_dir = "/tmp"
     alphbt_input = None
     min_pct = 75
 
     runner = CliRunner()
 
-    result = runner.invoke(
-        ortho_poly_command.main,
-        [
-            protein_seqs_padding,
-            "--pheno_file",
-            protein_pheno_padding,
-            "--molecule",
-            molecule,
-            "--poly_order",
-            poly_order,
-            "--out_dir",
-            out_dir,
-            "--alphbt_input",
-            alphbt_input,
-            "--min_pct",
-            min_pct,
-        ],
-    )
+    with tempfile.TemporaryDirectory() as out_dir:
+        result = runner.invoke(
+            ortho_poly_command,
+            [
+                protein_seqs_padding,
+                "--pheno_file",
+                protein_pheno_padding,
+                "--molecule",
+                molecule,
+                "--poly_order",
+                poly_order,
+                "--out_dir",
+                out_dir,
+                "--alphbt_input",
+                alphbt_input,
+                "--min_pct",
+                min_pct,
+            ],
+        )
 
     assert result.exit_code == 0
 
@@ -76,31 +77,32 @@ def test_cli_precomputed(
 ):
     molecule = "protein"
     poly_order = "first"
-    out_dir = protein_data_dir
     alphbt_input = None
     min_pct = 75
 
     runner = CliRunner()
 
-    result = runner.invoke(
-        ortho_poly_command,
-        [
-            protein_seqs_no_padding,
-            "--pheno_file",
-            protein_pheno_no_padding,
-            "--molecule",
-            molecule,
-            "--poly_order",
-            poly_order,
-            "--out_dir",
-            out_dir,
-            "--precomputed",
-            alphbt_input,
-            "--alphbt_input",
-            min_pct,
-            "--min_pct",
-        ],
-    )
+    with tempfile.TemporaryDirectory() as out_dir:
+        result = runner.invoke(
+            ortho_poly_command,
+            [
+                protein_seqs_no_padding,
+                "--pheno_file",
+                protein_pheno_no_padding,
+                "--molecule",
+                molecule,
+                "--poly_order",
+                poly_order,
+                "--out_dir",
+                out_dir,
+                "--precomputed",
+                protein_data_dir,
+                "--alphbt_input",
+                alphbt_input,
+                "--min_pct",
+                min_pct,
+            ],
+        )
 
     assert result.exit_code == 0
 

@@ -733,6 +733,7 @@ def orthogonal_polynomial(
     # We can use the 'dot' operator here to get the inner product of a
     # first and a second rank tensor (a vector and a matrix).
     covFP[0] = np.dot(F, P[0]) / pop_size  # for site 1
+    print(covFP[0])
     cov1FP[1] = np.dot(F, P[1]) / pop_size
     covFP[1] = np.dot(F, P2i1) / pop_size  # for site 2 independent of 1
     cov_with_F_save[naming_phenotype + "_covFP[0]"] = covFP[0]

@@ -35,7 +35,7 @@ def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):
                 alphbt_input,
                 "--min_pct",
                 min_pct,
-            ]
+            ],
         )
 
     assert result.exit_code == 0

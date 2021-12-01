@@ -1067,7 +1067,9 @@ def orthogonal_polynomial(
     "--poly_order", default="first", help="can do first and second order so far"
 )
 @click.option(
-    "--precomputed", type=click.Path(), help="directory which contains results from a previous run",
+    "--precomputed",
+    type=click.Path(),
+    help="directory which contains results from a previous run",
 )
 @click.option(
     "--out_dir",

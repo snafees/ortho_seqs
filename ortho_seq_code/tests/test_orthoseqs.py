@@ -115,7 +115,7 @@ def assert_equality(expected_path, actual_path):
     for key, obtained_array in obtained_arrays.items():
         expected_array = expected_arrays[key]
         np.testing.assert_array_almost_equal(
-            expected_array, obtained_array, "error at {}".format(key), decimal=8
+            expected_array, obtained_array, decimal=8, err_msg="error at {}".format(key)
         )
 
 

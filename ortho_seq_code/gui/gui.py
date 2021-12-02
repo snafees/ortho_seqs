@@ -85,13 +85,18 @@ class MainWidget(QWidget):
         # upload_layout3.addWidget(self.precomputed_combobox)
         # self.widget_layout.addLayout(upload_layout3)  # for checkbox
 
-        # precomputed file upload
+        # precomputed dir path
         # Upload file buttons
-        label4 = QLabel("Upload file with precomputed sequence space:")
-        self.upload_button_3 = QPushButton("precomputed_file")
+        label4 = QLabel("Select directory with precomputed sequence file:")
+        self.upload_button_3 = QPushButton("precomputed_dir")
         self.upload_button_3.clicked.connect(
-            lambda: self.upload_button_3.setText(self.openFileNamesDialog())
+            lambda: self.upload_button_3.setText(
+                self.getExistingDirectory(self, "Select Directory")
+            )
         )
+        # self.upload_button_3.clicked.connect(
+        #     lambda: self.upload_button_3.setText(self.openFileNamesDialog())
+        # )
 
         upload_layout3 = QHBoxLayout()
         upload_layout3.addWidget(label4)

@@ -50,7 +50,6 @@ class MainWidget(QWidget):
         self.widget_layout.addLayout(upload_layout1)
         self.widget_layout.addLayout(upload_layout2)
 
-
         # molecule combobox
         upload_ComboBox1_layout = QHBoxLayout()
         self.molecule_combobox = QComboBox()
@@ -86,12 +85,13 @@ class MainWidget(QWidget):
         # upload_layout3.addWidget(self.precomputed_combobox)
         # self.widget_layout.addLayout(upload_layout3)  # for checkbox
 
-        #precomputed file upload
+        # precomputed file upload
         # Upload file buttons
         label4 = QLabel("Upload file with precomputed sequence space:")
         self.upload_button_3 = QPushButton("precomputed_file")
         self.upload_button_3.clicked.connect(
-            lambda: self.upload_button_3.setText(self.openFileNamesDialog()))
+            lambda: self.upload_button_3.setText(self.openFileNamesDialog())
+        )
 
         upload_layout3 = QHBoxLayout()
         upload_layout3.addWidget(label4)

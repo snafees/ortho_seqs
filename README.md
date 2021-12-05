@@ -77,7 +77,7 @@ Let's say you have a case where you have the same set of sequences but two diffe
 ```
 --alphbt_input
 ```
-Used to group amino acids/nucleotides together, or specify certain amino acids/nucleotides. For example, putting *ASGR* will tell the program to have 6 dimensions: one for each amino acid specified, and one for *z*, where every unspecified amino acid will be converted to *z*, and one for *n* (whenever sequences have unequal lengths, *ortho_seqs* will pad the shorter sequences with *n*). You can also comma-separate amino acids/nucleotides to group them. For example, putting *AS,GR* will make the vectors 4-dimensional, one for *AS*, one for *GR*, one for every other amino acid, and one for *n*.
+Used to group amino acids/nucleotides together, or specify certain amino acids/nucleotides. If you don't want to group anything, don't include this flag when running *ortho_seqs*. For example, putting *ASGR* will tell the program to have 6 dimensions: one for each amino acid specified, and one for *z*, where every unspecified amino acid will be converted to *z*, and one for *n* (whenever sequences have unequal lengths, *ortho_seqs* will pad the shorter sequences with *n*). You can also comma-separate amino acids/nucleotides to group them. For example, putting *AS,GR* will make the vectors 4-dimensional, one for *AS*, one for *GR*, one for every other amino acid, and one for *n*.
 
 There are also built-in groups:
 

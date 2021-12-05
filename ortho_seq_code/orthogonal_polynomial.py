@@ -36,6 +36,7 @@ def orthogonal_polynomial(
     out_dir,
     alphbt_input,
     min_pct,
+    pheno_name,
 ):
 
     """Program to compute orthogonal polynomials up to 2nd order"""
@@ -926,9 +927,15 @@ def orthogonal_polynomial(
     ## Bar plot of regression
 
     if custom_aa is not None:
-        rFon1D_o = rf1d(rFon1D, custom_aa, custom=True)
+        if pheno_name is not None:
+            rFon1D_o = rf1d(rFon1D, custom_aa, custom=True, phenotype=pheno_name)
+        else:
+            rFon1D_o = rf1d(rFon1D, custom_aa, custom=True)
     else:
-        rFon1D_o = rf1d(rFon1D, alphabets, custom=False)
+        if pheno_name is not None:
+            rFon1D_o = rf1d(rFon1D, alphabets, custom=False, phenotype=pheno_name)
+        else:
+            rFon1D_o = rf1d(rFon1D, alphabets, custom=False)
 
     rFon1D_o.summary()
 
@@ -966,6 +973,12 @@ def orthogonal_polynomial(
     help="minimum percentile that you want saved in the covariance csv",
     type=int,
 )
+@click.option(
+    "--pheno_name",
+    default=None,
+    help="What the phenotype is measuring, used for labelling the y axis of the rFon1D graph",
+    type=str,
+)
 # @click.argument('pheno_file', type=click.File('rb'))
 def cli(
     filename,
@@ -976,6 +989,7 @@ def cli(
     out_dir,
     alphbt_input,
     min_pct,
+    pheno_name,
 ):
     orthogonal_polynomial(
         filename,
@@ -986,4 +1000,5 @@ def cli(
         out_dir,
         alphbt_input,
         min_pct,
+        pheno_name,
     )

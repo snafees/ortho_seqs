@@ -17,6 +17,7 @@ def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):
     out_dir = "/tmp"
     alphbt_input = None
     min_pct = 75
+    pheno_name = None
 
     runner = CliRunner()
 
@@ -48,6 +49,7 @@ def test_cli(protein_seqs_padding, protein_pheno_padding):
     out_dir = "/tmp"
     alphbt_input = None
     min_pct = 75
+    pheno_name = None
 
     runner = CliRunner()
 
@@ -81,6 +83,7 @@ def test_cli_precomputed(
     out_dir = protein_data_dir
     alphbt_input = None
     min_pct = 75
+    pheno_name = None
 
     runner = CliRunner()
 

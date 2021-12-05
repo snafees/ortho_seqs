@@ -147,6 +147,11 @@ Suppose there are 5 covariance values of 2, 1, 0, 0, -1. For the percentiles, al
 The min_pct flag is short for minimum percentile, which will remove any covariances
 from the .csv file that are below the given percentile. The default value is 75.
 
+```
+--pheno_name
+```
+Let's say you know that your phenotype values represent IC50 values. You could then add *--pheno_name IC50* as a flag, and on the rFon1D plot that is automatically generated, the y-axis label will include IC50. Default is **None**.
+
 # Results & Outputs
 
 The tool will provide updates as the run is progressing regarding which parts of the calculations are done being computed. For example, when the mean is computed, it'll say "computed mean". All the different elements that it is computing are different parts of building the multivariate tensor-valued orthogonal polynomial space based on the sequence information. To get a general idea of what the calculations mean, please refer to the supplementary methods in the paper linked above.

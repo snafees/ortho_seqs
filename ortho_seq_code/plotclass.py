@@ -30,7 +30,7 @@ class rf1d:
         print("rf1d Object:\n")
         print("Number of sites:", str(self.s))
         print("Number of dimensions:", str(self.d))
-        print("Alphabet inupt:", str(self.alphbt_input))
+        print("Alphabet input:", str(self.alphbt_input))
         print("Molecule:", str(self.m) + "\n")
         if self.phenotype is not None:
             print("Phenotype value represents", self.phenotype)

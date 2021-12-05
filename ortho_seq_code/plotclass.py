@@ -6,9 +6,7 @@ import matplotlib.pyplot as plt
 
 class rf1d:
     # Initialize rf1d object
-    def __init__(
-        self, ndarray, alphbt_input, molecule="protein", custom=False, phenotype=None
-    ):
+    def __init__(self, ndarray, alphbt_input, molecule="protein", phenotype=None):
         try:
             self.x = ndarray
             self.x_flat = list(ndarray.flatten())
@@ -18,7 +16,6 @@ class rf1d:
             self.num_dm = np.arange(self.d)
             self.alphbt_input = alphbt_input
             self.m = molecule
-            self.is_custom = custom
             self.complist = ["<", ">", "<>", "><"]
             self.phenotype = phenotype
         except:

@@ -33,7 +33,7 @@ class rf1d:
         print("Alphabet input:", str(self.alphbt_input))
         print("Molecule:", str(self.m) + "\n")
         if self.phenotype is not None:
-            print("Phenotype value represents", self.phenotype)
+            print("Phenotype represents", self.phenotype, "values")
         print("Highest rFon1D magnitudes:")
         self.sort(by_magnitude=True)
 
@@ -147,12 +147,13 @@ class rf1d:
             if self.phenotype is None:
                 ylab = "Regressions of phenotype onto each site and amino acid"
             else:
-                ylab = "Regressions of, " + self.phenotype + " values"
+                ylab = "Regressions of " + self.phenotype + " values"
             plt.ylabel(ylab)
             plt.tight_layout()
             figure = ax.get_figure()
             if out_dir is not None:
                 path_sav = "rFon1D_" + str(ylab) + ".png"
+                path_sav = path_sav.replace(" ", "_")
                 figure.savefig(os.path.join(str(out_dir), path_sav), dpi=400)
                 print(
                     "saved regression graph as",

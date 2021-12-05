@@ -60,18 +60,6 @@ Input a file with phenotype values corresponding to each sequence in the sequenc
  ```
 
  Currently, you can provide DNA or protein sequences. Here, you can also provide sequences of unequal lengths.
- ```
- --sites
- ```
- The number of sites in a sequence. If you have sequences with unequal lengths, please pad them with a lowercase 'n'. See examples in the ortho_seq_code/tests/ folder.
- ```
- --dm
- ```
- The dimension of the vector corresponding to a site along a sequence. This is 4 for DNA and 20 for protein. For protein, you can provide a dimension of 21 in the case that you have padded protein sequences. See test data in the repo for examples.
-```
---pop_size
-```
-The number of total sequences.
 
 ```            
 --poly_order
@@ -85,11 +73,6 @@ Directory where results can be stored.
 --precomputed
 ```
 Let's say you have a case where you have the same set of sequences but two different corresponding sets of phenotypes. You can build your sequence space and then project the first set of phenotypes onto this space. Then, if you wish to see how the other set of phenotypes maps onto the same sequence space, you can use this flag so that you're not wasting time and memory to recompute the space. When doing this, be sure to add your results from the first run to the **out_dir** when rerunning the command with the **precomputed** flag.
-
-
-# Results & Outputs
-
-The tool will provide udpates as the run is progressing regarding which parts of the calculations are done being computed. For example, when the mean is computed, it'll say "computed mean". All the different elements that it is computing are different parts of building the multivariate tensor-valued orthogonal polynomial space based on the sequence information. To get a general idea of what the calculations mean, please refer to the supplementary methods in the paper linked above.
 
 ```
 --alphbt_input

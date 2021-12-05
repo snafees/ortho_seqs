@@ -163,7 +163,7 @@ class rf1d:
         else:
             print("Nothing to graph for rFon1D")
 
-    def sort(self, n=10, by_magnitude=False, ascending=True):
+    def sort(self, n=10, by_magnitude=True, ascending=True):
         if by_magnitude:
             x_flat = abs(np.array(self.x_flat))
             x = abs(self.x)
@@ -176,7 +176,7 @@ class rf1d:
             s = z[0][0]
             k = z[1][0]
             print(
-                str(x[s, k])
+                str(round(self.x[s, k]), 4)
                 + "\tSite: "
                 + str(s)
                 + "\t\tKey: "

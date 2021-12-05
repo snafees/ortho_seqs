@@ -176,7 +176,7 @@ class rf1d:
             s = z[0][0]
             k = z[1][0]
             print(
-                str(round(self.x[s, k]), 4)
+                str(round(self.x[s, k], 4))
                 + "\tSite: "
                 + str(s)
                 + "\t\tKey: "

@@ -20,6 +20,7 @@ class JobRunner(QWidget):
             out_dir="",
             alphbt_input=None,
             min_pct=50,
+            pheno_name=None,
         )
 
     def thread_complete(self):

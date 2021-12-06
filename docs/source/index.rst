@@ -1,6 +1,8 @@
 Welcome to the documentation for ortho_seqs!
 ============================================
-
+.. image:: draft_logo1.png
+    :width: 500px
+    :align: center
 
 Introduction:
 ^^^^^^^^^^^^

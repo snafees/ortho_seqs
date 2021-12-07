@@ -93,9 +93,8 @@ class MainWidget(QWidget):
         label4 = QLabel("Select directory with precomputed sequence file:")
         upload_layout3.addWidget(label4)
         self.upload_button_3 = QPushButton("precomputed_dir")
-        self.upload_button_3.clicked.connect(
-            lambda: self.upload_button_3.setText(precomp_dir)
-        )
+        self.upload_button_3.clicked.connect(precomp_dir)
+
         # self.upload_button_3.clicked.connect(
         #     lambda: self.upload_button_3.setText(self.openFileNamesDialog()))
         # upload_layout3.addWidget(label4)

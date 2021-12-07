@@ -86,7 +86,6 @@ class MainWidget(QWidget):
         # self.widget_layout.addLayout(upload_layout3)  # for checkbox
 
         # precomputed dir path
-        # Upload file buttons
         upload_layout3 = QHBoxLayout()
         label4 = QLabel("Select directory with precomputed sequence file:")
         upload_layout3.addWidget(label4)
@@ -99,9 +98,8 @@ class MainWidget(QWidget):
         # self.upload_button_3.clicked.connect(
         #     lambda: self.upload_button_3.setText(self.openFileNamesDialog())
         # )
-
         # upload_layout3.addWidget(label4)
-        # upload_layout3.addWidget(self.upload_button_3)
+        upload_layout3.addWidget(self.upload_button_3)
         self.widget_layout.addLayout(upload_layout3)
 
         # RUN button

@@ -84,6 +84,8 @@ class MainWidget(QWidget):
         # self.precomputed_combobox.addItems(["No", "Yes"])
         # upload_layout3.addWidget(self.precomputed_combobox)
         # self.widget_layout.addLayout(upload_layout3)  # for checkbox
+        precomp_dir = QFileDialog.getExistingDirectory(self, "Open folder with precomputed file", "/home",
+                                                       QFileDialog.ShowDirsOnly)
 
         # precomputed dir path
         upload_layout3 = QHBoxLayout()
@@ -92,12 +94,11 @@ class MainWidget(QWidget):
         self.upload_button_3 = QPushButton("precomputed_dir")
         self.upload_button_3.clicked.connect(
             lambda: self.upload_button_3.setText(
-                self.getExistingDirectory(self, "Select Directory")
+                precomp_dir
             )
         )
         # self.upload_button_3.clicked.connect(
-        #     lambda: self.upload_button_3.setText(self.openFileNamesDialog())
-        # )
+        #     lambda: self.upload_button_3.setText(self.openFileNamesDialog()))
         # upload_layout3.addWidget(label4)
         upload_layout3.addWidget(self.upload_button_3)
         self.widget_layout.addLayout(upload_layout3)
@@ -120,7 +121,6 @@ class MainWidget(QWidget):
 
         if files:
             return files[0]
-
 
 class MainWindow(QMainWindow):
     def __init__(self, *args, **kwargs):

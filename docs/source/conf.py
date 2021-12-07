@@ -54,13 +54,12 @@ exclude_patterns = []
 # a list of builtin themes.
 #
 html_theme = "default"
-style_nav_header_background = "white"
-logo_only = True
-display_version = False
-include_hidden = True
 html_theme_options = {
+    "display_version": False,
+    "style_nav_header_background": "white",
     "logo_only": True,
     "display_version": False,
+    "include_hidden": True,
     "include_hidden": True,
 }
 

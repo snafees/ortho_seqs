@@ -6,9 +6,7 @@ import matplotlib.pyplot as plt
 
 class rf1d:
     # Initialize rf1d object
-    def __init__(
-        self, ndarray, alphbt_input, molecule="protein", custom=False, phenotype=None
-    ):
+    def __init__(self, ndarray, alphbt_input, molecule="protein", phenotype=None):
         try:
             self.x = ndarray
             self.x_flat = list(ndarray.flatten())
@@ -18,7 +16,6 @@ class rf1d:
             self.num_dm = np.arange(self.d)
             self.alphbt_input = alphbt_input
             self.m = molecule
-            self.is_custom = custom
             self.complist = ["<", ">", "<>", "><"]
             self.phenotype = phenotype
         except:
@@ -30,10 +27,10 @@ class rf1d:
         print("rf1d Object:\n")
         print("Number of sites:", str(self.s))
         print("Number of dimensions:", str(self.d))
-        print("Alphabet inupt:", str(self.alphbt_input))
+        print("Alphabet input:", str(self.alphbt_input))
         print("Molecule:", str(self.m) + "\n")
         if self.phenotype is not None:
-            print("Phenotype value represents", self.phenotype)
+            print("Phenotype represents", self.phenotype, "values")
         print("Highest rFon1D magnitudes:")
         self.sort(by_magnitude=True)
 
@@ -147,12 +144,13 @@ class rf1d:
             if self.phenotype is None:
                 ylab = "Regressions of phenotype onto each site and amino acid"
             else:
-                ylab = "Regressions of, " + self.phenotype + " values"
+                ylab = "Regressions of " + self.phenotype + " values"
             plt.ylabel(ylab)
             plt.tight_layout()
             figure = ax.get_figure()
             if out_dir is not None:
                 path_sav = "rFon1D_" + str(ylab) + ".png"
+                path_sav = path_sav.replace(" ", "_")
                 figure.savefig(os.path.join(str(out_dir), path_sav), dpi=400)
                 print(
                     "saved regression graph as",
@@ -162,7 +160,7 @@ class rf1d:
         else:
             print("Nothing to graph for rFon1D")
 
-    def sort(self, n=10, by_magnitude=False, ascending=True):
+    def sort(self, n=10, by_magnitude=True, ascending=True):
         if by_magnitude:
             x_flat = abs(np.array(self.x_flat))
             x = abs(self.x)
@@ -175,7 +173,7 @@ class rf1d:
             s = z[0][0]
             k = z[1][0]
             print(
-                str(x[s, k])
+                str(round(self.x[s, k], 4))
                 + "\tSite: "
                 + str(s)
                 + "\t\tKey: "

@@ -125,7 +125,7 @@ class MainWidget(QWidget):
 
     def openPrecompFolder(self):
         precomp_dir = QFileDialog.getExistingDirectory(
-            None, "Open folder with precomputed file:", self
+            self, "Open folder with precomputed file:", "", QFileDialog.ShowDirsOnly
         )
         if precomp_dir == "":
             return precomp_dir

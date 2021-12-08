@@ -119,7 +119,7 @@ class MainWidget(QWidget):
         files, _ = QFileDialog.getOpenFileNames(
             self, "Open File(s)", "", "All Files (*)", options=options
         )
-        print('FILES')
+        print("FILES")
         print(files)
         if files:
             return files[0]
@@ -133,7 +133,7 @@ class MainWidget(QWidget):
             "",
             options=options,
         )
-        print('GUI_precomputed')
+        print("GUI_precomputed")
         print(precomp_dir)
         if precomp_dir == "":
             return precomp_dir[2]

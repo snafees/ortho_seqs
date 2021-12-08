@@ -925,7 +925,7 @@ def orthogonal_polynomial(
         print("computed rFon2D")
 
     regression_npz_file = os.path.join(out_dir, naming_phenotype + "_regressions.npz")
-    print("Saving regression results to to {}".format(regression_npz_file))
+    print("Saving regression results to to {}".format(os.path.abspath((regression_npz_file))))
     np.savez_compressed(regression_npz_file, **regression_results)
 
     print("Trait values estimated from regressions")

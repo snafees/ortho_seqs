@@ -128,7 +128,7 @@ class MainWidget(QWidget):
             self, "Open folder with precomputed file:", "", QFileDialog.ShowDirsOnly
         )
         if precomp_dir == "":
-            return precomp_dir[0]
+            return precomp_dir[1]
         else:
             pass
 

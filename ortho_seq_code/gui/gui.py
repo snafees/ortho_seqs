@@ -136,9 +136,7 @@ class MainWidget(QWidget):
         print("GUI_precomputed")
         print(precomp_dir)
         if precomp_dir == "":
-            return precomp_dir[2]
-        else:
-            pass
+            return precomp_dir
 
 
 class MainWindow(QMainWindow):

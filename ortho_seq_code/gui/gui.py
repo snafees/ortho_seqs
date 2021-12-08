@@ -95,7 +95,7 @@ class MainWidget(QWidget):
         upload_layout3.addWidget(label4)
         self.upload_button_3 = QPushButton("precomputed_dir")
         self.upload_button_3.clicked.connect(
-            lambda: self.upload_button_3.setText(self.openPrecompFolder)
+            lambda: self.upload_button_3.setText(self.openPrecompFolder())
         )
 
         # self.upload_button_3.clicked.connect(

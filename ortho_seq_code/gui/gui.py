@@ -97,7 +97,6 @@ class MainWidget(QWidget):
         self.upload_button_3.clicked.connect(
             lambda: self.upload_button_3.setText(self.openPrecompFolder())
         )
-
         # self.upload_button_3.clicked.connect(
         #     lambda: self.upload_button_3.setText(self.openFileNamesDialog()))
         # upload_layout3.addWidget(label4)
@@ -128,7 +127,7 @@ class MainWidget(QWidget):
         options = QFileDialog.Options()
         options |= QFileDialog.ShowDirsOnly
         precomp_dir = QFileDialog.getExistingDirectory(
-            None,
+            self,
             "Open folder with precomputed file:",
             "",
             options=options,
@@ -136,7 +135,7 @@ class MainWidget(QWidget):
         print("GUI_precomputed")
         print(precomp_dir)
         # if precomp_dir == "":
-        #     return precomp_dir
+        return precomp_dir
 
 
 class MainWindow(QMainWindow):

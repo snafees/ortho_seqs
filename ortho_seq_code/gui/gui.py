@@ -76,19 +76,6 @@ class MainWidget(QWidget):
         self.widget_layout.addWidget(self.poly_order_combobox)
         self.widget_layout.addLayout(upload_ComboBox2_layout)
 
-        # Precomputed checkboxes
-        # upload_layout3 = QHBoxLayout()
-        # label4 = QLabel("Precomputed?")
-        # upload_layout3.addWidget(label4)
-        # self.precomputed_combobox = QComboBox()
-        # self.precomputed_combobox.addItems(["No", "Yes"])
-        # upload_layout3.addWidget(self.precomputed_combobox)
-        # self.widget_layout.addLayout(upload_layout3)  # for checkbox
-
-        # precomp_dir = QFileDialog.getExistingDirectory(
-        #     self, "Open folder with precomputed file", "/home", QFileDialog.ShowDirsOnly
-        # )
-
         # precomputed dir path
         upload_layout3 = QHBoxLayout()
         label4 = QLabel("Select directory with precomputed sequence file:")
@@ -97,9 +84,6 @@ class MainWidget(QWidget):
         self.upload_button_3.clicked.connect(
             lambda: self.upload_button_3.setText(self.openPrecompFolder())
         )
-        # self.upload_button_3.clicked.connect(
-        #     lambda: self.upload_button_3.setText(self.openFileNamesDialog()))
-        # upload_layout3.addWidget(label4)
         upload_layout3.addWidget(self.upload_button_3)
         self.widget_layout.addLayout(upload_layout3)
 
@@ -132,9 +116,7 @@ class MainWidget(QWidget):
             "",
             options=options,
         )
-        print("GUI_precomputed")
         print(precomp_dir)
-        # if precomp_dir == "":
         return precomp_dir
 
 

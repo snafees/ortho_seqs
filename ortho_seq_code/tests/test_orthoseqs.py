@@ -1,11 +1,11 @@
 import numpy as np
-#from ortho_seq_code.orthogonal_polynomial import ortho_poly_command
+from ortho_seq_code.orthogonal_polynomial import ortho_poly_command
 import os
 import tempfile
 
 from click.testing import CliRunner
 
-from ortho_seq_code.orthogonal_polynomial import orthogonal_polynomial
+#from ortho_seq_code.orthogonal_polynomial import orthogonal_polynomial
 from ortho_seq_code.tests import orthoseqs_tst_utils as utils
 from ortho_seq_code.utils import get_seq_info
 

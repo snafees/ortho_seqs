@@ -55,7 +55,7 @@ class rf1d:
         self.sort(by_magnitude=True)
 
     # rFon1D bar plot
-    def bar(
+    def barplot(
         self,
         xlab="Sequence Site",
         title=None,
@@ -258,7 +258,7 @@ class rf1d:
         self.x_flat = list(x_flat)
         self.x = x
 
-    def hist(
+    def histogram(
         self,
         bins=None,
         site=None,

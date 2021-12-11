@@ -3,8 +3,19 @@ import numpy as np
 from ortho_seq_code.constants_orthoseqs import *
 import matplotlib.pyplot as plt
 import click
-from ortho_seq_code.orthogonal_polynomial import create_dir_if_not_exists
 
+def create_dir_if_not_exists(out_dir):
+    if os.path.exists(out_dir):
+        ct = 0
+        while os.path.exists(out_dir):
+            if ct != 0:
+                loc = -1 * len(str(ct - 1))
+                out_dir = out_dir[:loc]
+            out_dir += str(ct)
+            ct += 1
+        print("Path already exists, will now be {}".format(out_dir))
+    os.makedirs(out_dir, exist_ok=True)
+    return out_dir
 
 class rf1d:
     # Initialize rf1d object

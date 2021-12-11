@@ -939,7 +939,7 @@ def orthogonal_polynomial(
 
     rFon1D_o.summary()
 
-    rFon1D_o.plot_bar(out_dir=out_dir)
+    rFon1D_o.bar(out_dir=out_dir)
 
     print("--- %s seconds ---" % (time.time() - start_time))
 

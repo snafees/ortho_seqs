@@ -55,7 +55,7 @@ class rf1d:
         self.sort(by_magnitude=True)
 
     # rFon1D bar plot
-    def plot_bar(
+    def bar(
         self,
         xlab="Sequence Site",
         title=None,
@@ -258,7 +258,7 @@ class rf1d:
         self.x_flat = list(x_flat)
         self.x = x
 
-    def plot_hist(
+    def hist(
         self,
         bins=None,
         site=None,
@@ -266,6 +266,7 @@ class rf1d:
         omit_zeroes=True,
         bin_color=None,
         border=True,
+        out_dir=None,
     ):
         if alphabet_item is not None and site is not None:
             print("Only one of site and alphabet_item may not be null.")
@@ -296,6 +297,21 @@ class rf1d:
         else:
             width = 0
         plt.hist(x_red, bins=bins, color=bin_color, lw=width, ec="black")
+        if out_dir is not None:
+            path_sav = "rFon1D_hist_" + str(ylab) + ".png"
+            path_sav = path_sav.replace(" ", "_")
+            figure.savefig(os.path.join(str(out_dir), path_sav), dpi=400)
+            print(
+                "saved regression graph as", str(os.path.join(str(out_dir), path_sav)),
+            )
+        elif self.out_dir is not None:
+            path_sav = "rFon1D_hist_" + str(ylab) + ".png"
+            path_sav = path_sav.replace(" ", "_")
+            figure.savefig(os.path.join(str(self.out_dir), path_sav), dpi=400)
+            print(
+                "saved regression graph as",
+                str(os.path.join(str(self.out_dir), path_sav)),
+            )
 
     def set_out_dir(new_out_dir):
         self.out_dir = new_out_dir

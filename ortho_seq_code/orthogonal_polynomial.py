@@ -929,17 +929,17 @@ def orthogonal_polynomial(
     if custom_aa is not None:
         if pheno_name is not None:
             rFon1D_o = rf1d(
-                rFon1D, custom_aa, molecule=molecule, custom=True, phenotype=pheno_name
+                rFon1D, custom_aa, molecule=molecule, phenotype=pheno_name
             )
         else:
-            rFon1D_o = rf1d(rFon1D, custom_aa, molecule=molecule, custom=True)
+            rFon1D_o = rf1d(rFon1D, custom_aa, molecule=molecule)
     else:
         if pheno_name is not None:
             rFon1D_o = rf1d(
-                rFon1D, alphabets, molecule=molecule, custom=False, phenotype=pheno_name
+                rFon1D, alphabets, molecule=molecule, phenotype=pheno_name
             )
         else:
-            rFon1D_o = rf1d(rFon1D, alphabets, molecule=molecule, custom=False)
+            rFon1D_o = rf1d(rFon1D, alphabets, molecule=molecule)
 
     rFon1D_o.summary()
 

@@ -1,4 +1,3 @@
-import numpy as np
 from ortho_seq_code.orthogonal_polynomial import ortho_poly_command
 import os
 import tempfile

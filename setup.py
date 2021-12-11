@@ -28,7 +28,6 @@ setup(
         "pandas",
         "matplotlib",
         "PyQt5",
-        "PyQt5-Qt5",
         "PyQt5-sip",
     ],
     include_package_data=True,

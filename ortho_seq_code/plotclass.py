@@ -4,6 +4,7 @@ from ortho_seq_code.constants_orthoseqs import *
 import matplotlib.pyplot as plt
 import click
 
+
 def create_dir_if_not_exists(out_dir):
     if os.path.exists(out_dir):
         ct = 0
@@ -16,6 +17,7 @@ def create_dir_if_not_exists(out_dir):
         print("Path already exists, will now be {}".format(out_dir))
     os.makedirs(out_dir, exist_ok=True)
     return out_dir
+
 
 class rf1d:
     # Initialize rf1d object

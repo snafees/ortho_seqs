@@ -127,9 +127,6 @@ class MainWindow(QMainWindow):
         self.show()
 
 
-# @click.command(help="GUI option instead of command line input")
-
-
 @click.command()
 # @click.option("--gui", help="to run gui")
 def gui_run():

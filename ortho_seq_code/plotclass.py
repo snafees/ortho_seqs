@@ -2,11 +2,15 @@ import os
 import numpy as np
 from ortho_seq_code.constants_orthoseqs import *
 import matplotlib.pyplot as plt
+import click
+from ortho_seq_code.orthogonal_polynomial import create_dir_if_not_exists
 
 
 class rf1d:
     # Initialize rf1d object
-    def __init__(self, ndarray, alphbt_input, molecule="protein", phenotype=None):
+    def __init__(
+        self, ndarray, alphbt_input, molecule="protein", phenotype=None, out_dir=None
+    ):
         try:
             self.x = ndarray
             self.x_flat = list(ndarray.flatten())
@@ -18,6 +22,7 @@ class rf1d:
             self.m = molecule
             self.complist = ["<", ">", "<>", "><"]
             self.phenotype = phenotype
+            self.out_dir = out_dir
         except:
             print(
                 "Error: Please provide a valid ndarray object and molecule type when initializing."
@@ -31,6 +36,8 @@ class rf1d:
         print("Molecule:", str(self.m) + "\n")
         if self.phenotype is not None:
             print("Phenotype represents", self.phenotype, "values")
+        if self.out_dir is not None:
+            print("Image output directory:", self.out_dir)
         print("Highest rFon1D magnitudes:")
         self.sort(by_magnitude=True)
 
@@ -156,6 +163,14 @@ class rf1d:
                     "saved regression graph as",
                     str(os.path.join(str(out_dir), path_sav)),
                 )
+            elif self.out_dir is not None:
+                path_sav = "rFon1D_" + str(ylab) + ".png"
+                path_sav = path_sav.replace(" ", "_")
+                figure.savefig(os.path.join(str(self.out_dir), path_sav), dpi=400)
+                print(
+                    "saved regression graph as",
+                    str(os.path.join(str(self.out_dir), path_sav)),
+                )
 
         else:
             print("Nothing to graph for rFon1D")
@@ -268,3 +283,15 @@ class rf1d:
         else:
             width = 0
         plt.hist(x_red, bins=bins, color=bin_color, lw=width, ec="black")
+
+    def set_out_dir(new_out_dir):
+        self.out_dir = new_out_dir
+
+
+def cli(command):
+    if command == "initialize":
+        array = input("Enter file for ndarray of rfon1D values: ")
+        alphbt = input("Enter alphabet: ")
+        mol = input("Enter molecule type: ")
+        phen = input("Enter phenotype, if desired: ")
+        outdir = input("Enter directory where you want files saved, if desired: ")

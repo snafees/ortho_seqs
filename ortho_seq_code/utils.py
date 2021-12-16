@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 from ortho_seq_code.constants_orthoseqs import *
+import os
 
 
 def create_dir_if_not_exists(out_dir):

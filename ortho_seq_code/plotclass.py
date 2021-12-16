@@ -317,7 +317,7 @@ class rf1d:
         self.out_dir = new_out_dir
 
 
-def cli(command):
+def plotclass(command):
     if command == "initialize":
         array = input("Enter file for ndarray of rfon1D values: ")
         alphbt = input("Enter alphabet: ")

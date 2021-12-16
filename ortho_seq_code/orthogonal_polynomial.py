@@ -6,23 +6,11 @@ import os
 import pandas as pd
 import ortho_seq_code.sr as sr
 from ortho_seq_code.constants_orthoseqs import *
-from ortho_seq_code.utils import get_seq_info
+from ortho_seq_code.utils import *
 import click
 import itertools
 from matplotlib import pyplot as plt
 from ortho_seq_code.plotclass import rf1d
-
-
-def create_dir_if_not_exists(out_dir):
-    if os.path.exists(out_dir):
-        ct = 0
-        new_out_dir = f"{out_dir}0"
-        while os.path.exists(new_out_dir):
-            ct += 1
-            new_out_dir = f"{out_dir}{ct}"
-        print("Path already exists, will now be {}".format(new_out_dir))
-    os.makedirs(new_out_dir, exist_ok=True)
-    return new_out_dir
 
 
 def orthogonal_polynomial(

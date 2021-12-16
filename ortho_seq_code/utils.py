@@ -3,6 +3,18 @@ import pandas as pd
 from ortho_seq_code.constants_orthoseqs import *
 
 
+def create_dir_if_not_exists(out_dir):
+    if os.path.exists(out_dir):
+        ct = 0
+        new_out_dir = f"{out_dir}{ct}"
+        while os.path.exists(new_out_dir):
+            ct += 1
+            new_out_dir = f"{out_dir}{ct}"
+        print("Path already exists, will now be {}".format(new_out_dir))
+    os.makedirs(new_out_dir, exist_ok=True)
+    return new_out_dir
+
+
 def get_seq_info(seqf, alphbt_input, molecule):
     with open(seqf) as f:
         seq = f.readlines()

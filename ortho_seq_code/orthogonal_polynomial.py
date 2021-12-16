@@ -912,16 +912,8 @@ def orthogonal_polynomial(
 
     ## Bar plot of regression
 
-    if custom_aa is not None:
-        if pheno_name is not None:
-            rFon1D_o = rf1d(rFon1D, custom_aa, molecule=molecule, phenotype=pheno_name)
-        else:
-            rFon1D_o = rf1d(rFon1D, custom_aa, molecule=molecule)
-    else:
-        if pheno_name is not None:
-            rFon1D_o = rf1d(rFon1D, alphabets, molecule=molecule, phenotype=pheno_name)
-        else:
-            rFon1D_o = rf1d(rFon1D, alphabets, molecule=molecule)
+    alphbt_input = custom_aa or alphabets
+    rFon1D_o = rf1d(rFon1D, alphbt_input, molecule=molecule, phenotype=pheno_name)
 
     rFon1D_o.summary()
 

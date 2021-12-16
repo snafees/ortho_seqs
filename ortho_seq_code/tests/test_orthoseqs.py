@@ -37,6 +37,8 @@ def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):
             alphbt_input,
             "--min_pct",
             min_pct,
+            "--pheno_name",
+            pheno_name,
         ],
     )
 
@@ -69,6 +71,8 @@ def test_cli(protein_seqs_padding, protein_pheno_padding):
             alphbt_input,
             "--min_pct",
             min_pct,
+            "--pheno_name",
+            pheno_name,
         ],
     )
 
@@ -104,6 +108,8 @@ def test_cli_precomputed(
             "--alphbt_input",
             min_pct,
             "--min_pct",
+            "--pheno_name",
+            pheno_name,
         ],
     )
 

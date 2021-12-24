@@ -67,7 +67,6 @@ Input a file with phenotype values corresponding to each sequence in the sequenc
  ```
  Currently, you can provide DNA or protein sequences. Here, you can also provide sequences of unequal lengths, where sequences will be padded with lowercase 'n's until it has reached the length of the longest sequence.
 
-```         
 --poly_order
 ```
 The order of the polynomials that will be constructed. Currently, one can do first and second order for DNA and first order for protein.
@@ -85,7 +84,7 @@ Let's say you have a case where you have the same set of sequences but two diffe
 ```
 --alphbt_input
 ```
-Used to group amino acids/nucleotides together, or specify certain amino acids/nucleotides. For example, putting *ASGR* will tell the program to have 6 dimensions: one for each amino acid specified, and one for *z*, where every unspecified amino acid will be converted to *z*, and one for *n* (whenever sequences have unequal lengths, *ortho_seqs* will pad the shorter sequences with *n*). You can also comma-separate amino acids/nucleotides to group them. For example, putting *AS,GR* will make the vectors 4-dimensional, one for *AS*, one for *GR*, one for every other amino acid, and one for *n*.
+Used to group amino acids/nucleotides together, or specify certain amino acids/nucleotides. If you don't want to group anything, don't include this flag when running *ortho_seqs*. For example, putting *ASGR* will tell the program to have 6 dimensions: one for each amino acid specified, and one for *z*, where every unspecified amino acid will be converted to *z*, and one for *n* (whenever sequences have unequal lengths, *ortho_seqs* will pad the shorter sequences with *n*). You can also comma-separate amino acids/nucleotides to group them. For example, putting *AS,GR* will make the vectors 4-dimensional, one for *AS*, one for *GR*, one for every other amino acid, and one for *n*.
 
 There are also built-in groups:
 
@@ -138,6 +137,11 @@ Suppose there are 5 covariance values of 2, 1, 0, 0, -1. For the percentiles, al
 The min_pct flag is short for minimum percentile, which will remove any covariances
 from the .csv file that are below the given percentile. The default value is 75.
 
+```
+--pheno_name
+```
+Let's say you know that your phenotype values represent IC50 values. You could then add *--pheno_name IC50* as a flag, and on the rFon1D plot that is automatically generated, the y-axis label will include IC50. Default is **None**.
+
 # Results & Outputs
 
 The tool will provide updates as the run is progressing regarding which parts of the calculations are done being computed. For example, when the mean is computed, it'll say "computed mean". All the different elements that it is computing are different parts of building the multivariate tensor-valued orthogonal polynomial space based on the sequence information. To get a general idea of what the calculations mean, please refer to the supplementary methods in the paper linked above.
@@ -165,6 +169,16 @@ This set of files contains the main results which includes the following:
 1. **rFon1D**: This is the regression of the trait onto the first order conditional polynomial orthogonalized within. This tells us the regression of the phenotype onto each site and onto each nucleotide (or amino acid) at that site independent of any correlations that site might have with other sites. For the case of nucleotides, this can be visualized as bar plots as shown in Figure 6 in the paper linked above.
 2. **rFon2D**: This gives 4 matrices which give the regression of the pheonotype onto (site1)x(site1), (site 1)x(site 2), (site 2)x(site 1) and (site 2)x(site 2), in that order. The second matrix here is the important one and it is the same as rFon12. See description of rFon12.
 3. **rFon12**:  This is the regression of the trait onto *pairs* of sites for given nucleotides at each site. These are regressions on (site 1)x(site 2) independent of first order associations. Since we're looking at 2 sites at a time and there's a possibility of having 4 nucleotides at each site (for the case of DNA), we can visualize this via a 4x4 matrix as shown in Figure 8 in the paper linked above.
+
+
+# The rf1d class
+The newest update to *ortho_seqs* involves adding a new class of objects, called *rf1d* (short for rFon1D). To declare an *rf1d* object, you must supply a numpy ndarray of the rFon1D values (supplied via the regressions.npz file that is output when *ortho_seqs* is run), along with the alphabet input, and the molecule type.
+Once you have done this, you can explore the rFon1D values, and see if there are any trends. You can:
+1. Print out a summary of the object using .summary()
+2. Make a bar plot (just like the rFon1D bar plot automatically generated) using .plot_bar()
+3. Print out the extreme rFon1D values using .sort()
+4. Remove any insignificant, but nonzero, rFon1D values using the .trim() function (**NOTE:** this will change the ndarray in the rf1d object, and to recover old data, you must reinstatiate an rf1d object)
+5. Make a histogram of rFon1D values using .plot_hist()
 
 
 # To run the GUI (currently in development)

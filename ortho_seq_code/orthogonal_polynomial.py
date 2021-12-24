@@ -6,24 +6,10 @@ import os
 import pandas as pd
 import ortho_seq_code.sr as sr
 from ortho_seq_code.constants_orthoseqs import *
-from ortho_seq_code.utils import get_seq_info
+from ortho_seq_code.utils import *
 import click
 import itertools
 from matplotlib import pyplot as plt
-
-
-def create_dir_if_not_exists(out_dir):
-    if os.path.exists(out_dir):
-        ct = 0
-        while os.path.exists(out_dir):
-            if ct != 0:
-                loc = len(out_dir) - len(str(ct))
-                out_dir = out_dir[:loc]
-            out_dir += str(ct)
-            ct += 1
-        print("Path already exists, will now be {}".format(out_dir))
-    os.makedirs(out_dir, exist_ok=True)
-    return out_dir
 
 
 def orthogonal_polynomial(
@@ -35,6 +21,7 @@ def orthogonal_polynomial(
     out_dir,
     alphbt_input,
     min_pct,
+    pheno_name,
 ):
 
     """Program to compute orthogonal polynomials up to 2nd order"""
@@ -198,17 +185,9 @@ def orthogonal_polynomial(
         # Covariance plot
         cov_flat = cov.flatten()
         cov_flat = cov_flat[cov_flat != 0]
-        cov_min = min(cov_flat)
-        cov_max = max(cov_flat)
-        bns = [0.05 * (cov_min // 0.05 - 1)]
-        while bns[-1] <= 0.05 * (cov_max // 0.05 + 1):
-            bns.append(bns[-1] + 0.05)
         fig, cov_sub = plt.subplots()
         cov_sub.hist(
-            cov_flat,
-            edgecolor="black",
-            bins=bns,
-            color="blueviolet",
+            cov_flat, edgecolor="black", color="blueviolet",
         )
         plt.xlabel("Non-Zero Covariances")
         plt.ylabel("Frequency")
@@ -223,9 +202,9 @@ def orthogonal_polynomial(
         cov_list = []
         for i in range(cov.shape[0]):
             for j in range(cov.shape[1]):
-                for k in range(cov.shape[2]):
-                    for l in range(cov.shape[3]):
-                        if j >> i:
+                if j >> i:
+                    for k in range(cov.shape[2]):
+                        for l in range(cov.shape[3]):
                             cov_list.append((i, j, k, l, cov[i][j][k][l]))
         cov_df = pd.DataFrame(
             cov_list,
@@ -638,8 +617,7 @@ def orthogonal_polynomial(
                                             P2i2a[l][m][n][o][i],
                                         )
                                         - sr.inner_general(
-                                            reg2on2[j][k][n][o],
-                                            P2a[n][o][i],
+                                            reg2on2[j][k][n][o], P2a[n][o][i]
                                         )
                                     )
                                     P2Da[j][k][i] = sr.inner_general(
@@ -953,126 +931,14 @@ def orthogonal_polynomial(
     print("Trait values estimated from regressions")
     print(Fest)
 
-    ## Graph of regression
-    # Flatten data
-    rFon1D_flat = list(rFon1D.flatten())
-    if any(i != 0 for i in rFon1D_flat):
-        data_null = np.where(
-            np.array(rFon1D_flat) == float(0), float("nan"), rFon1D_flat
-        )
+    ## Bar plot of regression
 
-        # Constants/constant arrays
-        ind = np.arange(sites)  # x-axis
-        num_dm = np.arange(dm)
-        width = 1 / sites
-        s = sites * dm
+    alphbt_input = custom_aa or alphabets
+    rFon1D_o = rf1d(rFon1D, alphbt_input, molecule=molecule, phenotype=pheno_name)
 
-        # Re-vectorization with null values
-        dim_num = dict()
-        for i in ind:
-            dim_num[i] = [data_null[j] for j in np.arange(dm * i, dm * i + dm)]
-        # some_dim = [data_array_flat[i], i for i in range(0, 160, 4)]
+    rFon1D_o.summary()
 
-        # Remove all null data
-        dim_na = dict()
-        dim_loc = dict()
-        for i in ind:
-            dim_na[i] = np.array(dim_num[i])[np.array(np.isnan(dim_num[i])) == False]
-            dim_loc[i] = np.arange(len(dim_num[i]))[
-                np.array(np.isnan(dim_num[i])) == False
-            ]
-        # Color dictionary with corresponding letters
-
-        dim_aa = dict()
-
-        for i in num_dm:
-            dim_aa[i] = [data_null[j] for j in range(i, s, dm)]
-
-        col_len = len(colors)
-        alpb_d = dict()
-        if alphbt_input is None:
-            for i in num_dm:
-                if any(i != 0 and i for i in dim_aa[i]):
-                    alpb_d[i] = colors[i % col_len]
-                    alpb_d[alphabets[i]] = alpb_d.pop(i)
-        else:
-            for i in num_dm:
-                if any(i != 0 and i for i in dim_aa[i]):
-                    alpb_d[i] = colors[i % col_len]
-                    alpb_d[custom_aa[i]] = alpb_d.pop(i)
-
-        # Creating plots
-        fig, ax = plt.subplots()
-        dim = dict()
-        pi = dict()
-        for i in range(sites + 1):
-            ax.axvline(i, color="lightgray", linewidth=0.8, zorder=0)
-        for i in ind:
-            if len(dim_na[i]) == 0:
-                ln = 1
-            else:
-                ln = 1 / len(dim_na[i])
-            rn = np.arange(1 / ln)
-            pi[i] = ax.bar(
-                x=i + np.array([j for j in rn]) * ln,
-                height=[j for j in dim_na[i]],
-                width=ln,
-                align="edge",
-                color=[colors[i % col_len] for i in list(dim_loc[i])],
-                edgecolor="black",
-                zorder=3,
-            )
-        ax.axhline(color="black", linewidth=0.64)
-
-        ax.set_xticks(ind + width + 0.5)
-        ax.set_xticklabels(np.arange(1, sites + 1))
-
-        color_map = [color for color in list(alpb_d.values())]
-        markers = [
-            plt.Line2D([0, 0], [0, 0], color=color, marker="o", linestyle="")
-            for color in alpb_d.values()
-        ]
-        if dm < 6:
-            dim = dm
-        else:
-            dim = dm // 3
-        ax.legend(markers, alphabets, loc=1, ncol=dim, prop={"size": 60 / dm})
-        ax.tick_params(
-            width=0.8, labelsize=80 / sites
-        )  # width of the tick and the size of the tick labels
-        # Regressions of off values onto each site of target RNA (orthogonalized within)
-        # plt.savefig('rFon1D_off_star.png', bbox_inches='tight')
-        if alphbt_input is None or "," not in alphbt_input:
-            plt.xlabel("Sequence Site")
-        else:
-            plt.xlabel(
-                "Sequence Site\nGroupings according to --alphbt_input:\n"
-                + str(custom_dict)
-                .replace("'", "")
-                .replace(", ", " | ")
-                .replace(": ", " is "),
-                fontsize=5.6,
-            )
-        # plt.title("")
-        if "protein" in molecule:
-            ylab = (
-                "Regressions of "
-                + str(naming_phenotype)
-                + " onto each site and amino acid"
-            )
-        else:
-            ylab = (
-                "Regressions of "
-                + str(naming_phenotype)
-                + " onto each site and nucleotide"
-            )
-        plt.ylabel(ylab)
-        figure = ax.get_figure()
-        path_sav = "rFon1D_graph_" + str(naming_phenotype) + ".png"
-        figure.savefig(os.path.join(str(out_dir), path_sav), dpi=400)
-        print("saved regression graph as", str(os.path.join(str(out_dir), path_sav)))
-    else:
-        print("Nothing to graph for rFon1D.")
+    rFon1D_o.barplot(out_dir=out_dir)
 
     print("--- %s seconds ---" % (time.time() - start_time))
 
@@ -1095,7 +961,7 @@ def orthogonal_polynomial(
     "--precomputed", default=False, help="if true, then saved results are used"
 )
 @click.option(
-    "--out_dir", help="directory to save output/debug files to", type=str
+    "--out_dir", help="directory to save output/debug files to", type=str,
 )  # noqa
 @click.option(
     "--alphbt_input",
@@ -1109,6 +975,12 @@ def orthogonal_polynomial(
     help="minimum percentile that you want saved in the covariance csv",
     type=int,
 )
+@click.option(
+    "--pheno_name",
+    default=None,
+    help="What the phenotype is measuring, used for labelling the y axis of the rFon1D graph",
+    type=str,
+)
 # @click.argument('pheno_file', type=click.File('rb'))
 def cli(
     filename,
@@ -1119,6 +991,7 @@ def cli(
     out_dir,
     alphbt_input,
     min_pct,
+    pheno_name,
 ):
     orthogonal_polynomial(
         filename,
@@ -1129,4 +1002,5 @@ def cli(
         out_dir,
         alphbt_input,
         min_pct,
+        pheno_name,
     )

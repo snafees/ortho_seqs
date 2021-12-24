@@ -17,6 +17,7 @@ Guide
 
    readme
    tutorial
+
    license
    help
 

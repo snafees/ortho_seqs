@@ -7,6 +7,7 @@ import pandas as pd
 import ortho_seq_code.sr as sr
 from ortho_seq_code.constants_orthoseqs import *
 from ortho_seq_code.utils import *
+from ortho_seq_code.plotclass import rf1d
 import click
 import itertools
 from matplotlib import pyplot as plt

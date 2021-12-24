@@ -181,9 +181,9 @@ def orthogonal_polynomial(
         cov_list = []
         for i in range(cov.shape[0]):
             for j in range(cov.shape[1]):
-                for k in range(cov.shape[2]):
-                    for l in range(cov.shape[3]):
-                        if j >> i:
+                if j >> i:
+                    for k in range(cov.shape[2]):
+                        for l in range(cov.shape[3]):
                             cov_list.append((i, j, k, l, cov[i][j][k][l]))
         cov_df = pd.DataFrame(
             cov_list,

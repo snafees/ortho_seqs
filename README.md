@@ -67,6 +67,7 @@ Input a file with phenotype values corresponding to each sequence in the sequenc
  ```
  Currently, you can provide DNA or protein sequences. Here, you can also provide sequences of unequal lengths, where sequences will be padded with lowercase 'n's until it has reached the length of the longest sequence.
 
+```
 --poly_order
 ```
 The order of the polynomials that will be constructed. Currently, one can do first and second order for DNA and first order for protein.

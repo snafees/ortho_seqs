@@ -5,6 +5,7 @@ import os
 
 
 def create_dir_if_not_exists(out_dir):
+    new_out_dir = out_dir
     if os.path.exists(out_dir):
         ct = 0
         new_out_dir = f"{out_dir}{ct}"

@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QWidget
 
 from ortho_seq_code.orthogonal_polynomial import orthogonal_polynomial
-from ortho_seq_code.plotclass.py import rf1d
+from ortho_seq_code.plotclass import rf1d
 from ortho_seq_code.gui.worker import Worker
 
 

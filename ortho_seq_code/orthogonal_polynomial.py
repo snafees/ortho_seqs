@@ -10,7 +10,6 @@ from ortho_seq_code.utils import *
 import click
 import itertools
 from matplotlib import pyplot as plt
-from ortho_seq_code.plotclass import rf1d
 
 
 def orthogonal_polynomial(
@@ -29,11 +28,27 @@ def orthogonal_polynomial(
     start_time = time.time()
     out_dir = create_dir_if_not_exists(out_dir)
     global i
-    with open(filename) as f:
-        seq = f.readlines()
+    print("")
+    if pheno_file != None:
+        with open(filename) as f:
+            seq = f.readlines()
+        with open(pheno_file) as f2:
+            phenotype = f2.readlines()
+        naming_phenotype = os.path.basename(f2.name)
+        onefile = False
+    else:
+        if os.path.splitext(filename)[1] == ".xlsx":
+            df = pd.read_excel(filename, engine="openpyxl", header=None)
+        else:
+            df = pd.read_csv(filename, header=None)
+        phenotype = df[1]
+        f = filename
+        naming_phenotype = os.path.splitext(os.path.basename(filename))[0]
+        onefile = True
     dm, sites, pop_size, seq, seq_series, alphabets, custom_aa = get_seq_info(
-        filename, alphbt_input, molecule
+        filename, alphbt_input, molecule, onefile
     )
+    print("")
     if custom_aa is not None:
         custom_dict = {alphabets[i]: custom_aa[i] for i in range(len(custom_aa))}
     range_dm = range(dm)
@@ -41,15 +56,18 @@ def orthogonal_polynomial(
     range_popsize = range(pop_size)
     # file containing trait values that will be mapped to sequence
     # vectors that must be the same size as F
-    with open(pheno_file) as f2:
-        phenotype = f2.readlines()
-    naming_phenotype = os.path.basename(f2.name)
-
-    F = np.genfromtxt(phenotype)  # this needs to stay this way!
-    Fest = np.genfromtxt(phenotype)  # this needs to stay this way!
-    Fon1 = np.genfromtxt(phenotype)  # this needs to stay this way!
-    Fon2i1 = np.genfromtxt(phenotype)  # this needs to stay this way!
-    Fon12 = np.genfromtxt(phenotype)  # this needs to stay this way!
+    if not onefile:
+        F = np.genfromtxt(phenotype)  # this needs to stay this way!
+        Fest = np.genfromtxt(phenotype)  # this needs to stay this way!
+        Fon1 = np.genfromtxt(phenotype)  # this needs to stay this way!
+        Fon2i1 = np.genfromtxt(phenotype)  # this needs to stay this way!
+        Fon12 = np.genfromtxt(phenotype)  # this needs to stay this way!
+    else:
+        F = np.array(phenotype)
+        Fest = np.array(phenotype)
+        Fon1 = np.array(phenotype)
+        Fon2i1 = np.array(phenotype)
+        Fon12 = np.array(phenotype)
     print("Phenotype Values (Fest):\n" + str(Fest))
     # ----Initializing various terms that we will use.--------------
     # 3 sites, each a dm dim vector, in n individuals
@@ -91,7 +109,10 @@ def orthogonal_polynomial(
             for j in range_sites:
                 if seq[i][j] == alphabets[alphabet_index]:
                     phi[j][i][alphabet_index] = 1.0
-    naming = os.path.basename(f.name)
+    if not onefile:
+        naming = os.path.basename(f.name)
+    else:
+        naming = naming_phenotype
     if precomputed:
         precomputed_array = np.load(os.path.join(out_dir, naming + ".npz"))
         mean = precomputed_array[naming + "_mean"]
@@ -928,7 +949,10 @@ def orthogonal_polynomial(
     "--molecule", default="DNA", help="can provide DNA or amino acid sequence"
 )
 @click.option(
-    "--pheno_file", type=str, help="phenotype text file corresponding to sequence data"
+    "--pheno_file",
+    default=None,
+    type=str,
+    help="phenotype text file corresponding to sequence data",
 )
 @click.option(
     "--poly_order", default="first", help="can do first and second order so far"

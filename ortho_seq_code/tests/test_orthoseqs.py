@@ -103,13 +103,12 @@ def test_cli_precomputed(
             poly_order,
             "--out_dir",
             out_dir,
-            "--precomputed",
-            alphbt_input,
             "--alphbt_input",
-            min_pct,
+            alphbt_input,
             "--min_pct",
-            pheno_name,
+            min_pct,
             "--pheno_name",
+            pheno_name,
         ],
     )
 

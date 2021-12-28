@@ -181,8 +181,15 @@ A GUI version of the CLI is also available to make it easier for users to utiliz
 and provide the path to the directory which contains precomputed sequence space if the user wishes to project a different phenotype onto the same space (i.e., given same sequence data but different corresponding phenotypes). 
 The GUI is in its early form and will include further updates resembling the cli in future versions. 
 
-![GUI - early version](https://github.com/snafees/ortho_seqs/blob/gui_draft/gui_screenshot.png?raw=true)
+![GUI - early version](https://github.com/snafees/ortho_seqs/blob/gui_draft/gui_uploadprecomputedbutton.png?raw=true)
 
+To run the gui, open a terminal and make sure you're in the ortho_seqs environment just as you would do if you were running the cli (see above).
+Then type in the following:
+
+```
+ortho_seq gui
+```
+This will pull up the gui window and allow you to input the relevant information.
 ```
 cov_hist_{trait_file_name}.png
 ```

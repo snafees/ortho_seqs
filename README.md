@@ -11,8 +11,8 @@ For example, the sample data inputs for this tool are shown in this image. Here,
 ## First, install an environment with dependencies for this package:
 ```
 conda create -n ortho_seqs pip
+conda activate ortho_seqs
 pip install -r requirements.txt
-conda activate ortho_seq
 ```
 
 or

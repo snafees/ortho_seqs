@@ -127,8 +127,6 @@ class rf1d:
 
             ax.set_xticks(self.ind + width + 0.5)
             ax.set_xticklabels(np.arange(1, self.s + 1))
-
-            color_map = [color for color in list(alpb_d.values())]
             markers = [
                 plt.Line2D([0, 0], [0, 0], color=color, marker="o", linestyle="")
                 for color in alpb_d.values()
@@ -268,14 +266,13 @@ class rf1d:
                 return
         if alphabet_item is not None:
             a = self.alphbt_input.index(alphabet_item) * self.s
-            x_red = y.x_flat[a : a + self.d]
+            x_red = self.x_flat[a : a + self.d]
         elif site is not None:
-            x_red = x[site]
+            x_red = self.x[site]
         else:
             x_red = self.x_flat
         if omit_zeroes:
-            lst = list(x_red)
-            x_red = np.array(lst[lst != 0])
+            x_red = np.array(x_red)[np.array(x_red) != 0].tolist()
         if border:
             if bins is not None:
                 width = 1 - bins / 200
@@ -284,23 +281,24 @@ class rf1d:
         else:
             width = 0
         plt.hist(x_red, bins=bins, color=bin_color, lw=width, ec="black")
+        plt.ylabel(self.phenotype)
         if out_dir is not None:
-            path_sav = "rFon1D_hist_" + str(ylab) + ".png"
+            path_sav = "rFon1D_hist_" + str(self.phenotype) or "" + ".png"
             path_sav = path_sav.replace(" ", "_")
-            figure.savefig(os.path.join(str(out_dir), path_sav), dpi=400)
+            plt.savefig(os.path.join(str(out_dir), path_sav), dpi=400)
             print(
                 "saved regression graph as", str(os.path.join(str(out_dir), path_sav)),
             )
         elif self.out_dir is not None:
-            path_sav = "rFon1D_hist_" + str(ylab) + ".png"
+            path_sav = "rFon1D_hist_" + str(self.phenotype) or "" + ".png"
             path_sav = path_sav.replace(" ", "_")
-            figure.savefig(os.path.join(str(self.out_dir), path_sav), dpi=400)
+            plt.savefig(os.path.join(str(self.out_dir), path_sav), dpi=400)
             print(
                 "saved regression graph as",
                 str(os.path.join(str(self.out_dir), path_sav)),
             )
 
-    def set_out_dir(new_out_dir):
+    def set_out_dir(self, new_out_dir):
         self.out_dir = new_out_dir
 
 

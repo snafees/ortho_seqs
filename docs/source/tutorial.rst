@@ -67,7 +67,7 @@ Using the Sidhu dataset, our input would look like:
 
 .. code-block:: shell-session
 
-  ortho_seq orthogonal-polynomial ortho_seq_code/tests/data/nucleotide/onefile_tests/sidhu.xlsx --molecule protein --poly_order first --out_dir ../onefile_tests/sidhu --alphbt_input SYG,R --min_pct 40
+  ortho_seq orthogonal-polynomial ortho_seq_code/tests/data/nucleotide/onefile_tests/sidhu.xlsx --molecule protein --poly_order first --out_dir ../onefile_tests/sidhu --alphbt_input SYG,R --min_pct 40 --pheno_name IC50
 
 Let's explore what these flags are, and how you can use them.
 
@@ -123,6 +123,12 @@ If we were to leave out the commas, the groups would be:
   --min_pct
 
 One output will be an .xlsx file containing all of the first-order covariances between each amino acid at each side with another amino acid at another site. However, this file can get pretty big pretty quick. Therefore, this flag will only print out covariance values whose magnitudes are at or above the PERCENTILE value specified. The default is 75, meaning it will only save the covariances which range from the 75th to the 100th percentiles in magnitude. To keep it at the default, leave out this flag when inputting what you want. For the Sidhu dataset, we want all magnitudes at or above the 40th percentile (as proof of concept).
+
+.. code-block::
+
+  --pheno_name
+
+The pheno_name will label the y axis of the rFon1D graph with whatever the phenotype value represents, if desired.
 
 .. _outputs:
 4. Obtained Outputs

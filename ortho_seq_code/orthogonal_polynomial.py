@@ -962,7 +962,7 @@ def orthogonal_polynomial(
     "--precomputed", default=False, help="if true, then saved results are used"
 )
 @click.option(
-    "--out_dir", help="directory to save output/debug files to", type=str,
+    "--out_dir", help="directory to save output/debug files to", type=click.Path,
 )  # noqa
 @click.option(
     "--alphbt_input",

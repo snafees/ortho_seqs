@@ -159,6 +159,7 @@ This means that the group SYG at site 1 covaries negatively with an Arg at site 
 This covariance analysis tells us things about the statics of the sequence space. At this point, we have not projected our phenotype onto the sequence space.
 Here, we can discover patterns of covariation between amino acids at a given site with amino acids at other sites. When looking at the distribution of the magnitude of covariances, we can identify the ones at the tail ends
 of this distribution. This information is denoted in the output csv and the allows for the identification of highly covarying (negative or positive) sites.
+
 +++++++++
 rFon1D Graph
 +++++++++

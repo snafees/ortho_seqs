@@ -137,7 +137,11 @@ class rf1d:
                 dim = self.d // 3
 
             ax.legend(
-                markers, alpb_d.keys(), loc=1, ncol=dim, prop={"size": 100 / self.d},
+                markers,
+                alpb_d.keys(),
+                loc=1,
+                ncol=dim,
+                prop={"size": 100 / self.d},
             )
             ax.tick_params(width=0.8)
             ax.xaxis.label.set_size(32 - (self.s) / 2)
@@ -287,7 +291,8 @@ class rf1d:
             path_sav = path_sav.replace(" ", "_")
             plt.savefig(os.path.join(str(out_dir), path_sav), dpi=400)
             print(
-                "saved regression graph as", str(os.path.join(str(out_dir), path_sav)),
+                "saved regression graph as",
+                str(os.path.join(str(out_dir), path_sav)),
             )
         elif self.out_dir is not None:
             path_sav = "rFon1D_hist_" + str(self.phenotype) or "" + ".png"

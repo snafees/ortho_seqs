@@ -6,4 +6,5 @@ flake8
 matplotlib
 pandas
 pyqt5>=5.15.4
+PyQt5-sip
 pytest

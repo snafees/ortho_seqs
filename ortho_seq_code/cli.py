@@ -1,5 +1,5 @@
 import click
-from ortho_seq_code.orthogonal_polynomial import cli as orthogonal_polynomial
+from ortho_seq_code.orthogonal_polynomial import ortho_poly_command
 from ortho_seq_code.gui.gui import gui_run
 
 # from ortho_seq_code.plotclass import plotclass
@@ -8,16 +8,15 @@ from ortho_seq_code.gui.gui import gui_run
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 
 
-@click.group(invoke_without_command=True, context_settings=CONTEXT_SETTINGS)
-@click.pass_context
-def cli(ctx):
-    if ctx.invoked_subcommand is None:
-        gui_run()
-    else:
-        pass
+@click.group()
+# @click.pass_context
+def cli():
+    pass
 
 
-cli.add_command(orthogonal_polynomial, name="orthogonal-polynomial")
+cli.add_command(ortho_poly_command, name="orthogonal-polynomial")
+cli.add_command(gui_run, name="gui")
+
 
 # cli.add_command(plotclass, name="rf1d")
 

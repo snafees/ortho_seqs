@@ -172,7 +172,6 @@ This set of files contains the main results which includes the following:
 3. **rFon12**:  This is the regression of the trait onto *pairs* of sites for given nucleotides at each site. These are regressions on (site 1)x(site 2) independent of first order associations. Since we're looking at 2 sites at a time and there's a possibility of having 4 nucleotides at each site (for the case of DNA), we can visualize this via a 4x4 matrix as shown in Figure 8 in the paper linked above.
 
 
-<<<<<<< HEAD
 # The rf1d class
 The newest update to *ortho_seqs* involves adding a new class of objects, called *rf1d* (short for rFon1D). To declare an *rf1d* object, you must supply a numpy ndarray of the rFon1D values (supplied via the regressions.npz file that is output when *ortho_seqs* is run), along with the alphabet input, and the molecule type.
 Once you have done this, you can explore the rFon1D values, and see if there are any trends. You can:
@@ -189,6 +188,7 @@ and provide the path to the directory which contains precomputed sequence space 
 The GUI is in its early form and will include further updates resembling the cli in future versions. 
 
 ![GUI - early version](https://github.com/snafees/ortho_seqs/blob/gui_draft/gui_uploadprecomputedbutton.png?raw=true)
+
 
 To run the gui, open a terminal and make sure you're in the ortho_seqs environment just as you would do if you were running the cli (see above).
 Then type in the following:

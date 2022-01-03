@@ -54,6 +54,7 @@ def test_cli_with_padding(protein_seqs_padding, protein_pheno_padding):
 
     runner = CliRunner()
 
+
     with tempfile.TemporaryDirectory() as out_dir:
         result = runner.invoke(
             ortho_poly_command,
@@ -90,6 +91,7 @@ def test_cli_precomputed(
 
     runner = CliRunner()
 
+
     with tempfile.TemporaryDirectory() as out_dir:
         result = runner.invoke(
             ortho_poly_command,
@@ -109,7 +111,7 @@ def test_cli_precomputed(
                 alphbt_input,
                 "--min_pct",
                 min_pct,
-                "--pheno_name",
+              "--pheno_name",
                 pheno_name,
             ],
         )

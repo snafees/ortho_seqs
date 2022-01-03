@@ -191,7 +191,6 @@ def orthogonal_polynomial(
         cov_sub.hist(
             cov_flat,
             edgecolor="black",
-            bins=bns,
             color="blueviolet",
         )
         plt.xlabel("Non-Zero Covariances")

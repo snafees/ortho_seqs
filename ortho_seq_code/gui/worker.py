@@ -34,7 +34,7 @@ class Worker(QRunnable):
     """
     Worker thread
 
-    Inherits from QRunnable to handler worker thread setup, signals and wrap-up.
+    Inherits from QRunnable to handle worker thread setup, signals and wrap-up.
 
     :param callback: The function callback to run on this worker thread. Supplied args and
                      kwargs will be passed through to the runner.

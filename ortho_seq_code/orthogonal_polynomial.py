@@ -115,7 +115,7 @@ def orthogonal_polynomial(
     else:
         naming = naming_phenotype
     if precomputed:
-        precomputed_array = np.load(os.path.join(out_dir, naming + ".npz"))
+        precomputed_array = np.load(os.path.join(precomputed, naming + ".npz"))
         mean = precomputed_array[naming + "_mean"]
         P = precomputed_array[naming + "_P"]
         var = precomputed_array[naming + "_var"]
@@ -130,29 +130,30 @@ def orthogonal_polynomial(
         Pa1i1 = precomputed_array[naming + "_Pa1i1"]
         P1D = precomputed_array[naming + "_P1D"]
         varP1D = precomputed_array[naming + "_varP1D"]
-        phi2 = precomputed_array[naming + "_phi2"]
-        phi2m = precomputed_array[naming + "_phi2m"]
-        Q2 = precomputed_array[naming + "_Q2"]
-        cov2w1 = precomputed_array[naming + "_cov2w1"]
-        cov2w1a = precomputed_array[naming + "_cov2w1a"]
-        cov2w1b = precomputed_array[naming + "_cov2w1b"]
-        r2on1a = precomputed_array[naming + "_r2on1a"]
-        r2on1b = precomputed_array[naming + "_r2on1b"]
-        P2 = precomputed_array[naming + "_P2"]
-        PP12 = P2[0][1]
-        P2a = precomputed_array[naming + "_P2a"]
-        cov2w2 = precomputed_array[naming + "_cov2w2"]
-        var2 = precomputed_array[naming + "_var2"]
-        var12 = var2[0][1]
-        reg2on2 = precomputed_array[naming + "_reg2on2"]
-        P2i2 = precomputed_array[naming + "_P2i2"]
-        P2i2a = precomputed_array[naming + "_P2i2a"]
-        cov2w2i2 = precomputed_array[naming + "_cov2w2i2"]
-        var2i2 = precomputed_array[naming + "_var2i2"]
-        reg2on2i2 = precomputed_array[naming + "_reg2on2i2"]
-        P2D = precomputed_array[naming + "_P2D"]
-        P2Da = precomputed_array[naming + "_P2Da"]
-        var2D = precomputed_array[naming + "_var2D"]
+        if poly_order == "second":
+            phi2 = precomputed_array[naming + "_phi2"]
+            phi2m = precomputed_array[naming + "_phi2m"]
+            Q2 = precomputed_array[naming + "_Q2"]
+            cov2w1 = precomputed_array[naming + "_cov2w1"]
+            cov2w1a = precomputed_array[naming + "_cov2w1a"]
+            cov2w1b = precomputed_array[naming + "_cov2w1b"]
+            r2on1a = precomputed_array[naming + "_r2on1a"]
+            r2on1b = precomputed_array[naming + "_r2on1b"]
+            P2 = precomputed_array[naming + "_P2"]
+            PP12 = P2[0][1]
+            P2a = precomputed_array[naming + "_P2a"]
+            cov2w2 = precomputed_array[naming + "_cov2w2"]
+            var2 = precomputed_array[naming + "_var2"]
+            var12 = var2[0][1]
+            reg2on2 = precomputed_array[naming + "_reg2on2"]
+            P2i2 = precomputed_array[naming + "_P2i2"]
+            P2i2a = precomputed_array[naming + "_P2i2a"]
+            cov2w2i2 = precomputed_array[naming + "_cov2w2i2"]
+            var2i2 = precomputed_array[naming + "_var2i2"]
+            reg2on2i2 = precomputed_array[naming + "_reg2on2i2"]
+            P2D = precomputed_array[naming + "_P2D"]
+            P2Da = precomputed_array[naming + "_P2Da"]
+            var2D = precomputed_array[naming + "_var2D"]
     else:
         # keep in alpha order
         # ---------------------------------First order terms ----------------------
@@ -188,7 +189,9 @@ def orthogonal_polynomial(
         cov_flat = cov_flat[cov_flat != 0]
         fig, cov_sub = plt.subplots()
         cov_sub.hist(
-            cov_flat, edgecolor="black", color="blueviolet",
+            cov_flat,
+            edgecolor="black",
+            color="blueviolet",
         )
         plt.xlabel("Non-Zero Covariances")
         plt.ylabel("Frequency")
@@ -926,7 +929,11 @@ def orthogonal_polynomial(
         print("computed rFon2D")
 
     regression_npz_file = os.path.join(out_dir, naming_phenotype + "_regressions.npz")
-    print("Saving regression results to to {}".format(regression_npz_file))
+    print(
+        "Saving regression results to to {}".format(
+            os.path.abspath((regression_npz_file))
+        )
+    )
     np.savez_compressed(regression_npz_file, **regression_results)
 
     print("Trait values estimated from regressions")
@@ -959,10 +966,14 @@ def orthogonal_polynomial(
     "--poly_order", default="first", help="can do first and second order so far"
 )
 @click.option(
-    "--precomputed", default=False, help="if true, then saved results are used"
+    "--precomputed",
+    type=click.Path(),
+    help="directory which contains results from a previous run",
 )
 @click.option(
-    "--out_dir", help="directory to save output/debug files to", type=str,
+    "--out_dir",
+    help="directory to save output/debug files to",
+    type=str,
 )  # noqa
 @click.option(
     "--alphbt_input",
@@ -983,7 +994,7 @@ def orthogonal_polynomial(
     type=str,
 )
 # @click.argument('pheno_file', type=click.File('rb'))
-def cli(
+def ortho_poly_command(
     filename,
     molecule,
     pheno_file,

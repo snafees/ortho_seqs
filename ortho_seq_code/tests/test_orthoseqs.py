@@ -203,7 +203,7 @@ def test_protein_first_order(protein_data_dir, protein_params_first_order):
         orthogonal_polynomial(*protein_params_first_order)
 
         basefile = os.path.abspath(protein_params_first_order.seqs_filename)
-        assert get_seq_info(basefile, None, None)[:-4] == [18, 6, 6]
+        assert get_seq_info(basefile, None, False)[:-4] == [18, 6, 6]
 
         basename = os.path.basename(protein_params_first_order.seqs_filename)
 

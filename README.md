@@ -32,7 +32,7 @@ There are three main ways to submit your sequence and phenotype files to *ortho_
 2) The sequences must be in the first column, and the phenotypes must be in the second column.
 3) The columns must not have header names.
 
-If you use a single file for the sequence and phenotype, you would submit the file path where you would submit the sequence file path, and leave the *--pheno_file* flag blank (*ortho_seqs* will set that flag to **None**).
+If you use a single file for the sequence and phenotype, you would submit the file path where you would submit the sequence file path, and do not include the *--pheno_file* flag.
 
 The phenotypes must be real numbers.
 
@@ -182,10 +182,10 @@ Once you have done this, you can explore the rFon1D values, and see if there are
 5. Make a histogram of rFon1D values using .plot_hist()
 
 
-# To run the GUI 
-A GUI version of the CLI is also available to make it easier for users to utilize the tool. The GUI allows the user to upload the sequence and phenotype information via an upload button, specify the molecule, the polynomial order they wish to run, 
-and provide the path to the directory which contains precomputed sequence space if the user wishes to project a different phenotype onto the same space (i.e., given same sequence data but different corresponding phenotypes). 
-The GUI is in its early form and will include further updates resembling the cli in future versions. 
+# To run the GUI
+A GUI version of the CLI is also available to make it easier for users to utilize the tool. The GUI allows the user to upload the sequence and phenotype information via an upload button, specify the molecule, the polynomial order they wish to run,
+and provide the path to the directory which contains precomputed sequence space if the user wishes to project a different phenotype onto the same space (i.e., given same sequence data but different corresponding phenotypes).
+The GUI is in its early form and will include further updates resembling the cli in future versions.
 
 ![GUI - early version](https://github.com/snafees/ortho_seqs/blob/gui_draft/gui_uploadprecomputedbutton.png?raw=true)
 

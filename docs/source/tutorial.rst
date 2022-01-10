@@ -150,7 +150,7 @@ And will have the file name cov_hist_{name}.png
 The .csv file has 8 columns, and looks like:
 
 .. image:: tutorial_outputs/top_10.png
-  :height: 250px
+  :height: 200px
 
 They are:
 

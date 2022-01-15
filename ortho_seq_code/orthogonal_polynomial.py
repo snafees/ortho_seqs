@@ -106,7 +106,7 @@ def orthogonal_polynomial(
         print("Groupings according to --alphbt_input:")
         print(str(custom_dict).replace("'", "").replace(", ", " | "))
         print("List form of alphabets:")
-        print(alphabets)
+        print([custom_dict[i] for i in alphabets])
     for alphabet_index in range(dm):  # Keep in alphabetical order with 'n' at end
         for i in range_popsize:
             for j in range_sites:

@@ -302,7 +302,7 @@ class rf1d:
                 str(os.path.join(str(self.out_dir), path_sav)),
             )
 
-    def heatmap():
+    def heatmap(self):
         print("Finish")
 
     def set_out_dir(self, new_out_dir):

@@ -136,12 +136,126 @@ The pheno_name will label the y axis of the rFon1D graph with whatever the pheno
 +++++++++
 CLI Outputs
 +++++++++
-The CLI will print out the groupings used for the alphabet. If you specified groups with a comma (such as in the example), it will print a map of what every numerical group corresponds to, and a list of the groupings, which is useful for creating rf1d objects.
-The tutorial outputs:
+
+The CLI will first print out whether or not it expects one file for the sequence and phenotype, or two separate files. If it is one file, it will then identify whether or not it is a .xlsx or a .csv file.
+The example outputs:
 
 .. code-block::
 
-  FIX LATER
+  Pheno file is not separate from sequence file, assuming seq_file is either a .csv or a .xlsx file.
+  Reading .xlsx file.
+
+The CLI will then print out the groupings used for the alphabet. If you specified groups with a comma (such as in the example), it will print a map of what every numerical group corresponds to, and a list of the groupings, which is useful for creating rf1d objects.
+The example outputs:
+
+.. code-block::
+
+  Groupings according to --alphbt_input:
+  {0: SYG | 1: R | 2: ACDEFHIKLMNPQTVW | 3: n}
+  List form of alphabet input:
+  ['SYG', 'R', 'ACDEFHIKLMNPQTVW', 'n']
+
+After that, it will output the following text for all first-order calculations as it calculates what it's on:
+
+.. code-block:
+
+  computed mean
+  computed variance
+  computed covariance
+  saved covariance histogram as {out_dir}/cov_hist_{seq_filename}.png
+  Saved covariance data frame as {out_dir}/cov_data_frame_{seq_filename}.csv
+  computed reg11
+  computed Pa: first order orthogonalized within each vector
+  computed P1i1
+  computed varP1i1
+  computed cov11i1
+  computed reg11i1
+  computed Pa1i1
+  computed P1D
+  computed varP1D
+  Saving to {out_dir}/{seq_filename}.npz
+  Saving to {out_dir}/{seq_filename}_covs_with_F.npz
+
+where {out_dir} is replaced with the out_dir that was supplied to it, and {seq_filename} is the name of the sequence file.
+
+Next, the CLI outputs the first order regression outputs.
+The example outputs:
+
+.. code-block::
+
+  Regression of trait on site 1
+  [[-1.2409090909  1.2409090909  0.            0.          ]
+   [ 0.5716578947 -0.5716578947  0.            0.          ]
+   [ 0.1729480519 -0.1729480519  0.            0.          ]
+   [-0.1468831169  0.1468831169  0.            0.          ]
+   [-0.1652922078  0.1652922078  0.            0.          ]
+   [-0.2701158301  0.2701158301  0.            0.          ]
+   [-0.1246911197  0.1246911197  0.            0.          ]
+   [ 0.8338       -0.8445       -0.67875       0.          ]
+   [-0.7543831169  1.2094936709  1.194375     -0.67875     ]
+   [-0.4118        0.2073076923  1.194375      0.2610759494]
+   [-0.3639382239  1.2094936709 -0.8821518987  0.5846153846]
+   [-0.2904929577  0.5495526316  0.           -0.0067894737]
+   [-0.3020833333  0.4392307692  1.194375     -0.0067894737]
+   [-0.1501690141  1.194375      0.0443181818 -0.0067894737]
+   [-0.1723809524  0.0611392405  0.1521575342  0.1660273973]
+   [-0.1069047619  0.            0.0424064516  0.0627828054]
+   [-0.3776712329 -1.073625      0.2858333333  0.1069047619]
+   [-0.4165068493  0.           -0.7238461538  0.5358701299]
+   [ 0.            0.           -0.4165068493  0.4165068493]]
+  Regression on 1st order polynomial - orthogonalized within - rFon1D
+  [[-1.3013918017  1.3013918017  0.            0.          ]
+   [ 0.656        -0.656         0.            0.          ]
+   [ 0.211342155  -0.211342155   0.            0.          ]
+   [-0.0709090909  0.0709090909  0.            0.          ]
+   [-0.2096854147  0.2096854147  0.            0.          ]
+   [-0.3441860465  0.3441860465  0.            0.          ]
+   [-0.1927906977  0.1927906977  0.            0.          ]
+   [ 0.9240104167 -0.9316923077 -0.7539130435  0.          ]
+   [-0.6834090909  1.1394117647  1.1228985507 -0.7539130435]
+   [-0.5211924119  0.5136781609  1.1228985507  0.1872058824]
+   [-0.2885714286  1.1394117647 -0.9605882353  0.5121393035]
+   [-0.2600081934  0.5730053805  0.           -0.0852307692]
+   [-0.2246265938  0.3658706468  1.1228985507 -0.0852307692]
+   [-0.0686666667  1.1228985507 -0.0325       -0.0852307692]
+   [-0.1128708756  0.2267178503  0.0726612903  0.0867741935]
+   [ 0.4901587302  0.           -0.1979       -0.0246423752]
+   [-0.1385915493 -0.7828571429  1.0344444444  0.          ]
+   [ 0.            0.            0.            0.          ]
+   [ 0.            0.            0.            0.          ]]
+  Regression of trait on site 2 independent of 1
+  [0. 0. 0. 0.]
+  computed rFon1
+  computed rFon1D
+  Saving regression results to to {out_dir}/{seq_filename}_regressions.npz
+  Trait values estimated from regressions
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+After that, the CLI will create an rf1d object, and present the rf1d.summary() and rf1d.barplot() function outputs.
+The example returns:
+
+.. code-block::
+
+  rf1d Object:
+
+  Number of sites: 19
+  Number of dimensions: 4
+  Alphabet input: ['SYG', 'R', 'ACDEFHIKLMNPQTVW', 'n']
+  Molecule: protein
+
+  Phenotype represents IC50 values
+  Highest rFon1D magnitudes:
+  -1.3014	Site: 0		Key: SYG
+  1.3014	Site: 0		Key: R
+  1.1394	Site: 8		Key: R
+  1.1394	Site: 10		Key: R
+  1.1229	Site: 9		Key: ACDEFHIKLMNPQTVW
+  1.1229	Site: 12		Key: ACDEFHIKLMNPQTVW
+  1.1229	Site: 8		Key: ACDEFHIKLMNPQTVW
+  1.1229	Site: 13		Key: R
+  1.0344	Site: 16		Key: ACDEFHIKLMNPQTVW
+  -0.9606	Site: 10		Key: ACDEFHIKLMNPQTVW
+  saved regression graph as {out_dir}/rFon1D_Regressions_of_{phenotype}_values.png
 
 +++++++++
 Histogram and Spreadsheet of Covariances

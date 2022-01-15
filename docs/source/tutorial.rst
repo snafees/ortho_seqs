@@ -157,7 +157,7 @@ The example outputs:
 
 After that, it will output the following text for all first-order calculations as it calculates what it's on:
 
-.. code-block:
+.. code-block::
 
   computed mean
   computed variance

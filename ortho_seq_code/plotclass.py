@@ -309,12 +309,17 @@ class rf1d:
         self.out_dir = new_out_dir
 
 
-@click.command(help="Program to help visualize rFon1D results")
+@click.command()
 @click.argument("filename", type=str, help=".npz value of regressions")
 @click.option("--alphbt_input", type=list, help="A list form of the alphabet input")
 @click.option("--molecule", type=str, default="DNA", help="Molecule type")
 @click.option("--phenotype", type=str, help="What the phenotype values represent")
 @click.option("--out_dir", type=str, help="The place where you want to save files")
+@click.option(
+    "--output",
+    type=str,
+    help="What you want to be output, can be one of 'summary', 'barplot', 'histogram', and 'heatmap'",
+)
 def rf1d_run(npz, alphbt_input, molecule, phenotype, out_dir):
     ndarray = np.load(npz)[1]
     rf1d(ndarray, alphbt_input, molecule, phenotype, out_dir)

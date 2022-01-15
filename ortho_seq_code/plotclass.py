@@ -302,14 +302,14 @@ class rf1d:
                 str(os.path.join(str(self.out_dir), path_sav)),
             )
 
+    def heatmap():
+        print("Finish")
+
     def set_out_dir(self, new_out_dir):
         self.out_dir = new_out_dir
 
 
-def plotclass(command):
-    if command == "initialize":
-        array = input("Enter file for ndarray of rfon1D values: ")
-        alphbt = input("Enter alphabet: ")
-        mol = input("Enter molecule type: ")
-        phen = input("Enter phenotype, if desired: ")
-        outdir = input("Enter directory where you want files saved, if desired: ")
+@click.command()
+def rf1d_run(npz, alphbt_input, molecule, phenotype, out_dir):
+    ndarray = np.load(npz)[1]
+    rf1d(ndarray, alphbt_input, molecule, phenotype, out_dir)

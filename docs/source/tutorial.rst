@@ -136,7 +136,12 @@ The pheno_name will label the y axis of the rFon1D graph with whatever the pheno
 +++++++++
 CLI Outputs
 +++++++++
-The CLI will print out the g
+The CLI will print out the groupings used for the alphabet. If you specified groups with a comma (such as in the example), it will print a map of what every numerical group corresponds to, and a list of the groupings, which is useful for creating rf1d objects.
+The tutorial outputs:
+
+.. code-block::
+
+  FIX LATER
 
 +++++++++
 Histogram and Spreadsheet of Covariances

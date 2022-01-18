@@ -100,13 +100,13 @@ def orthogonal_polynomial(
     P = np.zeros((sites, pop_size, dm))
     cov = np.zeros((sites, sites, dm, dm))
     if alphbt_input is None or "," not in alphbt_input:
-        print("List form of alphabet input:")
-        print(alphabets)
+        print("rf1d form of alphabet input:")
+        print(alphabets.join(","))
     else:
         print("Groupings according to --alphbt_input:")
         print(str(custom_dict).replace("'", "").replace(", ", " | "))
-        print("List form of alphabet input:")
-        print([custom_dict[i] for i in alphabets])
+        print("rf1d form of alphabet input:")
+        print([custom_dict[i] for i in alphabets].join(","))
     for alphabet_index in range(dm):  # Keep in alphabetical order with 'n' at end
         for i in range_popsize:
             for j in range_sites:

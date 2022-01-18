@@ -18,7 +18,7 @@ class rf1d:
             self.d = ndarray.shape[1]
             self.ind = np.arange(self.s)
             self.num_dm = np.arange(self.d)
-            self.alphbt_input = alphbt_input
+            self.alphbt_input = alphbt_input.split(",")
             self.m = molecule
             self.complist = ["<", ">", "<>", "><"]
             self.phenotype = phenotype
@@ -311,7 +311,7 @@ class rf1d:
 
 @click.command()
 @click.argument("filename", type=str)
-@click.option("--alphbt_input", type=list, help="A list form of the alphabet input")
+@click.option("--alphbt_input", type=str, help="A list form of the alphabet input")
 @click.option("--molecule", type=str, default="DNA", help="Molecule type")
 @click.option("--phenotype", type=str, help="What the phenotype values represent")
 @click.option("--out_dir", type=str, help="The place where you want to save files")

@@ -18,7 +18,7 @@ class rf1d:
             self.d = ndarray.shape[1]
             self.ind = np.arange(self.s)
             self.num_dm = np.arange(self.d)
-            self.alphbt_input = alphbt_input.split(",")
+            self.alphbt_input = alphbt_input.split(",")[0 : ndarray.shape[1]]
             self.m = molecule
             self.complist = ["<", ">", "<>", "><"]
             self.phenotype = phenotype
@@ -302,8 +302,35 @@ class rf1d:
                 str(os.path.join(str(self.out_dir), path_sav)),
             )
 
-    def heatmap(self):
-        print("Finish")
+    def heatmap(self, out_dir=None):
+        fig, ax = plt.subplots(figsize=(8, 8))
+        im = ax.imshow(self.x)
+        ax.set_xticks(np.arange(len(self.alphbt_input)))
+        ax.set_xticklabels(self.alphbt_input)
+        ax.set_yticks(np.arange(self.s))
+        fig.tight_layout()
+        for i in range(self.s):
+            for j in range(self.d):
+                print(round(self.x[i, j], 2))
+                text = ax.text(
+                    j, i, round(self.x[i, j], 2), ha="center", va="center", color="w"
+                )
+        if out_dir is not None:
+            path_sav = "rFon1D_heatmap_" + str(self.phenotype) or "" + ".png"
+            path_sav = path_sav.replace(" ", "_")
+            plt.savefig(os.path.join(str(out_dir), path_sav), dpi=400)
+            print(
+                "saved regression graph as", str(os.path.join(str(out_dir), path_sav)),
+            )
+        elif self.out_dir is not None:
+            path_sav = "rFon1D_heatmap_" + str(self.phenotype) or "" + ".png"
+            path_sav = path_sav.replace(" ", "_")
+            plt.savefig(os.path.join(str(self.out_dir), path_sav), dpi=400)
+            print(
+                "saved regression graph as",
+                str(os.path.join(str(self.out_dir), path_sav)),
+            )
+        plt.show()
 
     def set_out_dir(self, new_out_dir):
         self.out_dir = new_out_dir
@@ -320,6 +347,15 @@ class rf1d:
     type=str,
     help="What you want to be output, can be one of 'summary', 'barplot', 'histogram', and 'heatmap'",
 )
-def rf1d_run(npz, alphbt_input, molecule, phenotype, out_dir):
+@click.option("--action", type=str, default="barplot")
+def rf1d_run(npz, alphbt_input, molecule, phenotype, out_dir, action):
     ndarray = np.load(npz)[1]
-    rf1d(ndarray, alphbt_input, molecule, phenotype, out_dir)
+    x = rf1d(ndarray, alphbt_input, molecule, phenotype, out_dir)
+    if action == "barplot":
+        x.barplot()
+    elif action == "histogram":
+        x.histogram()
+    elif action == "summary":
+        x.summary()
+    else:
+        x.heatmap()

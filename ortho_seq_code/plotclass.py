@@ -310,7 +310,7 @@ class rf1d:
 
 
 @click.command()
-@click.argument("filename", type=str, help=".npz value of regressions")
+@click.argument("filename", type=str)
 @click.option("--alphbt_input", type=list, help="A list form of the alphabet input")
 @click.option("--molecule", type=str, default="DNA", help="Molecule type")
 @click.option("--phenotype", type=str, help="What the phenotype values represent")

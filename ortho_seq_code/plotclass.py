@@ -1,6 +1,6 @@
 import os
 import numpy as np
-from ortho_seq_code.constants_orthoseqs import *
+import ortho_seq_code.constants_orthoseqs as constants
 import matplotlib.pyplot as plt
 import click
 from ortho_seq_code.utils import create_dir_if_not_exists
@@ -90,11 +90,11 @@ class rf1d:
             for i in self.num_dm:
                 dim_aa[i] = [data_null[j] for j in range(i, sd, self.d)]
 
-            col_len = len(colors)
+            col_len = len(constants.colors)
             alpb_d = dict()
             for i in self.num_dm:
                 if any(i != 0 and i for i in dim_aa[i]):
-                    alpb_d[i] = colors[i % col_len]
+                    alpb_d[i] = constants.colors[i % col_len]
                     alpb_d[self.alphbt_input[i]] = alpb_d.pop(i)
 
             # Creating plots
@@ -118,7 +118,7 @@ class rf1d:
                     height=[j for j in dim_na[i]],
                     width=ln,
                     align="edge",
-                    color=[colors[i % col_len] for i in list(dim_loc[i])],
+                    color=[constants.colors[i % col_len] for i in list(dim_loc[i])],
                     edgecolor="black",
                     zorder=3,
                     linewidth=thickness,

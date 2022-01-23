@@ -25,7 +25,9 @@ conda activate ortho_seq
 ## Then, install the package:
 ``python setup.py install``
 
-<a name="Files">## Gather the input file(s) needed.</a>
+<a name="Files"></a>
+## Gather the input file(s) needed.
+
 
 There are three main ways to submit your sequence and phenotype files to *ortho_seqs*. The first method is to submit them separately, in their own .txt files. Recently, however, an update was added that allows you to submit them both in the same file. For this to apply:
 1) The file must be either a .xlsx or a .csv file.

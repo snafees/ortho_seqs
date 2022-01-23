@@ -80,13 +80,15 @@ def get_seq_info(seqf, alphbt_input, molecule, onefile):
             if "protein" in molecule:
                 alphbt_last_group = "".join(
                     np.setdiff1d(
-                        np.array(constants.PROTEIN_ALPHABETS).ravel(), np.array(alphbt_excluded)
+                        np.array(constants.PROTEIN_ALPHABETS).ravel(),
+                        np.array(alphbt_excluded),
                     )
                 )
             else:
                 alphbt_last_group = "".join(
                     np.setdiff1d(
-                        np.array(constants.DNA_ALPHABETS).ravel(), np.array(alphbt_excluded)
+                        np.array(constants.DNA_ALPHABETS).ravel(),
+                        np.array(alphbt_excluded),
                     )
                 )
             alphbt += "," + str(alphbt_last_group)
@@ -121,13 +123,15 @@ def get_seq_info(seqf, alphbt_input, molecule, onefile):
                 if "protein" in molecule:
                     alphbt_last_group = list(
                         np.setdiff1d(
-                            np.array(constants.PROTEIN_ALPHABETS).ravel(), np.array(alphabets)
+                            np.array(constants.PROTEIN_ALPHABETS).ravel(),
+                            np.array(alphabets),
                         )
                     )
                 else:
                     alphbt_last_group = list(
                         np.setdiff1d(
-                            np.array(constants.DNA_ALPHABETS).ravel(), np.array(alphabets)
+                            np.array(constants.DNA_ALPHABETS).ravel(),
+                            np.array(alphabets),
                         )
                     )
                 seq_list_sub = []

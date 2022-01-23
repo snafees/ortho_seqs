@@ -16,8 +16,5 @@ cli.add_command(ortho_poly_command, name="orthogonal-polynomial")
 cli.add_command(gui_run, name="gui")
 cli.add_command(rf1d_run, name="rf1d-viz")
 
-
-# cli.add_command(plotclass, name="rf1d")
-
 if __name__ == "__main__":
     cli()

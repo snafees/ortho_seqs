@@ -25,7 +25,7 @@ conda activate ortho_seq
 ## Then, install the package:
 ``python setup.py install``
 
-## Gather the input file(s) needed.
+<a name="Files">## Gather the input file(s) needed.</a>
 
 There are three main ways to submit your sequence and phenotype files to *ortho_seqs*. The first method is to submit them separately, in their own .txt files. Recently, however, an update was added that allows you to submit them both in the same file. For this to apply:
 1) The file must be either a .xlsx or a .csv file.
@@ -60,7 +60,7 @@ Along with regressions on each site independent of one another and onto two site
 ```
 --pheno_file
 ```
-Input a file with phenotype values corresponding to each sequence in the sequence file. If you have a .xlsx or .csv file, do NOT use this flag (more details above in the **Gather the Input Files Needed** section).
+Input a file with phenotype values corresponding to each sequence in the sequence file. If you have a .xlsx or .csv file, do NOT use this flag (more details above in the [**Gather the Input Files Needed**](#Files) section).
 
  ```
  --molecule

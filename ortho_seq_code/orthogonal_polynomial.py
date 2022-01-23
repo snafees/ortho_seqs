@@ -6,7 +6,7 @@ import os
 import pandas as pd
 import ortho_seq_code.sr as sr
 from ortho_seq_code.constants_orthoseqs import *
-from ortho_seq_code.utils import *
+import ortho_seq_code.utils as utils
 from ortho_seq_code.plotclass import rf1d
 import click
 import itertools
@@ -27,7 +27,7 @@ def orthogonal_polynomial(
 
     """Program to compute orthogonal polynomials up to 2nd order"""
     start_time = time.time()
-    out_dir = create_dir_if_not_exists(out_dir)
+    out_dir = utils.create_dir_if_not_exists(out_dir)
     global i
     print("")
     if pheno_file != None:
@@ -46,7 +46,7 @@ def orthogonal_polynomial(
         f = filename
         naming_phenotype = os.path.splitext(os.path.basename(filename))[0]
         onefile = True
-    dm, sites, pop_size, seq, seq_series, alphabets, custom_aa = get_seq_info(
+    dm, sites, pop_size, seq, seq_series, alphabets, custom_aa = utils.get_seq_info(
         filename, alphbt_input, molecule, onefile
     )
     print("")

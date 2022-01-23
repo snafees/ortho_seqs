@@ -69,7 +69,6 @@ class rf1d:
                     data_null[j]
                     for j in np.arange(self.dim * i, self.dim * i + self.dim)
                 ]
-            # some_dim = [data_array_flat[i], i for i in range(0, 160, 4)]
 
             # Remove all null data
             # dim_loc is the indeces of all non-null data
@@ -148,9 +147,7 @@ class rf1d:
             ax.xaxis.label.set_size(32 - (self.sites) / 2)
             # width of the tick and the size of the tick labels
             # Regressions of off values onto each site of target RNA (orthogonalized within)
-            # plt.savefig('rFon1D_off_star.png', bbox_inches='tight')
             plt.xlabel("Sequence Site")
-            # plt.title("")
             if self.phenotype is None:
                 ylab = "Regressions of phenotype onto each site and amino acid"
             else:

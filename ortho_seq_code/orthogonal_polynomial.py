@@ -99,16 +99,14 @@ def orthogonal_polynomial(
     P = np.zeros((sites, pop_size, dm))
     cov = np.zeros((sites, sites, dm, dm))
     if alphbt_input is None or "," not in alphbt_input:
-        print("rf1d form of alphabet input:\n" + ",".join(alphabets))
+        rf1d_alphbt_input = ",".join(alphabets)
     else:
         print(
             "Groupings according to --alphbt_input:\n"
             + str(custom_dict).replace("'", "").replace(", ", " | ")
         )
-        print(
-            "rf1d form of alphabet input:\n"
-            + ",".join([custom_dict[i] for i in alphabets])
-        )
+        rf1d_alphbt_input = ",".join([custom_dict[i] for i in alphabets])
+    print("rf1d form of alphabet input:\n" + rf1d_alphbt_input)
     for alphabet_index in range(dm):  # Keep in alphabetical order with 'n' at end
         for i in range_popsize:
             for j in range_sites:
@@ -945,7 +943,7 @@ def orthogonal_polynomial(
 
     alphbt_input = custom_aa or alphabets
     rFon1D_o = rf1d(
-        rFon1D, alphbt_input=alphbt_input, molecule=molecule, phenotype=pheno_name
+        rFon1D, alphbt_input=rf1d_alphbt_input, molecule=molecule, phenotype=pheno_name
     )
 
     rFon1D_o.summary()

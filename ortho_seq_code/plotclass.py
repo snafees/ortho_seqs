@@ -357,5 +357,7 @@ def rf1d_run(npz, alphbt_input, molecule, phenotype, out_dir, action):
         x.histogram()
     elif action == "summary":
         x.summary()
-    else:
+    elif action == "heatmap":
         x.heatmap()
+    else:
+        print("Please provide a valid action.")

@@ -3,9 +3,6 @@ from ortho_seq_code.orthogonal_polynomial import ortho_poly_command
 from ortho_seq_code.gui.gui import gui_run
 from ortho_seq_code.plotclass import rf1d_run
 
-# from ortho_seq_code.plotclass import plotclass
-
-
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 
 

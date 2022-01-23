@@ -36,7 +36,7 @@ def orthogonal_polynomial(
         with open(pheno_file) as f2:
             phenotype = f2.readlines()
         naming_phenotype = os.path.basename(f2.name)
-        onefile = False
+        pheno_seqs_same_file = False
     else:
         if os.path.splitext(filename)[1] == ".xlsx":
             df = pd.read_excel(filename, engine="openpyxl", header=None)
@@ -45,9 +45,9 @@ def orthogonal_polynomial(
         phenotype = df[1]
         f = filename
         naming_phenotype = os.path.splitext(os.path.basename(filename))[0]
-        onefile = True
+        pheno_seqs_same_file = True
     dm, sites, pop_size, seq, seq_series, alphabets, custom_aa = utils.get_seq_info(
-        filename, alphbt_input, molecule, onefile
+        filename, alphbt_input, molecule, pheno_seqs_same_file
     )
     print("")
     if custom_aa is not None:
@@ -57,7 +57,7 @@ def orthogonal_polynomial(
     range_popsize = range(pop_size)
     # file containing trait values that will be mapped to sequence
     # vectors that must be the same size as F
-    if not onefile:
+    if not pheno_seqs_same_file:
         F = np.genfromtxt(phenotype)  # this needs to stay this way!
         Fest = np.genfromtxt(phenotype)  # this needs to stay this way!
         Fon1 = np.genfromtxt(phenotype)  # this needs to stay this way!
@@ -112,7 +112,7 @@ def orthogonal_polynomial(
             for j in range_sites:
                 if seq[i][j] == alphabets[alphabet_index]:
                     phi[j][i][alphabet_index] = 1.0
-    if not onefile:
+    if not pheno_seqs_same_file:
         naming = os.path.basename(f.name)
     else:
         naming = naming_phenotype

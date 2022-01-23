@@ -34,7 +34,7 @@ There are three main ways to submit your sequence and phenotype files to *ortho_
 2) The sequences must be in the first column, and the phenotypes must be in the second column.
 3) The columns must not have header names.
 
-If you use a single file for the sequence and phenotype, you would submit the file path where you would submit the sequence file path, and do not include the *--pheno_file* flag.
+If you use a single file for the sequence and phenotype, you would submit the file path where you would submit the sequence file path, and do not include the *--pheno_file* flag. **note: the GUI does not support single-file uploads yet.**
 
 The phenotypes must be real numbers.
 

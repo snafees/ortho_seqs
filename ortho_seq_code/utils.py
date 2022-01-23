@@ -17,8 +17,8 @@ def create_dir_if_not_exists(out_dir):
     return new_out_dir
 
 
-def get_seq_info(seqf, alphbt_input, molecule, onefile):
-    if not onefile:
+def get_seq_info(seqf, alphbt_input, molecule, seq_pheno_samefile):
+    if not seq_pheno_samefile:
         print("Pheno file is separate from sequence file.")
         with open(seqf) as f:
             seq = f.readlines()

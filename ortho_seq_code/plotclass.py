@@ -9,17 +9,17 @@ from ortho_seq_code.utils import create_dir_if_not_exists
 class rf1d:
     # Initialize rf1d object
     def __init__(
-        self, ndarray, alphbt_input, molecule="protein", phenotype=None, out_dir=None
+        self, arr, alphbt_input, molecule="protein", phenotype=None, out_dir=None
     ):
         try:
-            self.x = ndarray
+            self.x = arr
             self.x_flat = list(ndarray.flatten())
-            self.s = ndarray.shape[0]
-            self.d = ndarray.shape[1]
-            self.ind = np.arange(self.s)
-            self.num_dm = np.arange(self.d)
+            self.sites = ndarray.shape[0]
+            self.dim = ndarray.shape[1]
+            self.site_range = np.arange(self.sites)
+            self.num_dm = np.arange(self.dim)
             self.alphbt_input = alphbt_input.split(",")[0 : ndarray.shape[1]]
-            self.m = molecule
+            self.molecule = molecule
             self.complist = ["<", ">", "<>", "><"]
             self.phenotype = phenotype
             self.out_dir = out_dir
@@ -30,16 +30,16 @@ class rf1d:
 
     def summary(self):
         print("rf1d Object:\n")
-        print("Number of sites:", str(self.s))
-        print("Number of dimensions:", str(self.d))
+        print("Number of sites:", str(self.sites))
+        print("Number of dimensions:", str(self.dim))
         print("Alphabet input:", str(self.alphbt_input))
-        print("Molecule:", str(self.m) + "\n")
+        print("Molecule:", str(self.molecule) + "\n")
         if self.phenotype is not None:
             print("Phenotype represents", self.phenotype, "values")
         if self.out_dir is not None:
             print("Image output directory:", self.out_dir)
         print("Highest rFon1D magnitudes:")
-        self.sort(by_magnitude=True)
+        self.sitesort(by_magnitude=True)
 
     # rFon1D bar plot
     def barplot(
@@ -59,14 +59,14 @@ class rf1d:
                 data_null = self.x_flat
 
             # Constants/constant arrays
-            width = 1 / self.s
-            sd = self.s * self.d
+            width = 1 / self.sites
+            sd = self.sites * self.dim
 
             # Re-vectorization with null values (converts to dict)
             dim_num = dict()
-            for i in self.ind:
+            for i in self.site_range:
                 dim_num[i] = [
-                    data_null[j] for j in np.arange(self.d * i, self.d * i + self.d)
+                    data_null[j] for j in np.arange(self.dim * i, self.dim * i + self.dim)
                 ]
             # some_dim = [data_array_flat[i], i for i in range(0, 160, 4)]
 
@@ -74,7 +74,7 @@ class rf1d:
             # dim_loc is the indeces of all non-null data
             dim_na = dict()
             dim_loc = dict()
-            for i in self.ind:
+            for i in self.site_range:
                 dim_na[i] = np.array(dim_num[i])[
                     np.array(np.isnan(dim_num[i])) == False
                 ]
@@ -88,7 +88,7 @@ class rf1d:
             # dim_aa
 
             for i in self.num_dm:
-                dim_aa[i] = [data_null[j] for j in range(i, sd, self.d)]
+                dim_aa[i] = [data_null[j] for j in range(i, sd, self.dim)]
 
             col_len = len(constants.colors)
             alpb_d = dict()
@@ -101,16 +101,16 @@ class rf1d:
             fig, ax = plt.subplots(figsize=(8, 6))
             dim = dict()
             pi = dict()
-            for i in range(self.s + 1):
+            for i in range(self.sites + 1):
                 ax.axvline(i, color="lightgray", linewidth=0.8, zorder=0)
-            for i in self.ind:
+            for i in self.site_range:
                 if len(dim_na[i]) == 0:
                     ln = 1
                 else:
                     ln = 1 / len(dim_na[i])
                 rn = np.arange(1 / ln)
                 if include_borders:
-                    thickness = 1 - self.d / 40
+                    thickness = 1 - self.dim / 40
                 else:
                     thickness = 0
                 pi[i] = ax.bar(
@@ -125,16 +125,16 @@ class rf1d:
                 )
             ax.axhline(color="black", linewidth=0.64)
 
-            ax.set_xticks(self.ind + width + 0.5)
-            ax.set_xticklabels(np.arange(1, self.s + 1))
+            ax.set_xticks(self.site_range + width + 0.5)
+            ax.set_xticklabels(np.arange(1, self.sites + 1))
             markers = [
                 plt.Line2D([0, 0], [0, 0], color=color, marker="o", linestyle="")
                 for color in alpb_d.values()
             ]
-            if self.d < 6:
-                dim = self.d
+            if self.dim < 6:
+                dim = self.dim
             else:
-                dim = self.d // 3
+                dim = self.dim // 3
 
             ax.legend(
                 markers,
@@ -144,7 +144,7 @@ class rf1d:
                 prop={"size": 240 / sum([len(i) for i in self.alphbt_input])},
             )
             ax.tick_params(width=0.8)
-            ax.xaxis.label.set_size(32 - (self.s) / 2)
+            ax.xaxis.label.set_size(32 - (self.sites) / 2)
             # width of the tick and the size of the tick labels
             # Regressions of off values onto each site of target RNA (orthogonalized within)
             # plt.savefig('rFon1D_off_star.png', bbox_inches='tight')
@@ -265,12 +265,12 @@ class rf1d:
             print(self.alphbt_input)
             return
         if site is not None:
-            if site > self.s or site < 0:
-                print("Site must be between 0 and", str(self.s))
+            if site > self.sites or site < 0:
+                print("Site must be between 0 and", str(self.sites))
                 return
         if alphabet_item is not None:
-            a = self.alphbt_input.index(alphabet_item) * self.s
-            x_red = self.x_flat[a : a + self.d]
+            a = self.alphbt_input.index(alphabet_item) * self.sites
+            x_red = self.x_flat[a : a + self.dim]
         elif site is not None:
             x_red = self.x[site]
         else:
@@ -307,10 +307,10 @@ class rf1d:
         im = ax.imshow(self.x)
         ax.set_xticks(np.arange(len(self.alphbt_input)))
         ax.set_xticklabels(self.alphbt_input)
-        ax.set_yticks(np.arange(self.s))
+        ax.set_yticks(np.arange(self.sites))
         fig.tight_layout()
-        for i in range(self.s):
-            for j in range(self.d):
+        for i in range(self.sites):
+            for j in range(self.dim):
                 print(round(self.x[i, j], 2))
                 text = ax.text(
                     j, i, round(self.x[i, j], 2), ha="center", va="center", color="w"

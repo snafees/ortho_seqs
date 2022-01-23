@@ -13,12 +13,12 @@ class rf1d:
     ):
         try:
             self.x = arr
-            self.x_flat = list(ndarray.flatten())
-            self.sites = ndarray.shape[0]
-            self.dim = ndarray.shape[1]
+            self.x_flat = list(arr.flatten())
+            self.sites = arr.shape[0]
+            self.dim = arr.shape[1]
             self.site_range = np.arange(self.sites)
             self.num_dm = np.arange(self.dim)
-            self.alphbt_input = alphbt_input.split(",")[0 : ndarray.shape[1]]
+            self.alphbt_input = alphbt_input.split(",")[0 : arr.shape[1]]
             self.molecule = molecule
             self.complist = ["<", ">", "<>", "><"]
             self.phenotype = phenotype

@@ -66,7 +66,8 @@ class rf1d:
             dim_num = dict()
             for i in self.site_range:
                 dim_num[i] = [
-                    data_null[j] for j in np.arange(self.dim * i, self.dim * i + self.dim)
+                    data_null[j]
+                    for j in np.arange(self.dim * i, self.dim * i + self.dim)
                 ]
             # some_dim = [data_array_flat[i], i for i in range(0, 160, 4)]
 

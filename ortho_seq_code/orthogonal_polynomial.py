@@ -109,7 +109,6 @@ def orthogonal_polynomial(
             "rf1d form of alphabet input:\n"
             + ",".join([custom_dict[i] for i in alphabets])
         )
-    print("Oof", alphbt_input)
     for alphabet_index in range(dm):  # Keep in alphabetical order with 'n' at end
         for i in range_popsize:
             for j in range_sites:
@@ -945,7 +944,9 @@ def orthogonal_polynomial(
     ## Bar plot of regression
 
     alphbt_input = custom_aa or alphabets
-    rFon1D_o = rf1d(rFon1D, ",".join(alphbt_input), molecule=molecule, phenotype=pheno_name)
+    rFon1D_o = rf1d(
+        rFon1D, alphbt_input=alphbt_input, molecule=molecule, phenotype=pheno_name
+    )
 
     rFon1D_o.summary()
 

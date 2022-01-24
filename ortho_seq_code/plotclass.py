@@ -347,7 +347,7 @@ class rf1d:
     default="barplot",
 )
 def rf1d_run(filename, alphbt_input, molecule, phenotype, out_dir, action):
-    arr = np.load(filename)[1]
+    arr = [i for i in np.load(filename)][1]
     x = rf1d(arr, alphbt_input, molecule, phenotype, out_dir)
     if action == "barplot":
         x.barplot()

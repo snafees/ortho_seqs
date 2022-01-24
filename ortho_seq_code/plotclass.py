@@ -90,11 +90,11 @@ class rf1d:
             for i in self.num_dm:
                 dim_aa[i] = [data_null[j] for j in range(i, sd, self.dim)]
 
-            col_len = len(constants.colors)
+            col_len = len(colors)
             alpb_d = dict()
             for i in self.num_dm:
                 if any(i != 0 and i for i in dim_aa[i]):
-                    alpb_d[i] = constants.colors[i % col_len]
+                    alpb_d[i] = colors[i % col_len]
                     alpb_d[self.alphbt_input[i]] = alpb_d.pop(i)
 
             # Creating plots
@@ -118,7 +118,7 @@ class rf1d:
                     height=[j for j in dim_na[i]],
                     width=ln,
                     align="edge",
-                    color=[constants.colors[i % col_len] for i in list(dim_loc[i])],
+                    color=[colors[i % col_len] for i in list(dim_loc[i])],
                     edgecolor="black",
                     zorder=3,
                     linewidth=thickness,
@@ -139,9 +139,9 @@ class rf1d:
             ax.legend(
                 markers,
                 alpb_d.keys(),
-                loc=1,
+                loc="best",
                 ncol=dim,
-                prop={"size": 240 / sum([len(i) for i in self.alphbt_input])},
+                prop={"size": 20 - sum([len(i) for i in self.alphbt_input]) / 2},
             )
             ax.tick_params(width=0.8)
             ax.xaxis.label.set_size(32 - (self.sites) / 2)

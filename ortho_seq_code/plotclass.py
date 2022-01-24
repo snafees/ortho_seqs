@@ -94,7 +94,7 @@ class rf1d:
             alpb_d = dict()
             for i in self.num_dm:
                 if any(i != 0 and i for i in dim_aa[i]):
-                    alpb_d[i] = colors[i % col_len]
+                    alpb_d[i] = constants.colors[i % col_len]
                     alpb_d[self.alphbt_input[i]] = alpb_d.pop(i)
 
             # Creating plots
@@ -118,7 +118,7 @@ class rf1d:
                     height=[j for j in dim_na[i]],
                     width=ln,
                     align="edge",
-                    color=[colors[i % col_len] for i in list(dim_loc[i])],
+                    color=[constants.colors[i % col_len] for i in list(dim_loc[i])],
                     edgecolor="black",
                     zorder=3,
                     linewidth=thickness,

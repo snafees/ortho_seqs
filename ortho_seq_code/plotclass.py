@@ -346,9 +346,9 @@ class rf1d:
     help="What you want to be output, can be one of 'summary', 'barplot', 'histogram', and 'heatmap'",
 )
 @click.option("--action", type=str, default="barplot")
-def rf1d_run(npz, alphbt_input, molecule, phenotype, out_dir, action):
-    ndarray = np.load(npz)[1]
-    x = rf1d(ndarray, alphbt_input, molecule, phenotype, out_dir)
+def rf1d_run(filename, alphbt_input, molecule, phenotype, out_dir, action):
+    arr = np.load(filename)[1]
+    x = rf1d(arr, alphbt_input, molecule, phenotype, out_dir)
     if action == "barplot":
         x.barplot()
     elif action == "histogram":

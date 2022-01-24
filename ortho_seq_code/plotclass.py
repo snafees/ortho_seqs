@@ -341,11 +341,11 @@ class rf1d:
 @click.option("--phenotype", type=str, help="What the phenotype values represent")
 @click.option("--out_dir", type=str, help="The place where you want to save files")
 @click.option(
-    "--output",
+    "--action",
     type=str,
     help="What you want to be output, can be one of 'summary', 'barplot', 'histogram', and 'heatmap'",
+    default="barplot",
 )
-@click.option("--action", type=str, default="barplot")
 def rf1d_run(filename, alphbt_input, molecule, phenotype, out_dir, action):
     arr = np.load(filename)[1]
     x = rf1d(arr, alphbt_input, molecule, phenotype, out_dir)

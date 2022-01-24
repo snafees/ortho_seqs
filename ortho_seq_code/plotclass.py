@@ -309,7 +309,6 @@ class rf1d:
         fig.tight_layout()
         for i in range(self.sites):
             for j in range(self.dim):
-                print(round(self.x[i, j], 2))
                 text = ax.text(
                     j, i, round(self.x[i, j], 2), ha="center", va="center", color="w"
                 )

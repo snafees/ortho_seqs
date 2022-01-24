@@ -90,7 +90,7 @@ class rf1d:
             for i in self.num_dm:
                 dim_aa[i] = [data_null[j] for j in range(i, sd, self.dim)]
 
-            col_len = len(colors)
+            col_len = len(constants.colors)
             alpb_d = dict()
             for i in self.num_dm:
                 if any(i != 0 and i for i in dim_aa[i]):

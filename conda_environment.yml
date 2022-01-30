@@ -5,7 +5,9 @@ channels:
   - defaults
 dependencies:
   - numpy
+  - pandas
   - Click
   - pytest
   - coverage
   - flake8
+  - seaborn

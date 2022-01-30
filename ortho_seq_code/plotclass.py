@@ -2,6 +2,8 @@ import os
 import numpy as np
 import ortho_seq_code.constants_orthoseqs as constants
 import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
 import click
 from ortho_seq_code.utils import create_dir_if_not_exists
 
@@ -329,6 +331,30 @@ class rf1d:
             )
         plt.show()
 
+    def boxplot(self, out_dir=None):
+        plt, ax = plt.subplots()
+        df = pd.melt(pd.DataFrame(self.x, columns=self.alphbt_input))
+        sns.boxplot(x="variable", y="value", data=df).set(
+            xlabel="Item", ylabel=self.phenotype
+        )
+        sns.stripplot(x="variable", y="value", color="black", data=df, alpha=0.8)
+        if out_dir is not None:
+            path_sav = "rFon1D_boxplot_" + str(self.phenotype) or "" + ".png"
+            path_sav = path_sav.replace(" ", "_")
+            plt.savefig(os.path.join(str(out_dir), path_sav), dpi=400)
+            print(
+                "saved regression graph as", str(os.path.join(str(out_dir), path_sav)),
+            )
+        elif self.out_dir is not None:
+            path_sav = "rFon1D_boxplot_" + str(self.phenotype) or "" + ".png"
+            path_sav = path_sav.replace(" ", "_")
+            plt.savefig(os.path.join(str(self.out_dir), path_sav), dpi=400)
+            print(
+                "saved regression graph as",
+                str(os.path.join(str(self.out_dir), path_sav)),
+            )
+        plt.show()
+
     def set_out_dir(self, new_out_dir):
         self.out_dir = new_out_dir
 
@@ -356,5 +382,7 @@ def rf1d_run(filename, alphbt_input, molecule, phenotype, out_dir, action):
         x.summary()
     elif action == "heatmap":
         x.heatmap()
+    elif action == "boxplot":
+        x.boxplot()
     else:
         print("Please provide a valid action.")

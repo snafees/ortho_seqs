@@ -4,6 +4,7 @@ from numpy.linalg import *
 import time
 import os
 import pandas as pd
+import seaborn as sns
 import ortho_seq_code.sr as sr
 import ortho_seq_code.utils as utils
 from ortho_seq_code.plotclass import rf1d

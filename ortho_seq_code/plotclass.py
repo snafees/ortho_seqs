@@ -332,7 +332,7 @@ class rf1d:
         plt.show()
 
     def boxplot(self, out_dir=None):
-        plt, ax = plt.subplots()
+        fig, ax = plt.subplots()
         df = pd.melt(pd.DataFrame(self.x, columns=self.alphbt_input))
         sns.boxplot(x="variable", y="value", data=df).set(
             xlabel="Item", ylabel=self.phenotype

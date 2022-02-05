@@ -87,9 +87,10 @@ class MainWidget(QWidget):
         self.widget_layout.addLayout(upload_layout3)
 
         # alphbt_input text box
-        self.alphabet_box = QLineEdit()
+        alphabet_box = QHBoxLayout()
         alphabet_label = QLabel("&Alphabet input, comma separated:")
-        alphabet_label.setBuddy(self.alphabet_box)
+        self.alphabet_text = QLineEdit()
+        alphabet_label.setBuddy(self.alphabet_text)
         self.widget_layout.addLayout(alphabet_label)
 
 

@@ -10,6 +10,7 @@ from PyQt5.QtWidgets import (
     QHBoxLayout,
     QCheckBox,
     QFileDialog,
+    QLineEdit,
 )
 import sys
 import click
@@ -53,9 +54,7 @@ class MainWidget(QWidget):
         # molecule combobox
         upload_ComboBox1_layout = QHBoxLayout()
         self.molecule_combobox = QComboBox()
-        self.molecule_combobox.addItems(
-            ["DNA", "protein"]
-        )
+        self.molecule_combobox.addItems(["DNA", "protein"])
         styleLabel1 = QLabel("&Molecule:")
         styleLabel1.setBuddy(self.molecule_combobox)
         upload_ComboBox1_layout.addWidget(self.molecule_combobox)
@@ -87,7 +86,7 @@ class MainWidget(QWidget):
         upload_layout3.addWidget(self.upload_button_3)
         self.widget_layout.addLayout(upload_layout3)
 
-        alphabet_box = QLineEdit(self)
+        alphabet_box = QLineEdit()
         self.widget_layout.addLayout(alphabet_box)
 
         # RUN button

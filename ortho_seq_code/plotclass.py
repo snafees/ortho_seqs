@@ -334,7 +334,7 @@ class rf1d:
     def boxplot(self, out_dir=None):
         fig, ax = plt.subplots()
         df = pd.melt(pd.DataFrame(self.x, columns=self.alphbt_input))
-        ylab = str(self.phenotype) + " value"
+        ylab = str(self.phenotype) + " values"
         df.columns = ["Item", ylab]
         sns.boxplot(x="Item", y=ylab, data=df)
         sns.stripplot(x="Item", y=ylab, color="black", data=df, alpha=0.8)

@@ -86,8 +86,8 @@ class MainWidget(QWidget):
         upload_layout3.addWidget(self.upload_button_3)
         self.widget_layout.addLayout(upload_layout3)
 
-        alphabet_box = QLineEdit()
-        self.widget_layout.addLayout(alphabet_box)
+        self.alphabet_box = QLineEdit()
+        self.widget_layout.addLayout(self.alphabet_box)
 
         # RUN button
         start_button = QPushButton("RUN")

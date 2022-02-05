@@ -86,6 +86,7 @@ class MainWidget(QWidget):
         upload_layout3.addWidget(self.upload_button_3)
         self.widget_layout.addLayout(upload_layout3)
 
+        # alphbt_input text box
         self.alphabet_box = QLineEdit()
         self.widget_layout.addLayout(self.alphabet_box)
 

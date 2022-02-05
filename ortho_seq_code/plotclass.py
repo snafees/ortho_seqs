@@ -353,7 +353,8 @@ class rf1d:
                 "saved regression graph as",
                 str(os.path.join(str(self.out_dir), path_sav)),
             )
-        plt.show()
+        else:
+            plt.show()
 
     def set_out_dir(self, new_out_dir):
         self.out_dir = new_out_dir

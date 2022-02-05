@@ -335,9 +335,14 @@ class rf1d:
         fig, ax = plt.subplots()
         df = pd.melt(pd.DataFrame(self.x, columns=self.alphbt_input))
         df.columns = ["Item", self.phenotype]
+<<<<<<< HEAD
         sns.boxplot(x=Item, y=self.phenotype, data=df)
         sns.stripplot(x=Item, y=self.phenotype, color="black", data=df, alpha=0.8)
         sns.
+=======
+        sns.boxplot(x=df["Item"], y=self.phenotype, data=df)
+        sns.stripplot(color="black", data=df, alpha=0.8)
+>>>>>>> 335785fec03ed724bbeed941f1cbf26266f77442
         if out_dir is not None:
             path_sav = "rFon1D_boxplot_" + str(self.phenotype) or "" + ".png"
             path_sav = path_sav.replace(" ", "_")

@@ -30,7 +30,7 @@ setup(
         "matplotlib",
         "PyQt5",
         "PyQt5-sip",
-        "openpyxl"
+        "openpyxl",
     ],
     include_package_data=True,
     long_description=long_description,

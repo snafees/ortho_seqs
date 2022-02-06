@@ -17,8 +17,8 @@ def create_dir_if_not_exists(out_dir):
     return new_out_dir
 
 
-def get_seq_info(seqf, alphbt_input, molecule, seq_pheno_samefile):
-    if not seq_pheno_samefile:
+def get_seq_info(seqf, alphbt_input, molecule, onefile):
+    if not onefile:
         print("Pheno file is separate from sequence file.")
         with open(seqf) as f:
             seq = f.readlines()
@@ -77,7 +77,21 @@ def get_seq_info(seqf, alphbt_input, molecule, seq_pheno_samefile):
             alphbt = alphbt_input.upper()
             # Adding on remaining letters as the last group
             alphbt_excluded = np.array([i for i in alphbt if i != ","])
-            alphbt += "," + str("z")
+            if "protein" in molecule:
+                alphbt_last_group = "".join(
+                    np.setdiff1d(
+                        np.array(constants.PROTEIN_ALPHABETS).ravel(),
+                        np.array(alphbt_excluded),
+                    )
+                )
+            else:
+                alphbt_last_group = "".join(
+                    np.setdiff1d(
+                        np.array(constants.DNA_ALPHABETS).ravel(),
+                        np.array(alphbt_excluded),
+                    )
+                )
+            alphbt += "," + alphbt_last_group
             custom_aa = alphbt.split(",")
             if "" in custom_aa:
                 custom_aa.remove("")
@@ -99,6 +113,7 @@ def get_seq_info(seqf, alphbt_input, molecule, seq_pheno_samefile):
                 for j in range(alphbt_count):
                     if seq_list[i] in aa_dict[str(j)]:
                         seq_list[i] = str(list(aa_dict.keys())[j])
+            print(seq_list)
             seq_list_sub = seq_list
             alphabets = list(aa_dict.keys())
 

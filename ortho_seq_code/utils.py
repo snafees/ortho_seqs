@@ -77,21 +77,7 @@ def get_seq_info(seqf, alphbt_input, molecule, seq_pheno_samefile):
             alphbt = alphbt_input.upper()
             # Adding on remaining letters as the last group
             alphbt_excluded = np.array([i for i in alphbt if i != ","])
-            if "protein" in molecule:
-                alphbt_last_group = "".join(
-                    np.setdiff1d(
-                        np.array(constants.PROTEIN_ALPHABETS).ravel(),
-                        np.array(alphbt_excluded),
-                    )
-                )
-            else:
-                alphbt_last_group = "".join(
-                    np.setdiff1d(
-                        np.array(constants.DNA_ALPHABETS).ravel(),
-                        np.array(alphbt_excluded),
-                    )
-                )
-            alphbt += "," + str(alphbt_last_group)
+            alphbt += "," + str("z")
             custom_aa = alphbt.split(",")
             if "" in custom_aa:
                 custom_aa.remove("")

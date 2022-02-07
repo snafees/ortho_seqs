@@ -19,7 +19,7 @@ class JobRunner(QWidget):
             self.poly_order,
             self.precomputed,
             out_dir="../results_ortho_seq_testing/",
-            self.alphbt_input=None,
+            self.alphbt_input,
             min_pct=75,
             pheno_name=None,
         )

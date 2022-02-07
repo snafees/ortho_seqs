@@ -385,5 +385,7 @@ def rf1d_run(filename, alphbt_input, molecule, phenotype, out_dir, action):
         x.heatmap()
     elif action == "boxplot":
         x.boxplot()
+    elif action == "sort":
+        x.sort()
     else:
         print("Please provide a valid action.")

@@ -13,11 +13,11 @@ class JobRunner(QWidget):
 
     def job_func(self, progress_callback):
         orthogonal_polynomial(
-            self.filename,
-            self.pheno_file,
-            self.molecule,
-            self.poly_order,
-            self.precomputed,
+            filename=self.filename,
+            pheno_file=self.pheno_file,
+            molecule=self.molecule,
+            poly_order=self.poly_order,
+            precomputed=self.precomputed,
             alphbt_input=self.alphbt_input,
             out_dir="../results_ortho_seq_testing/",
             min_pct=75,

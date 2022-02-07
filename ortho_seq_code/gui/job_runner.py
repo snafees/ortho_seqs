@@ -34,7 +34,7 @@ class JobRunner(QWidget):
         self.poly_order = self.parent.poly_order_combobox.currentText()
         # self.precomputed = self.parent.precomputed_combobox.currentText() == "Yes"
         self.precomputed = self.parent.upload_button_3.text()
-        self.alphabet_input = self.parent.alphabet_text.text()
+        self.alphbt_input = self.parent.alphabet_text.text()
 
         worker = Worker(self.job_func)
 

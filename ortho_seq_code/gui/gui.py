@@ -93,7 +93,7 @@ class MainWidget(QWidget):
         alphabet_label.setBuddy(self.alphabet_text)
         alphabet_box.addWidget(self.alphabet_text)
         self.widget_layout.addWidget(alphabet_label)
-        self.widget_layout.addWidget(self.alphabet_box)
+        self.widget_layout.addWidget(self.alphabet_text)
         self.widget_layout.addLayout(alphabet_box)
 
         # RUN button

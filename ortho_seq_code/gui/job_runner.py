@@ -19,7 +19,7 @@ class JobRunner(QWidget):
             self.poly_order,
             self.precomputed,
             out_dir="../results_ortho_seq_testing/",
-            alphbt_input=None,
+            self.alphbt_input=None,
             min_pct=75,
             pheno_name=None,
         )
@@ -32,6 +32,7 @@ class JobRunner(QWidget):
         self.pheno_file = self.parent.upload_button_2.text()
         self.molecule = self.parent.molecule_combobox.currentText()
         self.poly_order = self.parent.poly_order_combobox.currentText()
+        self.alphabet_input = self.parent.alphabet_text.text()
         # self.precomputed = self.parent.precomputed_combobox.currentText() == "Yes"
         self.precomputed = self.parent.upload_button_3.text()
 

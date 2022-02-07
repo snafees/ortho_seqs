@@ -90,7 +90,7 @@ class MainWidget(QWidget):
         alphabet_box = QHBoxLayout()
         #alphabet_label = QLabel("&Alphabet input, comma separated:")
         self.alphabet_text = QLineEdit()
-        alphabet_label.setBuddy(self.alphabet_text)
+        #alphabet_label.setBuddy(self.alphabet_text)
         #self.widget_layout.addLayout(alphabet_label)
 
         # RUN button

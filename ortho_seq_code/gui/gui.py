@@ -88,10 +88,10 @@ class MainWidget(QWidget):
 
         # alphbt_input text box
         alphabet_box = QHBoxLayout()
-        alphabet_label = QLabel("&Alphabet input, comma separated:")
+        #alphabet_label = QLabel("&Alphabet input, comma separated:")
         self.alphabet_text = QLineEdit()
         alphabet_label.setBuddy(self.alphabet_text)
-        self.widget_layout.addLayout(alphabet_label)
+        #self.widget_layout.addLayout(alphabet_label)
 
         # RUN button
         start_button = QPushButton("RUN")

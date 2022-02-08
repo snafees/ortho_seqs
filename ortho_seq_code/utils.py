@@ -70,7 +70,7 @@ def get_seq_info(seqf, alphbt_input, molecule, onefile):
         elif alphbt == "SIGMA":
             alphbt_input = "AILMV,FYW,NQCST,KRH,DE,G"
         elif alphbt == "HBOND":
-            alphbt_input = "NQSTDERKYHW"
+            alphbt_input = "NQST,DERK,YHW"
         elif alphbt == "HYDROPHOBICITY":
             alphbt_input = "LIFWVM,CYA,TEGSQD"
         if "," in alphbt_input:

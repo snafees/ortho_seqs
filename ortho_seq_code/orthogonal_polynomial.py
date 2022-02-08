@@ -119,7 +119,7 @@ def orthogonal_polynomial(
         naming = naming_phenotype
     print("Precomputed:")
     print(precomputed)
-    if precomputed is not None and precomputed != "upload_precomputed_dir_button":
+    if precomputed is not None and precomputed != "precomputed_dir":
         precomputed_array = np.load(os.path.join(precomputed, naming + ".npz"))
         mean = precomputed_array[naming + "_mean"]
         P = precomputed_array[naming + "_P"]
@@ -194,7 +194,9 @@ def orthogonal_polynomial(
         cov_flat = cov_flat[cov_flat != 0]
         fig, cov_sub = plt.subplots()
         cov_sub.hist(
-            cov_flat, edgecolor="black", color="blueviolet",
+            cov_flat,
+            edgecolor="black",
+            color="blueviolet",
         )
         plt.xlabel("Non-Zero Covariances")
         plt.ylabel("Frequency")
@@ -976,7 +978,9 @@ def orthogonal_polynomial(
     help="directory which contains results from a previous run",
 )
 @click.option(
-    "--out_dir", help="directory to save output/debug files to", type=str,
+    "--out_dir",
+    help="directory to save output/debug files to",
+    type=str,
 )  # noqa
 @click.option(
     "--alphbt_input",

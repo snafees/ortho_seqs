@@ -119,7 +119,7 @@ def get_seq_info(seqf, alphbt_input, molecule, onefile):
                 try:
                     seq_list[i] = str(int(seq_list[i]))
                 except:
-                    seq_list[i] = aa_dict.index("z")
+                    seq_list[i] = list(aa_dict.keys()).index("z")
             seq_list_sub = seq_list
             alphabets = list(aa_dict.keys())
 

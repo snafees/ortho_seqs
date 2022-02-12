@@ -118,7 +118,9 @@ def get_seq_info(seqf, alphbt_input, molecule, onefile):
                 print(seq_list[i])
                 try:
                     seq_list[i] = str(int(seq_list[i]))
+                    print("True")
                 except:
+                    print("False")
                     if "n" in list(aa_dict.keys()):
                         seq_list[i] = list(aa_dict.keys())[-2]
                     else:

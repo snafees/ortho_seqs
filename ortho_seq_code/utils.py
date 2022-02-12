@@ -115,6 +115,7 @@ def get_seq_info(seqf, alphbt_input, molecule, onefile):
                         seq_list[i] = str(list(aa_dict.keys())[j])
             print(list(aa_dict.keys()))
             for i in range(len(seq_list)):
+                print(seq_list[i])
                 try:
                     seq_list[i] = str(int(seq_list[i]))
                 except:

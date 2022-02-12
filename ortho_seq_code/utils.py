@@ -119,7 +119,10 @@ def get_seq_info(seqf, alphbt_input, molecule, onefile):
                 try:
                     seq_list[i] = str(int(seq_list[i]))
                 except:
-                    seq_list[i] = list(aa_dict.keys()).index("z")
+                    if "n" in list(aa_dict.keys()):
+                        seq_list[i] = list(aa_dict.keys())[-2]
+                    else:
+                        seq_list[i] = list(aa_dict.keys())[-1]
             seq_list_sub = seq_list
             alphabets = list(aa_dict.keys())
 

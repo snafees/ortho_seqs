@@ -125,7 +125,7 @@ def get_seq_info(seqf, alphbt_input, molecule, onefile):
                         seq_list[i] = list(aa_dict.keys())[-2]
                     else:
                         seq_list[i] = list(aa_dict.keys())[-1]
-            print(list(aa_dict.keys()))
+            print(seq_list)
             seq_list_sub = seq_list
             alphabets = list(aa_dict.keys())
         else:

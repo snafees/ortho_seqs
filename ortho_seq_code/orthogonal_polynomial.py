@@ -117,7 +117,11 @@ def orthogonal_polynomial(
         naming = os.path.basename(f.name)
     else:
         naming = naming_phenotype
-    if precomputed is not None and precomputed != "precomputed_dir":
+    if (
+        precomputed is not None
+        and precomputed != False
+        and precomputed != "precomputed_dir"
+    ):
         precomputed_array = np.load(os.path.join(precomputed, naming + ".npz"))
         mean = precomputed_array[naming + "_mean"]
         P = precomputed_array[naming + "_P"]

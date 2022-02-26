@@ -46,7 +46,6 @@ def orthogonal_polynomial(
         f = filename
         naming_phenotype = os.path.splitext(os.path.basename(filename))[0]
         pheno_seqs_same_file = True
-    print(seq)
     dm, sites, pop_size, seq, seq_series, alphabets, custom_aa = utils.get_seq_info(
         filename, alphbt_input, molecule, pheno_seqs_same_file
     )

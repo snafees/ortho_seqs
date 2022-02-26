@@ -33,6 +33,7 @@ def get_seq_info(seqf, alphbt_input, molecule, onefile):
             print("Reading .csv file.")
             df = pd.read_csv(seqf, header=None)
         seq = df[0]
+    print(seq)
     seq_series_rm = pd.Series(seq).str.replace("\n", "")
     seq_series_nospace = seq_series_rm.str.replace(" ", "")
     seq_series = seq_series_nospace[seq_series_nospace != ""]

@@ -115,6 +115,7 @@ def get_seq_info(seqf, alphbt_input, molecule, onefile):
                     if seq_list[i] in aa_dict[str(j)]:
                         seq_list[i] = str(list(aa_dict.keys())[j])
             print(seq_list)
+
             for i in range(len(seq_list)):
                 try:
                     seq_list[i] = str(int(seq_list[i]))
@@ -166,4 +167,5 @@ def get_seq_info(seqf, alphbt_input, molecule, onefile):
     while "\n" in alphabets:
         alphabets.remove("\n")
     dm = len(alphabets)
+    print(seq)
     return [dm, sites, pop_size, seq, seq_series, alphabets, custom_aa]

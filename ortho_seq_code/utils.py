@@ -114,6 +114,7 @@ def get_seq_info(seqf, alphbt_input, molecule, onefile):
                 for j in range(alphbt_count):
                     if seq_list[i] in aa_dict[str(j)]:
                         seq_list[i] = str(list(aa_dict.keys())[j])
+            print(seq_list)
             for i in range(len(seq_list)):
                 try:
                     seq_list[i] = str(int(seq_list[i]))

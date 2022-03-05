@@ -1,12 +1,11 @@
 import numpy as np
-import pandas as pd
+from ortho_seq_code.orthogonal_polynomial import ortho_poly_command
 import os
-from matplotlib import pyplot as plt
+import tempfile
 
 from click.testing import CliRunner
 
 from ortho_seq_code.orthogonal_polynomial import orthogonal_polynomial
-from ortho_seq_code.cli import cli
 from ortho_seq_code.tests import orthoseqs_tst_utils as utils
 from ortho_seq_code.utils import get_seq_info
 
@@ -14,61 +13,61 @@ from ortho_seq_code.utils import get_seq_info
 def test_cli(protein_seqs_no_padding, protein_pheno_no_padding):
     molecule = "protein"
     poly_order = "first"
-    out_dir = "/tmp"
     alphbt_input = None
     min_pct = 75
 
     runner = CliRunner()
 
-    result = runner.invoke(
-        cli,
-        [
-            protein_seqs_no_padding,
-            "--pheno_file",
-            protein_pheno_no_padding,
-            "--molecule",
-            molecule,
-            "--poly_order",
-            poly_order,
-            "--out_dir",
-            out_dir,
-            "--alphbt_input",
-            alphbt_input,
-            "--min_pct",
-            min_pct,
-        ],
-    )
+    with tempfile.TemporaryDirectory() as out_dir:
+        result = runner.invoke(
+            ortho_poly_command,
+            [
+                protein_seqs_no_padding,
+                "--pheno_file",
+                protein_pheno_no_padding,
+                "--molecule",
+                molecule,
+                "--poly_order",
+                poly_order,
+                "--out_dir",
+                out_dir,
+                "--alphbt_input",
+                alphbt_input,
+                "--min_pct",
+                min_pct,
+            ],
+        )
 
     assert result.exit_code == 0
 
 
-def test_cli(protein_seqs_padding, protein_pheno_padding):
+def test_cli_with_padding(protein_seqs_padding, protein_pheno_padding):
     molecule = "protein"
     poly_order = "first"
-    out_dir = "/tmp"
     alphbt_input = None
     min_pct = 75
 
     runner = CliRunner()
 
-    result = runner.invoke(
-        cli,
-        [
-            protein_seqs_padding,
-            "--pheno_file",
-            protein_pheno_padding,
-            "--molecule",
-            molecule,
-            "--poly_order",
-            poly_order,
-            "--out_dir",
-            out_dir,
-            "--alphbt_input",
-            alphbt_input,
-            "--min_pct",
-            min_pct,
-        ],
-    )
+    with tempfile.TemporaryDirectory() as out_dir:
+        result = runner.invoke(
+            ortho_poly_command,
+            [
+                protein_seqs_padding,
+                "--pheno_file",
+                protein_pheno_padding,
+                "--molecule",
+                molecule,
+                "--poly_order",
+                poly_order,
+                "--out_dir",
+                out_dir,
+                "--alphbt_input",
+                alphbt_input,
+                "--min_pct",
+                min_pct,
+            ],
+        )
 
     assert result.exit_code == 0
 
@@ -78,31 +77,32 @@ def test_cli_precomputed(
 ):
     molecule = "protein"
     poly_order = "first"
-    out_dir = protein_data_dir
     alphbt_input = None
     min_pct = 75
 
     runner = CliRunner()
 
-    result = runner.invoke(
-        cli,
-        [
-            protein_seqs_no_padding,
-            "--pheno_file",
-            protein_pheno_no_padding,
-            "--molecule",
-            molecule,
-            "--poly_order",
-            poly_order,
-            "--out_dir",
-            out_dir,
-            "--precomputed",
-            alphbt_input,
-            "--alphbt_input",
-            min_pct,
-            "--min_pct",
-        ],
-    )
+    with tempfile.TemporaryDirectory() as out_dir:
+        result = runner.invoke(
+            ortho_poly_command,
+            [
+                protein_seqs_no_padding,
+                "--pheno_file",
+                protein_pheno_no_padding,
+                "--molecule",
+                molecule,
+                "--poly_order",
+                poly_order,
+                "--out_dir",
+                out_dir,
+                "--precomputed",
+                protein_data_dir,
+                "--alphbt_input",
+                alphbt_input,
+                "--min_pct",
+                min_pct,
+            ],
+        )
 
     assert result.exit_code == 0
 
@@ -114,8 +114,8 @@ def assert_equality(expected_path, actual_path):
     expected_arrays = np.load(expected_path)
     for key, obtained_array in obtained_arrays.items():
         expected_array = expected_arrays[key]
-        np.testing.assert_array_equal(
-            expected_array, obtained_array, "error at {}".format(key)
+        np.testing.assert_array_almost_equal(
+            expected_array, obtained_array, decimal=8, err_msg="error at {}".format(key)
         )
 
 
@@ -127,7 +127,7 @@ def test_nucleotide_first_order(
         nucleotide_params_first_order = nucleotide_params_first_order._replace(
             out_dir=location
         )
-        location += "[0]"  # Test file paths already exists, but location isn't updated with out_dir, this will update it
+        location += "0"  # Test file paths already exists, but location isn't updated with out_dir, this will update it
         orthogonal_polynomial(*nucleotide_params_first_order)
         basename = os.path.basename(nucleotide_params_first_order.seqs_filename)
         basename_pheno = os.path.basename(nucleotide_params_first_order.pheno_filename)
@@ -157,7 +157,7 @@ def test_nucleotide_second_order(
         nucleotide_params_second_order = nucleotide_params_second_order._replace(
             out_dir=location
         )
-        location += "[0]"
+        location += "0"
         orthogonal_polynomial(*nucleotide_params_second_order)
 
         basename = os.path.basename(nucleotide_params_second_order.seqs_filename)
@@ -190,7 +190,7 @@ def test_protein_first_order(protein_data_dir, protein_params_first_order):
         protein_params_first_order = protein_params_first_order._replace(
             out_dir=location
         )
-        location += "[0]"
+        location += "0"
         orthogonal_polynomial(*protein_params_first_order)
 
         basefile = os.path.abspath(protein_params_first_order.seqs_filename)
@@ -227,7 +227,7 @@ def test_protein_padded_first_order(
         protein_params_first_order_padded = protein_params_first_order_padded._replace(
             out_dir=location
         )
-        location += "[0]"
+        location += "0"
         orthogonal_polynomial(*protein_params_first_order_padded)
 
         basefile = os.path.abspath(protein_params_first_order_padded.seqs_filename)
@@ -261,7 +261,7 @@ def test_protein_paddded_custom_aa(protein_data_dir, protein_params_custom_aa):
 
     with utils.TempDirectory() as location:
         protein_params_custom_aa = protein_params_custom_aa._replace(out_dir=location)
-        location += "[0]"
+        location += "0"
         orthogonal_polynomial(*protein_params_custom_aa)
 
         basefile = os.path.abspath(protein_params_custom_aa.seqs_filename)
@@ -303,7 +303,7 @@ def test_protein_padded_custom_aa_2(protein_data_dir, protein_params_custom_aa_2
         protein_params_custom_aa_2 = protein_params_custom_aa_2._replace(
             out_dir=location
         )
-        location += "[0]"
+        location += "0"
         orthogonal_polynomial(*protein_params_custom_aa_2)
 
         basefile = os.path.abspath(protein_params_custom_aa_2.seqs_filename)

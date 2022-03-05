@@ -18,22 +18,8 @@ def create_dir_if_not_exists(out_dir):
 
 
 def get_seq_info(seqf, alphbt_input, molecule, onefile):
-    if not onefile:
-        print("Pheno file is separate from sequence file.")
-        with open(seqf) as f:
-            seq = f.readlines()
-    else:
-        print(
-            "Pheno file is not separate from sequence file, assuming seq_file is either a .csv or a .xlsx file."
-        )
-        if os.path.splitext(seqf)[1] == ".xlsx":
-            print("Reading .xlsx file.")
-            df = pd.read_excel(seqf, engine="openpyxl", header=None)
-        else:
-            print("Reading .csv file.")
-            df = pd.read_csv(seqf, header=None)
-        seq = df[0]
-    print(seq)
+    with open(seqf) as f:
+        seq = f.readlines()
     seq_series_rm = pd.Series(seq).str.replace("\n", "")
     seq_series_nospace = seq_series_rm.str.replace(" ", "")
     seq_series = seq_series_nospace[seq_series_nospace != ""]

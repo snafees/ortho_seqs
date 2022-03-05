@@ -92,7 +92,7 @@ def get_seq_info(seqf, alphbt_input, molecule, onefile):
                         np.array(alphbt_excluded),
                     )
                 )
-            alphbt += "," + alphbt_last_group
+            alphbt += "," + "z"
             custom_aa = alphbt.split(",")
             if "" in custom_aa:
                 custom_aa.remove("")
@@ -116,6 +116,11 @@ def get_seq_info(seqf, alphbt_input, molecule, onefile):
                         seq_list[i] = str(list(aa_dict.keys())[j])
             print(seq_list)
             seq_list = [i for i in seq_list if i != "\n"]
+            for i in range(len(seq_list)):
+                try:
+                    seq_list[i] = str(int(seq_list[i]))
+                except:
+                    seq_list[i] = list(alpb_d.keys())[-2]
             seq_list_sub = seq_list
             alphabets = list(aa_dict.keys())
         else:

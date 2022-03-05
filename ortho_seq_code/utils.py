@@ -92,7 +92,7 @@ def get_seq_info(seqf, alphbt_input, molecule, onefile):
                         np.array(alphbt_excluded),
                     )
                 )
-            alphbt += ",z"
+            alphbt += "," + alphbt_last_group
             custom_aa = alphbt.split(",")
             if "" in custom_aa:
                 custom_aa.remove("")

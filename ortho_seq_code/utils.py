@@ -17,7 +17,7 @@ def create_dir_if_not_exists(out_dir):
     return new_out_dir
 
 
-def get_seq_info(seqf, alphbt_input, molecule, onefile):
+def get_seq_info(seqf, alphbt_input, molecule):
     with open(seqf) as f:
         seq = f.readlines()
     seq_series_rm = pd.Series(seq).str.replace("\n", "")

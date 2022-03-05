@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 from ortho_seq_code.constants_orthoseqs import *
 
+
 def get_seq_info(seqf, alphbt_input, molecule):
     with open(seqf) as f:
         seq = f.readlines()

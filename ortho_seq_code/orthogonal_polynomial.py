@@ -49,8 +49,6 @@ def orthogonal_polynomial(
     dm, sites, pop_size, seq, seq_series, alphabets, custom_aa = utils.get_seq_info(
         filename, alphbt_input, molecule, pheno_seqs_same_file
     )
-    print("")
-    print(seq)
     if custom_aa is not None:
         custom_dict = {alphabets[i]: custom_aa[i] for i in range(len(custom_aa))}
     range_dm = range(dm)

@@ -1,20 +1,10 @@
 import numpy as np
 import pandas as pd
-import ortho_seq_code.constants_orthoseqs as constants
-import os
+from ortho_seq_code.constants_orthoseqs import *
 
-
-def create_dir_if_not_exists(out_dir):
-    new_out_dir = out_dir
-    if os.path.exists(out_dir):
-        ct = 0
-        new_out_dir = f"{out_dir}{ct}"
-        while os.path.exists(new_out_dir):
-            ct += 1
-            new_out_dir = f"{out_dir}{ct}"
-        print("Path already exists, will now be {}".format(new_out_dir))
-    os.makedirs(new_out_dir, exist_ok=True)
-    return new_out_dir
+def get_seq_info(seqf, alphbt_input, molecule):
+    with open(seqf) as f:
+        seq = f.readlines()
 
 
 def get_seq_info(seqf, alphbt_input, molecule):
@@ -57,7 +47,7 @@ def get_seq_info(seqf, alphbt_input, molecule):
         elif alphbt == "SIGMA":
             alphbt_input = "AILMV,FYW,NQCST,KRH,DE,G"
         elif alphbt == "HBOND":
-            alphbt_input = "NQST,DERK,YHW"
+            alphbt_input = "NQSTDERKYHW"
         elif alphbt == "HYDROPHOBICITY":
             alphbt_input = "LIFWVM,CYA,TEGSQD"
         if "," in alphbt_input:
@@ -67,15 +57,13 @@ def get_seq_info(seqf, alphbt_input, molecule):
             if "protein" in molecule:
                 alphbt_last_group = "".join(
                     np.setdiff1d(
-                        np.array(constants.PROTEIN_ALPHABETS).ravel(),
-                        np.array(alphbt_excluded),
+                        np.array(PROTEIN_ALPHABETS).ravel(), np.array(alphbt_excluded)
                     )
                 )
             else:
                 alphbt_last_group = "".join(
                     np.setdiff1d(
-                        np.array(constants.DNA_ALPHABETS).ravel(),
-                        np.array(alphbt_excluded),
+                        np.array(DNA_ALPHABETS).ravel(), np.array(alphbt_excluded)
                     )
                 )
             alphbt += "," + alphbt_last_group
@@ -100,7 +88,6 @@ def get_seq_info(seqf, alphbt_input, molecule):
                 for j in range(alphbt_count):
                     if seq_list[i] in aa_dict[str(j)]:
                         seq_list[i] = str(list(aa_dict.keys())[j])
-            print(seq_list)
             seq_list = [i for i in seq_list if i != "\n"]
             for i in range(len(seq_list)):
                 try:
@@ -119,15 +106,13 @@ def get_seq_info(seqf, alphbt_input, molecule):
                 if "protein" in molecule:
                     alphbt_last_group = list(
                         np.setdiff1d(
-                            np.array(constants.PROTEIN_ALPHABETS).ravel(),
-                            np.array(alphabets),
+                            np.array(PROTEIN_ALPHABETS).ravel(), np.array(alphabets)
                         )
                     )
                 else:
                     alphbt_last_group = list(
                         np.setdiff1d(
-                            np.array(constants.DNA_ALPHABETS).ravel(),
-                            np.array(alphabets),
+                            np.array(DNA_ALPHABETS).ravel(), np.array(alphabets)
                         )
                     )
                 seq_list_sub = []
@@ -153,5 +138,4 @@ def get_seq_info(seqf, alphbt_input, molecule):
     while "\n" in alphabets:
         alphabets.remove("\n")
     dm = len(alphabets)
-    print(seq)
     return [dm, sites, pop_size, seq, seq_series, alphabets, custom_aa]

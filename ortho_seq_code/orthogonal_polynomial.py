@@ -117,7 +117,7 @@ def orthogonal_polynomial(
             rf1d_aa_list[-1] = "z"
         rf1d_alphbt_input = ",".join(rf1d_aa_list)
     print("rf1d form of alphabet input:\n" + rf1d_alphbt_input)
-    if custom_aa is not None:
+    if custom_aa is not None and z != "z":
         print('"z" is', z)
     # FINISH
     excluded = ""

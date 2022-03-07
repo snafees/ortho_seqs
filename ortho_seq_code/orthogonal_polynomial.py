@@ -107,7 +107,16 @@ def orthogonal_polynomial(
             + str(custom_dict).replace("'", "").replace(", ", " | ")
         )
         rf1d_alphbt_input = ",".join([custom_dict[i] for i in alphabets])
+    rf1d_aa_list = rf1d_alphbt_input.split(",")
+    if rf1d_aa_list[-1] == "n":
+        z = rf1d_aa_list[-2]
+        rf1d_aa_list[-2] = "z"
+    else:
+        z = rf1d_aa_list[-1]
+        rf1d_aa_list[-1] = "z"
+    rf1d_alphbt_input = ",".join(rf1d_aa_list)
     print("rf1d form of alphabet input:\n" + rf1d_alphbt_input)
+    print('"z" is', z)
     for alphabet_index in range(dm):  # Keep in alphabetical order with 'n' at end
         for i in range_popsize:
             for j in range_sites:

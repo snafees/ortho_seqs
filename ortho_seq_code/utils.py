@@ -58,9 +58,9 @@ def get_seq_info(seqf, alphbt_input, molecule, seq_pheno_samefile):
     if alphbt_input is not None:
         alphbt = alphbt_input.upper()
         if alphbt == "PROTEIN_PNP":
-            alphbt_input = "RNDEQHKSTY"
+            alphbt_input = "RNDEQHKSTY,"
         elif alphbt == "ESSENTIAL":
-            alphbt_input = "ILVFWHKTM"
+            alphbt_input = "ILVFWHKTM,"
         elif alphbt == "FREQUENCY_11AA":
             alphbt_input = "Y,G,D,V,S,A,F,R,L,PTWNEM"
         elif alphbt == "FREQUENCY_9AA":

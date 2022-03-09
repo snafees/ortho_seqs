@@ -128,9 +128,6 @@ def orthogonal_polynomial(
         print('"z" is', z)
     if exc != []:
         print("Items not in sequence:", exc)
-    # FINISH
-    excluded = ""
-    print("Items that do not appear in sequence file:", excluded)
     for alphabet_index in range(dm):  # Keep in alphabetical order with 'n' at end
         for i in range_popsize:
             for j in range_sites:

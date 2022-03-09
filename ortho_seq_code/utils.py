@@ -59,7 +59,7 @@ def get_seq_info(seqf, alphbt_input, molecule, seq_pheno_samefile):
     print(molecule)
     if molecule is None:
         pass
-    if "protein" in molecule:
+    elif "protein" in molecule:
         for i in PROTEIN_ALPHABETS:
             if i not in seq_list:
                 exc.append(i)

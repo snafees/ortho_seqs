@@ -141,15 +141,13 @@ def get_seq_info(seqf, alphbt_input, molecule, seq_pheno_samefile):
                 if "protein" in molecule:
                     alphbt_last_group = list(
                         np.setdiff1d(
-                            np.array(PROTEIN_ALPHABETS).ravel(),
-                            np.array(alphabets),
+                            np.array(PROTEIN_ALPHABETS).ravel(), np.array(alphabets),
                         )
                     )
                 else:
                     alphbt_last_group = list(
                         np.setdiff1d(
-                            np.array(DNA_ALPHABETS).ravel(),
-                            np.array(alphabets),
+                            np.array(DNA_ALPHABETS).ravel(), np.array(alphabets),
                         )
                     )
                 alphbt_last_group = "".join(

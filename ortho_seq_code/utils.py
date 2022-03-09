@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-import ortho_seq_code.constants_orthoseqs as constants
+from ortho_seq_code.constants_orthoseqs import DNA_ALPHABETS, PROTEIN_ALPHABETS
 import os
 
 
@@ -77,20 +77,30 @@ def get_seq_info(seqf, alphbt_input, molecule, seq_pheno_samefile):
             alphbt = alphbt_input.upper()
             # Adding on remaining letters as the last group
             alphbt_excluded = np.array([i for i in alphbt if i != ","])
+            exc = []
+            if "protein" in molecule:
+                for i in PROTEIN_ALPHABETS:
+                    if i not in seq_list:
+                        exc.append(i)
+            else:
+                for i in DNA_ALPHABETS:
+                    if i not in seq_list:
+                        exc.append(i)
             if "protein" in molecule:
                 alphbt_last_group = "".join(
                     np.setdiff1d(
-                        np.array(constants.PROTEIN_ALPHABETS).ravel(),
-                        np.array(alphbt_excluded),
+                        np.array(PROTEIN_ALPHABETS).ravel(), np.array(alphbt_excluded),
                     )
                 )
             else:
                 alphbt_last_group = "".join(
                     np.setdiff1d(
-                        np.array(constants.DNA_ALPHABETS).ravel(),
-                        np.array(alphbt_excluded),
+                        np.array(DNA_ALPHABETS).ravel(), np.array(alphbt_excluded),
                     )
                 )
+            alphbt_last_group = "".join(
+                np.setdiff1d(np.array(list(alphbt_last_group)), np.array(exc))
+            )
             alphbt += "," + str(alphbt_last_group)
             custom_aa = alphbt.split(",")
             if "" in custom_aa:
@@ -157,4 +167,4 @@ def get_seq_info(seqf, alphbt_input, molecule, seq_pheno_samefile):
     while "\n" in alphabets:
         alphabets.remove("\n")
     dm = len(alphabets)
-    return [dm, sites, pop_size, seq, seq_series, alphabets, custom_aa]
+    return [dm, sites, pop_size, seq, seq_series, alphabets, custom_aa, exc]

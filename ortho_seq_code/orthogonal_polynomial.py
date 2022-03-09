@@ -46,9 +46,16 @@ def orthogonal_polynomial(
         f = filename
         naming_phenotype = os.path.splitext(os.path.basename(filename))[0]
         pheno_seqs_same_file = True
-    dm, sites, pop_size, seq, seq_series, alphabets, custom_aa = utils.get_seq_info(
-        filename, alphbt_input, molecule, pheno_seqs_same_file
-    )
+    (
+        dm,
+        sites,
+        pop_size,
+        seq,
+        seq_series,
+        alphabets,
+        custom_aa,
+        exc,
+    ) = utils.get_seq_info(filename, alphbt_input, molecule, pheno_seqs_same_file)
     print("")
     if custom_aa is not None:
         custom_dict = {alphabets[i]: custom_aa[i] for i in range(len(custom_aa))}
@@ -119,6 +126,8 @@ def orthogonal_polynomial(
     print("rf1d form of alphabet input:\n" + rf1d_alphbt_input)
     if custom_aa is not None and z != "z":
         print('"z" is', z)
+    if exc != []:
+        print("Items not in sequence:", exc)
     # FINISH
     excluded = ""
     print("Items that do not appear in sequence file:", excluded)

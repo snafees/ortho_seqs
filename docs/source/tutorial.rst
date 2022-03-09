@@ -151,9 +151,9 @@ The example outputs:
 .. code-block::
 
   Groupings according to --alphbt_input:
-  {0: SYG | 1: R | 2: ACDEFHIKLMNPQTVW | 3: n}
-  List form of alphabet input:
-  ['SYG', 'R', 'ACDEFHIKLMNPQTVW', 'n']
+  {0: SYG | 1: R | 2: z | 3: n}
+  rf1d form of alphabet input:
+  SYG,R,z,n
 
 After that, it will output the following text for all first-order calculations as it calculates what it's on:
 

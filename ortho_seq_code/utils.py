@@ -73,11 +73,11 @@ def get_seq_info(seqf, alphbt_input, molecule, seq_pheno_samefile):
             alphbt_input = "NQSTDERKYHW"
         elif alphbt == "HYDROPHOBICITY":
             alphbt_input = "LIFWVM,CYA,TEGSQD"
+        exc = []
         if "," in alphbt_input:
             alphbt = alphbt_input.upper()
             # Adding on remaining letters as the last group
             alphbt_excluded = np.array([i for i in alphbt if i != ","])
-            exc = []
             if "protein" in molecule:
                 for i in PROTEIN_ALPHABETS:
                     if i not in seq_list:
@@ -127,23 +127,34 @@ def get_seq_info(seqf, alphbt_input, molecule, seq_pheno_samefile):
             alphabets = list(aa_dict.keys())
 
         else:
+            if "protein" in molecule:
+                for i in PROTEIN_ALPHABETS:
+                    if i not in seq_list:
+                        exc.append(i)
+            else:
+                for i in DNA_ALPHABETS:
+                    if i not in seq_list:
+                        exc.append(i)
             alphabets = sorted(list(alphbt_input))
             alphabets_other = np.setdiff1d(np.array(seq_list), np.array(alphabets))
             if len(alphabets_other) > 0 and list(alphabets_other) != ["n"]:
                 if "protein" in molecule:
                     alphbt_last_group = list(
                         np.setdiff1d(
-                            np.array(constants.PROTEIN_ALPHABETS).ravel(),
+                            np.array(PROTEIN_ALPHABETS).ravel(),
                             np.array(alphabets),
                         )
                     )
                 else:
                     alphbt_last_group = list(
                         np.setdiff1d(
-                            np.array(constants.DNA_ALPHABETS).ravel(),
+                            np.array(DNA_ALPHABETS).ravel(),
                             np.array(alphabets),
                         )
                     )
+                alphbt_last_group = "".join(
+                    np.setdiff1d(np.array(list(alphbt_last_group)), np.array(exc))
+                )
                 seq_list_sub = []
                 for i in range(len(seq_list)):
                     if seq_list[i] in alphbt_last_group:

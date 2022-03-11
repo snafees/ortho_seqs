@@ -51,7 +51,6 @@ def orthogonal_polynomial(
         sites,
         pop_size,
         seq,
-        seq_series,
         alphabets,
         custom_aa,
         exc,

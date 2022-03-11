@@ -46,9 +46,17 @@ def orthogonal_polynomial(
         f = filename
         naming_phenotype = os.path.splitext(os.path.basename(filename))[0]
         pheno_seqs_same_file = True
-    dm, sites, pop_size, seq, seq_series, alphabets, custom_aa = utils.get_seq_info(
-        filename, alphbt_input, molecule, pheno_seqs_same_file
-    )
+    (
+        dm,
+        sites,
+        pop_size,
+        seq,
+        seq_series,
+        alphabets,
+        custom_aa,
+        exc,
+    ) = utils.get_seq_info(filename, alphbt_input, molecule, pheno_seqs_same_file)
+    print("")
     if custom_aa is not None:
         custom_dict = {alphabets[i]: custom_aa[i] for i in range(len(custom_aa))}
     range_dm = range(dm)
@@ -106,7 +114,20 @@ def orthogonal_polynomial(
             + str(custom_dict).replace("'", "").replace(", ", " | ")
         )
         rf1d_alphbt_input = ",".join([custom_dict[i] for i in alphabets])
+    rf1d_aa_list = rf1d_alphbt_input.split(",")
+    if custom_aa is not None:
+        if rf1d_aa_list[-1] == "n":
+            z = rf1d_aa_list[-2]
+            rf1d_aa_list[-2] = "z"
+        else:
+            z = rf1d_aa_list[-1]
+            rf1d_aa_list[-1] = "z"
+        rf1d_alphbt_input = ",".join(rf1d_aa_list)
     print("rf1d form of alphabet input:\n" + rf1d_alphbt_input)
+    if custom_aa is not None and z != "z":
+        print('"z" is', z)
+    if exc != []:
+        print("Items not in sequence:", exc)
     for alphabet_index in range(dm):  # Keep in alphabetical order with 'n' at end
         for i in range_popsize:
             for j in range_sites:

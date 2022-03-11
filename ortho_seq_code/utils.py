@@ -56,7 +56,6 @@ def get_seq_info(seqf, alphbt_input, molecule, onefile):
     seq_oneline = "".join(seq_series)
     seq_list = list(seq_oneline)
     exc = []
-    print(molecule)
     if molecule is None:
         pass
     elif "protein" in molecule:

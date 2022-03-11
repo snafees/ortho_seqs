@@ -170,4 +170,6 @@ def get_seq_info(seqf, alphbt_input, molecule, onefile):
     while "\n" in alphabets:
         alphabets.remove("\n")
     dm = len(alphabets)
+    print(seq)
+    print(seq_series)
     return [dm, sites, pop_size, seq, seq_series, alphabets, custom_aa, exc]

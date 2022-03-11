@@ -128,12 +128,6 @@ def get_seq_info(seqf, alphbt_input, molecule, onefile):
                     if seq_list[i] in aa_dict[str(j)]:
                         seq_list[i] = str(list(aa_dict.keys())[j])
             seq_list = [i for i in seq_list if i != "\n"]
-            print(seq_list)
-            for i in range(len(seq_list)):
-                try:
-                    seq_list[i] = str(int(seq_list[i]))
-                except:
-                    seq_list[i] = list(aa_dict.keys())[-2]
             seq_list_sub = seq_list
             alphabets = list(aa_dict.keys())
         else:

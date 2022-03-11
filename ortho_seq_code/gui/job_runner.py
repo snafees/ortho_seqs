@@ -13,13 +13,13 @@ class JobRunner(QWidget):
 
     def job_func(self, progress_callback):
         orthogonal_polynomial(
-            self.filename,
-            self.pheno_file,
-            self.molecule,
-            self.poly_order,
-            self.precomputed,
+            filename=self.filename,
+            pheno_file=self.pheno_file,
+            molecule=self.molecule,
+            poly_order=self.poly_order,
+            precomputed=self.precomputed,
+            alphbt_input=self.alphbt_input,
             out_dir="../results_ortho_seq_testing/",
-            alphbt_input=None,
             min_pct=75,
             pheno_name=None,
         )
@@ -34,6 +34,7 @@ class JobRunner(QWidget):
         self.poly_order = self.parent.poly_order_combobox.currentText()
         # self.precomputed = self.parent.precomputed_combobox.currentText() == "Yes"
         self.precomputed = self.parent.upload_button_3.text()
+        self.alphbt_input = self.parent.alphabet_text.text()
 
         worker = Worker(self.job_func)
 

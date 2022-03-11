@@ -17,8 +17,8 @@ def create_dir_if_not_exists(out_dir):
     return new_out_dir
 
 
-def get_seq_info(seqf, alphbt_input, molecule, seq_pheno_samefile):
-    if not seq_pheno_samefile:
+def get_seq_info(seqf, alphbt_input, molecule, onefile):
+    if not onefile:
         print("Pheno file is separate from sequence file.")
         with open(seqf) as f:
             seq = f.readlines()
@@ -33,6 +33,7 @@ def get_seq_info(seqf, alphbt_input, molecule, seq_pheno_samefile):
             print("Reading .csv file.")
             df = pd.read_csv(seqf, header=None)
         seq = df[0]
+    print(seq)
     seq_series_rm = pd.Series(seq).str.replace("\n", "")
     seq_series_nospace = seq_series_rm.str.replace(" ", "")
     seq_series = seq_series_nospace[seq_series_nospace != ""]
@@ -82,7 +83,7 @@ def get_seq_info(seqf, alphbt_input, molecule, seq_pheno_samefile):
         elif alphbt == "SIGMA":
             alphbt_input = "AILMV,FYW,NQCST,KRH,DE,G"
         elif alphbt == "HBOND":
-            alphbt_input = "NQSTDERKYHW"
+            alphbt_input = "NQST,DERK,YHW"
         elif alphbt == "HYDROPHOBICITY":
             alphbt_input = "LIFWVM,CYA,TEGSQD"
         if "," in alphbt_input:
@@ -126,9 +127,14 @@ def get_seq_info(seqf, alphbt_input, molecule, seq_pheno_samefile):
                 for j in range(alphbt_count):
                     if seq_list[i] in aa_dict[str(j)]:
                         seq_list[i] = str(list(aa_dict.keys())[j])
+            seq_list = [i for i in seq_list if i != "\n"]
+            for i in range(len(seq_list)):
+                try:
+                    seq_list[i] = str(int(seq_list[i]))
+                except:
+                    seq_list[i] = list(aa_dict.keys())[-2]
             seq_list_sub = seq_list
             alphabets = list(aa_dict.keys())
-
         else:
             alphabets = sorted(list(alphbt_input))
             alphabets_other = np.setdiff1d(np.array(seq_list), np.array(alphabets))

@@ -316,7 +316,7 @@ def test_protein_padded_custom_aa_2(protein_data_dir, protein_params_custom_aa_2
         indices = [0, 1, 2, 4, 5]
         assert [
             get_seq_info(basefile, "AR,SY", "protein", False)[x] for x in indices
-        ] == [4, 6, 10, ["0", "1", "2", "3"], ["0", "1", "2", "3"],]
+        ] == [4, 6, 10, ["0", "1", "2", "3"], ["AR", "SY", "CDEFGHIKLMNPQTVW", "n"],]
 
         basename = os.path.basename(protein_params_custom_aa_2.seqs_filename)
         basename_pheno = os.path.basename(protein_params_custom_aa_2.pheno_filename)

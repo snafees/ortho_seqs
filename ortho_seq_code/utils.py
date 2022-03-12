@@ -171,4 +171,5 @@ def get_seq_info(seqf, alphbt_input, molecule, seq_pheno_samefile):
     while "\n" in alphabets:
         alphabets.remove("\n")
     dm = len(alphabets)
+    print(seq)
     return [dm, sites, pop_size, seq, seq_series, alphabets, custom_aa, exc]

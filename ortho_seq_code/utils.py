@@ -101,7 +101,7 @@ def get_seq_info(seqf, alphbt_input, molecule, onefile):
                     )
                 )
             alphbt_last_group = "".join(
-                np.setdiff1d(np.array(alphbt_last_group), np.array(exc))
+                np.setdiff1d(np.array(list(alphbt_last_group)), np.array(exc))
             )
             alphbt += "," + str(alphbt_last_group)
             custom_aa = alphbt.split(",")

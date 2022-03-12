@@ -203,7 +203,7 @@ def test_protein_first_order(protein_data_dir, protein_params_first_order):
         orthogonal_polynomial(*protein_params_first_order)
 
         basefile = os.path.abspath(protein_params_first_order.seqs_filename)
-        assert get_seq_info(basefile, None, None, False)[:-5] == [18, 6, 6]
+        assert get_seq_info(basefile, None, None, False)[:-4] == [18, 6, 6]
 
         basename = os.path.basename(protein_params_first_order.seqs_filename)
 
@@ -240,7 +240,7 @@ def test_protein_padded_first_order(
         orthogonal_polynomial(*protein_params_first_order_padded)
 
         basefile = os.path.abspath(protein_params_first_order_padded.seqs_filename)
-        assert get_seq_info(basefile, None, None, False)[:-5] == [21, 6, 10]
+        assert get_seq_info(basefile, None, None, False)[:-4] == [21, 6, 10]
 
         basename = os.path.basename(protein_params_first_order_padded.seqs_filename)
         basename_pheno = os.path.basename(
@@ -316,7 +316,7 @@ def test_protein_padded_custom_aa_2(protein_data_dir, protein_params_custom_aa_2
         indices = [0, 1, 2, 5, 6]
         assert [
             get_seq_info(basefile, "AR,SY", "protein", False)[x] for x in indices
-        ] == [4, 6, 10, ["0", "1", "2", "3"], ["AR", "SY", "z", "n"],]
+        ] == [4, 6, 10, ["0", "1", "2", "3"], ["0", "1", "2", "3"],]
 
         basename = os.path.basename(protein_params_custom_aa_2.seqs_filename)
         basename_pheno = os.path.basename(protein_params_custom_aa_2.pheno_filename)

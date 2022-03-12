@@ -126,7 +126,6 @@ def get_seq_info(seqf, alphbt_input, molecule, onefile):
                     if seq_list[i] in aa_dict[str(j)]:
                         seq_list[i] = str(list(aa_dict.keys())[j])
             seq_list = [i for i in seq_list if i != "\n"]
-            seq_list_sub = seq_list
             alphabets = list(aa_dict.keys())
         else:
             alphabets = sorted(list(alphbt_input))
@@ -147,18 +146,18 @@ def get_seq_info(seqf, alphbt_input, molecule, onefile):
                 alphbt_last_group = "".join(
                     np.setdiff1d(np.array(list(alphbt_last_group)), np.array(exc))
                 )
-                seq_list_sub = []
+                seq_list = []
                 for i in range(len(seq_list)):
                     if seq_list[i] in alphbt_last_group:
-                        seq_list_sub.append("z")
+                        seq_list.append("z")
                     else:
-                        seq_list_sub.append(seq_list[i])
-            if "z" in seq_list_sub and "z" not in alphabets:
+                        seq_list.append(seq_list[i])
+            if "z" in seq_list and "z" not in alphabets:
                 alphabets.append("z")
-            if "n" in seq_list_sub and "n" not in alphabets:
+            if "n" in seq_list and "n" not in alphabets:
                 alphabets.append("n")
             custom_aa = alphabets
-        seq_adj = "".join(seq_list_sub)
+        seq_adj = "".join(seq_list)
         seq = [seq_adj[i : i + sites] for i in range(0, len(seq_adj), sites)]
     else:
         alphabets = list(np.unique(seq_list))

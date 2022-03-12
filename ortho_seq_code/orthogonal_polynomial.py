@@ -46,15 +46,9 @@ def orthogonal_polynomial(
         f = filename
         naming_phenotype = os.path.splitext(os.path.basename(filename))[0]
         pheno_seqs_same_file = True
-    (
-        dm,
-        sites,
-        pop_size,
-        seq,
-        alphabets,
-        custom_aa,
-        exc,
-    ) = utils.get_seq_info(filename, alphbt_input, molecule, pheno_seqs_same_file)
+    (dm, sites, pop_size, seq, alphabets, custom_aa, exc,) = utils.get_seq_info(
+        filename, alphbt_input, molecule, pheno_seqs_same_file
+    )
     print("")
     if custom_aa is not None:
         custom_dict = {alphabets[i]: custom_aa[i] for i in range(len(custom_aa))}

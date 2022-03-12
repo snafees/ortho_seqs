@@ -127,6 +127,7 @@ def get_seq_info(seqf, alphbt_input, molecule, seq_pheno_samefile):
                     if seq_list[i] in aa_dict[str(j)]:
                         seq_list[i] = str(list(aa_dict.keys())[j])
             seq_list_sub = seq_list
+            seq_list = [i for i in seq_list if i != "\n"]
             alphabets = list(aa_dict.keys())
 
         else:

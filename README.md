@@ -175,15 +175,7 @@ This set of files contains the main results which includes the following:
 
 
 # The rf1d class
-The newest update to *ortho_seqs* involves adding a new class of objects, called *rf1d* (short for rFon1D). To declare an *rf1d* object, you must supply a numpy ndarray of the rFon1D values (supplied via the regressions.npz file that is output when *ortho_seqs* is run), along with the alphabet input, and the molecule type.
-Once you have done this, you can explore the rFon1D values, and see if there are any trends. You can:
-1. Print out a summary of the object using .summary()
-2. Make a bar plot (just like the rFon1D bar plot automatically generated) using .plot_bar()
-3. Print out the extreme rFon1D values using .sort()
-4. Remove any insignificant, but nonzero, rFon1D values using the .trim() function (**NOTE:** this will change the ndarray in the rf1d object, and to recover old data, you must reinstatiate an rf1d object)
-5. Make a histogram of rFon1D values using .plot_hist()
-
-To run *rf1d*, use the CLI, and type in *rf1d-viz* like you would *orthogonal_polynomial* when running *ortho_seqs*.
+The newest update to *ortho_seqs* involves adding a new class of objects, called *rf1d* (short for rFon1D). To run *rf1d*, use the CLI, and type in *rf1d-viz* like you would *orthogonal_polynomial* when running *ortho_seqs*.
 
 ### Flags and functionality
 

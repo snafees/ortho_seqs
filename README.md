@@ -87,7 +87,7 @@ Let's say you have a case where you have the same set of sequences but two diffe
 ```
 --alphbt_input
 ```
-Used to group amino acids/nucleotides together, or specify certain amino acids/nucleotides. If you don't want to group anything, don't include this flag when running *ortho_seqs*. For example, putting *ASGR* will tell the program to have 6 dimensions: one for each amino acid specified, and one for *z*, where every unspecified amino acid will be converted to *z*, and one for *n* (whenever sequences have unequal lengths, *ortho_seqs* will pad the shorter sequences with *n*). You can also comma-separate amino acids/nucleotides to group them. For example, putting *AS,GR* will make the vectors 4-dimensional, one for *AS*, one for *GR*, one for every other amino acid, and one for *n*.
+Used to group amino acids/nucleotides together, or specify certain amino acids/nucleotides. If you don't want to group anything, don't include this flag when running *ortho_seqs*. For example, putting *ASGR* will tell the program to have 6 dimensions: one for each amino acid specified, and one for *z*, where every unspecified amino acid or nucleotide will be converted to *z*, and one for *n* (whenever sequences have unequal lengths, *ortho_seqs* will pad the shorter sequences with *n*). You can also comma-separate amino acids/nucleotides to group them. For example, putting *AS,GR* will make the vectors 4-dimensional, one for *AS*, one for *GR*, one for every other amino acid (*z*), and one for *n*.
 
 There are also built-in groups:
 
@@ -183,6 +183,47 @@ Once you have done this, you can explore the rFon1D values, and see if there are
 4. Remove any insignificant, but nonzero, rFon1D values using the .trim() function (**NOTE:** this will change the ndarray in the rf1d object, and to recover old data, you must reinstatiate an rf1d object)
 5. Make a histogram of rFon1D values using .plot_hist()
 
+To run *rf1d*, use the CLI, and type in *rf1d-viz* like you would *orthogonal_polynomial* when running *ortho_seqs*.
+
+### Flags and functionality
+
+```
+--filename
+```
+This is the same as the *{trait_file_name}_regressions.npz* file that is returned from *ortho_seqs*, as it contains the rFon1D values that are used.
+
+```
+--alphbt_input
+```
+Similarly to *orthogonal_polynomial*, this flag takes in a comma-separated list of the groupings (**Note:** this list must be comma-separated for the code to work). *orthogonal_polynomial* will print out the *rf1d form of alphabet input* in the CLI before any mathematical calculations are made, which will work if you choose to copy/paste it.
+
+```
+--molecule
+```
+Identical to how it is in *orthogonal_polynomial*. It doesn't matter much what you put here, as this is purely for visual purposes only.
+
+```
+--phenotype
+```
+Identical to how it is in *orthogonal_polynomial*. This is used as the y-axis labeling for the barplot.
+
+```
+--out_dir
+```
+The path where you want the visualizations saved, if applicable.
+
+```
+--action
+```
+This flag is where you specify which visualization you want.
+
+Options:
+1. *barplot* - Prints and saves a barplot of the rFon1D values, and saves it, if an *out_dir* is specified. This is what is called in *orthogonal_polynomial* at the end.
+2. *histogram* - Prints a histogram of the rFon1D values, and saves it, if an *out_dir* is specified.
+3. *summary* - Prints out the number of sites and dimensions, the alphabet input, the molecule, and calls *sort* (explained in further detail below). This is called in *orthogonal_polynomial* automatically, at the very end of the program. This will not be saved to the *out_dir*.
+4. *heatmap* - Prints a heatmap of the rFon1D values, and saves it, if an *out_dir* is specified.
+5. *boxplot* - Prints a boxplot of the rFon1D values, and saves it, if an *out_dir* is specified.
+6. *sort* - This will print out the top 10 rFon1D values *by magnitude*, including the rFon1D value, the site, and the group it belongs to. This will not be saved to the *out_dir*.
 
 # To run the GUI
 A GUI version of the CLI is also available to make it easier for users to utilize the tool. The GUI allows the user to upload the sequence and phenotype information via an upload button, specify the molecule, the polynomial order they wish to run,

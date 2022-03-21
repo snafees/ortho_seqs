@@ -969,12 +969,12 @@ def orthogonal_polynomial(
 
     alphbt_input = custom_aa or alphabets
     rFon1D_o = rf1d(
-        rFon1D, alphbt_input=rf1d_alphbt_input, molecule=molecule, phenotype=pheno_name
+        rFon1D, alphbt_input=rf1d_alphbt_input, molecule=molecule, phenotype=pheno_name, out_dir=out_dir
     )
 
     rFon1D_o.summary()
 
-    rFon1D_o.barplot(out_dir=out_dir)
+    rFon1D_o.barplot()
 
     print("--- %s seconds ---" % (time.time() - start_time))
 

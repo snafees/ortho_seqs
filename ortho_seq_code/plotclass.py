@@ -207,8 +207,9 @@ class rf1d:
             k = z[1][0]
             line = str(round(self.x[s, k], 4)) + "\tSite: " + str(s) + "\t\tKey: " + str(self.alphbt_input[k])
             printable += "\n" + line
+            print(type(line))
             print(
-                str(line)
+                line
             )
         if out_dir is not None:
             dir = os.path.join(self.out.dir, "sort_output.txt")

@@ -50,6 +50,7 @@ class rf1d:
         print("Highest rFon1D magnitudes:")
         self.sort(by_magnitude=True, out_dir=None)
         printable += "\n" + self.sort(by_magnitude=True, out_dir=self.out_dir, print_output=True)
+        print(self.out_dir)
         if self.out_dir is not None:
             dir = os.path.join(self.out.dir, "summary_output.txt")
             with open(dir, 'x') as f:

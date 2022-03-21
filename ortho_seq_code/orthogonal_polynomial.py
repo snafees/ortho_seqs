@@ -29,6 +29,7 @@ def orthogonal_polynomial(
     """Program to compute orthogonal polynomials up to 2nd order"""
     start_time = time.time()
     out_dir = utils.create_dir_if_not_exists(out_dir)
+    sys.stdout = open(os.path.join(out_dir, "cli_output.txt"), "w")
     global i
     print("")
     if pheno_file != None:
@@ -982,8 +983,6 @@ def orthogonal_polynomial(
     rFon1D_o.barplot(out_dir=out_dir)
 
     print("--- %s seconds ---" % (time.time() - start_time))
-
-    sys.stdout = open(os.path.join(out_dir, "cli_output.txt"), "w")
 
 
 @click.command(help="program to compute orthogonal polynomials up to 2nd order")  # noqa

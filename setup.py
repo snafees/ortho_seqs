@@ -31,7 +31,6 @@ setup(
         "PyQt5",
         "PyQt5-sip",
         "openpyxl",
-        "sys",
     ],
     include_package_data=True,
     long_description=long_description,

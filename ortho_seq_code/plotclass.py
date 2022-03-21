@@ -212,11 +212,12 @@ class rf1d:
                 print(
                     line
                 )
-        if print_output and out_dir is not None:
-            dir = os.path.join(self.out.dir, "sort_output.txt")
-            with open(dir, 'x') as f:
-                f.write(printable)
-            print("Saved output as", str(dir))
+        if print_output:
+            if out_dir is not None:
+                dir = os.path.join(self.out.dir, "sort_output.txt")
+                with open(dir, 'x') as f:
+                    f.write(printable)
+                print("Saved output as", str(dir))
             return printable
 
     def trim(self, span, comp):

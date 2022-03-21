@@ -217,6 +217,8 @@ class rf1d:
             with open(dir, 'x') as f:
                 f.write(printable)
             print("Saved output as", str(dir))
+            return printable
+
     def trim(self, span, comp):
         if comp not in self.complist:
             print(
@@ -266,8 +268,6 @@ class rf1d:
         print("Successfully trimmed array.")
         self.x_flat = list(x_flat)
         self.x = x
-        if print:
-            return printable
 
     def histogram(
         self,

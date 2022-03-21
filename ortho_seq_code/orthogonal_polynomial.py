@@ -982,6 +982,8 @@ def orthogonal_polynomial(
 
     rFon1D_o.barplot(out_dir=out_dir)
 
+    sys.stdout = Logger()
+
     print("--- %s seconds ---" % (time.time() - start_time))
 
 

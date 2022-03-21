@@ -49,7 +49,7 @@ class rf1d:
             printable += "\nImage output directory: " + str(self.out_dir)
         print("Highest rFon1D magnitudes:")
         self.sort(by_magnitude=True, out_dir=None)
-        printable += "\n" + self.sort(by_magnitude=True, out_dir=None, print_output=True)
+        printable += "\n" + self.sort(by_magnitude=True, out_dir=self.out_dir, print_output=True)
         if self.out_dir is not None:
             dir = os.path.join(self.out.dir, "summary_output.txt")
             with open(dir, 'x') as f:

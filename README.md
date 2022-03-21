@@ -87,7 +87,7 @@ Let's say you have a case where you have the same set of sequences but two diffe
 ```
 --alphbt_input
 ```
-Used to group amino acids/nucleotides together, or specify certain amino acids/nucleotides. If you don't want to group anything, don't include this flag when running *ortho_seqs*. For example, putting *ASGR* will tell the program to have 6 dimensions: one for each amino acid specified, and one for *z*, where every unspecified amino acid or nucleotide will be converted to *z*, and one for *n* (whenever sequences have unequal lengths, *ortho_seqs* will pad the shorter sequences with *n*). You can also comma-separate amino acids/nucleotides to group them. For example, putting *AS,GR* will make the vectors 4-dimensional, one for *AS*, one for *GR*, one for every other amino acid (*z*), and one for *n*.
+Used to group amino acids/nucleotides together, or specify certain amino acids/nucleotides. If you don't want to group anything, don't include this flag when running *ortho_seqs*. For example, putting *ASGR*  for a protein molecule will tell the program to have 6 dimensions: one for each amino acid specified, and one for *z*, where every unspecified amino acid or nucleotide will be converted to *z*, and one for *n* (whenever sequences have unequal lengths, *ortho_seqs* will pad the shorter sequences with *n* at the end). You can also comma-separate amino acids/nucleotides to group them. For example, putting *AS,GR* will make the vectors 4-dimensional, one for *AS*, one for *GR*, one for every other amino acid (*z*), and one for *n*.
 
 There are also built-in groups:
 
@@ -176,6 +176,8 @@ This set of files contains the main results which includes the following:
 
 # The rf1d class
 The newest update to *ortho_seqs* involves adding a new class of objects, called *rf1d* (short for rFon1D). To run *rf1d*, use the CLI, and type in *rf1d-viz* like you would *orthogonal_polynomial* when running *ortho_seqs*.
+
+**Note:** *rf1d-viz* requires you to have run *orthogonal_polynomial* beforehand.
 
 ### Flags and functionality
 

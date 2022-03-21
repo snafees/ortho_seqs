@@ -31,31 +31,17 @@ class rf1d:
             )
 
     def summary(self):
-        printable = ""
         print("rf1d Object:\n")
         print("Number of sites:", str(self.sites))
-        printable += "rf1d Object:\nNumber of sites: " + str(self.sites)
         print("Number of dimensions:", str(self.dim))
-        printable += "\nNumber of dimensions: " + str(self.dim)
         print("Alphabet input:", str(self.alphbt_input))
-        printable += "\nAlphabet Input: " + str(self.alphbt_input)
         print("Molecule:", str(self.molecule) + "\n")
-        printable += "\nMolecule: " + str(self.molecule)
         if self.phenotype is not None:
             print("Phenotype represents", self.phenotype, "values")
-            printable += "\nPhenotype represents " + str(self.phenotype) + " values"
         if self.out_dir is not None:
             print("Image output directory:", self.out_dir)
-            printable += "\nImage output directory: " + str(self.out_dir)
         print("Highest rFon1D magnitudes:")
         self.sort(by_magnitude=True, out_dir=None)
-        printable += "\n" + self.sort(by_magnitude=True, out_dir=self.out_dir, print_output=True)
-        print(self.out_dir)
-        if self.out_dir is not None:
-            dir = os.path.join(self.out.dir, "summary_output.txt")
-            with open(dir, 'x') as f:
-                f.write(printable)
-            print("Saved output as", dir)
 
     # rFon1D bar plot
     def barplot(
@@ -191,7 +177,7 @@ class rf1d:
         else:
             print("Nothing to graph for rFon1D")
 
-    def sort(self, n=10, by_magnitude=True, ascending=True, out_dir="", print_output=False):
+    def sort(self, n=10, by_magnitude=True, ascending=True):
         if out_dir == "":
             out_dir = self.out_dir
         if by_magnitude:
@@ -201,25 +187,17 @@ class rf1d:
             x_flat = self.x_flat
             x = self.x
         x_sort = sorted(x_flat, reverse=ascending)[0:n]
-        if print_output:
-            printable = ""
         for i in x_sort:
             z = np.where(x == i)
             s = z[0][0]
             k = z[1][0]
-            line = str(round(self.x[s, k], 4)) + "\tSite: " + str(s) + "\t\tKey: " + str(self.alphbt_input[k])
-            if print_output:
-                printable += "\n" + line
-                print(
-                    line
-                )
-        if print_output:
-            if out_dir is not None:
-                dir = os.path.join(self.out.dir, "sort_output.txt")
-                with open(dir, 'x') as f:
-                    f.write(printable)
-                print("Saved output as", str(dir))
-            return printable
+            print(
+                str(round(self.x[s, k], 4))
+                + "\tSite: "
+                + str(s)
+                + "\t\tKey: "
+                + str(self.alphbt_input[k])
+            )
 
     def trim(self, span, comp):
         if comp not in self.complist:
@@ -315,7 +293,8 @@ class rf1d:
             path_sav = path_sav.replace(" ", "_")
             plt.savefig(os.path.join(str(out_dir), path_sav), dpi=400)
             print(
-                "saved regression graph as", str(os.path.join(str(out_dir), path_sav)),
+                "saved regression graph as",
+                str(os.path.join(str(out_dir), path_sav)),
             )
         elif self.out_dir is not None:
             path_sav = "rFon1D_hist_" + str(self.phenotype) or "" + ".png"
@@ -343,7 +322,8 @@ class rf1d:
             path_sav = path_sav.replace(" ", "_")
             plt.savefig(os.path.join(str(out_dir), path_sav), dpi=400)
             print(
-                "saved regression graph as", str(os.path.join(str(out_dir), path_sav)),
+                "saved regression graph as",
+                str(os.path.join(str(out_dir), path_sav)),
             )
         elif self.out_dir is not None:
             path_sav = "rFon1D_heatmap_" + str(self.phenotype) or "" + ".png"
@@ -367,7 +347,8 @@ class rf1d:
             path_sav = path_sav.replace(" ", "_")
             plt.savefig(os.path.join(str(out_dir), path_sav), dpi=400)
             print(
-                "saved regression graph as", str(os.path.join(str(out_dir), path_sav)),
+                "saved regression graph as",
+                str(os.path.join(str(out_dir), path_sav)),
             )
         elif self.out_dir is not None:
             path_sav = "rFon1D_boxplot_" + str(self.phenotype) or "" + ".png"

@@ -41,7 +41,7 @@ class rf1d:
         if self.out_dir is not None:
             print("Image output directory:", self.out_dir)
         print("Highest rFon1D magnitudes:")
-        self.sort(by_magnitude=True, out_dir=None)
+        self.sort(by_magnitude=True)
 
     # rFon1D bar plot
     def barplot(

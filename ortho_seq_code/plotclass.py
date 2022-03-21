@@ -51,8 +51,8 @@ class rf1d:
         self.sort(by_magnitude=True, out_dir=None)
         printable += "\n" + self.sort(by_magnitude=True, out_dir=None, print=True)
         if self.out_dir is not None:
-            dir = os.path.join(self.out.dir, "/summary_output.txt")
-            with open(dir, "x") as f:
+            dir = os.path.join(self.out.dir, "summary_output.txt")
+            with open(dir, 'x') as f:
                 f.write(printable)
             print("Saved output as", dir)
 
@@ -205,21 +205,16 @@ class rf1d:
             z = np.where(x == i)
             s = z[0][0]
             k = z[1][0]
-            line = (
-                str(round(self.x[s, k], 4))
-                + "\tSite: "
-                + str(s)
-                + "\t\tKey: "
-                + str(self.alphbt_input[k])
-            )
+            line = str(round(self.x[s, k], 4)) + "\tSite: " + str(s) + "\t\tKey: " + str(self.alphbt_input[k])
             printable += "\n" + line
-            print(line)
+            print(
+                line
+            )
         if out_dir is not None:
-            dir = os.path.join(self.out.dir, "/sort_output.txt")
-            with open(dir, "x") as f:
+            dir = os.path.join(self.out.dir, "sort_output.txt")
+            with open(dir, 'x') as f:
                 f.write(printable)
             print("Saved output as", str(dir))
-
     def trim(self, span, comp):
         if comp not in self.complist:
             print(
@@ -316,8 +311,7 @@ class rf1d:
             path_sav = path_sav.replace(" ", "_")
             plt.savefig(os.path.join(str(out_dir), path_sav), dpi=400)
             print(
-                "saved regression graph as",
-                str(os.path.join(str(out_dir), path_sav)),
+                "saved regression graph as", str(os.path.join(str(out_dir), path_sav)),
             )
         elif self.out_dir is not None:
             path_sav = "rFon1D_hist_" + str(self.phenotype) or "" + ".png"
@@ -345,8 +339,7 @@ class rf1d:
             path_sav = path_sav.replace(" ", "_")
             plt.savefig(os.path.join(str(out_dir), path_sav), dpi=400)
             print(
-                "saved regression graph as",
-                str(os.path.join(str(out_dir), path_sav)),
+                "saved regression graph as", str(os.path.join(str(out_dir), path_sav)),
             )
         elif self.out_dir is not None:
             path_sav = "rFon1D_heatmap_" + str(self.phenotype) or "" + ".png"
@@ -370,8 +363,7 @@ class rf1d:
             path_sav = path_sav.replace(" ", "_")
             plt.savefig(os.path.join(str(out_dir), path_sav), dpi=400)
             print(
-                "saved regression graph as",
-                str(os.path.join(str(out_dir), path_sav)),
+                "saved regression graph as", str(os.path.join(str(out_dir), path_sav)),
             )
         elif self.out_dir is not None:
             path_sav = "rFon1D_boxplot_" + str(self.phenotype) or "" + ".png"

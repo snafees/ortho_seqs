@@ -982,12 +982,10 @@ def orthogonal_polynomial(
 
     rFon1D_o.barplot(out_dir=out_dir)
 
-    sys.stdout.close()
+    print("--- %s seconds ---" % (time.time() - start_time))
 
     with open(os.path.join(out_dir, "cli_output.txt"), "r") as f:
         print(f.readlines())
-
-    print("--- %s seconds ---" % (time.time() - start_time))
 
 
 @click.command(help="program to compute orthogonal polynomials up to 2nd order")  # noqa

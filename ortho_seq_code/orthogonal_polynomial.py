@@ -14,7 +14,6 @@ from matplotlib import pyplot as plt
 import sys
 
 
-
 def orthogonal_polynomial(
     filename,
     pheno_file,
@@ -987,8 +986,7 @@ def orthogonal_polynomial(
 
     with open(os.path.join(out_dir, "cli_output.txt")) as f:
         cli_output = f.readlines()
-    for i in cli_output:
-        print(i)
+    print(cli_output)
 
     print("--- %s seconds ---" % (time.time() - start_time))
 

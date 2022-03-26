@@ -22,7 +22,6 @@ class Logger(object):
     def write(self, message):
         self.terminal.write(message)
         self.log.write(message)
-        #print(message)
 
     def flush(self):
         # this flush method is needed for python 3 compatibility.
@@ -1003,6 +1002,11 @@ def orthogonal_polynomial(
     rFon1D_o.barplot(out_dir=out_dir)
 
     sys.stdout = Logger()
+
+    with open(os.path.join(out_dir, "cli_output.txt")) as f:
+        cli_output = f.readlines()
+    for i in cli_output:
+        print(i)
 
     print("--- %s seconds ---" % (time.time() - start_time))
 

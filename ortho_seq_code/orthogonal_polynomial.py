@@ -14,24 +14,6 @@ from matplotlib import pyplot as plt
 import sys
 
 
-class Logger(object):
-    def __init__(self):
-        self.terminal = sys.stdout
-        self.log = open("logfile.log", "a")
-
-    def write(self, message):
-        self.terminal.write(message)
-        self.log.write(message)
-
-    def flush(self):
-        # this flush method is needed for python 3 compatibility.
-        # this handles the flush command by doing nothing.
-        # you might want to specify some extra behavior here.
-        pass
-
-
-sys.stdout = Logger()
-
 
 def orthogonal_polynomial(
     filename,
@@ -1000,8 +982,6 @@ def orthogonal_polynomial(
     rFon1D_o.summary()
 
     rFon1D_o.barplot(out_dir=out_dir)
-
-    sys.stdout = Logger()
 
     sys.stdout.close()
 

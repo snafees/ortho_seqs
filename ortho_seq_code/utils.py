@@ -22,6 +22,7 @@ def get_seq_info(seqf, alphbt_input, molecule, onefile):
         print("Pheno file is separate from sequence file.")
         with open(seqf) as f:
             seq = f.readlines()
+        seqf.close()
     else:
         print(
             "Pheno file is not separate from sequence file, assuming seq_file is either a .csv or a .xlsx file."

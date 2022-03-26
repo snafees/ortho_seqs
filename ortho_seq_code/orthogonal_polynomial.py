@@ -985,8 +985,7 @@ def orthogonal_polynomial(
     sys.stdout.close()
 
     with open(os.path.join(out_dir, "cli_output.txt")) as f:
-        cli_output = f.readlines()
-        print(cli_output)
+        print(f)
 
     print("--- %s seconds ---" % (time.time() - start_time))
 

@@ -12,6 +12,7 @@ import click
 import itertools
 from matplotlib import pyplot as plt
 import sys
+from sys import Logger
 
 sys.stdout = Logger()
 

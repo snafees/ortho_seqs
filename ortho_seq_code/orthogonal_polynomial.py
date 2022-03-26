@@ -22,7 +22,7 @@ class Logger(object):
     def write(self, message):
         self.terminal.write(message)
         self.log.write(message)
-        print(message)
+        #print(message)
 
     def flush(self):
         # this flush method is needed for python 3 compatibility.

@@ -79,7 +79,13 @@ This is where you specify what kind of visualization you want. The current optio
 3. Running *rf1d-viz*
 -----------------------------------------------------------
 
+Similarly to *orthogonal-polyomial*, you will run *rf1d-viz* in your CLI, first starting with the keyword *ortho_seq*, but now followed by *rf1d-viz*, instead of *orthogonal-polynomial*. The general format is
 
+.. code-block:: shell-session
+
+  ortho_seq rf1d-viz filename --alphbt_input --molecule --phenotype --out_dir --action
+
+*filename* represents the *--filename* flag.
 
 .. _example:
 Guided example with the Sidhu dataset

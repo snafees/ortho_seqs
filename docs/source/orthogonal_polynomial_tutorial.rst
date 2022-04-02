@@ -303,3 +303,9 @@ One output is a graph of the nonzero rFon1D values. For the Sidhu dataset, it lo
 
 At the bottom, it lists the dictionary of the groups and their corresponding number, which then can be used to determine which color bar belongs to which group.
 The rFon1D graph will always have the name rFon1D_graph_{name}.png. The rFon1D values can also be found in the _regressions.npz file which can be opened up by the user in a jupyter notebook for further visualization.
+
+.. _rf1d:
+4. The *rf1d* Class
+-----------------------------------------------------------
+
+To obtain more visualizations of your rFon1D results, there is another CLI tutorial `here <https://github.com/snafees/ortho_seqs/blob/plot/docs/source/rf1d_tutorial.rst>`_ that you can follow.

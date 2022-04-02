@@ -69,11 +69,11 @@ This is where you want the graphs stored. **Note:** the path must exist prior to
 This is where you specify what kind of visualization you want. The current options are:
 
 1. *barplot* - This will create a barplot of the rFon1D values, grouped by site and alphabet input. This is called automatically when you run *orthogonal-polynomial*.
-1. *histogram* - This will create a histogram of the rFon1D values.
-1. *summary* - Prints out the number of sites and dimensions, the alphabet input, the molecule, and calls *sort* (another *rf1d-viz* action that is explained in further detail below). This is called in *orthogonal-polynomial* automatically, and will not be saved.
-1. *heatmap* - This will create a heatmap of the rFon1D values, grouped by site and alphabet input.
-1. *boxplot* - This will create a boxplot of the rFon1D values, grouped by .
-1. *sort* -
+2. *histogram* - This will create a histogram of the rFon1D values.
+3. *summary* - Prints out the number of sites and dimensions, the alphabet input, the molecule, and calls *sort* (another *rf1d-viz* action that is explained in further detail below). This is called in *orthogonal-polynomial* automatically, and will not be saved.
+4. *heatmap* - This will create a heatmap of the rFon1D values, grouped by site and alphabet input.
+5. *boxplot* - This will create a boxplot of the rFon1D values, grouped by .
+6. *sort* -
 
 .. _input:
 3. Running *rf1d-viz*
@@ -117,6 +117,8 @@ This line of code will reproduce the graph that is automatically run, and looks 
 .. image:: tutorial_outputs/rFon1D_Regressions_of_IC50_values.png
   :height: 250px
 
+Notice how the y axis is labelled with the phenotype name specified
+
 The CLI input for *rf1d-viz* for a **histogram** will be
 
 .. code-block:: shell-session
@@ -126,4 +128,46 @@ The CLI input for *rf1d-viz* for a **histogram** will be
 The graph looks like
 
 .. image:: tutorial_outputs/rFon1D_hist_IC50.png
+  :height: 250px
+
+Run *summary* with
+
+.. code-block:: shell-session
+
+  ortho_seq rf1d-viz docs/source/tutorial_outputs/Sidhu_regressions.npz --alphbt_input SYG,R,z,n --molecule protein --phenotype IC50 --out_dir docs/source/tutorial_outputs --action summary
+
+The output will be
+
+.. code-block:: shell-session
+
+  rf1d Object:
+
+  Number of sites: 19
+  Number of dimensions: 4
+  Alphabet input: ['SYG', 'R', 'z', 'n']
+  Molecule: protein
+
+  Phenotype represents IC50 values
+  Image output directory: docs/source/tutorial_outputs
+  Highest rFon1D magnitudes:
+  -1.3014	Site: 0		Key: SYG
+  1.3014	Site: 0		Key: R
+  1.1394	Site: 8		Key: R
+  1.1394	Site: 10		Key: R
+  1.1229	Site: 9		Key: z
+  1.1229	Site: 12		Key: z
+  1.1229	Site: 8		Key: z
+  1.1229	Site: 13		Key: R
+  1.0344	Site: 16		Key: z
+  -0.9606	Site: 10		Key: z
+
+The CLI input for *rf1d-viz* for a **heatmap** will be
+
+.. code-block:: shell-session
+
+  ortho_seq rf1d-viz docs/source/tutorial_outputs/Sidhu_regressions.npz --alphbt_input SYG,R,z,n --molecule protein --phenotype IC50 --out_dir docs/source/tutorial_outputs --action heatmap
+
+The graph looks like
+
+.. image:: tutorial_outputs/rFon1D_heatmap_IC50.png
   :height: 250px

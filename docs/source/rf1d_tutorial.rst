@@ -85,7 +85,7 @@ Similarly to *orthogonal-polyomial*, you will run *rf1d-viz* in your CLI, first 
 
   ortho_seq rf1d-viz filename --alphbt_input --molecule --phenotype --out_dir --action
 
-*filename* represents the *--filename* flag.
+where *filename* represents the *--filename* flag.
 
 .. _example:
 Guided example with the Sidhu dataset

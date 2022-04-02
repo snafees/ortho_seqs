@@ -16,7 +16,7 @@ This document will walk you through the steps of how to visualize your rFon1D ou
 
 When you run *orthogonal-polynomial*, the CLI will output the following text towards the beginning:
 
-..code-block:: shell-session
+.. code-block:: shell-session
 
   rf1d form of alphabet input:
 

@@ -67,7 +67,7 @@ Using the Sidhu dataset, our input would look like:
 
 .. code-block:: shell-session
 
-  ortho_seq orthogonal-polynomial ortho_seq_code/tests/data/nucleotide/onefile_tests/sidhu.xlsx --molecule protein --poly_order first --out_dir ../onefile_tests/sidhu --alphbt_input SYG,R --min_pct 40 --pheno_name IC50
+  ortho_seq orthogonal-polynomial ortho_seq_code/Sidhu/Sidhu.xlsx --molecule protein --poly_order first --out_dir docs/source/tutorial_outputs --alphbt_input SYG,R --min_pct 40 --pheno_name IC50
 
 Let's explore what these flags are, and how you can use them.
 

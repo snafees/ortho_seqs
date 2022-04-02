@@ -984,8 +984,8 @@ def orthogonal_polynomial(
 
     print("--- %s seconds ---" % (time.time() - start_time))
 
-    with open(os.path.join(out_dir, "cli_output.txt"), "r") as f:
-        print(f.readlines())
+    # with open(os.path.join(out_dir, "cli_output.txt"), "r") as f:
+    #     print(f.readlines())
 
 
 @click.command(help="program to compute orthogonal polynomials up to 2nd order")  # noqa

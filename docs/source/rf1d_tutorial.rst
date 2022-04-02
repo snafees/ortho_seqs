@@ -171,3 +171,37 @@ The graph looks like
 
 .. image:: tutorial_outputs/rFon1D_heatmap_IC50.png
   :height: 400px
+
+The CLI input for *rf1d-viz* for a **boxplot** will be
+
+.. code-block:: shell-session
+
+  ortho_seq rf1d-viz docs/source/tutorial_outputs/Sidhu_regressions.npz --alphbt_input SYG,R,z,n --molecule protein --phenotype IC50 --out_dir docs/source/tutorial_outputs --action boxplot
+
+The graph looks like
+
+.. image:: tutorial_outputs/rFon1D_boxplot_IC50.png
+  :height: 250px
+
+Lastly, this is the input for **sort**:
+
+.. code-block:: shell-session
+
+  ortho_seq rf1d-viz docs/source/tutorial_outputs/Sidhu_regressions.npz --alphbt_input SYG,R,z,n --molecule protein --phenotype IC50 --out_dir docs/source/tutorial_outputs --action sort
+
+The output will be
+
+.. code-block:: shell-session
+
+  -1.3014	Site: 0		Key: SYG
+  1.3014	Site: 0		Key: R
+  1.1394	Site: 8		Key: R
+  1.1394	Site: 10		Key: R
+  1.1229	Site: 9		Key: z
+  1.1229	Site: 12		Key: z
+  1.1229	Site: 8		Key: z
+  1.1229	Site: 13		Key: R
+  1.0344	Site: 16		Key: z
+  -0.9606	Site: 10		Key: z
+
+As you can see, this prints out the second half of the *summary* output, since *summary* calls *sort*.

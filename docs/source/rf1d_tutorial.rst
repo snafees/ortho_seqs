@@ -116,3 +116,14 @@ This line of code will reproduce the graph that is automatically run, and looks 
 
 .. image:: tutorial_outputs/rFon1D_Regressions_of_IC50_values.png
   :height: 250px
+
+The CLI input for *rf1d-viz* for a **histogram** will be
+
+.. code-block:: shell-session
+
+  ortho_seq rf1d-viz docs/source/tutorial_outputs/Sidhu_regressions.npz --alphbt_input SYG,R,z,n --molecule protein --phenotype IC50 --out_dir docs/source/tutorial_outputs --action histogram
+
+The graph looks like
+
+.. image:: tutorial_outputs/rFon1D_hist_IC50.png
+  :height: 250px

@@ -2,35 +2,45 @@
 *********************************************
 Tutorial: Visualizing your rFon1D results
 *********************************************
-This document will walk you through the steps of how to visualize your rFon1d outputs from *ortho_seqs* using the *rf1d-viz* command.
+This document will walk you through the steps of how to visualize your rFon1D outputs from *ortho_seqs* using the *rf1d-viz* CLI command.
 
   **Note:** *rf1d-viz* assumes that you have already run *orthogonal_polynomial* on the dataset. For a tutorial on how to run *orthogonal_polynomial*, view the tutorial `here <https://github.com/snafees/ortho_seqs/blob/plot/docs/source/orthogonal_polynomial_tutorial.rst>`_.
 
 .. _Necessities:
-1. Setting Up Your Computer to Run ortho_seqs
+1. Requirements for *rf1d-viz*
 -----------------------------------------------------------
 
-The first thing you have to do (aside from gathering data!) is set up your computer to run ortho_seqs.
++ The *{trait_file_name}_regressions.npz* file that is returned from *orthogonal-polynomial*.
 
-  You first need to have Miniconda installed on your computer, in order to do the shell commands. To do so, follow the link `here <https://docs.conda.io/en/latest/miniconda.html>`_, and choose the appropriate version, with regards to your computer.
++ The *rf1d* form of the alphabet input.
 
-After you have installed Minoconda, open up Terminal, or an equivalent Command-Line Interface (CLI). Run either this:
+When you run *orthogonal-polynomial*, the CLI will output the following text towards the beginning:
+
+..code-block:: shell-session
+
+  rf1d form of alphabet input:
+
++ The molecule type (*DNA* or *protein*).
+
++ What the phenotype values are representing.
+
+.. _Flags:
+2. *rf1d-viz* flags:
+-----------------------------------------------------------
+
+*rf1d-viz* will require you to input the following flags, many of which have counterparts in *orthogonal-polynomial*:
 
 .. code-block:: shell-session
 
-  conda create -n ortho_seqs pip
-  conda activate ortho_seqs
-  pip install -r requirements.txt
+  --filename
 
-
-Or, alternatively:
+This will be the *{trait_file_name}_regressions.npz* file that is returned from *orthogonal-polynomial*.
 
 .. code-block:: shell-session
 
-  conda env create -f conda_environment.yml
-  conda activate ortho_seqs
+  --alphbt_input
 
-To activate ortho_seqs on your device. You will also need to run:
+This will be the item groupings you specified in *orthogonal-polynomial*.
 
 .. code-block:: shell-session
 

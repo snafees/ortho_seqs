@@ -1,12 +1,12 @@
 .. include:: includes.rst.txt
 *********************************************
-Tutorial: Running a sample dataset (protein sequences)
+Tutorial: Visualizing your rFon1D results
 *********************************************
-This document will walk you through the steps of how to run a dataset on ortho_seqs, and what the various outputs are.
-This tutorial uses protein sequence data from *The Intrinsic Contributions of Tyrosine, Serine, Glycine, and Arginine
-to the Affinity and Specificity of Antibodies* by Birtalan & Sidhu et al., 2008.
+This document will walk you through the steps of how to visualize your rFon1d outputs from *ortho_seqs* using the *rf1d-viz* command.
 
-.. _downloads:
+  **Note:** *rf1d-viz* assumes that you have already run *orthogonal_polynomial* on the dataset. For a tutorial on how to run *orthogonal_polynomial*, view the tutorial `here <https://github.com/snafees/ortho_seqs/blob/plot/docs/source/orthogonal_polynomial_tutorial.rst>`
+
+.. _Necessities:
 1. Setting Up Your Computer to Run ortho_seqs
 -----------------------------------------------------------
 

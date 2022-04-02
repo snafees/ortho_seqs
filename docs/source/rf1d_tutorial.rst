@@ -170,4 +170,4 @@ The CLI input for *rf1d-viz* for a **heatmap** will be
 The graph looks like
 
 .. image:: tutorial_outputs/rFon1D_heatmap_IC50.png
-  :height: 250px
+  :height: 400px

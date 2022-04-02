@@ -73,7 +73,7 @@ This is where you specify what kind of visualization you want. The current optio
 3. *summary* - Prints out the number of sites and dimensions, the alphabet input, the molecule, and calls *sort* (another *rf1d-viz* action that is explained in further detail below). This is called in *orthogonal-polynomial* automatically, and will not be saved.
 4. *heatmap* - This will create a heatmap of the rFon1D values, grouped by site and alphabet input.
 5. *boxplot* - This will create a boxplot of the rFon1D values, grouped by .
-6. *sort* -
+6. *sort* - This will print out the top 10 rFon1D values by magnitude, including the rFon1D value, the site, and the group it belongs to. This will not be saved to the *out_dir*.
 
 .. _input:
 3. Running *rf1d-viz*

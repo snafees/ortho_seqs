@@ -4,7 +4,7 @@ Tutorial: Visualizing your rFon1D results
 *********************************************
 This document will walk you through the steps of how to visualize your rFon1d outputs from *ortho_seqs* using the *rf1d-viz* command.
 
-  **Note:** *rf1d-viz* assumes that you have already run *orthogonal_polynomial* on the dataset. For a tutorial on how to run *orthogonal_polynomial*, view the tutorial `here <https://github.com/snafees/ortho_seqs/blob/plot/docs/source/orthogonal_polynomial_tutorial.rst>_`.
+  **Note:** *rf1d-viz* assumes that you have already run *orthogonal_polynomial* on the dataset. For a tutorial on how to run *orthogonal_polynomial*, view the tutorial `here <https://github.com/snafees/ortho_seqs/blob/plot/docs/source/orthogonal_polynomial_tutorial.rst>`_.
 
 .. _Necessities:
 1. Setting Up Your Computer to Run ortho_seqs

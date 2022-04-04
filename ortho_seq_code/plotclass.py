@@ -280,6 +280,7 @@ class rf1d:
             width = 0
         plt.hist(x_red, bins=bins, color=bin_color, lw=width, ec="black")
         plt.ylabel(self.phenotype)
+        sns.kdeplot(x_red)
         if out_dir is not None:
             path_sav = "rFon1D_hist_" + str(self.phenotype) or "" + ".png"
             path_sav = path_sav.replace(" ", "_")

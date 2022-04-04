@@ -134,7 +134,7 @@ The CLI input for *rf1d-viz* for a **density plot** will be
 
 The graph looks like
 
-.. image:: tutorial_outputs/rFon1D_hist_IC50.png
+.. image:: tutorial_outputs/rFon1D_density_IC50.png
   :height: 250px
 
 Run **summary** with

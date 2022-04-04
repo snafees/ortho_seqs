@@ -389,6 +389,7 @@ def rf1d_run(filename, alphbt_input, molecule, phenotype, out_dir, action):
         x.sort()
     elif action == "ALL":
         x.barplot()
+        plt.show()
         x.histogram()
         x.heatmap()
         x.boxplot()

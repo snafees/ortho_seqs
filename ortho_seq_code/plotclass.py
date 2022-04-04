@@ -284,7 +284,14 @@ class rf1d:
                 width = 1 - len(x_red) / 1200
         else:
             width = 0
-        sns.distplot(x_red, hist=True, kde=True, color="blueviolet")
+        sns.distplot(
+            x_red,
+            hist=True,
+            kde=True,
+            color="blueviolet",
+            hist_kws={"edgecolor": "black"},
+            kde_kws={"linewidth": 3.2},
+        )
         plt.ylabel(self.phenotype)
         if out_dir is not None:
             path_sav = "rFon1D_hist_" + str(self.phenotype) or "" + ".png"

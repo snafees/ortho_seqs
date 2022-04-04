@@ -74,7 +74,9 @@ This is where you specify what kind of visualization you want. The current optio
 4. *heatmap* - This will create a heatmap of the rFon1D values, grouped by site and alphabet input.
 5. *boxplot* - This will create a boxplot of the rFon1D values, grouped by .
 6. *sort* - This will print out the top 10 rFon1D values by magnitude, including the rFon1D value, the site, and the group it belongs to. This will not be saved to the *out_dir*.
-7. *ALL* - This will produce a barplot, histogram, heatmap, and boxplot simulataneously.
+7. *ALL* - This will produce a barplot, histogram, heatmap, and boxplot simultaneously.
+
+  **Note:** For now, you will need to close the first graph once it displays on your computer for the rest of the graphs to run.
 
 .. _input:
 3. Running *rf1d-viz*

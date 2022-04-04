@@ -337,7 +337,7 @@ class rf1d:
         for j in self.alphbt_input:
             col_dict[j] = constants.colors[i]
             i += 1
-        sns.boxplot(x="Item", y=ylab, data=df, palette=col_dict)
+        sns.boxplot(x="Item", y=ylab, data=df, palette=col_dict, whis=np.inf)
         if out_dir is not None:
             path_sav = "rFon1D_boxplot_" + str(self.phenotype) or "" + ".png"
             path_sav = path_sav.replace(" ", "_")

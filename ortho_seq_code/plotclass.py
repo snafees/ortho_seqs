@@ -189,7 +189,13 @@ class rf1d:
             z = np.where(x == i)
             s = z[0][0]
             k = z[1][0]
-            print(str(round(self.x[s, k], 4)) + "\tSite: " + str(s) + "\t\tKey: " + str(self.alphbt_input[k]))
+            print(
+                str(round(self.x[s, k], 4))
+                + "\tSite: "
+                + str(s)
+                + "\t\tKey: "
+                + str(self.alphbt_input[k])
+            )
 
     def trim(self, span, comp):
         if comp not in self.complist:
@@ -278,14 +284,22 @@ class rf1d:
                 width = 1 - len(x_red) / 1200
         else:
             width = 0
-        sns.distplot(x_red, hist=True, kde=True, color="blueviolet", hist_kws={'edgecolor':'black'}, kde_kws={'linewidth': 3.2})
+        sns.distplot(
+            x_red,
+            hist=True,
+            kde=True,
+            color="blueviolet",
+            hist_kws={"edgecolor": "black"},
+            kde_kws={"linewidth": 3.2},
+        )
         plt.ylabel(self.phenotype + " regressions")
         if out_dir is not None:
             path_sav = "rFon1D_density_" + str(self.phenotype) or "" + ".png"
             path_sav = path_sav.replace(" ", "_")
             plt.savefig(os.path.join(str(out_dir), path_sav), dpi=400)
             print(
-                "saved regression graph as", str(os.path.join(str(out_dir), path_sav)),
+                "saved regression graph as",
+                str(os.path.join(str(out_dir), path_sav)),
             )
         elif self.out_dir is not None:
             path_sav = "rFon1D_density_" + str(self.phenotype) or "" + ".png"
@@ -313,7 +327,8 @@ class rf1d:
             path_sav = path_sav.replace(" ", "_")
             plt.savefig(os.path.join(str(out_dir), path_sav), dpi=400)
             print(
-                "saved regression graph as", str(os.path.join(str(out_dir), path_sav)),
+                "saved regression graph as",
+                str(os.path.join(str(out_dir), path_sav)),
             )
         elif self.out_dir is not None:
             path_sav = "rFon1D_heatmap_" + str(self.phenotype) or "" + ".png"
@@ -343,7 +358,8 @@ class rf1d:
             path_sav = path_sav.replace(" ", "_")
             plt.savefig(os.path.join(str(out_dir), path_sav), dpi=400)
             print(
-                "saved regression graph as", str(os.path.join(str(out_dir), path_sav)),
+                "saved regression graph as",
+                str(os.path.join(str(out_dir), path_sav)),
             )
         elif self.out_dir is not None:
             path_sav = "rFon1D_boxplot_" + str(self.phenotype) or "" + ".png"

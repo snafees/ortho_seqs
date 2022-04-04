@@ -69,7 +69,7 @@ This is where you want the graphs stored. **Note:** the path must exist prior to
 This is where you specify what kind of visualization you want. The current options are:
 
 1. *barplot* - This will create a barplot of the rFon1D values, grouped by site and alphabet input. This is called automatically when you run *orthogonal-polynomial*.
-2. *histogram* - This will create a histogram of the rFon1D values.
+2. *density* - This will create a density plot of the rFon1D values.
 3. *summary* - Prints out the number of sites and dimensions, the alphabet input, the molecule, and calls *sort* (another *rf1d-viz* action that is explained in further detail below). This is called in *orthogonal-polynomial* automatically, and will not be saved.
 4. *heatmap* - This will create a heatmap of the rFon1D values, grouped by site and alphabet input.
 5. *boxplot* - This will create a boxplot of the rFon1D values, grouped by .
@@ -126,18 +126,18 @@ This line of code will reproduce the graph that is automatically run, and looks 
 
 Notice how the y axis is labelled with the phenotype name specified
 
-The CLI input for *rf1d-viz* for a **histogram** will be
+The CLI input for *rf1d-viz* for a **density plot** will be
 
 .. code-block:: shell-session
 
-  ortho_seq rf1d-viz docs/source/tutorial_outputs/Sidhu_regressions.npz --alphbt_input SYG,R,z,n --molecule protein --phenotype IC50 --out_dir docs/source/tutorial_outputs --action histogram
+  ortho_seq rf1d-viz docs/source/tutorial_outputs/Sidhu_regressions.npz --alphbt_input SYG,R,z,n --molecule protein --phenotype IC50 --out_dir docs/source/tutorial_outputs --action density
 
 The graph looks like
 
 .. image:: tutorial_outputs/rFon1D_hist_IC50.png
   :height: 250px
 
-Run *summary* with
+Run **summary** with
 
 .. code-block:: shell-session
 

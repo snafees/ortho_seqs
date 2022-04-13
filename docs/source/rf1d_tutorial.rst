@@ -170,7 +170,7 @@ The output will be
   1.0344	Site: 16		Key: z
   -0.9606	Site: 10		Key: z
 
-The CLI input for *rf1d-viz* for a **heatmap** will b
+The CLI input for *rf1d-viz* for a **heatmap** will be
 
 .. code-block:: shell-session
 

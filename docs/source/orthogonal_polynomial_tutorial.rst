@@ -308,4 +308,4 @@ The rFon1D graph will always have the name rFon1D_graph_{name}.png. The rFon1D v
 4. The *rf1d* Class
 -----------------------------------------------------------
 
-To obtain more visualizations of your rFon1D results, there is another CLI tutorial `here <https://github.com/snafees/ortho_seqs/blob/plot/docs/source/rf1d_tutorial.rst>`_ that you can follow.
+To obtain more visualizations of your rFon1D results, there is another CLI tutorial `here <https://ortho-seqs.readthedocs.io/en/plot/rf1d_tutorial.html>`_ that you can follow.

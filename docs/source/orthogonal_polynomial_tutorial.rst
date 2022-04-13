@@ -67,7 +67,7 @@ Using the Sidhu dataset, our input would look like:
 
 .. code-block:: shell-session
 
-  ortho_seq orthogonal-polynomial ortho_seq_code/Sidhu/Sidhu.xlsx --molecule protein --poly_order first --out_dir docs/source/tutorial_outputs --alphbt_input SYG,R --min_pct 40 --pheno_name IC50
+  ortho_seq orthogonal-polynomial ortho_seq_code/Sidhu/Sidhu.xlsx --molecule protein --poly_order first --out_dir docs/source/tutorial_outputs --alphbt_input SYG,R --min_pct 40 --pheno_name ELISA
 
 Let's explore what these flags are, and how you can use them.
 
@@ -243,7 +243,7 @@ The example returns:
   Alphabet input: ['SYG', 'R', 'ACDEFHIKLMNPQTVW', 'n']
   Molecule: protein
 
-  Phenotype represents IC50 values
+  Phenotype represents ELISA values
   Highest rFon1D magnitudes:
   -1.3014	Site: 0		Key: SYG
   1.3014	Site: 0		Key: R
@@ -298,7 +298,7 @@ Here, we can use this result to understand the independent effects of a given am
 
 One output is a graph of the nonzero rFon1D values. For the Sidhu dataset, it looks like
 
-.. image:: tutorial_outputs/rFon1D_Regressions_of_IC50_values.png
+.. image:: tutorial_outputs/rFon1D_Regressions_of_ELISA_values.png
   :height: 250px
 
 At the bottom, it lists the dictionary of the groups and their corresponding number, which then can be used to determine which color bar belongs to which group.

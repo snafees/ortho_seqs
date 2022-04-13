@@ -6,6 +6,10 @@ Find out more about the approach in this paper [Analyzing genomic data using ten
 For example, the sample data inputs for this tool are shown in this image. Here, each site in a sequence is first converted to a 4-dimensional vector. The input data includes phenotype values for each sequence.
 ![Figure showing sequence data that gets converted to vectors. Here, each sequence has a corresponding phenotype which is represented as a real number.](https://raw.githubusercontent.com/snafees/ortho_seqs/master/vec_methods_explanation-2.png)
 
+# Documentation
+
+To view documentation and detailed tutorials for *ortho_seqs*, click [here](https://ortho-seqs.readthedocs.io).
+
 # Usage
 
 ## First, install an environment with dependencies for this package:

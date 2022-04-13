@@ -280,7 +280,7 @@ class rf1d:
             width = 0
         sns.displot(x_red, kde=True, color="blueviolet", stat="density")
         plt.ylabel(self.phenotype + " Regression Density")
-        plt.xlabel("rFon1D Value")
+        plt.xlabel("rFon1D Values")
         if out_dir is not None:
             path_sav = "rFon1D_density_" + str(self.phenotype) or "" + ".png"
             path_sav = path_sav.replace(" ", "_")

@@ -123,7 +123,7 @@ With these in mind, the CLI input for *rf1d-viz* for a **barplot** will be
 
 This line of code will reproduce the graph that is automatically run, and looks like
 
-.. image:: tutorial_outputs/rFon1D_Regressions_of_IC50_values.png
+.. image:: tutorial_outputs/rFon1D_Regressions_of_ELISA_values.png
   :height: 250px
 
 Notice how the y axis is labelled with the phenotype name specified
@@ -136,7 +136,7 @@ The CLI input for *rf1d-viz* for a **density plot** will be
 
 The graph looks like
 
-.. image:: tutorial_outputs/rFon1D_density_IC50.png
+.. image:: tutorial_outputs/rFon1D_density_ELISA.png
   :height: 250px
 
 Run **summary** with

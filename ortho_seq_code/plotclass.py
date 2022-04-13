@@ -316,6 +316,8 @@ class rf1d:
         ax.set_xticks(np.arange(len(self.alphbt_input)))
         ax.set_xticklabels(self.alphbt_input)
         ax.set_yticks(np.arange(self.sites))
+        ax.set_xlabel("Alphabet Item")
+        ax.set_ylabel(self.phenotype)
         fig.tight_layout()
         for i in range(self.sites):
             for j in range(self.dim):

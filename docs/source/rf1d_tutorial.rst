@@ -98,7 +98,7 @@ The example uses the *Sidhu* dataset, which is the same as was used for the *ort
 
 .. code-block:: shell-session
 
-  ortho_seq orthogonal-polynomial ortho_seq_code/Sidhu/Sidhu.xlsx --molecule protein --poly_order first --out_dir docs/source/tutorial_outputs --alphbt_input SYG,R --min_pct 40 --pheno_name IC50
+  ortho_seq orthogonal-polynomial ortho_seq_code/Sidhu/Sidhu.xlsx --molecule protein --poly_order first --out_dir docs/source/tutorial_outputs --alphbt_input SYG,R --min_pct 40 --pheno_name ELISA
 
 The regression file that will be used for *rf1d-viz* will thus be called
 
@@ -119,7 +119,7 @@ With these in mind, the CLI input for *rf1d-viz* for a **barplot** will be
 
 .. code-block:: shell-session
 
-  ortho_seq rf1d-viz docs/source/tutorial_outputs/Sidhu_regressions.npz --alphbt_input SYG,R,z,n --molecule protein --phenotype IC50 --out_dir docs/source/tutorial_outputs --action barplot
+  ortho_seq rf1d-viz docs/source/tutorial_outputs/Sidhu_regressions.npz --alphbt_input SYG,R,z,n --molecule protein --phenotype ELISA --out_dir docs/source/tutorial_outputs --action barplot
 
 This line of code will reproduce the graph that is automatically run, and looks like
 
@@ -132,7 +132,7 @@ The CLI input for *rf1d-viz* for a **density plot** will be
 
 .. code-block:: shell-session
 
-  ortho_seq rf1d-viz docs/source/tutorial_outputs/Sidhu_regressions.npz --alphbt_input SYG,R,z,n --molecule protein --phenotype IC50 --out_dir docs/source/tutorial_outputs --action density
+  ortho_seq rf1d-viz docs/source/tutorial_outputs/Sidhu_regressions.npz --alphbt_input SYG,R,z,n --molecule protein --phenotype ELISA --out_dir docs/source/tutorial_outputs --action density
 
 The graph looks like
 
@@ -143,7 +143,7 @@ Run **summary** with
 
 .. code-block:: shell-session
 
-  ortho_seq rf1d-viz docs/source/tutorial_outputs/Sidhu_regressions.npz --alphbt_input SYG,R,z,n --molecule protein --phenotype IC50 --out_dir docs/source/tutorial_outputs --action summary
+  ortho_seq rf1d-viz docs/source/tutorial_outputs/Sidhu_regressions.npz --alphbt_input SYG,R,z,n --molecule protein --phenotype ELISA --out_dir docs/source/tutorial_outputs --action summary
 
 The output will be
 
@@ -156,7 +156,7 @@ The output will be
   Alphabet input: ['SYG', 'R', 'z', 'n']
   Molecule: protein
 
-  Phenotype represents IC50 values
+  Phenotype represents ELISA values
   Image output directory: docs/source/tutorial_outputs
   Highest rFon1D magnitudes:
   -1.3014	Site: 0		Key: SYG
@@ -174,29 +174,29 @@ The CLI input for *rf1d-viz* for a **heatmap** will be
 
 .. code-block:: shell-session
 
-  ortho_seq rf1d-viz docs/source/tutorial_outputs/Sidhu_regressions.npz --alphbt_input SYG,R,z,n --molecule protein --phenotype IC50 --out_dir docs/source/tutorial_outputs --action heatmap
+  ortho_seq rf1d-viz docs/source/tutorial_outputs/Sidhu_regressions.npz --alphbt_input SYG,R,z,n --molecule protein --phenotype ELISA --out_dir docs/source/tutorial_outputs --action heatmap
 
 The graph looks like
 
-.. image:: tutorial_outputs/rFon1D_heatmap_IC50.png
+.. image:: tutorial_outputs/rFon1D_heatmap_ELISA.png
   :height: 400px
 
 The CLI input for *rf1d-viz* for a **boxplot** will be
 
 .. code-block:: shell-session
 
-  ortho_seq rf1d-viz docs/source/tutorial_outputs/Sidhu_regressions.npz --alphbt_input SYG,R,z,n --molecule protein --phenotype IC50 --out_dir docs/source/tutorial_outputs --action boxplot
+  ortho_seq rf1d-viz docs/source/tutorial_outputs/Sidhu_regressions.npz --alphbt_input SYG,R,z,n --molecule protein --phenotype ELISA --out_dir docs/source/tutorial_outputs --action boxplot
 
 The graph looks like
 
-.. image:: tutorial_outputs/rFon1D_boxplot_IC50.png
+.. image:: tutorial_outputs/rFon1D_boxplot_ELISA.png
   :height: 250px
 
 Lastly, this is the input for **sort**:
 
 .. code-block:: shell-session
 
-  ortho_seq rf1d-viz docs/source/tutorial_outputs/Sidhu_regressions.npz --alphbt_input SYG,R,z,n --molecule protein --phenotype IC50 --out_dir docs/source/tutorial_outputs --action sort
+  ortho_seq rf1d-viz docs/source/tutorial_outputs/Sidhu_regressions.npz --alphbt_input SYG,R,z,n --molecule protein --phenotype ELISA --out_dir docs/source/tutorial_outputs --action sort
 
 The output will be
 

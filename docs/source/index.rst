@@ -19,7 +19,7 @@ Guide
    orthogonal_polynomial_tutorial
    rf1d_tutorial
 
-   lincense
+   license
    help
 
 

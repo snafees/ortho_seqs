@@ -14,22 +14,6 @@ from matplotlib import pyplot as plt
 import sys
 
 
-class Logger(object):
-    def __init__(self):
-        self.terminal = sys.stdout
-        self.log = open("cli_output.txt", "a")
-
-    def write(self, message):
-        self.terminal.write(message)
-        self.log.write(message)
-
-    def flush(self):
-        # this flush method is needed for python 3 compatibility.
-        # this handles the flush command by doing nothing.
-        # you might want to specify some extra behavior here.
-        pass
-
-
 def orthogonal_polynomial(
     filename,
     pheno_file,
@@ -45,8 +29,7 @@ def orthogonal_polynomial(
     """Program to compute orthogonal polynomials up to 2nd order"""
     start_time = time.time()
     out_dir = utils.create_dir_if_not_exists(out_dir)
-    sys.stdout = Logger()
-    # sys.stdout = open(os.path.join(out_dir, "cli_output.txt"), "w")
+    sys.stdout = open(os.join(out_dir, "cli_output.txt"), "w")
     global i
     print("")
     if pheno_file != None:
@@ -1001,8 +984,7 @@ def orthogonal_polynomial(
 
     print("--- %s seconds ---" % (time.time() - start_time))
 
-    # with open(os.path.join(out_dir, "cli_output.txt"), "r") as f:
-    #     print(f.readlines())
+    sys.stdout.close()
 
 
 @click.command(help="program to compute orthogonal polynomials up to 2nd order")  # noqa

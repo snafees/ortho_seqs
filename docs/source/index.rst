@@ -16,9 +16,10 @@ Guide
 .. toctree::
 
    readme
-   tutorial
+   orthogonal_polynomial_tutorial
+   rf1d_tutorial
 
-   license
+   lincense
    help
 
 

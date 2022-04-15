@@ -47,7 +47,7 @@ def orthogonal_polynomial(
     """Program to compute orthogonal polynomials up to 2nd order"""
     start_time = time.time()
     out_dir = utils.create_dir_if_not_exists(out_dir)
-    sys.stdout = Logger()
+    sys.stdout = Logger(out_dir)
     # sys.stdout = open(os.path.join(out_dir, "cli_output.txt"), "w")
     global i
     print("")

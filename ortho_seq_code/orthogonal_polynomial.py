@@ -8,26 +8,28 @@ import seaborn as sns
 import ortho_seq_code.sr as sr
 import ortho_seq_code.utils as utils
 from ortho_seq_code.plotclass import rf1d
+from ortho_seq_code.logger import Logger
 import click
 import itertools
 from matplotlib import pyplot as plt
 import sys
 
 
-class Logger(object):
-    def __init__(self):
-        self.terminal = sys.stdout
-        self.log = open("cli_output.txt", "a")
-
-    def write(self, message):
-        self.terminal.write(message)
-        self.log.write(message)
-
-    def flush(self):
-        # this flush method is needed for python 3 compatibility.
-        # this handles the flush command by doing nothing.
-        # you might want to specify some extra behavior here.
-        pass
+# class Logger(object):
+#     def __init__(self):
+#         self.terminal = sys.stdout
+#         self.log = open(os.path.join(out_dir, "cli_output.txt"), "a")
+#         # self.log = open("cli_output.txt", "a")
+#
+#     def write(self, message):
+#         self.terminal.write(message)
+#         self.log.write(message)
+#
+#     def flush(self):
+#         # this flush method is needed for python 3 compatibility.
+#         # this handles the flush command by doing nothing.
+#         # you might want to specify some extra behavior here.
+#         pass
 
 
 def orthogonal_polynomial(

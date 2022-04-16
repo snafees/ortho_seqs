@@ -15,7 +15,6 @@ from matplotlib import pyplot as plt
 import sys
 
 
-
 def orthogonal_polynomial(
     filename,
     pheno_file,

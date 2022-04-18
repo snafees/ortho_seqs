@@ -222,7 +222,7 @@ This flag is where you specify which visualization you want.
 
 Options:
 1. *barplot* - Prints and saves a barplot of the rFon1D values, and saves it, if an *out_dir* is specified. This is what is called in *orthogonal_polynomial* at the end.
-2. *desnity* - Prints a histogram plot of the rFon1D values, and saves it, if an *out_dir* is specified.
+2. *density* - Prints a histogram plot of the rFon1D values, and saves it, if an *out_dir* is specified.
 3. *summary* - Prints out the number of sites and dimensions, the alphabet input, the molecule, and calls *sort* (explained in further detail below). This is called in *orthogonal_polynomial* automatically, at the very end of the program. This will not be saved to the *out_dir*.
 4. *heatmap* - Prints a heatmap of the rFon1D values, and saves it, if an *out_dir* is specified.
 5. *boxplot* - Prints a boxplot of the rFon1D values, and saves it, if an *out_dir* is specified.

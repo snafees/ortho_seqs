@@ -1,4 +1,6 @@
 numpy
+pandas
+seaborn
 Click
 coverage
 flake8

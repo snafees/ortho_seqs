@@ -10,6 +10,7 @@ from PyQt5.QtWidgets import (
     QHBoxLayout,
     QCheckBox,
     QFileDialog,
+    QLineEdit,
 )
 import sys
 import click
@@ -53,9 +54,7 @@ class MainWidget(QWidget):
         # molecule combobox
         upload_ComboBox1_layout = QHBoxLayout()
         self.molecule_combobox = QComboBox()
-        self.molecule_combobox.addItems(
-            ["DNA", "protein", "dna_n", "protein_n", "protein_pnp"]
-        )
+        self.molecule_combobox.addItems(["DNA", "protein"])
         styleLabel1 = QLabel("&Molecule:")
         styleLabel1.setBuddy(self.molecule_combobox)
         upload_ComboBox1_layout.addWidget(self.molecule_combobox)
@@ -80,12 +79,22 @@ class MainWidget(QWidget):
         upload_layout3 = QHBoxLayout()
         label4 = QLabel("Select directory with precomputed sequence file:")
         upload_layout3.addWidget(label4)
-        self.upload_button_3 = QPushButton("upload_precomputed_dir_button")
+        self.upload_button_3 = QPushButton("precomputed_dir")
         self.upload_button_3.clicked.connect(
             lambda: self.upload_button_3.setText(self.openPrecompFolder())
         )
         upload_layout3.addWidget(self.upload_button_3)
         self.widget_layout.addLayout(upload_layout3)
+
+        # alphbt_input text box
+        alphabet_box = QHBoxLayout()
+        self.alphabet_text = QLineEdit()
+        alphabet_label = QLabel("&Alphabet input, comma separated:")
+        alphabet_label.setBuddy(self.alphabet_text)
+        alphabet_box.addWidget(self.alphabet_text)
+        self.widget_layout.addWidget(alphabet_label)
+        self.widget_layout.addWidget(self.alphabet_text)
+        self.widget_layout.addLayout(alphabet_box)
 
         # RUN button
         start_button = QPushButton("RUN")
@@ -111,7 +120,10 @@ class MainWidget(QWidget):
         options = QFileDialog.Options()
         options |= QFileDialog.ShowDirsOnly
         precomp_dir = QFileDialog.getExistingDirectory(
-            self, "Open folder with precomputed file:", "", options=options,
+            self,
+            "Open folder with precomputed file:",
+            "",
+            options=options,
         )
         print(precomp_dir)
         return precomp_dir

@@ -4,26 +4,15 @@ from numpy.linalg import *
 import time
 import os
 import pandas as pd
+import seaborn as sns
 import ortho_seq_code.sr as sr
-from ortho_seq_code.constants_orthoseqs import *
-from ortho_seq_code.utils import get_seq_info
+import ortho_seq_code.utils as utils
+from ortho_seq_code.plotclass import rf1d
+from ortho_seq_code.logger import Logger
 import click
 import itertools
 from matplotlib import pyplot as plt
-
-
-def create_dir_if_not_exists(out_dir):
-    if os.path.exists(out_dir):
-        ct = 0
-        while os.path.exists(out_dir):
-            if ct != 0:
-                loc = -1 * len(str(ct))
-                out_dir = out_dir[:loc]
-            out_dir += str(ct)
-            ct += 1
-        print("Path already exists, will now be {}".format(out_dir))
-    os.makedirs(out_dir, exist_ok=True)
-    return out_dir
+import sys
 
 
 def orthogonal_polynomial(
@@ -35,17 +24,41 @@ def orthogonal_polynomial(
     out_dir,
     alphbt_input,
     min_pct,
+    pheno_name,
 ):
 
     """Program to compute orthogonal polynomials up to 2nd order"""
     start_time = time.time()
-    out_dir = create_dir_if_not_exists(out_dir)
+    out_dir = utils.create_dir_if_not_exists(out_dir)
+    sys.stdout = Logger(out_dir)
     global i
-    with open(filename) as f:
-        seq = f.readlines()
-    dm, sites, pop_size, seq, seq_series, alphabets, custom_aa = get_seq_info(
-        filename, alphbt_input, molecule
-    )
+    print("")
+    if pheno_file != None:
+        with open(filename) as f:
+            seq = f.readlines()
+        with open(pheno_file) as f2:
+            phenotype = f2.readlines()
+        naming_phenotype = os.path.basename(f2.name)
+        pheno_seqs_same_file = False
+    else:
+        if os.path.splitext(filename)[1] == ".xlsx":
+            df = pd.read_excel(filename, engine="openpyxl", header=None)
+        else:
+            df = pd.read_csv(filename, header=None)
+        phenotype = df[1]
+        f = filename
+        naming_phenotype = os.path.splitext(os.path.basename(filename))[0]
+        pheno_seqs_same_file = True
+    (
+        dm,
+        sites,
+        pop_size,
+        seq,
+        alphabets,
+        custom_aa,
+        exc,
+    ) = utils.get_seq_info(filename, alphbt_input, molecule, pheno_seqs_same_file)
+    print("")
     if custom_aa is not None:
         custom_dict = {alphabets[i]: custom_aa[i] for i in range(len(custom_aa))}
     range_dm = range(dm)
@@ -53,15 +66,18 @@ def orthogonal_polynomial(
     range_popsize = range(pop_size)
     # file containing trait values that will be mapped to sequence
     # vectors that must be the same size as F
-    with open(pheno_file) as f2:
-        phenotype = f2.readlines()
-    naming_phenotype = os.path.basename(f2.name)
-
-    F = np.genfromtxt(phenotype)  # this needs to stay this way!
-    Fest = np.genfromtxt(phenotype)  # this needs to stay this way!
-    Fon1 = np.genfromtxt(phenotype)  # this needs to stay this way!
-    Fon2i1 = np.genfromtxt(phenotype)  # this needs to stay this way!
-    Fon12 = np.genfromtxt(phenotype)  # this needs to stay this way!
+    if not pheno_seqs_same_file:
+        F = np.genfromtxt(phenotype)  # this needs to stay this way!
+        Fest = np.genfromtxt(phenotype)  # this needs to stay this way!
+        Fon1 = np.genfromtxt(phenotype)  # this needs to stay this way!
+        Fon2i1 = np.genfromtxt(phenotype)  # this needs to stay this way!
+        Fon12 = np.genfromtxt(phenotype)  # this needs to stay this way!
+    else:
+        F = np.array(phenotype)
+        Fest = np.array(phenotype)
+        Fon1 = np.array(phenotype)
+        Fon2i1 = np.array(phenotype)
+        Fon12 = np.array(phenotype)
     print("Phenotype Values (Fest):\n" + str(Fest))
     # ----Initializing various terms that we will use.--------------
     # 3 sites, each a dm dim vector, in n individuals
@@ -93,18 +109,41 @@ def orthogonal_polynomial(
     P = np.zeros((sites, pop_size, dm))
     cov = np.zeros((sites, sites, dm, dm))
     if alphbt_input is None or "," not in alphbt_input:
-        print("Alphabet according to --alphbt_input:")
-        print(alphabets)
+        rf1d_alphbt_input = ",".join(alphabets)
     else:
-        print("Groupings according to --alphbt_input:")
-        print(str(custom_dict).replace("'", "").replace(", ", " | "))
+        print(
+            "Groupings according to --alphbt_input:\n"
+            + str(custom_dict).replace("'", "").replace(", ", " | ")
+        )
+        rf1d_alphbt_input = ",".join([custom_dict[i] for i in alphabets])
+    rf1d_aa_list = rf1d_alphbt_input.split(",")
+    if custom_aa is not None:
+        if rf1d_aa_list[-1] == "n":
+            z = rf1d_aa_list[-2]
+            rf1d_aa_list[-2] = "z"
+        else:
+            z = rf1d_aa_list[-1]
+            rf1d_aa_list[-1] = "z"
+        rf1d_alphbt_input = ",".join(rf1d_aa_list)
+    print("rf1d form of alphabet input:\n" + rf1d_alphbt_input)
+    if custom_aa is not None and z != "z":
+        print('"z" is', z)
+    if exc != []:
+        print("Items not in sequence dataset:", exc)
     for alphabet_index in range(dm):  # Keep in alphabetical order with 'n' at end
         for i in range_popsize:
             for j in range_sites:
                 if seq[i][j] == alphabets[alphabet_index]:
                     phi[j][i][alphabet_index] = 1.0
-    naming = os.path.basename(f.name)
-    if precomputed:
+    if not pheno_seqs_same_file:
+        naming = os.path.basename(f.name)
+    else:
+        naming = naming_phenotype
+    if (
+        precomputed is not None
+        and precomputed != False
+        and precomputed != "precomputed_dir"
+    ):
         precomputed_array = np.load(os.path.join(precomputed, naming + ".npz"))
         mean = precomputed_array[naming + "_mean"]
         P = precomputed_array[naming + "_P"]
@@ -177,14 +216,11 @@ def orthogonal_polynomial(
         # Covariance plot
         cov_flat = cov.flatten()
         cov_flat = cov_flat[cov_flat != 0]
-        cov_min = min(cov_flat)
-        cov_max = max(cov_flat)
-        bns = [0.05 * (cov_min // 0.05 - 1)]
-        while bns[-1] <= 0.05 * (cov_max // 0.05 + 1):
-            bns.append(bns[-1] + 0.05)
         fig, cov_sub = plt.subplots()
         cov_sub.hist(
-            cov_flat, edgecolor="black", bins=bns, color="blueviolet",
+            cov_flat,
+            edgecolor="black",
+            color="blueviolet",
         )
         plt.xlabel("Non-Zero Covariances")
         plt.ylabel("Frequency")
@@ -199,9 +235,9 @@ def orthogonal_polynomial(
         cov_list = []
         for i in range(cov.shape[0]):
             for j in range(cov.shape[1]):
-                for k in range(cov.shape[2]):
-                    for l in range(cov.shape[3]):
-                        if j >> i:
+                if j >> i:
+                    for k in range(cov.shape[2]):
+                        for l in range(cov.shape[3]):
                             cov_list.append((i, j, k, l, cov[i][j][k][l]))
         cov_df = pd.DataFrame(
             cov_list,
@@ -265,7 +301,7 @@ def orthogonal_polynomial(
         for k, l, i, j in itertools.product(
             range_sites, range_sites, range_dm, range_dm
         ):
-            if var[l][j] > 10 ** -13:
+            if var[l][j] > 10**-13:
                 reg11[k][l][i][j] = cov[k][l][i][j] / var[l][j]
             else:
                 reg11[k][l][i][j] = 0
@@ -311,7 +347,7 @@ def orthogonal_polynomial(
         for k, l, m, i, j in itertools.product(
             range_sites, range_sites, range_sites, range_dm, range_dm
         ):
-            if varP1i1[l][m][j] > 10 ** -13:
+            if varP1i1[l][m][j] > 10**-13:
                 reg11i1[k][l][m][i][j] = cov11i1[k][l][m][i][j] / varP1i1[l][m][j]
             else:
                 reg11i1[k][l][m][i][j] = 0
@@ -418,11 +454,11 @@ def orthogonal_polynomial(
             for i, j in itertools.product(range_sites, range_sites):
                 if j != i:
                     for k, l, m in itertools.product(range_dm, range_dm, range_dm):
-                        if var[0][m] > 10 ** -10:
+                        if var[0][m] > 10**-10:
                             r2on1a[i][j][k][l][m] = cov2w1a[i][j][k][l][m] / var[0][m]
                         else:
                             r2on1a[i][j][k][l][m] = 0
-                        if varP1i1[1][0][m] > 10 ** -10:
+                        if varP1i1[1][0][m] > 10**-10:
                             r2on1b[i][j][k][l][m] = (
                                 cov2w1b[i][j][k][l][m] / varP1i1[1][0][m]
                             )
@@ -508,7 +544,7 @@ def orthogonal_polynomial(
                             for m, n, o, p in itertools.product(
                                 range_dm, range_dm, range_dm, range_dm
                             ):
-                                if var2[k][l][o][p] > 10 ** -10:
+                                if var2[k][l][o][p] > 10**-10:
                                     numerator = cov2w2[i][j][k][l][m][n][o][p]
                                     denominator = var2[k][l][o][p]
                                     reg2on2[i][j][k][l][m][n][o][p] = (
@@ -578,7 +614,7 @@ def orthogonal_polynomial(
                                     for m, n, o, p in itertools.product(
                                         range_dm, range_dm, range_dm, range_dm
                                     ):
-                                        if var2i2[k][l][k1][l1][o][p] > 10 ** -10:
+                                        if var2i2[k][l][k1][l1][o][p] > 10**-10:
                                             numerator = cov2w2i2[i][j][k][l][k1][l1][m][
                                                 n
                                             ][o][p]
@@ -772,11 +808,11 @@ def orthogonal_polynomial(
     # Regressions of the trait on each element of the first order
     # phenotype vectors.
     for j, i in itertools.product(range_sites, range_dm):
-        if var[j][i] > 10 ** -10:
+        if var[j][i] > 10**-10:
             rFon1[j][i] = covFw1[j][i] / var[j][i]
         else:
             rFon1[j][i] = 0
-        if varP1D[j][i] > 10 ** -10:
+        if varP1D[j][i] > 10**-10:
             rFon1D[j][i] = covFw1D[j][i] / varP1D[j][i]
         else:
             rFon1D[j][i] = 0
@@ -784,7 +820,7 @@ def orthogonal_polynomial(
     for i, j in itertools.product(range_sites, range_sites):
         if j != i:
             for k in range_dm:
-                if varP1i1[i][j][k] > 10 ** -11:
+                if varP1i1[i][j][k] > 10**-11:
                     rFon1i1[i][j][k] = covFw1i1[i][j][k] / varP1i1[i][j][k]
                 else:
                     rFon1i1[i][j][k] = 0
@@ -804,11 +840,11 @@ def orthogonal_polynomial(
         for i, j in itertools.product(range_sites, range_sites):
             if j != i:
                 for k, l in itertools.product(range_dm, range_dm):
-                    if var2[i][j][k][l] > 10 ** -11:
+                    if var2[i][j][k][l] > 10**-11:
                         rFon2[i][j][k][l] = covFw2[i][j][k][l] / var2[i][j][k][l]
                     else:
                         rFon2[i][j][k][l] = 0
-                    if var2D[i][j][k][l] > 10 ** -11:
+                    if var2D[i][j][k][l] > 10**-11:
                         rFon2D[i][j][k][l] = covFw2D[i][j][k][l] / var2D[i][j][k][l]
                     else:
                         rFon2D[i][j][k][l] = 0
@@ -818,7 +854,7 @@ def orthogonal_polynomial(
                 for k, l in itertools.product(range_sites, range_sites):
                     if l != k:
                         for m, n in itertools.product(range_dm, range_dm):
-                            if var2i2[i][j][k][l][m][n] > 10 ** -10:
+                            if var2i2[i][j][k][l][m][n] > 10**-10:
                                 numerator = covFw2i2[i][j][k][l][m][n]
                                 denominator = var2i2[i][j][k][l][m][n]
                                 rFon2i2[i][j][k][l][m][n] = numerator / denominator
@@ -840,14 +876,14 @@ def orthogonal_polynomial(
         # of the second order phenotype matrix.
         # nucleotide1, nucleotide2
         for i, j in itertools.product(range_dm, range_dm):
-            if var12[i][j] > 10 ** -10:
+            if var12[i][j] > 10**-10:
                 rFon12[i][j] = covFPP[i][j] / var12[i][j]
             else:
                 rFon12[i] = 0
         # # Contribution of the second order phenotype for each individual.
         Fon12 = [sr.inner_general(rFon2[0][1], P2a[0][1][i]) for i in range_popsize]
         Fon12 = [
-            0 if np.fabs(Fon12[i]) < 10 ** -13 else Fon12[i] for i in range_popsize
+            0 if np.fabs(Fon12[i]) < 10**-13 else Fon12[i] for i in range_popsize
         ]
 
         # ----------Calculating the expected trait value for each individual
@@ -855,7 +891,7 @@ def orthogonal_polynomial(
         # -----------above (to check  whether or not everything works).
 
         Fest = [Fm + Fon1[i] + Fon2i1[i] + Fon12[i] for i in range_popsize]
-        Fest = [0 if np.fabs(Fest[i]) < 10 ** -13 else Fest[i] for i in range_popsize]
+        Fest = [0 if np.fabs(Fest[i]) < 10**-13 else Fest[i] for i in range_popsize]
 
     # Third order
 
@@ -877,8 +913,8 @@ def orthogonal_polynomial(
     #     Fon3[i] = sr.inner_general(rFon3[0], P3a)
     # Ignoring very small values that would be due to roundoff error.
     # Change or delete this for a large data set.
-    Fon1 = [0 if np.fabs(Fon1[i]) < 10 ** -13 else Fon1[i] for i in range_popsize]
-    Fon2i1 = [0 if np.fabs(Fon2i1[i]) < 10 ** -13 else Fon2i1[i] for i in range_popsize]
+    Fon1 = [0 if np.fabs(Fon1[i]) < 10**-13 else Fon1[i] for i in range_popsize]
+    Fon2i1 = [0 if np.fabs(Fon2i1[i]) < 10**-13 else Fon2i1[i] for i in range_popsize]
 
     output_npz_file = os.path.join(out_dir, naming_phenotype + "_covs_with_F.npz")
     print("Saving to {}".format(output_npz_file))
@@ -932,126 +968,20 @@ def orthogonal_polynomial(
     print("Trait values estimated from regressions")
     print(Fest)
 
-    ## Graph of regression
-    # Flatten data
-    rFon1D_flat = list(rFon1D.flatten())
-    if any(i != 0 for i in rFon1D_flat):
-        data_null = np.where(
-            np.array(rFon1D_flat) == float(0), float("nan"), rFon1D_flat
-        )
+    ## Bar plot of regression
 
-        # Constants/constant arrays
-        ind = np.arange(sites)  # x-axis
-        num_dm = np.arange(dm)
-        width = 1 / sites
-        s = sites * dm
+    alphbt_input = custom_aa or alphabets
+    rFon1D_o = rf1d(
+        rFon1D,
+        alphbt_input=rf1d_alphbt_input,
+        molecule=molecule,
+        phenotype=pheno_name,
+        out_dir=out_dir,
+    )
 
-        # Re-vectorization with null values
-        dim_num = dict()
-        for i in ind:
-            dim_num[i] = [data_null[j] for j in np.arange(dm * i, dm * i + dm)]
-        # some_dim = [data_array_flat[i], i for i in range(0, 160, 4)]
+    rFon1D_o.summary()
 
-        # Remove all null data
-        dim_na = dict()
-        dim_loc = dict()
-        for i in ind:
-            dim_na[i] = np.array(dim_num[i])[np.array(np.isnan(dim_num[i])) == False]
-            dim_loc[i] = np.arange(len(dim_num[i]))[
-                np.array(np.isnan(dim_num[i])) == False
-            ]
-        # Color dictionary with corresponding letters
-
-        dim_aa = dict()
-
-        for i in num_dm:
-            dim_aa[i] = [data_null[j] for j in range(i, s, dm)]
-
-        col_len = len(colors)
-        alpb_d = dict()
-        if alphbt_input is None:
-            for i in num_dm:
-                if any(i != 0 and i for i in dim_aa[i]):
-                    alpb_d[i] = colors[i % col_len]
-                    alpb_d[alphabets[i]] = alpb_d.pop(i)
-        else:
-            for i in num_dm:
-                if any(i != 0 and i for i in dim_aa[i]):
-                    alpb_d[i] = colors[i % col_len]
-                    alpb_d[custom_aa[i]] = alpb_d.pop(i)
-
-        # Creating plots
-        fig, ax = plt.subplots()
-        dim = dict()
-        pi = dict()
-        for i in range(sites + 1):
-            ax.axvline(i, color="lightgray", linewidth=0.8, zorder=0)
-        for i in ind:
-            if len(dim_na[i]) == 0:
-                ln = 1
-            else:
-                ln = 1 / len(dim_na[i])
-            rn = np.arange(1 / ln)
-            pi[i] = ax.bar(
-                x=i + np.array([j for j in rn]) * ln,
-                height=[j for j in dim_na[i]],
-                width=ln,
-                align="edge",
-                color=[colors[i % col_len] for i in list(dim_loc[i])],
-                edgecolor="black",
-                zorder=3,
-            )
-        ax.axhline(color="black", linewidth=0.64)
-
-        ax.set_xticks(ind + width + 0.5)
-        ax.set_xticklabels(np.arange(1, sites + 1))
-
-        color_map = [color for color in list(alpb_d.values())]
-        markers = [
-            plt.Line2D([0, 0], [0, 0], color=color, marker="o", linestyle="")
-            for color in alpb_d.values()
-        ]
-        if dm < 6:
-            dim = dm
-        else:
-            dim = dm // 3
-        ax.legend(markers, alphabets, loc=1, ncol=dim, prop={"size": 60 / dm})
-        ax.tick_params(
-            width=0.8, labelsize=80 / sites
-        )  # width of the tick and the size of the tick labels
-        # Regressions of off values onto each site of target RNA (orthogonalized within)
-        # plt.savefig('rFon1D_off_star.png', bbox_inches='tight')
-        if alphbt_input is None or "," not in alphbt_input:
-            plt.xlabel("Sequence Site")
-        else:
-            plt.xlabel(
-                "Sequence Site\nGroupings according to --alphbt_input:\n"
-                + str(custom_dict)
-                .replace("'", "")
-                .replace(", ", " | ")
-                .replace(": ", " is "),
-                fontsize=5.6,
-            )
-        # plt.title("")
-        if "protein" in molecule:
-            ylab = (
-                "Regressions of "
-                + str(naming_phenotype)
-                + " onto each site and amino acid"
-            )
-        else:
-            ylab = (
-                "Regressions of "
-                + str(naming_phenotype)
-                + " onto each site and nucleotide"
-            )
-        plt.ylabel(ylab)
-        figure = ax.get_figure()
-        path_sav = "rFon1D_graph_" + str(naming_phenotype) + ".png"
-        figure.savefig(os.path.join(str(out_dir), path_sav), dpi=400)
-        print("saved regression graph as", str(os.path.join(str(out_dir), path_sav)))
-    else:
-        print("Nothing to graph for rFon1D.")
+    rFon1D_o.barplot(out_dir=out_dir)
 
     print("--- %s seconds ---" % (time.time() - start_time))
 
@@ -1062,7 +992,10 @@ def orthogonal_polynomial(
     "--molecule", default="DNA", help="can provide DNA or amino acid sequence"
 )
 @click.option(
-    "--pheno_file", type=str, help="phenotype text file corresponding to sequence data"
+    "--pheno_file",
+    default=None,
+    type=str,
+    help="phenotype text file corresponding to sequence data",
 )
 @click.option(
     "--poly_order", default="first", help="can do first and second order so far"
@@ -1073,7 +1006,9 @@ def orthogonal_polynomial(
     help="directory which contains results from a previous run",
 )
 @click.option(
-    "--out_dir", help="directory to save output/debug files to", type=str,
+    "--out_dir",
+    help="directory to save output/debug files to",
+    type=str,
 )  # noqa
 @click.option(
     "--alphbt_input",
@@ -1087,6 +1022,12 @@ def orthogonal_polynomial(
     help="minimum percentile that you want saved in the covariance csv",
     type=int,
 )
+@click.option(
+    "--pheno_name",
+    default=None,
+    help="What the phenotype is measuring, used for labelling the y axis of the rFon1D graph",
+    type=str,
+)
 # @click.argument('pheno_file', type=click.File('rb'))
 def ortho_poly_command(
     filename,
@@ -1097,6 +1038,7 @@ def ortho_poly_command(
     out_dir,
     alphbt_input,
     min_pct,
+    pheno_name,
 ):
     orthogonal_polynomial(
         filename,
@@ -1107,4 +1049,5 @@ def ortho_poly_command(
         out_dir,
         alphbt_input,
         min_pct,
+        pheno_name,
     )

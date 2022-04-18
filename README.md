@@ -6,6 +6,10 @@ Find out more about the approach in this paper [Analyzing genomic data using ten
 For example, the sample data inputs for this tool are shown in this image. Here, each site in a sequence is first converted to a 4-dimensional vector. The input data includes phenotype values for each sequence.
 ![Figure showing sequence data that gets converted to vectors. Here, each sequence has a corresponding phenotype which is represented as a real number.](https://raw.githubusercontent.com/snafees/ortho_seqs/master/vec_methods_explanation-2.png)
 
+# Documentation
+
+To view documentation and detailed tutorials for *ortho_seqs*, click [here](https://ortho-seqs.readthedocs.io).
+
 # Usage
 
 ## First, install an environment with dependencies for this package:
@@ -25,9 +29,18 @@ conda activate ortho_seq
 ## Then, install the package:
 ``python setup.py install``
 
-## Gather the input files needed.
-1. You'll have one file with sequence data as seen in the first column in the image above (.txt or .dat or .csv). See repo's data folder for examples of what these look like for DNA or proteins.
-2. You'll have one file with corresponding phenotypes as seen in the last column in the image above (.txt or .dat or .csv) with the same length as the number of sequences. Phenotypes here are defined as real numbers (see paper linked above for more background on this).
+<a name="Files"></a>
+## Gather the input file(s) needed.
+
+
+There are three main ways to submit your sequence and phenotype files to *ortho_seqs*. The first method is to submit them separately, in their own .txt files. Recently, however, an update was added that allows you to submit them both in the same file. For this to apply:
+1) The file must be either a .xlsx or a .csv file.
+2) The sequences must be in the first column, and the phenotypes must be in the second column.
+3) The columns must not have header names.
+
+If you use a single file for the sequence and phenotype, you would submit the file path where you would submit the sequence file path, and do not include the *--pheno_file* flag. **note: the GUI does not support single-file uploads yet.**
+
+The phenotypes must be real numbers.
 
 ## Then, to run the commandline tool:
 To start with a test example, you can run the sample command below::
@@ -53,48 +66,32 @@ Along with regressions on each site independent of one another and onto two site
 ```
 --pheno_file
 ```
-Input a file with phenotype values corresponding to each sequence in the sequence file.
+Input a file with phenotype values corresponding to each sequence in the sequence file. If you have a .xlsx or .csv file, do NOT use this flag (more details above in the [**Gather the Input Files Needed**](#Files) section).
 
  ```
  --molecule
  ```
+ Currently, you can provide DNA or protein sequences. Here, you can also provide sequences of unequal lengths, where sequences will be padded with lowercase 'n's until it has reached the length of the longest sequence.
 
- Currently, you can provide DNA or protein sequences. Here, you can also provide sequences of unequal lengths.
- ```
- --sites
- ```
- The number of sites in a sequence. If you have sequences with unequal lengths, please pad them with a lowercase 'n'. See examples in the ortho_seq_code/tests/ folder.
- ```
- --dm
- ```
- The dimension of the vector corresponding to a site along a sequence. This is 4 for DNA and 20 for protein. For protein, you can provide a dimension of 21 in the case that you have padded protein sequences. See test data in the repo for examples.
 ```
---pop_size
-```
-The number of total sequences.
-
-```            
 --poly_order
 ```
 The order of the polynomials that will be constructed. Currently, one can do first and second order for DNA and first order for protein.
+
 ```
 --out_dir
 ```
 Directory where results can be stored.
+
 ```
 --precomputed
 ```
 Let's say you have a case where you have the same set of sequences but two different corresponding sets of phenotypes. You can build your sequence space and then project the first set of phenotypes onto this space. Then, if you wish to see how the other set of phenotypes maps onto the same sequence space, you can use this flag so that you're not wasting time and memory to recompute the space. When doing this, be sure to add your results from the first run to the **out_dir** when rerunning the command with the **precomputed** flag.
 
-
-# Results & Outputs
-
-The tool will provide udpates as the run is progressing regarding which parts of the calculations are done being computed. For example, when the mean is computed, it'll say "computed mean". All the different elements that it is computing are different parts of building the multivariate tensor-valued orthogonal polynomial space based on the sequence information. To get a general idea of what the calculations mean, please refer to the supplementary methods in the paper linked above.
-
 ```
 --alphbt_input
 ```
-Used to group amino acids/nucleotides together, or specify certain amino acids/nucleotides. For example, putting *ASGR* will tell the program to have 6 dimensions: one for each amino acid specified, and one for *z*, where every unspecified amino acid will be converted to *z*, and one for *n* (whenever sequences have unequal lengths, *ortho_seqs* will pad the shorter sequences with *n*). You can also comma-separate amino acids/nucleotides to group them. For example, putting *AS,GR* will make the vectors 4-dimensional, one for *AS*, one for *GR*, one for every other amino acid, and one for *n*.
+Used to group amino acids/nucleotides together, or specify certain amino acids/nucleotides. If you don't want to group anything, don't include this flag when running *ortho_seqs*. For example, putting *ASGR*  for a protein molecule will tell the program to have 6 dimensions: one for each amino acid specified, and one for *z*, where every unspecified amino acid or nucleotide will be converted to *z*, and one for *n* (whenever sequences have unequal lengths, *ortho_seqs* will pad the shorter sequences with *n* at the end). You can also comma-separate amino acids/nucleotides to group them. For example, putting *AS,GR* will make the vectors 4-dimensional, one for *AS*, one for *GR*, one for every other amino acid (*z*), and one for *n*.
 
 There are also built-in groups:
 
@@ -147,6 +144,11 @@ Suppose there are 5 covariance values of 2, 1, 0, 0, -1. For the percentiles, al
 The min_pct flag is short for minimum percentile, which will remove any covariances
 from the .csv file that are below the given percentile. The default value is 75.
 
+```
+--pheno_name
+```
+Let's say you know that your phenotype values represent IC50 values. You could then add *--pheno_name IC50* as a flag, and on the rFon1D plot that is automatically generated, the y-axis label will include IC50. Default is **None**.
+
 # Results & Outputs
 
 The tool will provide updates as the run is progressing regarding which parts of the calculations are done being computed. For example, when the mean is computed, it'll say "computed mean". All the different elements that it is computing are different parts of building the multivariate tensor-valued orthogonal polynomial space based on the sequence information. To get a general idea of what the calculations mean, please refer to the supplementary methods in the paper linked above.
@@ -176,12 +178,58 @@ This set of files contains the main results which includes the following:
 3. **rFon12**:  This is the regression of the trait onto *pairs* of sites for given nucleotides at each site. These are regressions on (site 1)x(site 2) independent of first order associations. Since we're looking at 2 sites at a time and there's a possibility of having 4 nucleotides at each site (for the case of DNA), we can visualize this via a 4x4 matrix as shown in Figure 8 in the paper linked above.
 
 
-# To run the GUI 
-A GUI version of the CLI is also available to make it easier for users to utilize the tool. The GUI allows the user to upload the sequence and phenotype information via an upload button, specify the molecule, the polynomial order they wish to run, 
-and provide the path to the directory which contains precomputed sequence space if the user wishes to project a different phenotype onto the same space (i.e., given same sequence data but different corresponding phenotypes). 
-The GUI is in its early form and will include further updates resembling the cli in future versions. 
+# The rf1d class
+The newest update to *ortho_seqs* involves adding a new class of objects, called *rf1d* (short for rFon1D). To run *rf1d*, use the CLI, and type in *rf1d-viz* like you would *orthogonal_polynomial* when running *ortho_seqs*.
 
-![GUI - early version](https://github.com/snafees/ortho_seqs/blob/gui_draft/gui_uploadprecomputedbutton.png?raw=true)
+**Note:** *rf1d-viz* requires you to have run *orthogonal_polynomial* beforehand.
+
+### Flags and functionality
+
+```
+--filename
+```
+This is the same as the *{trait_file_name}_regressions.npz* file that is returned from *ortho_seqs*, as it contains the rFon1D values that are used.
+
+```
+--alphbt_input
+```
+Similarly to *orthogonal_polynomial*, this flag takes in a comma-separated list of the groupings (**Note:** this list must be comma-separated for the code to work). *orthogonal_polynomial* will print out the *rf1d form of alphabet input* in the CLI before any mathematical calculations are made, which will work if you choose to copy/paste it.
+
+```
+--molecule
+```
+Identical to how it is in *orthogonal_polynomial*. It doesn't matter much what you put here, as this is purely for visual purposes only.
+
+```
+--phenotype
+```
+Identical to how it is in *orthogonal_polynomial*. This is used as the y-axis labeling for the barplot.
+
+```
+--out_dir
+```
+The path where you want the visualizations saved, if applicable.
+
+```
+--action
+```
+This flag is where you specify which visualization you want.
+
+Options:
+1. *barplot* - Prints and saves a barplot of the rFon1D values, and saves it, if an *out_dir* is specified. This is what is called in *orthogonal_polynomial* at the end.
+2. *histogram* - Prints a histogram of the rFon1D values, and saves it, if an *out_dir* is specified.
+3. *summary* - Prints out the number of sites and dimensions, the alphabet input, the molecule, and calls *sort* (explained in further detail below). This is called in *orthogonal_polynomial* automatically, at the very end of the program. This will not be saved to the *out_dir*.
+4. *heatmap* - Prints a heatmap of the rFon1D values, and saves it, if an *out_dir* is specified.
+5. *boxplot* - Prints a boxplot of the rFon1D values, and saves it, if an *out_dir* is specified.
+6. *sort* - This will print out the top 10 rFon1D values *by magnitude*, including the rFon1D value, the site, and the group it belongs to. This will not be saved to the *out_dir*.
+
+# To run the GUI
+A GUI version of the CLI is also available to make it easier for users to utilize the tool. The GUI allows the user to upload the sequence and phenotype information via an upload button, specify the molecule, the polynomial order they wish to run,
+and provide the path to the directory which contains precomputed sequence space if the user wishes to project a different phenotype onto the same space (i.e., given same sequence data but different corresponding phenotypes).
+The GUI is in its early form and will include further updates resembling the cli in future versions.
+
+![GUI - early version](https://github.com/snafees/ortho_seqs/blob/plot/gui_with_alphbt_input_box.png?raw=true)
+
 
 To run the gui, open a terminal and make sure you're in the ortho_seqs environment just as you would do if you were running the cli (see above).
 Then type in the following:
@@ -193,12 +241,12 @@ This will pull up the gui window and allow you to input the relevant information
 ```
 cov_hist_{trait_file_name}.png
 ```
-This is a histogram of all non-zero covariances. It's bin width is 0.5.
+This is a histogram of all non-zero covariances. Its bin width is 0.5.
 
 ```
 cov_data_frame_{trait_file_name}.csv
 ```
-This file is a csv file of covariances between every item at every site. This includes the item ID and site for both items in the pair used to calculate the covariance, the covariance value, the covariance magnitude, and an ID for the pair (s1-g2,s3-g4 represents the pairing of an element from the first group in the alphabet at the second site, and an element from the third group at the fourth site).
+This file is a csv file of covariances between every item at every site. This includes the item ID and site for both items in the pair used to calculate the covariance, the covariance value, the covariance magnitude, and an ID for the pair (s1-g2,s3-g4 represents the pairing of an element from the first group in the alphabet at the second site, and an element from the third group at the fourth site). The sites are one-indexed, meaning a value of 3 for the First Site or Second Site column corresponds to site number three along the sequence.
 
 ```
 rFon1D_graph_{trait_file_name}.png

@@ -302,7 +302,7 @@ def orthogonal_polynomial(
         for k, l, i, j in itertools.product(
             range_sites, range_sites, range_dm, range_dm
         ):
-            if var[l][j] > 10 ** -13:
+            if var[l][j] > 10**-13:
                 reg11[k][l][i][j] = cov[k][l][i][j] / var[l][j]
             else:
                 reg11[k][l][i][j] = 0
@@ -348,7 +348,7 @@ def orthogonal_polynomial(
         for k, l, m, i, j in itertools.product(
             range_sites, range_sites, range_sites, range_dm, range_dm
         ):
-            if varP1i1[l][m][j] > 10 ** -13:
+            if varP1i1[l][m][j] > 10**-13:
                 reg11i1[k][l][m][i][j] = cov11i1[k][l][m][i][j] / varP1i1[l][m][j]
             else:
                 reg11i1[k][l][m][i][j] = 0
@@ -455,11 +455,11 @@ def orthogonal_polynomial(
             for i, j in itertools.product(range_sites, range_sites):
                 if j != i:
                     for k, l, m in itertools.product(range_dm, range_dm, range_dm):
-                        if var[0][m] > 10 ** -10:
+                        if var[0][m] > 10**-10:
                             r2on1a[i][j][k][l][m] = cov2w1a[i][j][k][l][m] / var[0][m]
                         else:
                             r2on1a[i][j][k][l][m] = 0
-                        if varP1i1[1][0][m] > 10 ** -10:
+                        if varP1i1[1][0][m] > 10**-10:
                             r2on1b[i][j][k][l][m] = (
                                 cov2w1b[i][j][k][l][m] / varP1i1[1][0][m]
                             )
@@ -545,7 +545,7 @@ def orthogonal_polynomial(
                             for m, n, o, p in itertools.product(
                                 range_dm, range_dm, range_dm, range_dm
                             ):
-                                if var2[k][l][o][p] > 10 ** -10:
+                                if var2[k][l][o][p] > 10**-10:
                                     numerator = cov2w2[i][j][k][l][m][n][o][p]
                                     denominator = var2[k][l][o][p]
                                     reg2on2[i][j][k][l][m][n][o][p] = (
@@ -615,7 +615,7 @@ def orthogonal_polynomial(
                                     for m, n, o, p in itertools.product(
                                         range_dm, range_dm, range_dm, range_dm
                                     ):
-                                        if var2i2[k][l][k1][l1][o][p] > 10 ** -10:
+                                        if var2i2[k][l][k1][l1][o][p] > 10**-10:
                                             numerator = cov2w2i2[i][j][k][l][k1][l1][m][
                                                 n
                                             ][o][p]
@@ -809,11 +809,11 @@ def orthogonal_polynomial(
     # Regressions of the trait on each element of the first order
     # phenotype vectors.
     for j, i in itertools.product(range_sites, range_dm):
-        if var[j][i] > 10 ** -10:
+        if var[j][i] > 10**-10:
             rFon1[j][i] = covFw1[j][i] / var[j][i]
         else:
             rFon1[j][i] = 0
-        if varP1D[j][i] > 10 ** -10:
+        if varP1D[j][i] > 10**-10:
             rFon1D[j][i] = covFw1D[j][i] / varP1D[j][i]
         else:
             rFon1D[j][i] = 0
@@ -821,7 +821,7 @@ def orthogonal_polynomial(
     for i, j in itertools.product(range_sites, range_sites):
         if j != i:
             for k in range_dm:
-                if varP1i1[i][j][k] > 10 ** -11:
+                if varP1i1[i][j][k] > 10**-11:
                     rFon1i1[i][j][k] = covFw1i1[i][j][k] / varP1i1[i][j][k]
                 else:
                     rFon1i1[i][j][k] = 0
@@ -841,11 +841,11 @@ def orthogonal_polynomial(
         for i, j in itertools.product(range_sites, range_sites):
             if j != i:
                 for k, l in itertools.product(range_dm, range_dm):
-                    if var2[i][j][k][l] > 10 ** -11:
+                    if var2[i][j][k][l] > 10**-11:
                         rFon2[i][j][k][l] = covFw2[i][j][k][l] / var2[i][j][k][l]
                     else:
                         rFon2[i][j][k][l] = 0
-                    if var2D[i][j][k][l] > 10 ** -11:
+                    if var2D[i][j][k][l] > 10**-11:
                         rFon2D[i][j][k][l] = covFw2D[i][j][k][l] / var2D[i][j][k][l]
                     else:
                         rFon2D[i][j][k][l] = 0
@@ -855,7 +855,7 @@ def orthogonal_polynomial(
                 for k, l in itertools.product(range_sites, range_sites):
                     if l != k:
                         for m, n in itertools.product(range_dm, range_dm):
-                            if var2i2[i][j][k][l][m][n] > 10 ** -10:
+                            if var2i2[i][j][k][l][m][n] > 10**-10:
                                 numerator = covFw2i2[i][j][k][l][m][n]
                                 denominator = var2i2[i][j][k][l][m][n]
                                 rFon2i2[i][j][k][l][m][n] = numerator / denominator
@@ -877,14 +877,14 @@ def orthogonal_polynomial(
         # of the second order phenotype matrix.
         # nucleotide1, nucleotide2
         for i, j in itertools.product(range_dm, range_dm):
-            if var12[i][j] > 10 ** -10:
+            if var12[i][j] > 10**-10:
                 rFon12[i][j] = covFPP[i][j] / var12[i][j]
             else:
                 rFon12[i] = 0
         # # Contribution of the second order phenotype for each individual.
         Fon12 = [sr.inner_general(rFon2[0][1], P2a[0][1][i]) for i in range_popsize]
         Fon12 = [
-            0 if np.fabs(Fon12[i]) < 10 ** -13 else Fon12[i] for i in range_popsize
+            0 if np.fabs(Fon12[i]) < 10**-13 else Fon12[i] for i in range_popsize
         ]
 
         # ----------Calculating the expected trait value for each individual
@@ -892,7 +892,7 @@ def orthogonal_polynomial(
         # -----------above (to check  whether or not everything works).
 
         Fest = [Fm + Fon1[i] + Fon2i1[i] + Fon12[i] for i in range_popsize]
-        Fest = [0 if np.fabs(Fest[i]) < 10 ** -13 else Fest[i] for i in range_popsize]
+        Fest = [0 if np.fabs(Fest[i]) < 10**-13 else Fest[i] for i in range_popsize]
 
     # Third order
 
@@ -914,8 +914,8 @@ def orthogonal_polynomial(
     #     Fon3[i] = sr.inner_general(rFon3[0], P3a)
     # Ignoring very small values that would be due to roundoff error.
     # Change or delete this for a large data set.
-    Fon1 = [0 if np.fabs(Fon1[i]) < 10 ** -13 else Fon1[i] for i in range_popsize]
-    Fon2i1 = [0 if np.fabs(Fon2i1[i]) < 10 ** -13 else Fon2i1[i] for i in range_popsize]
+    Fon1 = [0 if np.fabs(Fon1[i]) < 10**-13 else Fon1[i] for i in range_popsize]
+    Fon2i1 = [0 if np.fabs(Fon2i1[i]) < 10**-13 else Fon2i1[i] for i in range_popsize]
 
     output_npz_file = os.path.join(out_dir, naming_phenotype + "_covs_with_F.npz")
     print("Saving to {}".format(output_npz_file))

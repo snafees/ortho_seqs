@@ -29,7 +29,7 @@ class rf1d:
             if not exists:
                 self.out_dir = create_dir_if_not_exists(out_dir)
             else:
-                self.out_dif = out_dir
+                self.out_dir = out_dir
         except:
             print(
                 "Error: Please provide a valid ndarray object and molecule type when initializing."

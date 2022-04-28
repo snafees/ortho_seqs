@@ -28,7 +28,7 @@ class rf1d:
             self.phenotype = phenotype
             if not exists:
                 self.out_dir = create_dir_if_not_exists(out_dir)
-            if exists:
+            else:
                 self.out_dif = out_dir
         except:
             print(

@@ -11,6 +11,7 @@ from PyQt5.QtWidgets import (
     QCheckBox,
     QFileDialog,
     QLineEdit,
+    QSpinBox,
 )
 import sys
 import click
@@ -84,6 +85,18 @@ class MainWidget(QWidget):
         self.widget_layout.addWidget(styleLabel2)  # for poly_order
         self.widget_layout.addWidget(self.poly_order_combobox)
         self.widget_layout.addLayout(upload_ComboBox2_layout)
+
+        # min_pct text box
+        pct_box = QHBoxLayout()
+        styleLabel3 = QLabel("&Minimum Covariance Percentile to be Included:")
+        self.pct_text = QSpinBox()
+        self.pct_text.setRange(0, 100)
+        styleLabel3.setBuddy(self.pct_text)
+        pct_box.addWidget(styleLabel3)
+        pct_box.addWidget(self.pct_text)
+        self.widget_layout.addWidget(styleLabel3)
+        self.widget_layout.addWidget(self.pct_text)
+        self.widget_layout.addLayout(pct_box)
 
         # precomputed dir path
         upload_layout3 = QHBoxLayout()

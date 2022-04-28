@@ -223,10 +223,10 @@ This flag is where you specify which visualization you want.
 Options:
 1. *barplot* - Prints and saves a barplot of the rFon1D values, and saves it, if an *out_dir* is specified. This is what is called in *orthogonal_polynomial* at the end.
 2. *density* - Prints a histogram plot of the rFon1D values, and saves it, if an *out_dir* is specified.
-3. *summary* - Prints out the number of sites and dimensions, the alphabet input, the molecule, and calls *sort* (explained in further detail below). This is called in *orthogonal_polynomial* automatically, at the very end of the program. This will not be saved to the *out_dir*.
+3. *summary* - Prints out the number of sites and dimensions, the alphabet input, the molecule, and calls *sort* (explained in further detail below). This is called in *orthogonal_polynomial* automatically, at the very end of the program. This will be saved to the *out_dir* as *summary.txt* **Note:** there won't be a separate *sort.txt* file created.
 4. *heatmap* - Prints a heatmap of the rFon1D values, and saves it, if an *out_dir* is specified.
 5. *boxplot* - Prints a boxplot of the rFon1D values, and saves it, if an *out_dir* is specified.
-6. *sort* - This will print out the top 10 rFon1D values *by magnitude*, including the rFon1D value, the site, and the group it belongs to. This will not be saved to the *out_dir*.
+6. *sort* - This will print out the top 10 rFon1D values *by magnitude*, including the rFon1D value, the site, and the group it belongs to. This will be saved to the *out_dir* as *sort.txt*.
 
 # To run the GUI
 A GUI version of the CLI is also available to make it easier for users to utilize the tool. The GUI allows the user to upload the sequence and phenotype information via an upload button, specify the molecule, the polynomial order they wish to run,

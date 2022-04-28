@@ -62,6 +62,16 @@ class MainWidget(QWidget):
         self.widget_layout.addWidget(self.molecule_combobox)
         self.widget_layout.addLayout(upload_ComboBox1_layout)
 
+        # alphbt_input text box
+        alphabet_box = QHBoxLayout()
+        self.alphabet_text = QLineEdit()
+        alphabet_label = QLabel("&Alphabet input, comma separated:")
+        alphabet_label.setBuddy(self.alphabet_text)
+        alphabet_box.addWidget(self.alphabet_text)
+        self.widget_layout.addWidget(alphabet_label)
+        self.widget_layout.addWidget(self.alphabet_text)
+        self.widget_layout.addLayout(alphabet_box)
+
         # poly_order combobox
         upload_ComboBox2_layout = QHBoxLayout()
         self.poly_order_combobox = QComboBox()
@@ -85,16 +95,6 @@ class MainWidget(QWidget):
         )
         upload_layout3.addWidget(self.upload_button_3)
         self.widget_layout.addLayout(upload_layout3)
-
-        # alphbt_input text box
-        alphabet_box = QHBoxLayout()
-        self.alphabet_text = QLineEdit()
-        alphabet_label = QLabel("&Alphabet input, comma separated:")
-        alphabet_label.setBuddy(self.alphabet_text)
-        alphabet_box.addWidget(self.alphabet_text)
-        self.widget_layout.addWidget(alphabet_label)
-        self.widget_layout.addWidget(self.alphabet_text)
-        self.widget_layout.addLayout(alphabet_box)
 
         # RUN button
         start_button = QPushButton("RUN")

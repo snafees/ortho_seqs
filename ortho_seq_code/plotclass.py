@@ -6,6 +6,7 @@ import seaborn as sns
 import pandas as pd
 import click
 from ortho_seq_code.utils import create_dir_if_not_exists
+from ortho_seq_code.logger import Logger
 
 
 class rf1d:
@@ -24,13 +25,14 @@ class rf1d:
             self.molecule = molecule
             self.complist = ["<", ">", "<>", "><"]
             self.phenotype = phenotype
-            self.out_dir = out_dir
+            self.out_dir = create_dir_if_not_exists(out_dir)
         except:
             print(
                 "Error: Please provide a valid ndarray object and molecule type when initializing."
             )
 
     def summary(self):
+        sys.stdout = Logger(out_dir)
         print("rf1d Object:\n")
         print("Number of sites:", str(self.sites))
         print("Number of dimensions:", str(self.dim))

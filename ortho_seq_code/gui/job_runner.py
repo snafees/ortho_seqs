@@ -20,8 +20,8 @@ class JobRunner(QWidget):
             precomputed=self.precomputed,
             alphbt_input=self.alphbt_input,
             out_dir="../results_ortho_seq_testing/",
-            min_pct=75,
-            pheno_name=None,
+            min_pct=self.min_pct,
+            pheno_name=self.pheno_name,
         )
 
     def thread_complete(self):
@@ -35,6 +35,8 @@ class JobRunner(QWidget):
         # self.precomputed = self.parent.precomputed_combobox.currentText() == "Yes"
         self.precomputed = self.parent.upload_button_3.text()
         self.alphbt_input = self.parent.alphabet_text.text()
+        self.min_pct = int(self.parent.pct_text.text())
+        self.pheno_name = self.parent.pheno_text.text()
 
         worker = Worker(self.job_func)
 

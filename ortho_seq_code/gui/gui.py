@@ -98,6 +98,16 @@ class MainWidget(QWidget):
         self.widget_layout.addWidget(self.pct_text)
         self.widget_layout.addLayout(pct_box)
 
+        # phenotype name text box
+        pheno_box = QHBoxLayout()
+        self.pheno_text = QLineEdit()
+        pheno_label = QLabel("&Phenotype Name:")
+        pheno_label.setBuddy(self.pheno_text)
+        pheno_box.addWidget(self.pheno_text)
+        self.widget_layout.addWidget(pheno_label)
+        self.widget_layout.addWidget(self.pheno_text)
+        self.widget_layout.addLayout(pheno_box)
+
         # precomputed dir path
         upload_layout3 = QHBoxLayout()
         label4 = QLabel("Select directory with precomputed sequence file:")

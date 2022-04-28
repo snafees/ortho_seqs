@@ -5,7 +5,7 @@ import os
 class Logger(object):
     def __init__(self, out_dir=None, name="cli_output"):
         self.terminal = sys.stdout
-        self.log = open(str(os.path.join(out_dir, name + "txt")), "a")
+        self.log = open(str(os.path.join(out_dir, name + ".txt")), "a")
 
     def write(self, message):
         self.terminal.write(message)

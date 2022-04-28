@@ -977,6 +977,7 @@ def orthogonal_polynomial(
         molecule=molecule,
         phenotype=pheno_name,
         out_dir=out_dir,
+        exists=True,
     )
 
     rFon1D_o.summary()

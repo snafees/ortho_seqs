@@ -13,7 +13,13 @@ from ortho_seq_code.logger import Logger
 class rf1d:
     # Initialize rf1d object
     def __init__(
-        self, arr, alphbt_input, molecule="protein", phenotype=None, out_dir=None, exists=False
+        self,
+        arr,
+        alphbt_input,
+        molecule="protein",
+        phenotype=None,
+        out_dir=None,
+        exists=False,
     ):
         try:
             self.x = arr
@@ -47,7 +53,7 @@ class rf1d:
         if self.out_dir is not None:
             print("Image output directory:", self.out_dir)
         print("Highest rFon1D magnitudes:")
-        self.sort(by_magnitude=True)
+        self.sort(by_magnitude=True, save=False)
 
     # rFon1D bar plot
     def barplot(
@@ -183,7 +189,9 @@ class rf1d:
         else:
             print("Nothing to graph for rFon1D")
 
-    def sort(self, n=10, by_magnitude=True, ascending=True):
+    def sort(self, n=10, by_magnitude=True, ascending=True, save=True):
+        if save:
+            sys.stdout = Logger(self.out_dir, name="sort")
         if by_magnitude:
             x_flat = abs(np.array(self.x_flat))
             x = abs(self.x)
@@ -195,7 +203,13 @@ class rf1d:
             z = np.where(x == i)
             s = z[0][0]
             k = z[1][0]
-            print(str(round(self.x[s, k], 4)) + "\tSite: " + str(s) + "\t\tKey: " + str(self.alphbt_input[k]))
+            print(
+                str(round(self.x[s, k], 4))
+                + "\tSite: "
+                + str(s)
+                + "\t\tKey: "
+                + str(self.alphbt_input[k])
+            )
 
     def trim(self, span, comp):
         if comp not in self.complist:
@@ -292,7 +306,8 @@ class rf1d:
             path_sav = path_sav.replace(" ", "_")
             plt.savefig(os.path.join(str(out_dir), path_sav), dpi=400)
             print(
-                "saved regression graph as", str(os.path.join(str(out_dir), path_sav)),
+                "saved regression graph as",
+                str(os.path.join(str(out_dir), path_sav)),
             )
         elif self.out_dir is not None:
             path_sav = "rFon1D_density_" + str(self.phenotype) or "" + ".png"
@@ -322,7 +337,8 @@ class rf1d:
             path_sav = path_sav.replace(" ", "_")
             plt.savefig(os.path.join(str(out_dir), path_sav), dpi=400)
             print(
-                "saved regression graph as", str(os.path.join(str(out_dir), path_sav)),
+                "saved regression graph as",
+                str(os.path.join(str(out_dir), path_sav)),
             )
         elif self.out_dir is not None:
             path_sav = "rFon1D_heatmap_" + str(self.phenotype) or "" + ".png"
@@ -352,7 +368,8 @@ class rf1d:
             path_sav = path_sav.replace(" ", "_")
             plt.savefig(os.path.join(str(out_dir), path_sav), dpi=400)
             print(
-                "saved regression graph as", str(os.path.join(str(out_dir), path_sav)),
+                "saved regression graph as",
+                str(os.path.join(str(out_dir), path_sav)),
             )
         elif self.out_dir is not None:
             path_sav = "rFon1D_boxplot_" + str(self.phenotype) or "" + ".png"

@@ -93,7 +93,6 @@ class MainWidget(QWidget):
         alphabet_label.setBuddy(self.alphabet_text)
         self.widget_layout.addLayout(alphabet_label)
 
-
         # RUN button
         start_button = QPushButton("RUN")
         self.threadpool = QThreadPool(self)
@@ -118,7 +117,10 @@ class MainWidget(QWidget):
         options = QFileDialog.Options()
         options |= QFileDialog.ShowDirsOnly
         precomp_dir = QFileDialog.getExistingDirectory(
-            self, "Open folder with precomputed file:", "", options=options,
+            self,
+            "Open folder with precomputed file:",
+            "",
+            options=options,
         )
         print(precomp_dir)
         return precomp_dir

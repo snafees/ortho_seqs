@@ -11,6 +11,10 @@ dependencies:
   - coverage
   - flake8
   - seaborn
+  - pyqt5>=5.15.4
+  - PyQt5-zip
+  - openpyxl
   - pip
   - pip:
     - logomaker
+    - PyQt5

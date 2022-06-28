@@ -1,0 +1,16 @@
+name: logo_plot
+channels:
+  - anaconda
+  - conda-forge
+  - defaults
+dependencies:
+  - numpy
+  - pandas
+  - Click
+  - pytest
+  - coverage
+  - flake8
+  - seaborn
+  - pip
+  - pip:
+    - logomaker

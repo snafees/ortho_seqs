@@ -11,15 +11,9 @@ from ortho_seq_code.constants_orthoseqs import DNA_ALPHABETS, PROTEIN_ALPHABETS
 input_file = "/Users/olivia.yoo/Desktop/code/ortho_seqs/logo_plot_assets/data/nucleotide/sample_dna_dm.xlsx"
 
 # import the sequence data
-(
-    dm,
-    sites,
-    pop_size,
-    seq,
-    alphabets,
-    custom_aa,
-    exc
-) = utils.get_seq_info(input_file, None, "dna", True)
+(dm, sites, pop_size, seq, alphabets, custom_aa, exc) = utils.get_seq_info(
+    input_file, None, "dna", True
+)
 
 # print("dm")
 # print(dm)
@@ -39,7 +33,7 @@ input_file = "/Users/olivia.yoo/Desktop/code/ortho_seqs/logo_plot_assets/data/nu
 # convert sequence data into position frequency matrix (pandas dataframe) and create logo plot
 # assuming that the DNA sequences are aligned
 # TODO: error checking for unequal/nonaligned sequences
-freq_data = {'A': [0] * sites, 'C': [0] * sites, 'G': [0] * sites, 'T': [0] * sites}
+freq_data = {"A": [0] * sites, "C": [0] * sites, "G": [0] * sites, "T": [0] * sites}
 
 # i = sequence number
 for i in range(pop_size):
@@ -70,7 +64,7 @@ s = 4
 e_n = 1 / np.log(2) * (s - 1) / (2 * pop_size)
 
 # uncertainty matrix (one value for each column)
-H_mtx = np.zeros((sites, ))
+H_mtx = np.zeros((sites,))
 
 for i in range(sites):
     for base in DNA_ALPHABETS:
@@ -84,7 +78,7 @@ for i in range(sites):
 
 H_mtx = np.multiply(H_mtx, -1)
 
-R_mtx = np.zeros((sites, ))
+R_mtx = np.zeros((sites,))
 for i in range(sites):
     R_mtx[i] = np.log2(s) - H_mtx[i] + e_n
 

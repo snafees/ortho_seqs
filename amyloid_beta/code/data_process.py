@@ -44,6 +44,32 @@ print(
 )
 
 
+# ---- Pad the sequences with stop codons. ----
+padded_df = my_df.copy()
+# print(padded_df.head())
+
+
+def pad_seq(seq):
+    try:
+        stop_pos = seq.index("*")
+        pad_len = len(seq) - stop_pos
+        padding = "n" * pad_len
+        padded_seq = seq[0:stop_pos] + padding
+        return padded_seq
+    except:
+        return seq
+
+
+padded_df["seq"] = padded_df["seq"].apply(pad_seq)
+padded_df.drop(["num_mut"], axis=1, inplace=True)
+padded_df = padded_df[["seq", "F"]]
+
+padded_df.to_csv(
+    "/Users/olivia.yoo/Desktop/code/ortho_seqs/amyloid_beta/data/amyloid_padded_data.csv",
+    index=False,
+)
+
+
 # ---- Set up for amyloid beta module separating. ----
 wt_seq = "DAEFRHDSGYEVHHQKLVFFAEDVGSNKGAIIGLMVGGVVIA"
 n_sites = len(wt_seq)

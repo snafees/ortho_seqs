@@ -1,0 +1,10 @@
+-1.1492	Site: 2		Key: RHK
+0.503	Site: 1		Key: RHK
+-0.4885	Site: 0		Key: z
+0.4845	Site: 0		Key: DE
+0.3356	Site: 4		Key: RHK
+-0.3356	Site: 4		Key: z
+-0.316	Site: 1		Key: z
+0.1705	Site: 2		Key: DE
+-0.1406	Site: 2		Key: z
+-0.1358	Site: 0		Key: RHK

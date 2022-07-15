@@ -1,0 +1,4 @@
+Could not find conda environment: ortho_seqs
+You can list all discoverable environments with `conda info --envs`.
+
+/var/spool/slurm/job286029/slurm_script: line 9: ortho_seq: command not found

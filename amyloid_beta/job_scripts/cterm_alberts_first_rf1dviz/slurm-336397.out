@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "/home/olivia.yoo/.conda/envs/ortho_seq/bin/ortho_seq", line 33, in <module>
+    sys.exit(load_entry_point('ortho-seqs==1.0.1', 'console_scripts', 'ortho_seq')())
+  File "/home/olivia.yoo/.conda/envs/ortho_seq/lib/python3.10/site-packages/click/core.py", line 1128, in __call__
+    return self.main(*args, **kwargs)
+  File "/home/olivia.yoo/.conda/envs/ortho_seq/lib/python3.10/site-packages/click/core.py", line 1053, in main
+    rv = self.invoke(ctx)
+  File "/home/olivia.yoo/.conda/envs/ortho_seq/lib/python3.10/site-packages/click/core.py", line 1659, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+  File "/home/olivia.yoo/.conda/envs/ortho_seq/lib/python3.10/site-packages/click/core.py", line 1395, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "/home/olivia.yoo/.conda/envs/ortho_seq/lib/python3.10/site-packages/click/core.py", line 754, in invoke
+    return __callback(*args, **kwargs)
+  File "/home/olivia.yoo/.conda/envs/ortho_seq/lib/python3.10/site-packages/ortho_seqs-1.0.1-py3.10.egg/ortho_seq_code/plotclass.py", line 402, in rf1d_run
+    arr = np.load(filename)[[i for i in np.load(filename)][1]]
+  File "/home/olivia.yoo/.conda/envs/ortho_seq/lib/python3.10/site-packages/numpy/lib/npyio.py", line 407, in load
+    fid = stack.enter_context(open(os_fspath(file), "rb"))
+FileNotFoundError: [Errno 2] No such file or directory: '/hpc/projects/data_lg/olivia.yoo/ortho_seqs/amyloid_beta/ortho_seq_results/cterm_alberts_first/amyloid_nterm_nostop_regressions.npz'

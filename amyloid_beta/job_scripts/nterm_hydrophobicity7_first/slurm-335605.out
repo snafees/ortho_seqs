@@ -1,0 +1,29 @@
+Traceback (most recent call last):
+  File "/home/olivia.yoo/.conda/envs/ortho_seq/bin/ortho_seq", line 33, in <module>
+    sys.exit(load_entry_point('ortho-seqs==1.0.1', 'console_scripts', 'ortho_seq')())
+  File "/home/olivia.yoo/.conda/envs/ortho_seq/lib/python3.10/site-packages/click/core.py", line 1128, in __call__
+    return self.main(*args, **kwargs)
+  File "/home/olivia.yoo/.conda/envs/ortho_seq/lib/python3.10/site-packages/click/core.py", line 1053, in main
+    rv = self.invoke(ctx)
+  File "/home/olivia.yoo/.conda/envs/ortho_seq/lib/python3.10/site-packages/click/core.py", line 1659, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+  File "/home/olivia.yoo/.conda/envs/ortho_seq/lib/python3.10/site-packages/click/core.py", line 1395, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "/home/olivia.yoo/.conda/envs/ortho_seq/lib/python3.10/site-packages/click/core.py", line 754, in invoke
+    return __callback(*args, **kwargs)
+  File "/home/olivia.yoo/.conda/envs/ortho_seq/lib/python3.10/site-packages/ortho_seqs-1.0.1-py3.10.egg/ortho_seq_code/orthogonal_polynomial.py", line 1044, in ortho_poly_command
+    orthogonal_polynomial(
+  File "/home/olivia.yoo/.conda/envs/ortho_seq/lib/python3.10/site-packages/ortho_seqs-1.0.1-py3.10.egg/ortho_seq_code/orthogonal_polynomial.py", line 32, in orthogonal_polynomial
+    out_dir = utils.create_dir_if_not_exists(out_dir)
+  File "/home/olivia.yoo/.conda/envs/ortho_seq/lib/python3.10/site-packages/ortho_seqs-1.0.1-py3.10.egg/ortho_seq_code/utils.py", line 16, in create_dir_if_not_exists
+    os.makedirs(new_out_dir, exist_ok=True)
+  File "/home/olivia.yoo/.conda/envs/ortho_seq/lib/python3.10/os.py", line 215, in makedirs
+    makedirs(head, exist_ok=exist_ok)
+  File "/home/olivia.yoo/.conda/envs/ortho_seq/lib/python3.10/os.py", line 215, in makedirs
+    makedirs(head, exist_ok=exist_ok)
+  File "/home/olivia.yoo/.conda/envs/ortho_seq/lib/python3.10/os.py", line 215, in makedirs
+    makedirs(head, exist_ok=exist_ok)
+  [Previous line repeated 3 more times]
+  File "/home/olivia.yoo/.conda/envs/ortho_seq/lib/python3.10/os.py", line 225, in makedirs
+    mkdir(name, mode)
+PermissionError: [Errno 13] Permission denied: '/hpc/project'

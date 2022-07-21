@@ -1,0 +1,20 @@
+/home/olivia.yoo/.conda/envs/ortho_seq/lib/python3.10/site-packages/matplotlib/cbook/__init__.py:1214: RuntimeWarning: invalid value encountered in double_scalars
+  loval = q1 - whis * stats['iqr']
+/home/olivia.yoo/.conda/envs/ortho_seq/lib/python3.10/site-packages/matplotlib/cbook/__init__.py:1215: RuntimeWarning: invalid value encountered in double_scalars
+  hival = q3 + whis * stats['iqr']
+/home/olivia.yoo/.conda/envs/ortho_seq/lib/python3.10/site-packages/matplotlib/cbook/__init__.py:1214: RuntimeWarning: invalid value encountered in double_scalars
+  loval = q1 - whis * stats['iqr']
+/home/olivia.yoo/.conda/envs/ortho_seq/lib/python3.10/site-packages/matplotlib/cbook/__init__.py:1215: RuntimeWarning: invalid value encountered in double_scalars
+  hival = q3 + whis * stats['iqr']
+/home/olivia.yoo/.conda/envs/ortho_seq/lib/python3.10/site-packages/matplotlib/cbook/__init__.py:1214: RuntimeWarning: invalid value encountered in double_scalars
+  loval = q1 - whis * stats['iqr']
+/home/olivia.yoo/.conda/envs/ortho_seq/lib/python3.10/site-packages/matplotlib/cbook/__init__.py:1215: RuntimeWarning: invalid value encountered in double_scalars
+  hival = q3 + whis * stats['iqr']
+/home/olivia.yoo/.conda/envs/ortho_seq/lib/python3.10/site-packages/matplotlib/cbook/__init__.py:1214: RuntimeWarning: invalid value encountered in double_scalars
+  loval = q1 - whis * stats['iqr']
+/home/olivia.yoo/.conda/envs/ortho_seq/lib/python3.10/site-packages/matplotlib/cbook/__init__.py:1215: RuntimeWarning: invalid value encountered in double_scalars
+  hival = q3 + whis * stats['iqr']
+saved regression graph as /hpc/projects/data_lg/olivia.yoo/ortho_seqs/amyloid_beta/server_ortho_seq_results/cterm_all_first_rf1dviz/rFon1D_Regressions_of_nscore_values.png
+saved regression graph as /hpc/projects/data_lg/olivia.yoo/ortho_seqs/amyloid_beta/server_ortho_seq_results/cterm_all_first_rf1dviz/rFon1D_density_nscore
+saved regression graph as /hpc/projects/data_lg/olivia.yoo/ortho_seqs/amyloid_beta/server_ortho_seq_results/cterm_all_first_rf1dviz/rFon1D_heatmap_nscore
+saved regression graph as /hpc/projects/data_lg/olivia.yoo/ortho_seqs/amyloid_beta/server_ortho_seq_results/cterm_all_first_rf1dviz/rFon1D_boxplot_nscore

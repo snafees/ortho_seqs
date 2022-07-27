@@ -1,21 +1,29 @@
 import pandas as pd
 
-# ---. Create file containing all mutant sequences and phenotypes. ----
-df = pd.read_csv(
-    "/Users/olivia.yoo/Desktop/code/ortho_seqs/amyloid_beta/data/amyloid_data_mavenn.csv"
-)
+# SET THIS DEPENDING ON WHERE YOU'RE RUNNING THE SCRIPT
+location = "server"
+
+if location == "local":
+    ortho_dir = "/Users/olivia.yoo/Desktop/code/ortho_seqs/"
+elif location == "server":
+    ortho_dir = "/hpc/projects/data_lg/olivia.yoo/ortho_seqs/"
+else:
+    print("Set appropriate location.")
+    exit(1)
+
+
+# ---- Create file containing all mutant sequences and phenotypes. ----
+df = pd.read_csv(ortho_dir + "amyloid_beta/data/amyloid_data_mavenn.csv")
 df.drop(["set", "dy"], axis=1, inplace=True)
 df.columns = ["num_mut", "F", "seq"]
 df.to_csv(
-    "/Users/olivia.yoo/Desktop/code/ortho_seqs/amyloid_beta/data/amyloid_data.csv",
+    ortho_dir + "amyloid_beta/data/amyloid_data.csv",
     index=False,
 )
 
 
 # ---- Get information about the dataset. ----
-my_df = pd.read_csv(
-    "/Users/olivia.yoo/Desktop/code/ortho_seqs/amyloid_beta/data/amyloid_data.csv"
-)
+my_df = pd.read_csv(ortho_dir + "amyloid_beta/data/amyloid_data.csv")
 
 # all mutants
 n_total_muts = len(my_df.index)
@@ -46,7 +54,6 @@ print(
 
 # ---- Pad the sequences with stop codons. ----
 padded_df = my_df.copy()
-# print(padded_df.head())
 
 
 def pad_seq(seq):
@@ -65,31 +72,20 @@ padded_df.drop(["num_mut"], axis=1, inplace=True)
 padded_df = padded_df[["seq", "F"]]
 
 padded_df.to_csv(
-    "/Users/olivia.yoo/Desktop/code/ortho_seqs/amyloid_beta/data/amyloid_padded_data.csv",
+    ortho_dir + "amyloid_beta/data/amyloid_padded_data.csv",
     index=False,
 )
 
 
-# ---- Set up for amyloid beta module separating. ----
+# ----. Set up for separating amyloid beta modules. ----
 wt_seq = "DAEFRHDSGYEVHHQKLVFFAEDVGSNKGAIIGLMVGGVVIA"
 n_sites = len(wt_seq)
 
-no_stop_df = my_df.copy()
-no_stop_df = no_stop_df[no_stop_df["seq"].str.contains("\*") == False]
-single_df = no_stop_df[no_stop_df["num_mut"] == 1].copy()
-double_df = no_stop_df[no_stop_df["num_mut"] == 2].copy()
-single_df.drop(["num_mut"], axis=1, inplace=True)
-single_df = single_df[["seq", "F"]]
-double_df.drop(["num_mut"], axis=1, inplace=True)
-double_df = double_df[["seq", "F"]]
+separable_df = padded_df[padded_df["seq"].str.contains("n") == False].copy()
+separable_df["not_seq"] = separable_df["seq"]
 
 
-def num_diff(seq1, seq2):
-    count = sum(1 for a, b in zip(seq1, seq2) if a != b)
-    return count
-
-
-# ---- Generate gatekeeper module dataset. ----
+# ---- Generate gatekeeper dataset without stop codons. ----
 
 
 def splice_gk(seq):
@@ -97,34 +93,34 @@ def splice_gk(seq):
     return gk
 
 
+def splice_not_gk(seq):
+    not_gk = seq[1] + seq[3:6] + seq[7:10] + seq[11:16] + seq[17:21] + seq[22:41]
+    return not_gk
+
+
 wt_gk = splice_gk(wt_seq)
+wt_not_gk = splice_not_gk(wt_seq)
 
-# single gatekeeper mutants
-single_gk_df = single_df.copy()
-single_gk_df["seq"] = single_gk_df["seq"].apply(splice_gk)
-single_gk_df = single_gk_df[single_gk_df["seq"] != wt_gk]
+gk_df = separable_df.copy()
+gk_df["seq"] = gk_df["seq"].apply(splice_gk)
+gk_df["not_seq"] = gk_df["not_seq"].apply(splice_not_gk)
 
-# double gatekeeper mutants
-double_gk_df = double_df.copy()
-double_gk_df["seq"] = double_gk_df["seq"].apply(splice_gk)
-double_gk_seqs = list(double_gk_df["seq"])
+gk_df.drop(gk_df[gk_df["not_seq"] != wt_not_gk].index, inplace=True)
+gk_df.drop(gk_df[gk_df["seq"] == wt_gk].index, inplace=True)
+gk_df.drop(["not_seq"], axis=1, inplace=True)
 
-wt_gk_list = [wt_gk] * (n_double_muts - n_double_stop_muts)
-n_diffs = list(map(num_diff, double_gk_seqs, wt_gk_list))
-double_gk_df["n_diffs"] = n_diffs
-double_gk_df = double_gk_df[double_gk_df["n_diffs"] == 2]
-double_gk_df.drop(["n_diffs"], axis=1, inplace=True)
-
-gk_df = pd.concat([single_gk_df, double_gk_df], axis=0, join="outer")
 gk_df.to_csv(
-    "/Users/olivia.yoo/Desktop/code/ortho_seqs/amyloid_beta/data/amyloid_gk_nostop.csv",
-    index=False,
-    header=False,
+    ortho_dir + "amyloid_beta/data/amyloid_gk_nostop.csv", index=False, header=False
 )
+
 print(f"Number of gatekeeper module-only mutants: {len(gk_df)}")
 
+gk_stops = gk_df["seq"].str.contains("n").any()
 
-# ---- Generate N-terminal module dataset. ----
+print(f"Gatekeeper module contains padding: {gk_stops}")
+
+
+# ---- Generate N-terminus dataset without stop codons. ----
 
 
 def splice_nterm(seq):
@@ -132,31 +128,31 @@ def splice_nterm(seq):
     return nterm
 
 
+def splice_not_nterm(seq):
+    not_nterm = seq[0] + seq[2] + seq[6] + seq[10] + seq[16] + seq[21] + seq[26:]
+    return not_nterm
+
+
 wt_nterm = splice_nterm(wt_seq)
+wt_not_nterm = splice_not_nterm(wt_seq)
 
-# single N-terminus mutants
-single_nterm_df = single_df.copy()
-single_nterm_df["seq"] = single_nterm_df["seq"].apply(splice_nterm)
-single_nterm_df = single_nterm_df[single_nterm_df["seq"] != wt_nterm]
+nterm_df = separable_df.copy()
+nterm_df["seq"] = nterm_df["seq"].apply(splice_nterm)
+nterm_df["not_seq"] = nterm_df["not_seq"].apply(splice_not_nterm)
 
-# double N-terminus mutants
-double_nterm_df = double_df.copy()
-double_nterm_df["seq"] = double_nterm_df["seq"].apply(splice_nterm)
-double_nterm_seqs = list(double_nterm_df["seq"])
+nterm_df.drop(nterm_df[nterm_df["not_seq"] != wt_not_nterm].index, inplace=True)
+nterm_df.drop(nterm_df[nterm_df["seq"] == wt_nterm].index, inplace=True)
+nterm_df.drop(["not_seq"], axis=1, inplace=True)
 
-wt_nterm_list = [wt_nterm] * (n_double_muts - n_double_stop_muts)
-n_diffs = list(map(num_diff, double_nterm_seqs, wt_nterm_list))
-double_nterm_df["n_diffs"] = n_diffs
-double_nterm_df = double_nterm_df[double_nterm_df["n_diffs"] == 2]
-double_nterm_df.drop(["n_diffs"], axis=1, inplace=True)
-
-nterm_df = pd.concat([single_nterm_df, double_nterm_df], axis=0, join="outer")
 nterm_df.to_csv(
-    "/Users/olivia.yoo/Desktop/code/ortho_seqs/amyloid_beta/data/amyloid_nterm_nostop.csv",
-    index=False,
-    header=False,
+    ortho_dir + "amyloid_beta/data/amyloid_nterm_nostop.csv", index=False, header=False
 )
+
 print(f"Number of N-terminus module-only mutants: {len(nterm_df)}")
+
+nterm_stops = nterm_df["seq"].str.contains("n").any()
+
+print(f"N-terminus module contains padding: {nterm_stops}")
 
 
 # ---- Generate C-terminal module dataset. ----
@@ -167,48 +163,81 @@ def splice_cterm(seq):
     return cterm
 
 
+def splice_not_cterm(seq):
+    not_cterm = seq[0:26] + seq[41]
+    return not_cterm
+
+
 wt_cterm = splice_cterm(wt_seq)
+wt_not_cterm = splice_not_cterm(wt_seq)
 
-# single C-terminus mutants
-single_cterm_df = single_df.copy()
-single_cterm_df["seq"] = single_cterm_df["seq"].apply(splice_cterm)
-single_cterm_df = single_cterm_df[single_cterm_df["seq"] != wt_cterm]
+cterm_df = separable_df.copy()
+cterm_df["seq"] = cterm_df["seq"].apply(splice_cterm)
+cterm_df["not_seq"] = cterm_df["not_seq"].apply(splice_not_cterm)
 
-# double C-terminus mutants
-double_cterm_df = double_df.copy()
-double_cterm_df["seq"] = double_cterm_df["seq"].apply(splice_cterm)
-double_cterm_seqs = list(double_cterm_df["seq"])
+cterm_df.drop(cterm_df[cterm_df["not_seq"] != wt_not_cterm].index, inplace=True)
+cterm_df.drop(cterm_df[cterm_df["seq"] == wt_cterm].index, inplace=True)
+cterm_df.drop(["not_seq"], axis=1, inplace=True)
 
-wt_cterm_list = [wt_cterm] * (n_double_muts - n_double_stop_muts)
-n_diffs = list(map(num_diff, double_cterm_seqs, wt_cterm_list))
-double_cterm_df["n_diffs"] = n_diffs
-double_cterm_df = double_cterm_df[double_cterm_df["n_diffs"] == 2]
-double_cterm_df.drop(["n_diffs"], axis=1, inplace=True)
-
-cterm_df = pd.concat([single_cterm_df, double_cterm_df], axis=0, join="outer")
 cterm_df.to_csv(
-    "/Users/olivia.yoo/Desktop/code/ortho_seqs/amyloid_beta/data/amyloid_cterm_nostop.csv",
-    index=False,
-    header=False,
+    ortho_dir + "amyloid_beta/data/amyloid_cterm_nostop.csv", index=False, header=False
 )
+
 print(f"Number of C-terminus module-only mutants: {len(cterm_df)}")
 
+cterm_stops = cterm_df["seq"].str.contains("n").any()
 
-# ---- Double check to make sure the right mutants are included. ----
-gk_seqs = list(gk_df["seq"])
-n_diffs = list(map(num_diff, gk_seqs, wt_gk_list))
-print(
-    f"Gatekeeper contains both single and double mutants and no others: {set(n_diffs) == set([1, 2])}"
+print(f"C-terminus module contains padding: {cterm_stops}")
+
+
+# ---- Generate N- and C-terminus datasets that include gatekeeper sites. ----
+
+
+def splice_ngk(seq):
+    return seq[0:26]
+
+
+def splice_cgk(seq):
+    return seq[26:]
+
+
+wt_ngk = splice_ngk(wt_seq)
+wt_cgk = splice_cgk(wt_seq)
+
+split_df = separable_df.copy()
+split_df["seq"] = split_df["seq"].apply(splice_ngk)
+split_df["not_seq"] = split_df["not_seq"].apply(splice_cgk)
+
+# Create N-terminus file.
+ngk_df = split_df.copy()
+ngk_df.drop(ngk_df[ngk_df["not_seq"] != wt_cgk].index, inplace=True)
+ngk_df.drop(ngk_df[ngk_df["seq"] == wt_ngk].index, inplace=True)
+ngk_df.drop(["not_seq"], axis=1, inplace=True)
+
+ngk_df.to_csv(
+    ortho_dir + "amyloid_beta/data/amyloid_ngk_nostop.csv", index=False, header=False
 )
 
-nterm_seqs = list(nterm_df["seq"])
-n_diffs = list(map(num_diff, nterm_seqs, wt_nterm_list))
-print(
-    f"N-terminus contains both single and double mutants and no others: {set(n_diffs) == set([1, 2])}"
+print(f"Number of N-terminus (including gatekeeper) only mutants: {len(ngk_df)}")
+
+ngk_stops = ngk_df["seq"].str.contains("n").any()
+
+print(f"N-terminus and gatekeeper module contains padding: {ngk_stops}")
+
+# Create C-terminus file.
+cgk_df = split_df.copy()
+
+cgk_df.drop(cgk_df[cgk_df["seq"] != wt_ngk].index, inplace=True)
+cgk_df.drop(cgk_df[cgk_df["not_seq"] == wt_cgk].index, inplace=True)
+cgk_df.drop(["seq"], axis=1, inplace=True)
+cgk_df = cgk_df[["not_seq", "F"]]
+
+cgk_df.to_csv(
+    ortho_dir + "amyloid_beta/data/amyloid_cgk_nostop.csv", index=False, header=False
 )
 
-cterm_seqs = list(cterm_df["seq"])
-n_diffs = list(map(num_diff, cterm_seqs, wt_cterm_list))
-print(
-    f"C-terminus contains both single and double mutants and no others: {set(n_diffs) == set([1, 2])}"
-)
+print(f"Number of C-terminus (including gatekeeper) only mutants: {len(cgk_df)}")
+
+cgk_stops = cgk_df["not_seq"].str.contains("n").any()
+
+print(f"C-terminus and gatekeeper module contains padding: {cgk_stops}")

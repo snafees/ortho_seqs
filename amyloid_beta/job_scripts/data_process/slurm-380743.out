@@ -1,0 +1,12 @@
+Total number of mutants: 16066
+Total number of single AA mutants: 499
+Number of single AA mutants with stop codons: 31
+Number of single AA mutants without stop codons: 468
+Total number of double AA mutants: 15567
+Number of double AA mutants with stop codons: 1552
+Number of double AA mutants without stop codons: 14015
+Number of gatekeeper module-only mutants: 430
+Number of N-terminus module-only mutants: 3274
+Number of C-terminus module-only mutants: 1859
+Number of N-terminus (including gatekeeper) only mutants: 5594
+Number of C-terminus (including gatekeeper) only mutants: 2205

@@ -1,0 +1,22 @@
+rf1d Object:
+
+Number of sites: 26
+Number of dimensions: 4
+Alphabet input: ['LIFWVM', 'CYA', 'TEGSQ', 'z']
+Molecule: protein
+
+Phenotype represents nscore values
+Image output directory: /hpc/projects/data_lg/olivia.yoo/ortho_seqs/amyloid_beta/server_ortho_seq_results/ngk_hydrophobicity_first
+Highest rFon1D magnitudes:
+-2.4943	Site: 22		Key: CYA
+-2.1436	Site: 22		Key: LIFWVM
+-1.5777	Site: 15		Key: LIFWVM
+-1.4985	Site: 24		Key: z
+-1.1898	Site: 20		Key: z
+1.1179	Site: 16		Key: z
+-1.1127	Site: 8		Key: CYA
+-1.019	Site: 0		Key: LIFWVM
+1.0149	Site: 22		Key: TEGSQ
+-1.0079	Site: 1		Key: LIFWVM
+saved regression graph as /hpc/projects/data_lg/olivia.yoo/ortho_seqs/amyloid_beta/server_ortho_seq_results/ngk_hydrophobicity_first/rFon1D_Regressions_of_nscore_values.png
+--- 82522.95494294167 seconds ---

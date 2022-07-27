@@ -1,0 +1,22 @@
+rf1d Object:
+
+Number of sites: 20
+Number of dimensions: 20
+Alphabet input: ['A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'Y']
+Molecule: protein
+
+Phenotype represents nscore values
+Image output directory: /hpc/projects/data_lg/olivia.yoo/ortho_seqs/amyloid_beta/server_ortho_seq_results/nterm_all_first0
+Highest rFon1D magnitudes:
+-3.7482	Site: 16		Key: F
+-3.5808	Site: 17		Key: W
+-3.3909	Site: 18		Key: W
+-2.824	Site: 16		Key: I
+-2.6238	Site: 16		Key: Y
+-2.274	Site: 2		Key: T
+2.2041	Site: 9		Key: I
+-1.9957	Site: 7		Key: P
+-1.9581	Site: 13		Key: C
+-1.9001	Site: 16		Key: V
+saved regression graph as /hpc/projects/data_lg/olivia.yoo/ortho_seqs/amyloid_beta/server_ortho_seq_results/nterm_all_first0/rFon1D_Regressions_of_nscore_values.png
+--- 517874.9731314182 seconds ---

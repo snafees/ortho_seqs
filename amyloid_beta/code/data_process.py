@@ -241,3 +241,13 @@ print(f"Number of C-terminus (including gatekeeper) only mutants: {len(cgk_df)}"
 cgk_stops = cgk_df["not_seq"].str.contains("n").any()
 
 print(f"C-terminus and gatekeeper module contains padding: {cgk_stops}")
+
+
+# ---- Generate subset of entire protein sequence. ----
+nostop_double_df = double_df[double_df["seq"].str.contains("\*") == False].copy()
+nostop_double_df = nostop_double_df[["seq", "F"]]
+
+first_full_sample_df = nostop_double_df.sample(n=3000, random_state=1)
+first_full_sample_df.to_csv(
+    ortho_dir + "amyloid_beta/data/complete_amyloid1.csv", index=False, header=False
+)

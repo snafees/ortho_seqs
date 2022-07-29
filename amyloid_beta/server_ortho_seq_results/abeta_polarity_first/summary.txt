@@ -1,0 +1,22 @@
+rf1d Object:
+
+Number of sites: 42
+Number of dimensions: 2
+Alphabet input: ['0', 'z']
+Molecule: protein
+
+Phenotype represents nscore values
+Image output directory: /hpc/projects/data_lg/olivia.yoo/ortho_seqs/amyloid_beta/server_ortho_seq_results/abeta_polarity_first
+Highest rFon1D magnitudes:
+-2.3426	Site: 38		Key: 0
+2.3426	Site: 38		Key: z
+-2.1823	Site: 34		Key: 0
+2.1823	Site: 34		Key: z
+-2.055	Site: 31		Key: 0
+2.055	Site: 31		Key: z
+-1.965	Site: 36		Key: 0
+1.965	Site: 36		Key: z
+-1.8262	Site: 40		Key: 0
+1.8262	Site: 40		Key: z
+saved regression graph as /hpc/projects/data_lg/olivia.yoo/ortho_seqs/amyloid_beta/server_ortho_seq_results/abeta_polarity_first/rFon1D_Regressions_of_nscore_values.png
+--- 52872.3874733448 seconds ---

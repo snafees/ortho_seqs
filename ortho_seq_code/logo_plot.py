@@ -5,8 +5,7 @@ import matplotlib.pyplot as plt
 import ortho_seq_code.utils as utils
 import itertools
 import click
-
-# TODO: implement click functionality
+from ortho_seq_code.logo_colors import all_dna, all_rna, all_prot
 
 
 def logo_plot(
@@ -50,8 +49,18 @@ def logo_plot(
     out_filename = out_dir + seq_file_prefix + "_freq_logo.png"
 
     # generate and save logo plot as png
-    lm.Logo(mean_df)
-    plt.savefig(out_filename)
+    if molecule == "DNA":
+        lm.Logo(mean_df, color_scheme=all_dna, stack_order="small_on_top")
+        plt.savefig(out_filename)
+    elif molecule == "RNA":
+        lm.Logo(mean_df, color_scheme=all_rna, stack_order="small_on_top")
+        plt.savefig(out_filename)
+    elif molecule == "protein":
+        lm.Logo(mean_df, color_scheme=all_prot, stack_order="small_on_top")
+        plt.savefig(out_filename)
+    else:
+        print("Provide molecule type.")
+
 
 
 @click.command(help="program to generate logo plots from sequence data")

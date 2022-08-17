@@ -62,7 +62,6 @@ def logo_plot(
         print("Provide molecule type.")
 
 
-
 @click.command(help="program to generate logo plots from sequence data")
 @click.argument("filename", type=str)
 @click.option(

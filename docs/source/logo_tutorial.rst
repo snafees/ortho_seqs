@@ -2,7 +2,8 @@
 *********************************************
 Tutorial: Generating a sequence logo plot
 *********************************************
-This document will walk through how to generate a frequency/probability-based logo plot from sequence data in the format of an input to *ortho_seqs*, using the *logo-plot* CLI command. You do not need to have run *orthogonal-polynomial* before generating a logo plot.
+This document will walk through how to generate a frequency/probability-based logo plot from sequence data in the format of an input to *ortho_seqs*, using the *logo-plot* CLI command. The logo plot can provide information on the frequencies of nucleotides/amino acids present in your sequence dataset before running *orthogonal-polynomial*.
+
 
 Logo plots are generated using the `logomaker package <https://logomaker.readthedocs.io/en/latest/>`_ in Python. More customization options exist (font, color schemes, etc) that are not (yet) implemented here.
 

@@ -1,11 +1,18 @@
+import click
+import itertools
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from pathlib import PurePath
+
 import logomaker as lm
-import matplotlib.pyplot as plt
+
 import ortho_seq_code.utils as utils
-import itertools
-import click
-from ortho_seq_code.logo_colors import all_dna, all_rna, all_prot
+from ortho_seq_code.constants_orthoseqs import (
+    colors_for_dna_nucleotides,
+    colors_for_rna_nucleotides,
+    colors_for_amino_acids,
+)
 
 
 def logo_plot(
@@ -16,7 +23,7 @@ def logo_plot(
 
     """Program to generate a logo plot of sequence data"""
     # ---- Import the sequence data. ----
-    (dm, sites, pop_size, seq, alphabets, custom_aa, exc) = utils.get_seq_info(
+    (dm, sites, pop_size, seq, alphabets, _, _) = utils.get_seq_info(
         filename, None, molecule, True
     )
 
@@ -38,34 +45,29 @@ def logo_plot(
 
     mean_df = pd.DataFrame(mean, columns=alphabets)
 
-    print(mean_df)
-
     # ---- Generate frequency logo plot. ----
-    # generate file name
-    seq_filename = filename.split("/")[-1]
-    seq_file_prefix = seq_filename.split(".")[0]
-    if out_dir[-1] != "/":
-        out_dir = out_dir + "/"
-    out_filename = out_dir + seq_file_prefix + "_freq_logo.png"
+    seq_file_prefix = PurePath(filename).stem
+    out_filename = seq_file_prefix + "_freq_logo.png"
+    out_filepath = PurePath(out_dir).joinpath(out_filename)
 
     # generate and save logo plot as png
     if molecule == "DNA":
-        lm.Logo(mean_df, color_scheme=all_dna, stack_order="small_on_top")
-        plt.savefig(out_filename)
+        color_scheme = colors_for_dna_nucleotides
     elif molecule == "RNA":
-        lm.Logo(mean_df, color_scheme=all_rna, stack_order="small_on_top")
-        plt.savefig(out_filename)
+        color_scheme = colors_for_rna_nucleotides
     elif molecule == "protein":
-        lm.Logo(mean_df, color_scheme=all_prot, stack_order="small_on_top")
-        plt.savefig(out_filename)
+        color_scheme = colors_for_amino_acids
     else:
-        print("Provide molecule type.")
+        raise ValueError("Provide a valid molecule type (DNA, RNA, or protein).")
+
+    lm.Logo(mean_df, color_scheme=color_scheme, stack_order="small_on_top")
+    plt.savefig(out_filepath)
 
 
 @click.command(help="program to generate logo plots from sequence data")
-@click.argument("filename", type=str)
+@click.argument("filename", type=click.Path(exists=True))
 @click.option(
-    "--molecule", default="DNA", help="can provide DNA or amino acid sequence"
+    "--molecule", default="DNA", help="can provide DNA, RNA, or amino acid sequence"
 )
 @click.option(
     "--out_dir",
@@ -73,4 +75,5 @@ def logo_plot(
     type=str,
 )  # noqa
 def logo_plot_run(filename, molecule, out_dir):
+    filename = click.format_filename(filename)
     logo_plot(filename, molecule, out_dir)

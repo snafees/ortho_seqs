@@ -49,7 +49,7 @@ colors = [
 nucleotide_colors = [
     "green",
     "blue",
-    "yellow",
+    "gold",
     "red",
 ]
 

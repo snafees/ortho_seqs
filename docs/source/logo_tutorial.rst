@@ -65,6 +65,6 @@ The sequence data that will be used for this example is called *sidhu_insulin_cd
 
 The saved figure will look like:
 
-.. image:: tutorial_outputs/sidhu_insulin_cdrh3_seqs_freq_logo.png
+.. image:: tutorial_outputs/sidhu_insulin_cdrh3_seqs_freq_logo1.png
   :height: 250px
 

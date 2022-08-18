@@ -151,6 +151,14 @@ Let's say you know that your phenotype values represent IC50 values. You could t
 
 # Results & Outputs
 
+## Generating logo plot
+
+Before even running the tool, we can generate a logo plot to visualize the different nucleic/amino acids in the sequence dataset. This is implemented as a command line function.
+
+Refer to the *logo-plot* tutorial on the ReadTheDocs for more information on how to generate this. 
+
+## Running ortho_seqs
+
 The tool will provide updates as the run is progressing regarding which parts of the calculations are done being computed. For example, when the mean is computed, it'll say "computed mean". All the different elements that it is computing are different parts of building the multivariate tensor-valued orthogonal polynomial space based on the sequence information. To get a general idea of what the calculations mean, please refer to the supplementary methods in the paper linked above.
 The program will save outputs in [npz format](https://numpy.org/doc/stable/reference/generated/numpy.savez.html). See below for what is stored.
 

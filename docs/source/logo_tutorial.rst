@@ -63,5 +63,8 @@ The sequence data that will be used for this example is called *sidhu_insulin_cd
 
     ortho_seq logo-plot docs/source/sidhu_insulin_cdrh3_seqs.xlsx --molecule protein --out_dir docs/source/tutorial_outputs/
 
+The saved figure will look like:
 
+.. image:: tutorial_outputs/sidhu_insulin_cdrh3_seqs_freq_logo.png
+  :height: 250px
 

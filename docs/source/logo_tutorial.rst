@@ -47,6 +47,7 @@ This is where you want the logo plot to be stored.
 You will run *logo-plot* in the CLI the same way you would run *orthogonal-polynomial* or *rf1d-viz*. The general format is:
 
 .. code-block:: shell-session
+
     ortho_seq logo-plot filename --molecule --out_dir
 
 .. _Example:
@@ -58,6 +59,7 @@ The example uses the Sidhu dataset that has also been used in the other tutorial
 The sequence data that will be used for this example is called *sidhu_insulin_cdrh3_seqs.xlsx*. Given that this dataset is about proteins, our CLI input will be
 
 .. code-block:: shell-session
+
     ortho_seq logo-plot docs/source/sidhu_insulin_cdrh3_seqs.xlsx --molecule protein --out_dir docs/source/tutorial_outputs/
 
 The saved figure will look like:

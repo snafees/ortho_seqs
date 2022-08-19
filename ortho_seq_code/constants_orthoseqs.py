@@ -45,3 +45,19 @@ colors = [
     "tab:cyan",
     "violet",
 ]
+
+nucleotide_colors = [
+    "green",
+    "blue",
+    "gold",
+    "red",
+]
+
+colors_for_dna_nucleotides = dict(zip(["A", "C", "G", "T"], nucleotide_colors))
+colors_for_dna_nucleotides["n"] = "black"
+
+colors_for_rna_nucleotides = dict(zip(["A", "C", "G", "U"], nucleotide_colors))
+colors_for_dna_nucleotides["n"] = "black"
+
+colors_for_amino_acids = dict(zip(PROTEIN_ALPHABETS, colors))
+colors_for_amino_acids["n"] = "black"

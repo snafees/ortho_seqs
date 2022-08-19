@@ -58,7 +58,7 @@ def logo_plot(
     elif molecule == "protein":
         color_scheme = colors_for_amino_acids
     else:
-        raise ValueError("Provide a valid molecule type (DNA, RNA, or protein).")
+        print("Provide a valid molecule type (DNA, RNA, or protein).")
 
     lm.Logo(mean_df, color_scheme=color_scheme, stack_order="small_on_top")
     plt.savefig(out_filepath)

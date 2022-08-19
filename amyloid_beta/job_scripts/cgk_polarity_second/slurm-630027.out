@@ -1,4 +1,4 @@
-Path already exists, will now be /hpc/projects/data_lg/olivia.yoo/ortho_seqs/amyloid_beta/server_ortho_seq_results/cgk_polarity_second2
+Path already exists, will now be /hpc/projects/data_lg/olivia.yoo/ortho_seqs/amyloid_beta/server_ortho_seq_results/cgk_polarity_second3
 
 Pheno file is not separate from sequence file, assuming seq_file is either a .csv or a .xlsx file.
 Reading .csv file.
@@ -15,8 +15,8 @@ rf1d form of alphabet input:
 computed mean
 computed variance
 computed covariance
-saved covariance histogram as /hpc/projects/data_lg/olivia.yoo/ortho_seqs/amyloid_beta/server_ortho_seq_results/cgk_polarity_second2/cov_hist_amyloid_cgk_nostop.png
-Saved covariance data frame as /hpc/projects/data_lg/olivia.yoo/ortho_seqs/amyloid_beta/server_ortho_seq_results/cgk_polarity_second2/cov_data_frame_amyloid_cgk_nostop.csv
+saved covariance histogram as /hpc/projects/data_lg/olivia.yoo/ortho_seqs/amyloid_beta/server_ortho_seq_results/cgk_polarity_second3/cov_hist_amyloid_cgk_nostop.png
+Saved covariance data frame as /hpc/projects/data_lg/olivia.yoo/ortho_seqs/amyloid_beta/server_ortho_seq_results/cgk_polarity_second3/cov_data_frame_amyloid_cgk_nostop.csv
 computed reg11
 computed Pa: first order orthogonalized within each vector
 computed P1i1
@@ -37,4 +37,3 @@ computed cov2w2
 computed var2
 computed reg2on2
 computed P2i2, P2i2a
-slurmstepd: error: *** JOB 617291 ON cpu-b-001 CANCELLED AT 2022-08-15T09:44:26 ***

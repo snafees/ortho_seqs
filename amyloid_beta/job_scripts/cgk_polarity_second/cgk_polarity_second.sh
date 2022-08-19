@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=cgk_polarity_second_job
 #SBATCH --nodes=1
-#SBATCH --mem-per-cpu=16G
+#SBATCH --mem-per-cpu=64G
 
 module load anaconda
 

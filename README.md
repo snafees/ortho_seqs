@@ -1,7 +1,8 @@
 # ortho_seqs
-Ortho_seqs is a command line to convert sequence data (DNA/protein) to tensor-valued orthogonal polynomials and project phenotypes onto the polynomial space.
-We do this by first converting the sequence information into 4-dimensional (for DNA) or 20-dimensional (for amino acids) vectors. The method can also be used for padded sequences to deal with unequal sequence lengths.
-Find out more about the approach in this paper [Analyzing genomic data using tensor-based orthogonal polynomials with application to synthetic RNAs](https://academic.oup.com/nargab/article/2/4/lqaa101/6030984). The paper gives an example of this method as applied to a case of synthetic RNA from a previously published dataset. Another manuscript detailing the use of this method to understand binding affinities of transcription factors (TFs) is currently in progress.  
+ortho_seqs is a tool that quantifies higher order sequence-phenotype data by converting sequence data (DNA/protein) to tensor-valued orthogonal polynomials and projecting phenotypes onto the polynomial space. It exists as a command line tool and a GUI.
+Please read our preprint for more information and a use case example applied to a synthetic antibody sequence dataset, [ortho_seqs: [A Python tool for sequence analysis and higher order sequence-phenotype mapping](https://www.biorxiv.org/content/10.1101/2022.09.14.506443v1).
+The tool first converts sequence information into 4-dimensional (for DNA) or 20-dimensional (for amino acids) vectors. ortho_seqs can also be used for padded sequences to deal with unequal sequence lengths.
+For a previous example of this approach, see [Analyzing genomic data using tensor-based orthogonal polynomials with application to synthetic RNAs](https://academic.oup.com/nargab/article/2/4/lqaa101/6030984). The paper gives an example of this method as applied to a dataset of synthetic RNAs.
 
 For example, the sample data inputs for this tool are shown in this image. Here, each site in a sequence is first converted to a 4-dimensional vector. The input data includes phenotype values for each sequence.
 ![Figure showing sequence data that gets converted to vectors. Here, each sequence has a corresponding phenotype which is represented as a real number.](https://raw.githubusercontent.com/snafees/ortho_seqs/master/vec_methods_explanation-2.png)

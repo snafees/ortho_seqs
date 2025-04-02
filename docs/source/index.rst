@@ -18,6 +18,7 @@ Guide
    readme
    orthogonal_polynomial_tutorial
    rf1d_tutorial
+   logo_tutorial
 
    license
    help

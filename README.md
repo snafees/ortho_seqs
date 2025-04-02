@@ -1,7 +1,8 @@
 # ortho_seqs
-Ortho_seqs is a command line to convert sequence data (DNA/protein) to tensor-valued orthogonal polynomials and project phenotypes onto the polynomial space.
+Ortho_seqs is a command line tool that implements a mathematical approach to convert sequence data (DNA/protein) to multivariate tensor-valued orthogonal polynomials and project phenotypes onto the polynomial space. We are currently working to update this mathematical approach and will post these updates soon. 
+
 We do this by first converting the sequence information into 4-dimensional (for DNA) or 20-dimensional (for amino acids) vectors. The method can also be used for padded sequences to deal with unequal sequence lengths.
-Find out more about the approach in this paper [Analyzing genomic data using tensor-based orthogonal polynomials with application to synthetic RNAs](https://academic.oup.com/nargab/article/2/4/lqaa101/6030984). The paper gives an example of this method as applied to a case of synthetic RNA from a previously published dataset. Another manuscript detailing the use of this method to understand binding affinities of transcription factors (TFs) is currently in progress.  
+Find out more about the original approach in this paper [Analyzing genomic data using tensor-based orthogonal polynomials with application to synthetic RNAs](https://academic.oup.com/nargab/article/2/4/lqaa101/6030984). The paper gives an example of this method as applied to a case of synthetic RNA from a previously published dataset. 
 
 For example, the sample data inputs for this tool are shown in this image. Here, each site in a sequence is first converted to a 4-dimensional vector. The input data includes phenotype values for each sequence.
 ![Figure showing sequence data that gets converted to vectors. Here, each sequence has a corresponding phenotype which is represented as a real number.](https://raw.githubusercontent.com/snafees/ortho_seqs/master/vec_methods_explanation-2.png)
@@ -150,6 +151,14 @@ from the .csv file that are below the given percentile. The default value is 75.
 Let's say you know that your phenotype values represent IC50 values. You could then add *--pheno_name IC50* as a flag, and on the rFon1D plot that is automatically generated, the y-axis label will include IC50. Default is **None**.
 
 # Results & Outputs
+
+## Generating logo plot
+
+Before even running the tool, we can generate a logo plot to visualize the different nucleic/amino acids in the sequence dataset. This is implemented as a command line function.
+
+Refer to the *logo-plot* tutorial on the ReadTheDocs for more information on how to generate this. 
+
+## Running ortho_seqs
 
 The tool will provide updates as the run is progressing regarding which parts of the calculations are done being computed. For example, when the mean is computed, it'll say "computed mean". All the different elements that it is computing are different parts of building the multivariate tensor-valued orthogonal polynomial space based on the sequence information. To get a general idea of what the calculations mean, please refer to the supplementary methods in the paper linked above.
 The program will save outputs in [npz format](https://numpy.org/doc/stable/reference/generated/numpy.savez.html). See below for what is stored.

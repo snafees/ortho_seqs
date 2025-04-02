@@ -9,7 +9,7 @@ For example, the sample data inputs for this tool are shown in this image. Here,
 
 # Usage
 
-## First, install an environment with dependencies for this package:
+## First, create an environment with dependencies for this package:
 ```
 conda create -n ortho_seqs pip
 conda activate ortho_seqs
@@ -35,7 +35,7 @@ There are three main ways to submit your sequence and phenotype files to *ortho_
 2) The sequences must be in the first column, and the phenotypes must be in the second column.
 3) The columns must not have header names.
 
-If you use a single file for the sequence and phenotype, you would submit the file path where you would submit the sequence file path, and do not include the *--pheno_file* flag. **note: the GUI does not support single-file uploads yet.**
+If you use a single file for the sequence and phenotype, do not include the *--pheno_file* flag. **note: the GUI does not support single-file uploads yet.**
 
 The phenotypes must be real numbers.
 
@@ -56,7 +56,7 @@ the program will return
 ```
 Will be computing 12 sequences with 2 sites, and each vector will be 4-dimensional.
 ```
-Along with regressions on each site independent of one another and onto two sites at a time, the above command also computes *Fest* which is the phenotype estimated by the regressions. This shows that the mathematical calculations are done correctly as we now have an equation that accurately captures our initial data points. This only works here for sequences with 2 sites. If we had more sites, we'd need to do higher order calculations in order to capture all our combinations. Therefore, when running the tool with more sites, as will probably be the case for most users, even just going up to second order gives us useful information about our system. First order tells us the importance of each site (independent of any correlations it might have with another site) and second order tells the importance of pairs of nucleotides independent of other pairs. Please take a look at the paper linked above to learn more about this method.  
+Along with regressions on each site independent of one another and onto two sites at a time, the above command also computes *Fest* which is the phenotype estimated by the regressions. This shows that the mathematical calculations are done correctly as we now have an equation that accurately captures our initial data points. This only works here for sequences with 2 sites. If we had more sites, we'd need to do higher order calculations in order to capture all our combinations. Therefore, when running the tool with more sites, as will probably be the case for most users, even just going up to second order gives us useful information about our system. First order tells us the importance of each site (independent of any correlations it might have with another site and the states at those sites) and second order tells the importance of pairs of nucleotides independent of other pairs. Please take a look at the paper linked above to learn more about this method.  
 
 
 ## Flags & Functionality
